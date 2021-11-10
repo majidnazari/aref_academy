@@ -20,7 +20,8 @@ class CourseSessions extends Migration
             $table->date('start_date');            
             $table->time('start_time'); 
             $table->time('end_time');            
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
     /**

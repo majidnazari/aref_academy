@@ -17,10 +17,11 @@ class Courses extends Migration
             $table->id();
             $table->integer('users_id');     
             $table->integer('teachers_id');       
-            $table->integer('name'); 
+            $table->string('name'); 
             $table->enum('lesson',['Mathematics','Physics','Biology']);            
             $table->enum('type',['public','private']);            
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
     /**

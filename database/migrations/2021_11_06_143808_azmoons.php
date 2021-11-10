@@ -20,7 +20,8 @@ class Azmoons extends Migration
             $table->integer('sessions_id');            
             $table->boolean('isSMSsend')->default(false);            
             $table->string('score');                      
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
     /**

@@ -21,7 +21,8 @@ class StudentContacts extends Migration
             $table->enum('who_answered',['father','mother','other']);            
             $table->text('description');
             $table->boolean('is_called_successfull')->default(false);
-            $table->timestamps();            
+            $table->timestamps();
+            $table->softDeletes();            
         });
     }
     /**

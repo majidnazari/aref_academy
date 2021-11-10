@@ -18,7 +18,8 @@ class CourseYears extends Migration
             $table->integer('users_id');            
             $table->integer('courses_id');            
             $table->char('year',4);            
-            $table->timestamps();            
+            $table->timestamps(); 
+            $table->softDeletes();           
         });
     }
     /**

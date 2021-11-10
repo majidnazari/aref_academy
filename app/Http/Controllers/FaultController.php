@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Fault;
 use Validator;
+use SoftDeletes;
 use Illuminate\Validation\Rule;
 
 class FaultController extends Controller
@@ -26,6 +27,15 @@ class FaultController extends Controller
     {
        // return response()->json($id,209);
         $validation=self::Validation($id);    
+    }
+
+    public function destroy($id)
+    {   // return response()->json($id,200);    
+        $id=Fault::find($id);
+        //return response()->json($id,200);
+
+        $isdel= $id->delete();
+        return response()->json($isdel,200);
     }
     public static function Validation($id=0)
     {  

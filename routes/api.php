@@ -21,4 +21,4 @@ Route::get('/faults','FaultController@index')->name('fault.index');
 //Route::get('/faults/{fault}','FaultController@show')->name('fault.show');
 Route::post('/faults','FaultController@store')->name('fault.store');
 Route::put('/faults/{fault}','FaultController@update')->name('fault.update');
-//Route::delete('/faults/{fault}','FaultController@destroy')->name('fault.destroy');
+Route::delete('/faults/{id}','FaultController@destroy')->name('fault.destroy');

@@ -18,7 +18,8 @@ class StudentFaults extends Migration
             $table->integer('users_id');            
             $table->integer('students_id');            
             $table->integer('faults_id');            
-            $table->timestamps();            
+            $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

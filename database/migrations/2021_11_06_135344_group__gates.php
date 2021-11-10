@@ -19,7 +19,8 @@ class GroupGates extends Migration
             $table->integer('groups_id');
             $table->integer('gates_id');
             $table->string('name');  
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
 

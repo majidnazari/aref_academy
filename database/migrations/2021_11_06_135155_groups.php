@@ -17,7 +17,8 @@ class Groups extends Migration
             $table->id();
             $table->integer('users_id');
             $table->string('name');  
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
 

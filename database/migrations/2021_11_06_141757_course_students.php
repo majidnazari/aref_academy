@@ -20,7 +20,8 @@ class CourseStudents extends Migration
             $table->enum('status',['approved','pending']);            
             $table->integer('users_id_created');
             $table->integer('users_id_approved');
-            $table->timestamps();            
+            $table->timestamps();   
+            $table->softDeletes();         
         });
     }
     /**

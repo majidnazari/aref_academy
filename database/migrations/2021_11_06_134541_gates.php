@@ -18,7 +18,8 @@ class Gates extends Migration
             $table->integer('users_id');
             $table->string('name');          
             $table->text('description');
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
 

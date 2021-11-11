@@ -18,7 +18,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/faults','FaultController@index')->name('fault.index');
+Route::get('/faults/all','FaultController@showAll')->name('fault.showAll');
 Route::get('/faults/{id}','FaultController@show')->name('fault.show');
+Route::get('/faults/restore/{id}','FaultController@restore')->name('fault.restore');
 Route::post('/faults','FaultController@store')->name('fault.store');
 Route::put('/faults/{fault}','FaultController@update')->name('fault.update');
 Route::delete('/faults/{id}','FaultController@destroy')->name('fault.destroy');

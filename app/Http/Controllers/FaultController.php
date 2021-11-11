@@ -17,6 +17,18 @@ class FaultController extends Controller
         $data=Fault::all();
         return response()->json($data,200);
     }
+    public function show($id)
+    {
+        $data=Fault::find($id);
+        return response()->json($data,201);
+    }
+    public function showAll()
+    {
+        //$data=Fault::withTrashed()->get();
+        //$data=Fault::onlyTrashed()->get();
+        $data=Fault::all();
+        return response()->json($data,201);
+    }
 
     public function store()
     {        
@@ -31,11 +43,27 @@ class FaultController extends Controller
 
     public function destroy($id)
     {   // return response()->json($id,200);    
-        $id=Fault::find($id);
-        //return response()->json($id,200);
-
-        $isdel= $id->delete();
-        return response()->json($isdel,200);
+        $id=Fault::find($id);        
+        if(isset($id))
+        {           
+            $isdel= $id->delete();
+            return response()->json($isdel,200);
+        }
+        else
+            return response()->json(false,404);
+        
+    }
+    public function restore($id)
+    {   // return response()->json($id,200);    
+        $id=Fault::withTrashed()->find($id);        
+        if(isset($id))
+        {           
+            $isdel= $id->restore();
+            return response()->json($isdel,200);
+        }
+        else
+            return response()->json(false,404);
+        
     }
     public static function Validation($id=0)
     {  
@@ -53,19 +81,18 @@ class FaultController extends Controller
             {
                 $fault= Fault::where('id',$id) ;              
                 $data=$fault->update($data);
-                return response()->json($data,201);
+                return response()->json($data,202);
             }
             else
             {                
                 $data=Fault::create($data);
-                return response()->json($data,200);
+                return response()->json($data,201);
             }
             
 
         }
         return $validated;
     }
-
     public static function roles()
     {
         return [

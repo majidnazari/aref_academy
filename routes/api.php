@@ -24,3 +24,12 @@ Route::get('/faults/restore/{id}','FaultController@restore')->name('fault.restor
 Route::post('/faults','FaultController@store')->name('fault.store');
 Route::put('/faults/{fault}','FaultController@update')->name('fault.update');
 Route::delete('/faults/{id}','FaultController@destroy')->name('fault.destroy');
+
+
+Route::get('/gates','GateController@index')->name('gate.index');
+Route::get('/gates/all','GateController@showAll')->name('gate.showAll');
+Route::get('/gates/{id}','GateController@show')->name('gate.show');
+Route::get('/gates/restore/{id}','GateController@restore')->name('gate.restore');
+Route::post('/gates','GateController@store')->name('gate.store');
+Route::put('/gates/{gate}','GateController@update')->name('gate.update');
+Route::delete('/gates/{id}','GateController@destroy')->name('gate.destroy');

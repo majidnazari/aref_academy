@@ -8,7 +8,7 @@ use App\Http\Requests\FaultCreateRequest;
 use App\Models\Fault;
 use Validator; 
 use Illuminate\Validation\Rule;
-use App\Repositories\FaultRepositoryInterface as FaultRepo;
+use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepo;
 //use App\Repositories\FaultRepositoryInterface as FaultRepo;
 
 class FaultController extends Controller

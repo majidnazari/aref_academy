@@ -1,8 +1,7 @@
-<?php 
-namespace App\Repositories;
+<?php namespace App\Repositories;
  
 use App\Models\Fault;
-use App\Repositories;
+use App\Repositories\Interfaces;
  
 class FaultRepository implements FaultRepositoryInterface
 {
@@ -10,9 +9,9 @@ class FaultRepository implements FaultRepositoryInterface
 		return Fault::all();
 	}
  
-	public function getPost($id){
-		return Fault::findOrFail($id);
-	}
+	// public function getPost($id){
+	// 	return Fault::findOrFail($id);
+	// }
  
 	// more 
  

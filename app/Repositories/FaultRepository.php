@@ -1,17 +1,22 @@
 <?php namespace App\Repositories;
+use App\Http\Requests\FaultCreateRequest;
  
 use App\Models\Fault;
-use App\Repositories\Interfaces;
+use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepositoryInter;
  
-class FaultRepository implements FaultRepositoryInterface
+class FaultRepository implements FaultRepositoryInter
 {
-	public function getAll(){
+	public function GetAll(){
 		return Fault::all();
 	}
  
-	// public function getPost($id){
-	// 	return Fault::findOrFail($id);
-	// }
+	public function GetFault($id){
+		return Fault::findOrFail($id);
+	}
+
+	public function AddFault(FaultCreateRequest $fault){
+			return Fault::Create($fault);
+	}
  
 	// more 
  

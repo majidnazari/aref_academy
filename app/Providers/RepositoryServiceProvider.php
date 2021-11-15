@@ -15,10 +15,10 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->bind(
-        //     'App\Repositories\FaultRepositoryInterface',
-        //     'App\Repositories\FaultRepository'
-        // );
+        $this->app->bind(
+            'App\Repositories\Interfaces\FaultRepositoryInterface',
+            'App\Repositories\FaultRepository'
+        );
     }
 
     /**

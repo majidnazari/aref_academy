@@ -1,10 +1,15 @@
 <?php namespace App\Repositories\Interfaces;
+use App\Http\Requests\FaultCreateRequest;
+
+use App\Models\Fault;
  
  Interface  FaultRepositoryInterface{
 	
-	public function getAll();
+	public function GetAll();
  
-	//public function getPost($id);
+	public function GetFault($id);
+
+	public function AddFault(FaultCreateRequest $fault);
  
 	// more
 }

@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Validator;
 
 class FaultCreateRequest extends FormRequest
 {
@@ -25,21 +25,17 @@ class FaultCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "description" => ['required','min|3', Rule::unique('faults')] ,
-        ];        
+            "description" =>  "required|min:3|unique:faults,description",
+        ];
     }
-    public static function Validation($id=0)
-    {          
-        return response()->json("hi",201);
-        $validated=Validator::make(request()->all(),self::rules());
-        if($validated->fails())
-            return response()->json($validated->errors(),400);
-        else
-            {
-                $data=Fault::create($data);
-                return response()->json($data,201);
-                
-            }
-        return $validated;
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors(),
+            'code'      =>400
+        ],400
+        ));
     }
 }

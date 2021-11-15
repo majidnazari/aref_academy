@@ -11,7 +11,7 @@ class FaultRepository implements FaultRepositoryInter
 	}
  
 	public function GetFault($id){
-		return Fault::findOrFail($id);
+		return Fault::find($id);
 	}
 
 	public function AddFault(FaultCreateRequest $request){
@@ -21,7 +21,14 @@ class FaultRepository implements FaultRepositoryInter
 		//return Fault::create($fault->all());
 		return 	$fault->update($request->all());
 	}
- 
+	public function DeleteFault(Fault $fault){
+		//return Fault::create($fault->all());
+		return 	$fault->delete();
+	}
+	public function RestoreFault(Fault $fault){
+		//return Fault::create($fault->all());
+		return $fault->restore();
+	}
 	// more 
  
 }

@@ -79,12 +79,16 @@ class FaultController extends Controller
     }
 
     public function destroy($id)
-    {   // return response()->json($id,200);    
-        $id=Fault::find($id);        
-        if(isset($id))
-        {           
-            $isdel= $id->delete();
-            return response()->json($isdel,200);
+    { 
+        $fault=$this->repository->GetFault($id);   
+        //$fault=Fault::find($id);
+        //return response()->json($fault,200); 
+        if(isset($fault))
+        {   
+            $data= $this->repository->DeleteFault($fault);
+            return response()->json($data,200);          
+            // $isdel= $id->delete();
+            // return response()->json($isdel,200);
         }
         else
             return response()->json(false,404);
@@ -92,11 +96,13 @@ class FaultController extends Controller
     }
     public function restore($id)
     {   // return response()->json($id,200);    
-        $id=Fault::withTrashed()->find($id);        
-        if(isset($id))
+        $fault=Fault::withTrashed()->find($id);  
+        //$fault=$this->repository->GetFault($id); 
+
+        if(isset($fault))
         {           
-            $isdel= $id->restore();
-            return response()->json($isdel,200);
+            $data= $this->repository->RestoreFault($fault);
+            return response()->json($data,200);
         }
         else
             return response()->json(false,404);

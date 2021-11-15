@@ -14,8 +14,12 @@ class FaultRepository implements FaultRepositoryInter
 		return Fault::findOrFail($id);
 	}
 
-	public function AddFault(FaultCreateRequest $fault){
-			return Fault::Create($fault);
+	public function AddFault(FaultCreateRequest $request){
+			return Fault::create($request->all());
+	}
+	public function UpdateFault(FaultCreateRequest $request,Fault $fault){
+		//return Fault::create($fault->all());
+		return 	$fault->update($request->all());
 	}
  
 	// more 

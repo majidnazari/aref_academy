@@ -9,7 +9,8 @@ use App\Models\Fault;
  
 	public function GetFault($id);
 
-	public function AddFault(FaultCreateRequest $fault);
+	public function AddFault(FaultCreateRequest $request);
+	public function UpdateFault(FaultCreateRequest $request,Fault $fault);
  
 	// more
 }

@@ -42,11 +42,11 @@ class FaultController extends Controller
     //     return response()->json($data,201);
     // }
 
-    public function store(FaultCreateRequest $request,Fault $fault)
+    public function store(FaultCreateRequest $request)
     { 
 
          // $data=Fault::Create($request->all());
-         $data= $this->repository->AddFault($request->all());
+         $data= $this->repository->AddFault($request);
               return response()->json($data,200);
         //return response()->json($data,200);
     //     $rules=[
@@ -70,8 +70,10 @@ class FaultController extends Controller
     //     return response()->json("this is unknow",206); 
        
     }
-    public function update($id)
+    public function update(FaultCreateRequest $request,Fault $fault)
     {
+        $data= $this->repository->UpdateFault($request,$fault);
+        return response()->json($data,200);
        // return response()->json($id,209);
       //  $validation=self::Validation($id);    
     }

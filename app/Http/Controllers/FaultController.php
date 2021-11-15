@@ -6,9 +6,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\FaultCreateRequest;
 use App\Models\Fault;
-use Validator; 
+//use Validator; 
 use Illuminate\Validation\Rule;
-use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepo;
+//use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepo;
+use App\Repositories\FaultRepository as FaultRepo;
 //use App\Repositories\FaultRepositoryInterface as FaultRepo;
 
 class FaultController extends Controller
@@ -21,34 +22,58 @@ class FaultController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->getAll();
+        $data=$this->repository->GetAll();
         return response()->json($data,200);
         // $data=Fault::all();
         // return response()->json($data,200);
     }
     public function show($id)
     {
-        $data=Fault::find($id);
-        return response()->json($data,201);
+        $data=$this->repository->GetFault($id);
+        return response()->json($data,200);
+        // $data=Fault::find($id);
+        // return response()->json($data,201);
     }
-    public function showAll()
-    {
-        //$data=Fault::withTrashed()->get();
-        //$data=Fault::onlyTrashed()->get();
-        $data=Fault::all();
-        return response()->json($data,201);
-    }
+    // public function showAll()
+    // {
+    //     //$data=Fault::withTrashed()->get();
+    //     //$data=Fault::onlyTrashed()->get();
+    //     $data=Fault::all();
+    //     return response()->json($data,201);
+    // }
 
-    public function store(FaultCreateRequest $request)
-    {  
-        return response()->json($request->all(),200);      
-        //$validation=self::Validation();
+    public function store(FaultCreateRequest $request,Fault $fault)
+    { 
+
+         // $data=Fault::Create($request->all());
+         $data= $this->repository->AddFault($request->all());
+              return response()->json($data,200);
+        //return response()->json($data,200);
+    //     $rules=[
+    //         "description" =>  "required|min:4|unique:faults,description",
+    //     ];
+    //     //return response()->json("f",207);
+    // //    $data= $this->repository->AddFault($request);
+    // //    return response()->json($data,200); 
+
+    //         $validated =Validator::make(request()->all(),$rules) ;
+    //        // return response()->json("f",207);
+    //     // $validation=$request->validate([
+    //     //     "description" => "required|min:4",
+    //     // ]);
+    //   // $validated=Validator::make(request()->all(),self::roles());
+    //     if($validated->fails())
+    //         return response()->json($validated->errors(),209);  
+    //     elseif($validated->valid())
+    //         return response()->json("this is valid",205);  
+    //     else 
+    //     return response()->json("this is unknow",206); 
        
     }
     public function update($id)
     {
        // return response()->json($id,209);
-        $validation=self::Validation($id);    
+      //  $validation=self::Validation($id);    
     }
 
     public function destroy($id)
@@ -75,13 +100,13 @@ class FaultController extends Controller
             return response()->json(false,404);
         
     }
-    // public static function Validation($id=0)
-    // {  
-        
-    //     $roles=[
-    //         "description" =>  "required|min:4|unique:faults,description,$id",
-    //     ];
-    //     $validated=Validator::make(request()->all(),self::roles());
+    public static function Validation2()
+    {  
+        return response()->json(request()->all(),209);
+        $roles=[
+            "description" =>  "required|min:4|unique:faults,description",
+        ];
+        $validated=Validator::make(request()->all(),self::roles());
     //     if($validated->fails())
     //         return response()->json($validated->errors(),400);
     //    else
@@ -101,13 +126,13 @@ class FaultController extends Controller
             
 
     //     }
-    //     return $validated;
-    // }
-    // public static function roles()
-    // {
-    //     return [
+        return $validated;
+    }
+    public static function roles()
+    {
+        return [
 
-    //         "description" => ['required', Rule::unique('faults')] ,
-    //     ];
-    // }
+            "description" => ['required','min:5', Rule::unique('faults')] ,
+        ];
+    }
 }

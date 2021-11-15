@@ -108,39 +108,39 @@ class FaultController extends Controller
             return response()->json(false,404);
         
     }
-    public static function Validation2()
-    {  
-        return response()->json(request()->all(),209);
-        $roles=[
-            "description" =>  "required|min:4|unique:faults,description",
-        ];
-        $validated=Validator::make(request()->all(),self::roles());
-    //     if($validated->fails())
-    //         return response()->json($validated->errors(),400);
-    //    else
-    //     {
-    //         $data=$validated->valid();
-    //         if($id>0)
-    //         {
-    //             $fault= Fault::where('id',$id) ;              
-    //             $data=$fault->update($data);
-    //             return response()->json($data,202);
-    //         }
-    //         else
-    //         {                
-    //             $data=Fault::create($data);
-    //             return response()->json($data,201);
-    //         }
+    // public static function Validation2()
+    // {  
+    //     return response()->json(request()->all(),209);
+    //     $roles=[
+    //         "description" =>  "required|min:4|unique:faults,description",
+    //     ];
+    //     $validated=Validator::make(request()->all(),self::roles());
+    // //     if($validated->fails())
+    // //         return response()->json($validated->errors(),400);
+    // //    else
+    // //     {
+    // //         $data=$validated->valid();
+    // //         if($id>0)
+    // //         {
+    // //             $fault= Fault::where('id',$id) ;              
+    // //             $data=$fault->update($data);
+    // //             return response()->json($data,202);
+    // //         }
+    // //         else
+    // //         {                
+    // //             $data=Fault::create($data);
+    // //             return response()->json($data,201);
+    // //         }
             
 
-    //     }
-        return $validated;
-    }
-    public static function roles()
-    {
-        return [
+    // //     }
+    //     return $validated;
+    // }
+    // public static function roles()
+    // {
+    //     return [
 
-            "description" => ['required','min:5', Rule::unique('faults')] ,
-        ];
-    }
+    //         "description" => ['required','min:5', Rule::unique('faults')] ,
+    //     ];
+    // }
 }

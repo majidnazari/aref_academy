@@ -17,13 +17,29 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/faults','FaultController@index')->name('fault.index');
-//Route::get('/faults/all','FaultController@showAll')->name('fault.showAll');
-Route::get('/faults/{fault}','FaultController@show')->name('fault.show');
-Route::get('/faults/restore/{fault}','FaultController@restore')->name('fault.restore');
-Route::post('/faults','FaultController@store')->name('fault.store');
-Route::put('/faults/{fault}','FaultController@update')->name('fault.update');
-Route::delete('/faults/{id}','FaultController@destroy')->name('fault.destroy');
+#regin jwt auth
+        /////////////////////////////////////jwt auth //////////////////////////////////////////////////////
+        Route::post('login', 'AuthController@login');
+        Route::post('register', 'AuthController@register');
+
+        // Refresh route
+        Route::get('/refresh',function(){
+        })->middleware('jwt.refresh');
+
+        // Login required routes
+        Route::group(['middleware' => ['jwt.auth']], function() {
+           // Route::Resource('/product','ProductControler');
+             Route::get('/faults','FaultController@index')->name('fault.index');
+            //Route::get('/faults/all','FaultController@showAll')->name('fault.showAll');
+            Route::get('/faults/{fault}','FaultController@show')->name('fault.show');
+            Route::get('/faults/restore/{fault}','FaultController@restore')->name('fault.restore');
+            Route::post('/faults','FaultController@store')->name('fault.store');
+            Route::put('/faults/{fault}','FaultController@update')->name('fault.update');
+            Route::delete('/faults/{id}','FaultController@destroy')->name('fault.destroy');
+
+        });
+
+#end regin 
 
 
 Route::get('/gates','GateController@index')->name('gate.index');

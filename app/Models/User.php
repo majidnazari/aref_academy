@@ -27,9 +27,12 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'mobile',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'type'
     ];
 
     /**
@@ -39,7 +42,7 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        //'remember_token',
     ];
 
     /**
@@ -48,7 +51,7 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        //'email_verified_at' => 'datetime',
     ];
 
     public function Gates()

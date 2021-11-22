@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         })->middleware('jwt.refresh');
 
         // Login required routes
-        Route::group(['middleware' => ['jwt.auth']], function() {
+        Route::group(['middleware' => 'jwt.auth'], function() {
            // Route::Resource('/product','ProductControler');
              Route::get('/faults','FaultController@index')->name('fault.index');
             //Route::get('/faults/all','FaultController@showAll')->name('fault.showAll');
@@ -40,6 +40,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         });
 
 #end regin 
+
+#regin user
+
+Route::get('/users','UserController@index')->name('User.index');
+Route::get('/users/all','UserController@showAll')->name('User.showAll');
+Route::get('/users/{id}','UserController@show')->name('User.show');
+Route::get('/users/restore/{id}','UserController@restore')->name('User.restore');
+Route::post('/users','UserController@store')->name('User.store');
+Route::put('/users/{user}','UserController@update')->name('User.update');
+Route::delete('/users/{id}','UserController@destroy')->name('User.destroy');
+
+#end regin
 
 
 Route::get('/gates','GateController@index')->name('gate.index');

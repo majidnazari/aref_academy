@@ -28,7 +28,7 @@ class BaseAuthController extends Controller
             $validator = Validator::make($input, $rules);
            
             if ($validator->fails()) {
-                return response()->json("g",200);
+                //return response()->json("g",200);
                 $error = $validator->messages()->toJson();
                 return response()->json(['success' => false, 'error' => $error]);
             }
@@ -51,12 +51,12 @@ class BaseAuthController extends Controller
                 //if (!$token = JWTAuth::attempt($credentials)) {
                     if($checkPass){
                         if (!$token = JWTAuth::attempt($credentials)) { 
-                                return response()->json("g",200);   
+                                //return response()->json("g",200);   
                             return response()->json(['success' => false, 'error' => 'Wrong email or password.'], 401);
                         }
                 }
             } catch (JWTException $e) {
-                return response()->json("g",200);
+                //return response()->json("g",200);
                 return response()->json(['success' => false, 'error' => 'could_not_create_token'], 500);
             }
            

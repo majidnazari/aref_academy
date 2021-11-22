@@ -61,5 +61,10 @@ class UserRepository  implements userInterface
 		   //dd($request->all());
 		return 	$user->update($data);
 	}
+	public function DeleteUser(User $user)
+	{		
+		return $user->delete();
+		
+	}
  
 }

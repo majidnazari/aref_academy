@@ -8,7 +8,7 @@ use App\Models\Fault;
 	public function GetAll(); 
 	public function GetFault($id);
 	public function AddFault(FaultCreateRequest $request);
-	public function UpdateFault(FaultCreateRequest $request,Fault $fault);
+	public function UpdateFault(FaultEditRequest $request,Fault $fault);
 	public function DeleteFault(Fault $fault);
 	public function RestoreFault(Fault $fault);
  

@@ -42,15 +42,19 @@ class UserController extends Controller
 
     public function destroy($id)
     { 
-        $user=$this->repository->GetUser($id);          
+        $user=$this->repository->GetUser($id);   
+        //$fault=Fault::find($id);
+       // return $user; 
         if(isset($user))
         {   
+            //return $user;
             $data= $this->repository->DeleteUser($user);
-            return response()->json($data,200); 
+            return response()->json($data,200);          
+            // $isdel= $id->delete();
+            // return response()->json($isdel,200);
         }
         else
-            return response()->json(false,404);
-        
+            return response()->json(false,404);         
     }
     // public function restore($id)
     // {   // return response()->json($id,200);    

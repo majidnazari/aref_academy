@@ -42,8 +42,9 @@ class UserController extends Controller
 
     public function destroy($id)
     { 
-        $user=$this->repository->GetUser($id);   
-        //$fault=Fault::find($id);
+       // $user=$this->repository->GetUser($id);   
+        $user=User::find($id);
+
        // return $user; 
         if(isset($user))
         {   

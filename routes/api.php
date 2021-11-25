@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 #regin jwt auth
         /////////////////////////////////////jwt auth //////////////////////////////////////////////////////
-        Route::post('login', 'AuthController@login');
+        Route::post('login', 'AuthController@login')->name("login");
         Route::post('register', 'AuthController@register');
 
         // Refresh route

@@ -11,7 +11,16 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_examplew()
+    {
+        $this->assertTrue(true);
+    }
+    public function test_examplew1()
+    {
+        $this->assertTrue(true);
+        
+    }
+    public function test_examplew2()
     {
         $this->assertTrue(true);
     }

@@ -38,7 +38,7 @@ class UserRepository  implements userInterface
        $data=[
         'password' => bcrypt($request->password),
         'email' => $request->email,
-        'mobile' => $request->mobile,
+        'mobile' =>  $request->mobile,
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
         'type' => $request->type

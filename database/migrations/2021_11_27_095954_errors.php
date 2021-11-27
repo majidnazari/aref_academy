@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Years extends Migration
+class Errors extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class Years extends Migration
      */
     public function up()
     {
-        Schema::create('years', function (Blueprint $table) {
+        Schema::create('errors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');            
-            $table->boolean('active')->default(false);            
-            //$table->char('year',4)->nullable();            
-            $table->timestamps(); 
-            $table->softDeletes();           
+            $table->integer('code');
+            $table->string('En_error');          
+            $table->string('Fa_error');          
+           
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -29,8 +31,6 @@ class Years extends Migration
      */
     public function down()
     {
-        schema::dropIfExists('years');
+        schema::dropIfExists('errors');
     }
-    
-
 }

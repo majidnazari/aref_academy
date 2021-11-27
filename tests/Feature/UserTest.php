@@ -9,7 +9,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class UseTest extends TestCase
+class UserTest extends TestCase
 {
     use WithFaker;
     use RefreshDatabase;
@@ -72,7 +72,7 @@ class UseTest extends TestCase
     public function test_UserUpdate()
     {   
         //$userExistId=User::where('id', '>', 0)->firstOrFail();    
-        $userExistId=User::where('id','>' ,0)->firstOrFail();
+       // $userExistId=User::where('id','>' ,0)->firstOrFail();
        // dd($userExistId);
         //$arrayValues = ['admin', 'acceptor', 'financial','manager'];
         // $email= $this->faker->unique()->safeEmail();
@@ -95,15 +95,18 @@ class UseTest extends TestCase
         //     'mobile' =>  $mobile,
         //     'email' => $email
         //     ]);
-        $user = User::where('email', $user["email"])->where('mobile', $user["mobile"])->first();
-         $this->assertNotNull($user);
+        $user = User::where('email', $anotherUser["email"])->where('mobile', $anotherUser["mobile"])->first();
+        $this->assertNotNull($user);
         // $this->assertAuthenticatedAs($user);
     }
     public function test_UserDelete()
-    {    
-        $userExistId=User::where('id','>' ,0)->firstOrFail();       
-        $response = $this->delete(route('User.destroy',$userExistId->id));        
-        $UserFound= User::withTrashed()->find($userExistId->id);  
+    { 
+        $user=self::UserData(); 
+        $response = $this->post(route('User.store'), $user );  
+       // $userExistId=User::where('id','>' ,0)->firstOrFail();  
+       // dd($response["id"]);     
+        $responseDelete = $this->delete(route('User.destroy', $response["id"]));        
+        $UserFound= User::withTrashed()->find($response["id"]);  
        //dd($UserFound);
         $this->assertSoftDeleted($UserFound);      
     }

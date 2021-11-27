@@ -33,7 +33,7 @@ class FaultCreateRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success'   => false,
             'message'   => 'Validation errors',
-            'data'      => $validator->errors(),
+            'details'      => $validator->errors(),
             'code'      =>400
         ],400
         ));

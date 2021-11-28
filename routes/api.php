@@ -55,11 +55,11 @@ Route::delete('/users/{id}','UserController@destroy')->name('User.destroy');
 
 #regin Course
 
-Route::get('/Courses','CourseController@index')->name('Course.index');
-Route::get('/Courses/{id}','CourseController@show')->name('Course.show');
-Route::post('/Courses','CourseController@store')->name('Course.store');
-Route::put('/Courses/{Course}','CourseController@update')->name('Course.update');
-Route::delete('/Courses/{id}','CourseController@destroy')->name('Course.destroy');
+Route::get('/courses','CourseController@index')->name('Course.index');
+Route::get('/courses/{id}','CourseController@show')->name('Course.show');
+Route::post('/courses','CourseController@store')->name('Course.store');
+Route::put('/courses/{Course}','CourseController@update')->name('Course.update');
+Route::delete('/courses/{id}','CourseController@destroy')->name('Course.destroy');
 
 #end Course
 

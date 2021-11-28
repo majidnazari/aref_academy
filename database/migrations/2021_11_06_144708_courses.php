@@ -16,6 +16,7 @@ class Courses extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->integer('users_id');     
+            $table->integer('years_id');     
             $table->integer('teachers_id');       
             $table->string('name'); 
             $table->enum('lesson',['Mathematics','Physics','Biology']);            

@@ -63,6 +63,18 @@ Route::delete('/courses/{id}','CourseController@destroy')->name('Course.destroy'
 
 #end Course
 
+#regin coursesession
+
+Route::get('/coursesession','CourseSessionController@index')->name('CourseSession.index');
+Route::get('/coursesession/{id}','CourseSessionController@show')->name('CourseSession.show');
+Route::post('/coursesession','CourseSessionController@store')->name('CourseSession.store');
+Route::put('/coursesession/{coursesession}','CourseSessionController@update')->name('CourseSession.update');
+Route::delete('/coursesession/{id}','CourseSessionController@destroy')->name('CourseSession.destroy');
+Route::post('/coursesessionAddSessions','CourseSessionController@AddSessions')->name('CourseSession.AddSessions');
+
+#end coursesession
+
+
 #regin Year
 
 Route::get('/years','YearController@index')->name('Year.index');

@@ -63,6 +63,10 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
     {
         return $this->hasmany('Courses');
     }
+    public function CourseSessions()
+    {
+        return $this->hasmany('CourseSessions');
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();

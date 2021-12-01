@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
 
-class FaultEditeRequest extends FormRequest
+class GateEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +16,7 @@ class FaultEditeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +27,9 @@ class FaultEditeRequest extends FormRequest
     public function rules()
     {
         return [
-            "description" =>  "required|min:3|unique:faults,description",
+            "users_id" =>  "nullable|int",
+            "name" => ["nullable","string"],
+            "description" =>  "nullable|min:3|unique:gates,description",
         ];
     }
     public function failedValidation(Validator $validator)

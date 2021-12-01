@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class CourseTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -24,7 +24,7 @@ class CourseTest extends TestCase
         $course=self::CourseData();
         $response_create = $this->post(route('Course.store'),$course);         
         $response_getAll = $this->get(route('Course.index')); 
-       // dd($response_create);
+        //dd($response_create->decodeResponseJson());
        
        $response_getAll->assertSee($course["name"]);
        $response_getAll->assertSee($course["user_id"]);
@@ -90,9 +90,9 @@ class CourseTest extends TestCase
     public  function  CourseData()
     {        
         $name= $this->faker->name();
-        $user_id= $this->faker->randomNumber();
-        $years_id= $this->faker->randomNumber();
-        $teachers_id=$this->faker->randomNumber();
+        $user_id= $this->faker->randomDigit;
+        $years_id= $this->faker->randomDigit;
+        $teachers_id=$this->faker->randomDigit;
         // $type=new Sequence(['public','private']);
         // $lesson= new Sequence(['Mathematics','Physics','Biology']);
         $typeSample=['public','private'];        

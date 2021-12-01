@@ -7,7 +7,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 
-class FaultCreateRequest extends FormRequest
+class GateCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,13 @@ class FaultCreateRequest extends FormRequest
      *
      * @return array
      */
+    
     public function rules()
     {
         return [
-            "description" =>  "required|min:3|unique:faults,description",
+            "users_id" =>  "required|int",
+            "name" => ["required","string"],
+            "description" =>  "required|min:3|unique:gates,description",
         ];
     }
     public function failedValidation(Validator $validator)

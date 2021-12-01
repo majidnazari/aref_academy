@@ -7,7 +7,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 
-class FaultCreateRequest extends FormRequest
+class FaultEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

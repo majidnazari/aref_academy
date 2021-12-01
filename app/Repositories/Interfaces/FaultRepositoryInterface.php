@@ -1,5 +1,6 @@
 <?php namespace App\Repositories\Interfaces;
 use App\Http\Requests\FaultCreateRequest;
+use App\Http\Requests\FaultEditRequest;
 
 use App\Models\Fault;
  
@@ -10,7 +11,7 @@ use App\Models\Fault;
 	public function AddFault(FaultCreateRequest $request);
 	public function UpdateFault(FaultEditRequest $request,Fault $fault);
 	public function DeleteFault(Fault $fault);
-	public function RestoreFault(Fault $fault);
+	//public function RestoreFault(Fault $fault);
  
 	// more
 }

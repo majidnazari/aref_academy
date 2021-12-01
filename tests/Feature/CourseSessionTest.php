@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class CourseSessionTest extends TestCase
 {
     use WithFaker;
-   //use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -135,8 +135,8 @@ class CourseSessionTest extends TestCase
     public  function  CourseSessionData()
     {        
         $name= $this->faker->name();
-        $users_id= $this->faker->randomNumber();
-        $courses_id= $this->faker->randomNumber();        
+        $users_id= $this->faker->randomDigit;
+        $courses_id= $this->faker->randomDigit;        
         $start_date=$this->faker->date();
         $start_time=$this->faker->time();
         //$from_time=date('H:i:s', rand($start_time*60*60,$start_time*60*60*5));       

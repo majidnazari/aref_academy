@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-#regin jwt auth
+#region jwt auth
         /////////////////////////////////////jwt auth //////////////////////////////////////////////////////
         Route::post('login', 'AuthController@login')->name("login");
         Route::post('register', 'AuthController@register');
@@ -27,68 +27,70 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         })->middleware('jwt.refresh');
 
         // Login required routes
-        Route::group(['middleware' => 'jwt.auth'], function() {
+       // Route::group(['middleware' => 'jwt.auth'], function() {
            // Route::Resource('/product','ProductControler');
-             Route::get('/faults','FaultController@index')->name('fault.index');
+             Route::get('/faults','FaultController@index')->name('Fault.index');
             //Route::get('/faults/all','FaultController@showAll')->name('fault.showAll');
-            Route::get('/faults/{fault}','FaultController@show')->name('fault.show');
-            Route::get('/faults/restore/{fault}','FaultController@restore')->name('fault.restore');
-            Route::post('/faults','FaultController@store')->name('fault.store');
-            Route::put('/faults/{fault}','FaultController@update')->name('fault.update');
-            Route::delete('/faults/{id}','FaultController@destroy')->name('fault.destroy');
+            Route::get('/faults/{fault}','FaultController@show')->name('Fault.show');
+            Route::get('/faults/restore/{fault}','FaultController@restore')->name('Fault.restore');
+            Route::post('/faults','FaultController@store')->name('Fault.store');
+            Route::put('/faults/{fault}','FaultController@update')->name('Fault.update');
+            Route::delete('/faults/{id}','FaultController@destroy')->name('Fault.destroy');
 
-        });
+      //  });
 
-#end regin 
+#end region 
 
-#regin user
+#region user
 
-Route::get('/users','UserController@index')->name('User.index');
-//Route::get('/users/all','UserController@showAll')->name('User.showAll');
-Route::get('/users/{id}','UserController@show')->name('User.show');
-//Route::get('/users/restore/{id}','UserController@restore')->name('User.restore');
-Route::post('/users','UserController@store')->name('User.store');
-Route::put('/users/{user}','UserController@update')->name('User.update');
-Route::delete('/users/{id}','UserController@destroy')->name('User.destroy');
+    Route::get('/users','UserController@index')->name('User.index');
+    //Route::get('/users/all','UserController@showAll')->name('User.showAll');
+    Route::get('/users/{id}','UserController@show')->name('User.show');
+    //Route::get('/users/restore/{id}','UserController@restore')->name('User.restore');
+    Route::post('/users','UserController@store')->name('User.store');
+    Route::put('/users/{user}','UserController@update')->name('User.update');
+    Route::delete('/users/{id}','UserController@destroy')->name('User.destroy');
 
-#end regin
+#end region
 
-#regin Course
+#region Course
 
-Route::get('/courses','CourseController@index')->name('Course.index');
-Route::get('/courses/{id}','CourseController@show')->name('Course.show');
-Route::post('/courses','CourseController@store')->name('Course.store');
-Route::put('/courses/{Course}','CourseController@update')->name('Course.update');
-Route::delete('/courses/{id}','CourseController@destroy')->name('Course.destroy');
+    Route::get('/courses','CourseController@index')->name('Course.index');
+    Route::get('/courses/{id}','CourseController@show')->name('Course.show');
+    Route::post('/courses','CourseController@store')->name('Course.store');
+    Route::put('/courses/{Course}','CourseController@update')->name('Course.update');
+    Route::delete('/courses/{id}','CourseController@destroy')->name('Course.destroy');
 
-#end Course
+#end region
 
-#regin coursesession
+#region coursesession
 
-Route::get('/coursesession','CourseSessionController@index')->name('CourseSession.index');
-Route::get('/coursesession/{id}','CourseSessionController@show')->name('CourseSession.show');
-Route::post('/coursesession','CourseSessionController@store')->name('CourseSession.store');
-Route::put('/coursesession/{coursesession}','CourseSessionController@update')->name('CourseSession.update');
-Route::delete('/coursesession/{id}','CourseSessionController@destroy')->name('CourseSession.destroy');
-Route::post('/coursesessionAddSessions','CourseSessionController@AddSessions')->name('CourseSession.AddSessions');
+    Route::get('/coursesession','CourseSessionController@index')->name('CourseSession.index');
+    Route::get('/coursesession/{id}','CourseSessionController@show')->name('CourseSession.show');
+    Route::post('/coursesession','CourseSessionController@store')->name('CourseSession.store');
+    Route::put('/coursesession/{coursesession}','CourseSessionController@update')->name('CourseSession.update');
+    Route::delete('/coursesession/{id}','CourseSessionController@destroy')->name('CourseSession.destroy');
+    Route::post('/coursesessionAddSessions','CourseSessionController@AddSessions')->name('CourseSession.AddSessions');
 
-#end coursesession
+#end region
 
 
-#regin Year
+#region Year
 
-Route::get('/years','YearController@index')->name('Year.index');
-Route::get('/years/{id}','YearController@show')->name('Year.show');
-Route::post('/years','YearController@store')->name('Year.store');
-Route::put('/years/{id}','YearController@update')->name('Year.update');
-Route::delete('/years/{id}','YearController@destroy')->name('Year.destroy');
+    Route::get('/years','YearController@index')->name('Year.index');
+    Route::get('/years/{id}','YearController@show')->name('Year.show');
+    Route::post('/years','YearController@store')->name('Year.store');
+    Route::put('/years/{id}','YearController@update')->name('Year.update');
+    Route::delete('/years/{id}','YearController@destroy')->name('Year.destroy');
 
-#end Year
+#end region
 
-Route::get('/gates','GateController@index')->name('gate.index');
-Route::get('/gates/all','GateController@showAll')->name('gate.showAll');
-Route::get('/gates/{id}','GateController@show')->name('gate.show');
-Route::get('/gates/restore/{id}','GateController@restore')->name('gate.restore');
-Route::post('/gates','GateController@store')->name('gate.store');
-Route::put('/gates/{gate}','GateController@update')->name('gate.update');
-Route::delete('/gates/{id}','GateController@destroy')->name('gate.destroy');
+
+#region Gate
+    Route::get('/gates','GateController@index')->name('gate.index');
+    Route::get('/gates/{id}','GateController@show')->name('gate.show');
+    Route::post('/gates','GateController@store')->name('gate.store');
+    Route::put('/gates/{gate}','GateController@update')->name('gate.update');
+    Route::delete('/gates/{id}','GateController@destroy')->name('gate.destroy');
+
+#end region

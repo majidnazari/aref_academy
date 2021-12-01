@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FaultCreateRequest;
+use App\Http\Requests\FaultEditRequest;
 use App\Models\Fault;
 //use Validator; 
 use Illuminate\Validation\Rule;
 //use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepo;
 use App\Repositories\FaultRepository as FaultRepo;
-//use App\Repositories\FaultRepositoryInterface as FaultRepo;
+use App\Http\Resources\FaultErrorResource;
 
 class FaultController extends Controller
 {
@@ -70,7 +71,7 @@ class FaultController extends Controller
     //     return response()->json("this is unknow",206); 
        
     }
-    public function update(FaultCreateRequest $request,Fault $fault)
+    public function update(FaultEditRequest $request,Fault $fault)
     {
         $data= $this->repository->UpdateFault($request,$fault);
         return response()->json($data,200);
@@ -80,19 +81,17 @@ class FaultController extends Controller
 
     public function destroy($id)
     { 
-        $fault=$this->repository->GetFault($id);   
-        //$fault=Fault::find($id);
-        //return response()->json($fault,200); 
-        if(isset($fault))
-        {   
-            $data= $this->repository->DeleteFault($fault);
-            return response()->json($data,200);          
-            // $isdel= $id->delete();
-            // return response()->json($isdel,200);
-        }
-        else
-            return response()->json(false,404);
-        
+        $fault=Fault::find($id);
+
+        // return $user; 
+         if(isset($fault))
+         {   
+             //return $user;
+             $data= $this->repository->DeleteFault($fault);
+             return response()->json($data,200); 
+         }
+         else
+             return response()->json(new FaultErrorResource("not found to delete"),404); 
     }
     public function restore($id)
     {   // return response()->json($id,200);    

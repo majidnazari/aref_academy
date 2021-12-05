@@ -57,15 +57,19 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
 
     public function Gates()
     {
-        return $this->hasmany('Gates');
+        return $this->hasmany('Gate');
     }
     public function Courses()
     {
-        return $this->hasmany('Courses');
+        return $this->hasmany('Course');
     }
     public function CourseSessions()
     {
-        return $this->hasmany('CourseSessions');
+        return $this->hasmany('CourseSession');
+    }
+    public function AbsencePresences()
+    {
+        return $this->hasmany('AbsencePresence');
     }
     public function getJWTIdentifier()
     {

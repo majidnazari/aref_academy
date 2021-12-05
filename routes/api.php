@@ -94,3 +94,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::delete('/gates/{id}','GateController@destroy')->name('gate.destroy');
 
 #end region
+
+#region AbsencePresence
+Route::get('/absencepresences','AbsencePresenceController@index')->name('AbsencePresence.index');
+Route::get('/absencepresences/{id}','AbsencePresenceController@show')->name('AbsencePresence.show');
+Route::post('/absencepresences','AbsencePresenceController@store')->name('AbsencePresence.store');
+Route::put('/absencepresences/{absencepresence}','AbsencePresenceController@update')->name('AbsencePresence.update');
+Route::delete('/absencepresences/{id}','AbsencePresenceController@destroy')->name('AbsencePresence.destroy');
+
+#end region

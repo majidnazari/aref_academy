@@ -18,7 +18,7 @@ class AbsencePresences extends Migration
             $table->integer('users_id');            
             $table->integer('course_sessions_id');            
             $table->integer('teachers_id'); 
-            $table->enum('status',['dellay','abbsence','present'])->default('abbsence');    
+            $table->enum('status',['dellay','absent','present'])->default('absent');    
             $table->timestamps();  
             $table->softDeletes();          
         });

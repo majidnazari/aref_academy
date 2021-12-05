@@ -6,26 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CourseSession extends Model
+class AbsencePresence extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table='course_sessions';
+    use SoftDeletes;   
     protected $fillable=[
         "users_id",
-        "courses_id",
-        "name",
-        "start_date",
-        "start_time",
-        "end_time",
-        
+        "course_sessions_id",
+        "teachers_id",
+        "status"        
     ];
+    //protected $table="absence_presence";
     public function User()
     {
         return $this->blongsTo('user');
     }
-    public function AbsencePresence()
+    public function CourseSession()
     {
-        return $this->hasmany('absencepresence');
+        return $this->blongsTo('CourseSession');
     }
 }

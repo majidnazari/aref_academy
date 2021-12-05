@@ -35,15 +35,15 @@ class CourseController extends Controller
     }
     public function update(CourseEditRequest $request,$id)
     {
-        $year=Course::find($id);
-        if($year===null)
+        $course=Course::find($id);
+        if($course===null)
         {
             return new CourseErrorResource("not found to update.");
         }
         else
         {
             //return response()->json($request->all(),200);
-            $data= $this->repository->UpdateCourse($request,$year);
+            $data= $this->repository->UpdateCourse($request,$course);
             return response()->json($data,200);      
         }
            

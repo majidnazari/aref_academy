@@ -20,6 +20,6 @@ class Course extends Model
     ];
     public function User()
     {
-        return $this->blongsTo('user');
+        return $this->belongsTo('user');
     }
 }

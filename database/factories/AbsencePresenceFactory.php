@@ -15,17 +15,17 @@ class AbsencePresenceFactory extends Factory
      * @return array
      */
     public function definition()
-    {        
+    {    
+        $user=User::factory();//->create();    
         $course_session_id= $this->faker->randomDigit;
         $teacher_id=$this->faker->randomDigit;
         $status=['dellay','absent','present'];
 
         return [           
-            'users_id' => User::factory(),
+            'user_id' => $user,
             'teachers_id' => $teacher_id,
             'course_sessions_id' => $course_session_id,
-            'status' => $status
-       
+            'status' => $status[rand(0,2)]       
         ];
     }
 }

@@ -80,7 +80,7 @@ class AbsencePresenceRepository  implements userInterface
     public function AbsencePresenceData($request)
     {
         $data=[				
-			'users_id' => $request->user_id,
+			'user_id' => $request->user_id,
 			'course_sessions_id' => $request->course_session_id,
 			'teachers_id' => $request->teacher_id,
             'status' => $request->status,

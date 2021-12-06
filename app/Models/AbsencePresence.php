@@ -12,7 +12,7 @@ class AbsencePresence extends Model
     use SoftDeletes;  
    
     protected $fillable=[
-        "users_id",
+        "user_id",
         "course_sessions_id",
         "teachers_id",
         "status"        

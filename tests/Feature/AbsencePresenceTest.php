@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 class AbsencePresenceTest extends TestCase
 {
     use WithFaker;
-   // use RefreshDatabase;
+    //use RefreshDatabase;
     //use User;
     //use Fault;
     /**
@@ -24,10 +24,14 @@ class AbsencePresenceTest extends TestCase
      */
     public function test_AbsencePresenceFetchAll()
     {
+        //$user=User::factory()->create();
+        //dd($user->id);
+        //$AbsencePresence= AbsencePresence::factory()->create();// factory(User::class)->create();
       $AbsencePresence=AbsencePresence::factory()->for(User::factory())->create();
-
-      $this->assertTrue(isset( $AbsencePresence->user->id));
-      $this->assertTrue( $AbsencePresence->user  instanceof User);
+       dd($AbsencePresence);
+       $this->assertTrue(isset($AbsencePresence));
+    //   $this->assertTrue(isset( $AbsencePresence->user->id));
+    //   $this->assertTrue( $AbsencePresence->user  instanceof User);
        // dd($AbsencePresence);
        // $absencepresence=self::AbsencePresenceData();
         //dd($absencepresence);

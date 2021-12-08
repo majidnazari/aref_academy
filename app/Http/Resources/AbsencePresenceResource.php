@@ -16,7 +16,7 @@ class AbsencePresenceResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "user_id" => $this->users_id,
+            "user_id" => $this->user_id,
             "course_session_id" => $this->course_sessions_id,
             "teacher_id" => $this->teachers_id,            
             "status" =>$this->status           

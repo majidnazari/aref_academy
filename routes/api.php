@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         // Login required routes
        // Route::group(['middleware' => 'jwt.auth'], function() {
            // Route::Resource('/product','ProductControler');
-             Route::get('/faults','FaultController@index')->name('Fault.index');
+            Route::get('/faults','FaultController@index')->name('Fault.index');
             //Route::get('/faults/all','FaultController@showAll')->name('fault.showAll');
             Route::get('/faults/{fault}','FaultController@show')->name('Fault.show');
             Route::get('/faults/restore/{fault}','FaultController@restore')->name('Fault.restore');

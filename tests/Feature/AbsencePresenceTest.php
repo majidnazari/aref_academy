@@ -23,22 +23,17 @@ class AbsencePresenceTest extends TestCase
      * @return void
      */
     public function test_AbsencePresenceFetchAll()
-    { 
-        $data=self::AbsencePresenceData();
-        //dd($data["user_id"]);
-        $AbsencePresenceResultStore=$this->post(route('AbsencePresence.store'),$data);
+    {         
+        //$data=self::AbsencePresenceData();   
+        $data= AbsencePresence::factory()->create();  
+        dd($data);
+        $AbsencePresenceResultStore=$this->post(route('AbsencePresence.store'),$data->toArray());
         $AbsencePresenceResultIndex=$this->get(route('AbsencePresence.index'));
         //dd($AbsencePresenceResultStore->decodeResponseJson());
         //dd("id user is: " , $data["user_id"] ," \n\r" , $AbsencePresenceResultIndex->decodeResponseJson());
         //$AbsencePresenceResultIndex->assertSee('user_id',$data["user_id"]);
-        dd("id user is: " , $data["user_id"] ," \n\r" , $AbsencePresenceResultIndex->decodeResponseJson());
-        $AbsencePresenceResultIndex->assertSee(isset($data["user_id"]));
-       // dd($data);     
-      //  $AbsencePresence=AbsencePresence::factory()->for(User::factory())->create();
-      //  $result=AbsencePresence::all();
-      //  //dd($AbsencePresence);
-        $this->assertTrue(isset($AbsencePresence));
-        $this->assertTrue( $AbsencePresence->user  instanceof User);   
+        //dd("id user is: " , $data["user_id"] ," \n\r" , $AbsencePresenceResultIndex->decodeResponseJson());
+        $AbsencePresenceResultIndex->assertSee(isset($data["user_id"]));     
     }
     public function test_AbsencePresenceStore()
     {

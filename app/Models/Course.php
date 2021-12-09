@@ -11,9 +11,9 @@ class Course extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        "users_id",
-        "teachers_id",
-        "years_id",
+        "user_id",
+        "teacher_id",
+        "year_id",
         "name",
         "lesson",
         "type"

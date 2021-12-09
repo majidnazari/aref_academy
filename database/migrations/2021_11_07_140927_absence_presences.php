@@ -16,8 +16,8 @@ class AbsencePresences extends Migration
         Schema::create('absence_presences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');            
-            $table->integer('course_sessions_id');            
-            $table->integer('teachers_id'); 
+            $table->foreignId('course_session_id');            
+            $table->foreignId('teacher_id'); 
             $table->enum('status',['dellay','absent','present'])->default('absent');    
             $table->timestamps();  
             $table->softDeletes();          

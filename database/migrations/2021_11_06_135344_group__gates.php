@@ -15,9 +15,9 @@ class GroupGates extends Migration
     {
         Schema::create('group_gates', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');
-            $table->integer('groups_id');
-            $table->integer('gates_id');
+            $table->foreignId('user_id');
+            $table->foreignId('group_id');
+            $table->foreignId('gate_id');
             $table->string('name');  
             $table->timestamps();  
             $table->softDeletes();          

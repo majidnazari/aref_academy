@@ -13,8 +13,8 @@ class AbsencePresence extends Model
    
     protected $fillable=[
         "user_id",
-        "course_sessions_id",
-        "teachers_id",
+        "course_session_id",
+        "teacher_id",
         "status"        
     ];
     protected $table="absence_presences";
@@ -23,8 +23,8 @@ class AbsencePresence extends Model
     {
         return $this->belongsTo(User::class);
     }
-    // public function CourseSession()
-    // {
-    //     return $this-blongsTo('CourseSession');
-    // }
+    public function CourseSession()
+    {
+        return $this-blongsTo('CourseSession');
+    }
 }

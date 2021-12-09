@@ -12,7 +12,7 @@ class Gate extends Model
     use softDeletes;
     protected $fillable=[
 
-        "users_id",
+        "user_id",
         "name"  ,
         "description"
     ];

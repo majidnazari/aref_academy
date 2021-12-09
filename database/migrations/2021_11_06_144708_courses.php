@@ -15,9 +15,9 @@ class Courses extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');     
-            $table->integer('years_id');     
-            $table->integer('teachers_id');       
+            $table->foreignId('user_id');     
+            $table->foreignId('year_id');     
+            $table->foreignId('teacher_id');       
             $table->string('name'); 
             $table->enum('lesson',['Mathematics','Physics','Biology']);            
             $table->enum('type',['public','private']);            

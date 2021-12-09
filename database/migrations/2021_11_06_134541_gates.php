@@ -15,7 +15,7 @@ class Gates extends Migration
     {
         Schema::create('gates', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');
+            $table->foreignId('user_id');
             $table->string('name');          
             $table->text('description');
             $table->timestamps();  

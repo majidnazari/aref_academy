@@ -12,8 +12,8 @@ class CourseSession extends Model
     use SoftDeletes;
     protected $table='course_sessions';
     protected $fillable=[
-        "users_id",
-        "courses_id",
+        "user_id",
+        "course_id",
         "name",
         "start_date",
         "start_time",
@@ -27,5 +27,5 @@ class CourseSession extends Model
     public function AbsencePresence()
     {
         return $this->hasmany('absencepresence');
-    }
+    }    
 }

@@ -10,12 +10,12 @@ use App\Repositories\Interfaces\GateRepositoryInterface as GateRepositoryInter;
  
 class GateRepository implements GateRepositoryInter
 {
-	public function GetAll(){
+	public function getAll(){
 		//return Gate::all();
 		return  GateResource::collection(Gate::all());
 	}
  
-	public function GetGate($id){
+	public function getGate($id){
 		//return Gate::find($id);
 		$data=Gate::find($id);
         //dd($data);
@@ -29,16 +29,16 @@ class GateRepository implements GateRepositoryInter
 		
 	}
 
-	public function AddGate(GateCreateRequest $request){
+	public function addGate(GateCreateRequest $request){
 			//return Gate::create($request->all());
-			$data=self::GateData($request);
+			$data=self::gateData($request);
 
 			$response= Gate::create($data);
 			return new GateResource($response);       
 	}
-	public function UpdateGate(GateEditRequest $request,Gate $gate){
+	public function updateGate(GateEditRequest $request,Gate $gate){
 		//return Gate::create($gate->all());
-		$data=self::GateData($request);
+		$data=self::gateData($request);
 		   //dd($request->all());
            //dd($data);
 	    $gateUpdated=$gate->update($data);
@@ -49,7 +49,7 @@ class GateRepository implements GateRepositoryInter
 		return new GateResource($gate);	
        
 	}
-	public function DeleteGate(Gate $gate){
+	public function deleteGate(Gate $gate){
 		$isDelete=$gate->delete();
         //dd("ff");
         if(!$isDelete)
@@ -63,10 +63,10 @@ class GateRepository implements GateRepositoryInter
 	// 	return $gate->restore();
 	// }
 	// more 
-	public function GateData($request)
+	public function gateData($request)
     {
         $data=[
-			'users_id' => $request->users_id,			
+			'user_id' => $request->user_id,			
 			'name' => $request->name,			
 			'description' => $request->description,			
 			//'course' => $request->course,			

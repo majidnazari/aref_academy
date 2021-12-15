@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 class GateFactory extends Factory
 {
@@ -11,12 +12,14 @@ class GateFactory extends Factory
      *
      * @return array
      */
+   
     public function definition()
     {
+        $user=User::factory()->create();
         return [
-                    "user_id"     =>User::factory(),
-                    "name"        =>$this->faker()->name(),
-                    "description" =>$this->faker()->text(),
+                    "user_id"     => $user->id,
+                    "name"        =>$this->faker->name(),
+                    "description" =>$this->faker->text(),
         ];
     }
 }

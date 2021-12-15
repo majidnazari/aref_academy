@@ -28,7 +28,7 @@ class GateCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "users_id" =>  "required|int",
+            "user_id" =>  "required|int",
             "name" => ["required","string"],
             "description" =>  "required|min:3|unique:gates,description",
         ];

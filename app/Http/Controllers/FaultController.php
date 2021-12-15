@@ -23,14 +23,14 @@ class FaultController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);
         // $data=Fault::all();
         // return response()->json($data,200);
     }
     public function show($id)
     {
-        $data=$this->repository->GetFault($id);
+        $data=$this->repository->getFault($id);
         return response()->json($data,200);
         // $data=Fault::find($id);
         // return response()->json($data,201);
@@ -47,7 +47,7 @@ class FaultController extends Controller
     { 
 
          // $data=Fault::Create($request->all());
-         $data= $this->repository->AddFault($request);
+         $data= $this->repository->addFault($request);
               return response()->json($data,200);
         //return response()->json($data,200);
     //     $rules=[
@@ -73,7 +73,7 @@ class FaultController extends Controller
     }
     public function update(FaultEditRequest $request,Fault $fault)
     {
-        $data= $this->repository->UpdateFault($request,$fault);
+        $data= $this->repository->updateFault($request,$fault);
         return response()->json($data,200);
        // return response()->json($id,209);
       //  $validation=self::Validation($id);    
@@ -87,7 +87,7 @@ class FaultController extends Controller
          if(isset($fault))
          {   
              //return $user;
-             $data= $this->repository->DeleteFault($fault);
+             $data= $this->repository->deleteFault($fault);
              return response()->json($data,200); 
          }
          else
@@ -100,7 +100,7 @@ class FaultController extends Controller
 
         if(isset($fault))
         {           
-            $data= $this->repository->RestoreFault($fault);
+            $data= $this->repository->restoreFault($fault);
             return response()->json($data,200);
         }
         else

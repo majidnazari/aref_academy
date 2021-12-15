@@ -19,9 +19,9 @@ class CourseResource extends JsonResource
             "name" => $this->name,
             "lesson" => $this->lesson,
             "type" => $this->type,
-            "teachers" =>  $this->teachers_id,                 
-            "years" =>  $this->years_id,                 
-            "users" =>  $this->users_id,                 
+            "teacher" =>  $this->teacher_id,                 
+            "year" =>  $this->year_id,                 
+            "user" =>  $this->user_id,                 
         ];
     }
 }

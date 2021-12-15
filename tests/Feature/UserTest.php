@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class UserTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
+    //use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -33,10 +33,13 @@ class UserTest extends TestCase
         //     'password' => '12345', // password
         //     //'remember_token' => Str::random(10),
         // ];
-        $user=self::UserData();
-        $response_create = $this->post(route('User.store'), $user );         
+        $user=self::userData();
+        //$user=User::factory()->make();
+        //dd($user->toArray());
+        $response_create = $this->post(route('User.store'), $user);    
+        //dd($response_create);     
         $response_getAll = $this->get(route('User.index')); 
-       
+       //dd($response_getAll);
        $response_getAll->assertSee($user["email"]);
        $response_getAll->assertSee($user["mobile"]);
     }
@@ -55,9 +58,10 @@ class UserTest extends TestCase
         //     'password' => '12345', // password
         //     //'remember_token' => Str::random(10),
         // ];
-        $user=self::UserData();
+        $user=self::userData();
       // dd($user["mobile"]);
-        $response = $this->post(route('User.store'), $user );  
+      //  $user=User::factory()->make();
+        $response = $this->post(route('User.store'), $user);  
        // dd($response["id"]);    
         //$users = User::factory()->count(3)->make();       
         $this->assertGreaterThan(0,User::all()->count());        
@@ -85,9 +89,10 @@ class UserTest extends TestCase
         //     'email' => $user["email"],           
         //     'password' => '12345', // password            
         // ];
-        $user=self::UserData();
-        $response = $this->post(route('User.store'), $user );
-        $anotherUser=self::UserData();
+        $user=self::userData();
+        //$user=User::factory()->make();
+        $response = $this->post(route('User.store'), $user);
+        $anotherUser=self::userData();
        // $email= $this->faker->unique()->safeEmail();
         //$mobile=$this->faker->regexify('09[0-9]{9}');
         $response = $this->put(route('User.update', $response['id']),$anotherUser);       
@@ -101,8 +106,9 @@ class UserTest extends TestCase
     }
     public function test_UserDelete()
     { 
-        $user=self::UserData(); 
-        $response = $this->post(route('User.store'), $user );  
+        $user=self::userData();
+       // $user=User::factory()->make(); 
+        $response = $this->post(route('User.store'), $user);  
        // $userExistId=User::where('id','>' ,0)->firstOrFail();  
        // dd($response["id"]);     
         $responseDelete = $this->delete(route('User.destroy', $response["id"]));        
@@ -110,7 +116,7 @@ class UserTest extends TestCase
        //dd($UserFound);
         $this->assertSoftDeleted($UserFound);      
     }
-    public  function  UserData()
+    public  function  userData()
     {
         $arrayValues = ['admin', 'acceptor', 'financial','manager'];
         $email= $this->faker->unique()->safeEmail();

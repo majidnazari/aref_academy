@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class FaultTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
+    //use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -21,8 +21,9 @@ class FaultTest extends TestCase
      */
     public function test_FaultFetchAll()
     {  
-        $fault=self::FaultData();
-        $response_create = $this->post(route('Fault.store'),$fault);         
+        //$fault=self::faultData();
+        $fault=Fault::factory()->make();//faultData();
+        $response_create = $this->post(route('Fault.store'),$fault->toArray());         
         $response_getAll = $this->get(route('Fault.index')); 
         //dd($response_create->decodeResponseJson());   
         //dd($fault["description"]);    
@@ -31,9 +32,10 @@ class FaultTest extends TestCase
     }
     public function test_FaultStore()
     {
-        $fault=self::FaultData();
+        //$fault=self::faultData();
       // dd($fault["mobile"]);
-        $response = $this->post(route('Fault.store'), $fault );  
+        $fault=Fault::factory()->make();
+        $response = $this->post(route('Fault.store'), $fault->toArray() );  
        // dd($response["id"]);    
         //$faults = Fault::factory()->count(3)->make();       
         $this->assertGreaterThan(0,Fault::all()->count());        
@@ -46,9 +48,10 @@ class FaultTest extends TestCase
     }
     public function test_FaultUpdate()
     {           
-        $newFault=self::FaultData();
-        $responseCreate = $this->post(route('Fault.store'), $newFault );
-        $anotherFault=self::FaultData();
+        //$newFault=self::faultData();
+        $fault=Fault::factory()->make();
+        $responseCreate = $this->post(route('Fault.store'), $fault->toArray() );
+        $anotherFault=self::faultData();
         //dd($responseCreate);
         
        // $email= $this->faker->unique()->safeEmail();
@@ -63,14 +66,15 @@ class FaultTest extends TestCase
     }
     public function test_FaultDelete()
     { 
-        $fault=self::FaultData(); 
-        $response = $this->post(route('Fault.store'), $fault );          
+        //$fault=self::faultData(); 
+        $fault=Fault::factory()->make();
+        $response = $this->post(route('Fault.store'), $fault->toArray());          
         $responseDelete = $this->delete(route('Fault.destroy', $response["id"]));        
         $FaultFound= Fault::withTrashed()->find($response["id"]);  
        //dd($FaultFound);
         $this->assertSoftDeleted($FaultFound);      
     }
-    public  function  FaultData()
+    public  function  faultData()
     {        
        // $name= $this->faker->name();
         $description= $this->faker->name();     

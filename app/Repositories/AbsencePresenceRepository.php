@@ -18,12 +18,12 @@ use App\Repositories\Interfaces\AbsencePresenceRepositoryInterface as userInterf
  */
 class AbsencePresenceRepository  implements userInterface
 {
-    public function GetAll(){
+    public function getAll(){
 		//return AbsencePresence::all();
 		return  AbsencePresenceResource::collection(AbsencePresence::all());
 	}
  
-	public function GetAbsencePresence($id){
+	public function getAbsencePresence($id){
 		//return AbsencePresence::find($id);
 		$data=AbsencePresence::find($id);
         //dd($data);
@@ -36,7 +36,7 @@ class AbsencePresenceRepository  implements userInterface
         }
 	}
 
-	public function AddAbsencePresence(AbsencePresenceCreateRequest $request){
+	public function addAbsencePresence(AbsencePresenceCreateRequest $request){
        
     //    $data=self::AbsencePresenceData();
     // $data=[
@@ -44,7 +44,7 @@ class AbsencePresenceRepository  implements userInterface
     //     'active' => $request->active,
     //     //'absencepresence' => $request->absencepresence,			
     //    ];
-        $data=self::AbsencePresenceData($request);
+        $data=self::absencePresenceData($request);
      //dd($data);
        // dd($request->toarray());
        //dd($request->teacher_id);
@@ -52,10 +52,10 @@ class AbsencePresenceRepository  implements userInterface
        return new AbsencePresenceResource($response);       
 	}	
 
-    public function UpdateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence){
+    public function updateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence){
 		//dd("this is user edit");
 		//dd($absencepresence);
-		$data=self::AbsencePresenceData($request);
+		$data=self::absencePresenceData($request);
 		   //dd($request->all());
           // dd($data);
 	    $absencepresenceUpdated=$absencepresence->update($data);
@@ -66,7 +66,7 @@ class AbsencePresenceRepository  implements userInterface
 		return new AbsencePresenceResource($absencepresence);	
        
 	}
-	public function DeleteAbsencePresence(AbsencePresence $absencepresence)
+	public function deleteAbsencePresence(AbsencePresence $absencepresence)
 	{
         //dd("fbcbv");		
         $isDelete=$absencepresence->delete();
@@ -77,12 +77,12 @@ class AbsencePresenceRepository  implements userInterface
         }
 		return new AbsencePresenceResource($absencepresence);		
 	}
-    public function AbsencePresenceData($request)
+    public function absencePresenceData($request)
     {
         $data=[				
 			'user_id' => $request->user_id,
-			'course_sessions_id' => $request->course_session_id,
-			'teachers_id' => $request->teacher_id,
+			'course_session_id' => $request->course_session_id,
+			'teacher_id' => $request->teacher_id,
             'status' => $request->status,
 			//'absencepresence' => $request->absencepresence,			
 		   ];

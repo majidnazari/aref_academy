@@ -20,12 +20,12 @@ use App\Repositories\Interfaces\CourseSessionRepositoryInterface as userInterfac
  */
 class CourseSessionRepository  implements userInterface
 {
-    public function GetAll(){
+    public function getAll(){
 		//return CourseSession::all();
 		return  CourseSessionResource::collection(CourseSession::all());
 	}
  
-	public function GetCourseSession($id){
+	public function getCourseSession($id){
 		//return CourseSession::find($id);
 		$data=CourseSession::find($id);
         //dd($data);
@@ -38,7 +38,7 @@ class CourseSessionRepository  implements userInterface
         }
 	}
 
-	public function AddCourseSession(CourseSessionCreateRequest $request){
+	public function addCourseSession(CourseSessionCreateRequest $request){
        
     //    $data=self::CourseSessionData();
     // $data=[
@@ -46,7 +46,7 @@ class CourseSessionRepository  implements userInterface
     //     'active' => $request->active,
     //     //'course' => $request->course,			
     //    ];
-        $data=self::CourseSessionData($request);
+        $data=self::courseSessionData($request);
         //dd($data);
        // dd($request->toarray());
        //dd($request->teacher_id);
@@ -54,10 +54,10 @@ class CourseSessionRepository  implements userInterface
        return new CourseSessionResource($response);       
 	}	
 
-    public function UpdateCourseSession(CourseSessionEditRequest $request,CourseSession $CourseSession){
+    public function updateCourseSession(CourseSessionEditRequest $request,CourseSession $CourseSession){
 		//dd("this is user edit");
 		//dd($course);
-		$data=self::CourseSessionData($request);
+		$data=self::courseSessionData($request);
 		   //dd($request->all());
           // dd($data);
 	    $courseUpdated=$CourseSession->update($data);
@@ -68,7 +68,7 @@ class CourseSessionRepository  implements userInterface
 		return new CourseSessionResource($CourseSession);	
        
 	}
-	public function DeleteCourseSession(CourseSession $CourseSession)
+	public function deleteCourseSession(CourseSession $CourseSession)
 	{
         //dd("fbcbv");		
         $isDelete=$CourseSession->delete();
@@ -88,7 +88,7 @@ class CourseSessionRepository  implements userInterface
         $day = date('l', $timestamp);
         return $day;
     }
-    public function AddListOfDays(CourseSessionAddListOfDaysRequest $request)
+    public function addListOfDays(CourseSessionAddListOfDaysRequest $request)
     {
       
         $date = $request->input('from_date');
@@ -103,8 +103,8 @@ class CourseSessionRepository  implements userInterface
                             "start_time" => $request->input("from_time"),
                             "end_time" => $request->input("to_time"),
                             "name" => $request->input("name"),
-                            "users_id" => $request->input("user_id"),
-                            "courses_id" => $request->input("course_id"),
+                            "user_id" => $request->input("user_id"),
+                            "course_id" => $request->input("course_id"),
                 ];
                 $CourseSessionResponse = CourseSession::create($data);
                 
@@ -118,11 +118,11 @@ class CourseSessionRepository  implements userInterface
         
     }
 
-    public function CourseSessionData($request)
+    public function courseSessionData($request)
     {
         $data=[
-            'users_id' => $request->user_id,
-			'courses_id' => $request->course_id,
+            'user_id' => $request->user_id,
+			'course_id' => $request->course_id,
 			'name' => $request->name,
 			'start_date' => $request->start_date,
 			'start_time' => $request->start_time,			

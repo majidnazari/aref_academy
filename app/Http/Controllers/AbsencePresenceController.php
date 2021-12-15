@@ -18,19 +18,19 @@ class AbsencePresenceController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);        
     }
     public function show($id)
     {
-        $data=$this->repository->GetAbsencePresence($id);
+        $data=$this->repository->getAbsencePresence($id);
         return response()->json($data,200);
         
     }
     public function store(AbsencePresenceCreateRequest $request)
     { 
 
-         $data= $this->repository->AddAbsencePresence($request);
+         $data= $this->repository->addAbsencePresence($request);
               return response()->json($data,200); 
     }
     public function update(AbsencePresenceEditRequest $request,$id)
@@ -43,7 +43,7 @@ class AbsencePresenceController extends Controller
         else
         {
             //return response()->json($request->all(),200);
-            $data= $this->repository->UpdateAbsencePresence($request,$absencepresence);
+            $data= $this->repository->updateAbsencePresence($request,$absencepresence);
             return response()->json($data,200);      
         }
            
@@ -58,7 +58,7 @@ class AbsencePresenceController extends Controller
         if(isset($user))
         {   
             //return $user;
-            $data= $this->repository->DeleteAbsencePresence($user);
+            $data= $this->repository->deleteAbsencePresence($user);
             return response()->json($data,200);          
             // $isdel= $id->delete();
             // return response()->json($isdel,200);

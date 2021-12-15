@@ -23,19 +23,19 @@ class GateController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);        
     }
     public function show($id)
     {
-        $data=$this->repository->GetGate($id);
+        $data=$this->repository->getGate($id);
         return response()->json($data,200);
         
     }
     public function store(GateCreateRequest $request)
     { 
 
-         $data= $this->repository->AddGate($request);
+         $data= $this->repository->addGate($request);
               return response()->json($data,200); 
     }
     public function update(GateEditRequest $request,$id)
@@ -48,7 +48,7 @@ class GateController extends Controller
         else
         {
             //return response()->json($request->all(),200);
-            $data= $this->repository->UpdateGate($request,$gate);
+            $data= $this->repository->updateGate($request,$gate);
             return response()->json($data,200);      
         }
            
@@ -63,7 +63,7 @@ class GateController extends Controller
         if(isset($user))
         {   
             //return $user;
-            $data= $this->repository->DeleteGate($user);
+            $data= $this->repository->deleteGate($user);
             return response()->json($data,200);          
             // $isdel= $id->delete();
             // return response()->json($isdel,200);

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class GateTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
+    //use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -21,32 +21,36 @@ class GateTest extends TestCase
      */
     public function test_GateFetchAll()
     {  
-        $gate=self::GateData();
-        $response_create = $this->post(route('gate.store'),$gate);         
+        //$gate=self::gateData();
+        $gate=Gate::factory()->make();
+        //dd($gate->toArray());
+        $response_create = $this->post(route('gate.store'),$gate->toArray()); 
+        //dd($response_create->decodeResponseJson());        
         $response_getAll = $this->get(route('gate.index')); 
         //dd($response_create->decodeResponseJson());   
         //dd($gate["description"]);    
        $response_getAll->assertSee($gate["description"]);
-       $response_getAll->assertSee($gate["users_id"]);
+       $response_getAll->assertSee($gate["user_id"]);
        $response_getAll->assertSee($gate["name"]);
        
     }
     public function test_GateStore()
     {
-        $gate=self::GateData();
+        //$gate=self::gateData();
+        $gate=Gate::factory()->make();
       // dd($gate["mobile"]);
-        $response = $this->post(route('gate.store'), $gate );  
+        $response = $this->post(route('gate.store'), $gate->toArray()  );  
        // dd($response["id"]);    
         //$gates = Gate::factory()->count(3)->make();       
         $this->assertGreaterThan(0,Gate::all()->count());        
        // $this->assertDatabaseCount('gates', 1);
        $this->assertDatabaseHas('gates', [
-        'users_id' => $gate["users_id"],       
+        'user_id' => $gate["user_id"],       
         'description' => $gate["description"],       
         'name' => $gate["name"],       
         ]);
         $gate_response = Gate::
-        where('users_id', $gate["users_id"])
+        where('user_id', $gate["user_id"])
         ->where('name', $gate["name"])
         ->where('description', $gate["description"])
         ->first();
@@ -54,16 +58,17 @@ class GateTest extends TestCase
     }
     public function test_GateUpdate()
     {           
-        $newGate=self::GateData();
-        $responseCreate = $this->post(route('gate.store'), $newGate );
-        $anotherGate=self::GateData();
+        //$newGate=self::gateData();
+        $gate=Gate::factory()->make();
+        $responseCreate = $this->post(route('gate.store'), $gate->toArray()  );
+        $anotherGate=self::gateData();
         //dd($responseCreate);
         
        // $email= $this->faker->unique()->safeEmail();
         //$mobile=$this->faker->regexify('09[0-9]{9}');
         $responseUpdate = $this->put(route('gate.update', $responseCreate['id']),$anotherGate); 
         $gateFounded = Gate::
-        where('users_id', $anotherGate["users_id"])
+        where('user_id', $anotherGate["user_id"])
         ->where('name', $anotherGate["name"])
         ->where('description', $anotherGate["description"])
         ->first();
@@ -75,20 +80,22 @@ class GateTest extends TestCase
     }
     public function test_GateDelete()
     { 
-        $gate=self::GateData(); 
-        $response = $this->post(route('gate.store'), $gate );          
+        //$gate=self::gateData(); 
+        //$gate=self::gateData(); 
+        $gate=Gate::factory()->make();
+        $response = $this->post(route('gate.store'), $gate->toArray() );          
         $responseDelete = $this->delete(route('gate.destroy', $response["id"]));        
         $GateFound= Gate::withTrashed()->find($response["id"]);  
        //dd($GateFound);
         $this->assertSoftDeleted($GateFound);      
     }
-    public  function  GateData()
+    public  function  gateData()
     {        
        // $name= $this->faker->name();
         $description= $this->faker->text();     
 
         $gate=[
-            "users_id" =>$this->faker->randomDigit,
+            "user_id" =>$this->faker->randomDigit,
             'description' => $description,                         
             'name' => $this->faker->name(),                         
         ];

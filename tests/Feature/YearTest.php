@@ -20,8 +20,10 @@ class YearTest extends TestCase
      */
     public function test_YearFetchAll()
     {  
-        $year=self::YearData();
-        $response_create = $this->post(route('Year.store'), $year );         
+       // $year=self::yearData();
+        $year=Year::factory()->make();
+       // dd( $year->toArray());
+        $response_create = $this->post(route('Year.store'), $year->toArray() );         
         $response_getAll = $this->get(route('Year.index')); 
        
        $response_getAll->assertSee($year["name"]);
@@ -29,9 +31,10 @@ class YearTest extends TestCase
     }
     public function test_YearStore()
     {
-        $year=self::YearData();
+        //$year=self::yearData();
       // dd($year["mobile"]);
-        $response = $this->post(route('Year.store'), $year );  
+        $year=Year::factory()->make();
+        $response = $this->post(route('Year.store'), $year->toArray() );  
        // dd($response["id"]);    
         //$years = Year::factory()->count(3)->make();       
         $this->assertGreaterThan(0,Year::all()->count());        
@@ -45,9 +48,10 @@ class YearTest extends TestCase
     }
     public function test_YearUpdate()
     {           
-        $newYear=self::YearData();
-        $responseCreate = $this->post(route('Year.store'), $newYear );
-        $anotherYear=self::YearData();
+        //$newYear=self::yearData();
+        $year=Year::factory()->make();
+        $responseCreate = $this->post(route('Year.store'), $year->toArray() );
+        $anotherYear=self::yearData();
        // $email= $this->faker->unique()->safeEmail();
         //$mobile=$this->faker->regexify('09[0-9]{9}');
         $responseUpdate = $this->put(route('Year.update', $responseCreate['id']),$anotherYear); 
@@ -58,14 +62,15 @@ class YearTest extends TestCase
     }
     public function test_YearDelete()
     { 
-        $year=self::YearData(); 
-        $response = $this->post(route('Year.store'), $year );          
+        //$year=self::yearData(); 
+        $year=Year::factory()->make();
+        $response = $this->post(route('Year.store'), $year->toArray() );          
         $responseDelete = $this->delete(route('Year.destroy', $response["id"]));        
         $YearFound= Year::withTrashed()->find($response["id"]);  
        //dd($YearFound);
         $this->assertSoftDeleted($YearFound);      
     }
-    public  function  YearData()
+    public  function  yearData()
     {        
         $name= $this->faker->name();
         $active=$this->faker->boolean();

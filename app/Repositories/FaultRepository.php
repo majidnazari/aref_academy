@@ -9,12 +9,12 @@ use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepositoryInter
  
 class FaultRepository implements FaultRepositoryInter
 {
-	public function GetAll(){
+	public function getAll(){
 		//return Fault::all();
 		return  FaultResource::collection(Fault::all());
 	}
  
-	public function GetFault($id){
+	public function getFault($id){
 		//return Fault::find($id);
 		$data=Fault::find($id);
         //dd($data);
@@ -28,16 +28,16 @@ class FaultRepository implements FaultRepositoryInter
 		
 	}
 
-	public function AddFault(FaultCreateRequest $request){
+	public function addFault(FaultCreateRequest $request){
 			//return Fault::create($request->all());
-			$data=self::FaultData($request);
+			$data=self::faultData($request);
 
 			$response= Fault::create($data);
 			return new FaultResource($response);       
 	}
-	public function UpdateFault(FaultEditRequest $request,Fault $fault){
+	public function updateFault(FaultEditRequest $request,Fault $fault){
 		//return Fault::create($fault->all());
-		$data=self::FaultData($request);
+		$data=self::faultData($request);
 		   //dd($request->all());
            //dd($data);
 	    $faultUpdated=$fault->update($data);
@@ -48,7 +48,7 @@ class FaultRepository implements FaultRepositoryInter
 		return new FaultResource($fault);	
        
 	}
-	public function DeleteFault(Fault $fault){
+	public function deleteFault(Fault $fault){
 		$isDelete=$fault->delete();
         //dd("ff");
         if(!$isDelete)
@@ -62,7 +62,7 @@ class FaultRepository implements FaultRepositoryInter
 	// 	return $fault->restore();
 	// }
 	// more 
-	public function FaultData($request)
+	public function faultData($request)
     {
         $data=[
 			'description' => $request->description,			

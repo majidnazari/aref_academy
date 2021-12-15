@@ -6,11 +6,11 @@ use App\Models\AbsencePresence;
  
  Interface  AbsencePresenceRepositoryInterface{
 	
-	public function GetAll(); 
-	public function GetAbsencePresence($id);
-	public function AddAbsencePresence(AbsencePresenceCreateRequest $request);
-	public function UpdateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence);
-	public function DeleteAbsencePresence(AbsencePresence $absencepresence);
+	public function getAll(); 
+	public function getAbsencePresence($id);
+	public function addAbsencePresence(AbsencePresenceCreateRequest $request);
+	public function updateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence);
+	public function deleteAbsencePresence(AbsencePresence $absencepresence);
 	//public function RestoreAbsencePresence(AbsencePresence $user);
  
 	// more

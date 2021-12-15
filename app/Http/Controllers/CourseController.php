@@ -18,19 +18,19 @@ class CourseController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);        
     }
     public function show($id)
     {
-        $data=$this->repository->GetCourse($id);
+        $data=$this->repository->getCourse($id);
         return response()->json($data,200);
         
     }
     public function store(CourseCreateRequest $request)
     { 
 
-         $data= $this->repository->AddCourse($request);
+         $data= $this->repository->addCourse($request);
               return response()->json($data,200); 
     }
     public function update(CourseEditRequest $request,$id)
@@ -43,7 +43,7 @@ class CourseController extends Controller
         else
         {
             //return response()->json($request->all(),200);
-            $data= $this->repository->UpdateCourse($request,$course);
+            $data= $this->repository->updateCourse($request,$course);
             return response()->json($data,200);      
         }
            
@@ -58,7 +58,7 @@ class CourseController extends Controller
         if(isset($user))
         {   
             //return $user;
-            $data= $this->repository->DeleteCourse($user);
+            $data= $this->repository->deleteCourse($user);
             return response()->json($data,200);          
             // $isdel= $id->delete();
             // return response()->json($isdel,200);

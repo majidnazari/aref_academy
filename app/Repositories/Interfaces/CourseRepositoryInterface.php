@@ -6,11 +6,11 @@ use App\Models\Course;
  
  Interface  CourseRepositoryInterface{
 	
-	public function GetAll(); 
-	public function GetCourse($id);
-	public function AddCourse(CourseCreateRequest $request);
-	public function UpdateCourse(CourseEditRequest $request,Course $course);
-	public function DeleteCourse(Course $course);
+	public function getAll(); 
+	public function getCourse($id);
+	public function addCourse(CourseCreateRequest $request);
+	public function updateCourse(CourseEditRequest $request,Course $course);
+	public function deleteCourse(Course $course);
 	//public function RestoreCourse(Course $user);
  
 	// more

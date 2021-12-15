@@ -26,6 +26,6 @@ class CourseSession extends Model
     }
     public function AbsencePresence()
     {
-        return $this->hasmany('absencepresence');
+        return $this->hasmany('AbsencePresence');
     }    
 }

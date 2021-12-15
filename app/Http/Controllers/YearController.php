@@ -18,19 +18,19 @@ class YearController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);        
     }
     public function show($id)
     {
-        $data=$this->repository->GetYear($id);
+        $data=$this->repository->getYear($id);
         return response()->json($data,200);
         
     }
     public function store(YearCreateRequest $request)
     { 
 
-         $data= $this->repository->AddYear($request);
+         $data= $this->repository->addYear($request);
               return response()->json($data,200); 
     }
     public function update(YearEditRequest $request,$id)
@@ -43,7 +43,7 @@ class YearController extends Controller
         else
         {
             //return response()->json($request->all(),200);
-            $data= $this->repository->UpdateYear($request,$year);
+            $data= $this->repository->updateYear($request,$year);
             return response()->json($data,200);      
         }
            
@@ -58,7 +58,7 @@ class YearController extends Controller
         if(isset($user))
         {   
             //return $user;
-            $data= $this->repository->DeleteYear($user);
+            $data= $this->repository->deleteYear($user);
             return response()->json($data,200);          
             // $isdel= $id->delete();
             // return response()->json($isdel,200);

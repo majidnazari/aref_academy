@@ -18,12 +18,12 @@ use App\Repositories\Interfaces\CourseRepositoryInterface as userInterface;
  */
 class CourseRepository  implements userInterface
 {
-    public function GetAll(){
+    public function getAll(){
 		//return Course::all();
 		return  CourseResource::collection(Course::all());
 	}
  
-	public function GetCourse($id){
+	public function getCourse($id){
 		//return Course::find($id);
 		$data=Course::find($id);
         //dd($data);
@@ -36,7 +36,7 @@ class CourseRepository  implements userInterface
         }
 	}
 
-	public function AddCourse(CourseCreateRequest $request){
+	public function addCourse(CourseCreateRequest $request){
        
     //    $data=self::CourseData();
     // $data=[
@@ -44,7 +44,7 @@ class CourseRepository  implements userInterface
     //     'active' => $request->active,
     //     //'course' => $request->course,			
     //    ];
-        $data=self::CourseData($request);
+        $data=self::courseData($request);
      //dd($data);
        // dd($request->toarray());
        //dd($request->teacher_id);
@@ -52,10 +52,10 @@ class CourseRepository  implements userInterface
        return new CourseResource($response);       
 	}	
 
-    public function UpdateCourse(CourseEditRequest $request,Course $course){
+    public function updateCourse(CourseEditRequest $request,Course $course){
 		//dd("this is user edit");
 		//dd($course);
-		$data=self::CourseData($request);
+		$data=self::courseData($request);
 		   //dd($request->all());
           // dd($data);
 	    $courseUpdated=$course->update($data);
@@ -66,7 +66,7 @@ class CourseRepository  implements userInterface
 		return new CourseResource($course);	
        
 	}
-	public function DeleteCourse(Course $course)
+	public function deleteCourse(Course $course)
 	{
         //dd("fbcbv");		
         $isDelete=$course->delete();
@@ -77,15 +77,15 @@ class CourseRepository  implements userInterface
         }
 		return new CourseResource($course);		
 	}
-    public function CourseData($request)
+    public function courseData($request)
     {
         $data=[
 			'name' => $request->name,
 			'type' => $request->type,
 			'lesson' => $request->lesson,
-			'users_id' => $request->user_id,
-			'teachers_id' => $request->teacher_id,
-			'years_id' => $request->year_id,
+			'user_id' => $request->user_id,
+			'teacher_id' => $request->teacher_id,
+			'year_id' => $request->year_id,
 			//'course' => $request->course,			
 		   ];
 		   //dd($request->all());

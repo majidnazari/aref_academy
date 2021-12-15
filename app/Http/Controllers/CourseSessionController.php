@@ -21,18 +21,18 @@ class CourseSessionController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);        
     }
     public function show($id)
     {
-        $data=$this->repository->GetCourseSession($id);
+        $data=$this->repository->getCourseSession($id);
         return response()->json($data,200);
         
     }
     public function store(CourseSessionCreateRequest $request)
     {         
-         $data= $this->repository->AddCourseSession($request);
+         $data= $this->repository->addCourseSession($request);
               return response()->json($data,200); 
     }
     public function update(CourseSessionEditRequest $request,$id)
@@ -45,7 +45,7 @@ class CourseSessionController extends Controller
         else
         {
             //return response()->json($request->all(),200);public
-            $data= $this->repository->UpdateCourseSession($request,$year);
+            $data= $this->repository->updateCourseSession($request,$year);
             return response()->json($data,200);      
         }
      
@@ -60,7 +60,7 @@ class CourseSessionController extends Controller
         if(isset($user))
         {   
             //return $user;
-            $data= $this->repository->DeleteCourseSession($user);
+            $data= $this->repository->deleteCourseSession($user);
             return response()->json($data,200);          
             // $isdel= $id->delete();
             // return response()->json($isdel,200);
@@ -69,10 +69,10 @@ class CourseSessionController extends Controller
             return response()->json(new CourseSessionErrorResource("not found to delete"),404);         
     }
    
-    public function AddSessions(CourseSessionAddListOfDaysRequest $request)
+    public function addSessions(CourseSessionAddListOfDaysRequest $request)
     {
         //dd($request);
-         $data=$this->repository->AddListOfDays($request);
+         $data=$this->repository->addListOfDays($request);
          return response()->json($data,200);
         
     }

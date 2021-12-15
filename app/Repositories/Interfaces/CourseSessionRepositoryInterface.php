@@ -7,12 +7,12 @@ use App\Models\CourseSession;
  
  Interface  CourseSessionRepositoryInterface{
 	
-	public function GetAll(); 
-	public function GetCourseSession($id);
-	public function AddCourseSession(CourseSessionCreateRequest $request);
-	public function UpdateCourseSession(CourseSessionEditRequest $request,CourseSession $CourseSession);
-	public function DeleteCourseSession(CourseSession $CourseSession);
-	public function AddListOfDays(CourseSessionAddListOfDaysRequest $request);
+	public function getAll(); 
+	public function getCourseSession($id);
+	public function addCourseSession(CourseSessionCreateRequest $request);
+	public function updateCourseSession(CourseSessionEditRequest $request,CourseSession $CourseSession);
+	public function deleteCourseSession(CourseSession $CourseSession);
+	public function addListOfDays(CourseSessionAddListOfDaysRequest $request);
 	//public function RestoreCourse(Course $user);
  
 	// more

@@ -6,11 +6,11 @@ use App\Models\Year;
  
  Interface  YearRepositoryInterface{
 	
-	public function GetAll(); 
-	public function GetYear($id);
-	public function AddYear(YearCreateRequest $request);
-	public function UpdateYear(YearEditRequest $request,Year $year);
-	public function DeleteYear(Year $year);
+	public function getAll(); 
+	public function getYear($id);
+	public function addYear(YearCreateRequest $request);
+	public function updateYear(YearEditRequest $request,Year $year);
+	public function deleteYear(Year $year);
 	//public function RestoreYear(Year $user);
  
 	// more

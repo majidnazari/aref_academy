@@ -17,7 +17,7 @@ class CourseSessions extends Migration
             $table->id();
             $table->foreignId('user_id');  
             $table->foreignId('course_id');            
-            $table->foreignId('name'); 
+            $table->string('name'); 
             $table->date('start_date');            
             $table->time('start_time'); 
             $table->time('end_time');            

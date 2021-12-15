@@ -27,7 +27,7 @@ class GateEditRequest extends FormRequest
     public function rules()
     {
         return [
-            "users_id" =>  "nullable|int",
+            "user_id" =>  "nullable|int",
             "name" => ["nullable","string"],
             "description" =>  "nullable|min:3|unique:gates,description",
         ];

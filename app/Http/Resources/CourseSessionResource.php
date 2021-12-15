@@ -16,8 +16,8 @@ class CourseSessionResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "user_id" =>$this->users_id,
-            "course_id" => $this->courses_id,            
+            "user_id" =>$this->user_id,
+            "course_id" => $this->course_id,            
             "name" =>$this->name,
             "start_date" => $this->start_date,
             "start_time" => $this->start_time,

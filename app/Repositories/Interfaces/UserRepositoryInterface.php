@@ -6,11 +6,11 @@ use App\Models\User;
  
  Interface  UserRepositoryInterface{
 	
-	public function GetAll(); 
-	public function GetUser($id);
-	public function AddUser(UserCreateRequest $request);
-	public function UpdateUser(UserEditRequest $request,User $user);
-	public function DeleteUser(User $user);
+	public function getAll(); 
+	public function getUser($id);
+	public function addUser(UserCreateRequest $request);
+	public function updateUser(UserEditRequest $request,User $user);
+	public function deleteUser(User $user);
 	//public function RestoreUser(User $user);
  
 	// more

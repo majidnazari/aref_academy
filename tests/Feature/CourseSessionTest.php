@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class CourseSessionTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
+   // use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -22,9 +22,11 @@ class CourseSessionTest extends TestCase
      */
     public function test_CourseSessionFetchAll()
     {  
-        $coursesession=self::CourseSessionData(); 
-        //dd($coursesession);      
-        $response_create = $this->post(route('CourseSession.store'),$coursesession);         
+        //$coursesession=self::courseSessionData(); 
+        $coursesession=CourseSession::factory()->make();
+       // dd($coursesession->toArray());      
+        $response_create = $this->post(route('CourseSession.store'),$coursesession->toArray());
+        //dd($response_create);         
         $response_getAll = $this->get(route('CourseSession.index')); 
         //dd($response_create);
        
@@ -37,17 +39,18 @@ class CourseSessionTest extends TestCase
     }
     public function test_CourseSessionStore()
     {
-        $coursesession=self::CourseSessionData();
+        $coursesession=CourseSession::factory()->make();
+        //$coursesession=self::courseSessionData();
       // dd($coursesession["mobile"]);
-        $response = $this->post(route('CourseSession.store'), $coursesession );  
+        $response = $this->post(route('CourseSession.store'), $coursesession->toArray() );  
        // dd($response["id"]);    
         //$coursesessions = CourseSession::factory()->count(3)->make();       
         $this->assertGreaterThan(0,CourseSession::all()->count());        
        // $this->assertDatabaseCount('coursesessions', 1);
        $this->assertDatabaseHas('course_sessions', [
         'name' => $coursesession["name"],
-        'users_id' => $coursesession["user_id"],
-        'courses_id' => $coursesession["course_id"],
+        'user_id' => $coursesession["user_id"],
+        'course_id' => $coursesession["course_id"],
         'start_date' => $coursesession["start_date"],
         'start_time' => $coursesession["start_time"],
         'end_time' => $coursesession["end_time"],
@@ -64,9 +67,10 @@ class CourseSessionTest extends TestCase
     }
     public function test_CourseSessionUpdate()
     {           
-        $newCourseSession=self::CourseSessionData();
-        $responseCreate = $this->post(route('CourseSession.store'), $newCourseSession );
-        $anotherCourseSession=self::CourseSessionData();
+        //$newCourseSession=self::courseSessionData();
+        $coursesession=CourseSession::factory()->make();
+        $responseCreate = $this->post(route('CourseSession.store'), $coursesession->toArray());
+        $anotherCourseSession=self::courseSessionData();
        // $email= $this->faker->unique()->safeEmail();
         //$mobile=$this->faker->regexify('09[0-9]{9}');
         //dd($anotherCourseSession);
@@ -75,11 +79,11 @@ class CourseSessionTest extends TestCase
         //dd($anotherCourseSession,$responseUpdate);
         $coursesessionFounded = CourseSession::
         where('name', $anotherCourseSession["name"])
-        ->where('courses_id', $anotherCourseSession["course_id"])
+        ->where('course_id', $anotherCourseSession["course_id"])
         ->where('start_date', $anotherCourseSession["start_date"])
         ->where('start_time', $anotherCourseSession["start_time"])
         ->where('end_time', $anotherCourseSession["end_time"])
-        ->where('users_id', $anotherCourseSession["user_id"])
+        ->where('user_id', $anotherCourseSession["user_id"])
         ->first();
         //dd($coursesessionFounded);
        // dd($anotherCourseSession,$coursesessionFounded);
@@ -88,8 +92,9 @@ class CourseSessionTest extends TestCase
     }
     public function test_CourseSessionDelete()
     { 
-        $coursesession=self::CourseSessionData(); 
-        $response = $this->post(route('CourseSession.store'), $coursesession );          
+        //$coursesession=self::courseSessionData();
+        $coursesession=CourseSession::factory()->make(); 
+        $response = $this->post(route('CourseSession.store'), $coursesession->toArray() );          
         $responseDelete = $this->delete(route('CourseSession.destroy', $response["id"]));        
         $CourseSessionFound= CourseSession::withTrashed()->find($response["id"]);  
        //dd($CourseSessionFound);
@@ -124,15 +129,15 @@ class CourseSessionTest extends TestCase
           //dd($response->set(json_decode((new UserResource($user))->toJson());
           $this->assertDatabaseHas('course_sessions', [
             'name' => $response["name"],
-            'users_id' => $response["user_id"],
-            'courses_id' => $response["course_id"],
+            'user_id' => $response["user_id"],
+            'course_id' => $response["course_id"],
             'start_date' => $response["start_date"],
             'start_time' => $response["start_time"],
             'end_time' => $response["end_time"],
             ]);
     }
 
-    public  function  CourseSessionData()
+    public  function  courseSessionData()
     {        
         $name= $this->faker->name();
         $users_id= $this->faker->randomDigit;

@@ -18,25 +18,25 @@ class UserController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->GetAll();
+        $data=$this->repository->getAll();
         return response()->json($data,200);        
     }
     public function show($id)
     {
-        $data=$this->repository->GetUser($id);
+        $data=$this->repository->getUser($id);
         return response()->json($data,200);
         
     }
     public function store(UserCreateRequest $request)
     { 
 
-         $data= $this->repository->AddUser($request);
+         $data= $this->repository->addUser($request);
               return response()->json($data,200); 
     }
     public function update(UserEditRequest $request,User $user)
     {
         //return response()->json($request->all(),200);
-        $data= $this->repository->UpdateUser($request,$user);
+        $data= $this->repository->updateUser($request,$user);
         return response()->json($data,200);         
     }
 
@@ -49,7 +49,7 @@ class UserController extends Controller
         if(isset($user))
         {   
             //return $user;
-            $data= $this->repository->DeleteUser($user);
+            $data= $this->repository->deleteUser($user);
             return response()->json($data,200);          
             // $isdel= $id->delete();
             // return response()->json($isdel,200);

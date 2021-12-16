@@ -24,8 +24,8 @@ class CourseSession extends Model
     {
         return $this->blongsTo('user');
     }
-    public function AbsencePresence()
+    public function course()
     {
-        return $this->hasmany('AbsencePresence');
+        return $this->hasmany('course');
     }    
 }

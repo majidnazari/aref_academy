@@ -27,4 +27,8 @@ class AbsencePresence extends Model
     {
         return $this-blongsTo('CourseSession');
     }
+    public function Teacher()
+    {
+        return $this-blongsTo('teacher');
+    }
 }

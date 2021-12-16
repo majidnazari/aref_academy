@@ -103,3 +103,19 @@ Route::put('/absencepresences/{absencepresence}','AbsencePresenceController@upda
 Route::delete('/absencepresences/{id}','AbsencePresenceController@destroy')->name('AbsencePresence.destroy');
 
 #end region
+
+#region Azmoon
+    Route::get('/azmoon','AzmoonController@index')->name('Azmoon.index');
+    Route::get('/azmoon/{id}','AzmoonController@show')->name('Azmoon.show');
+    Route::post('/azmoon','AzmoonController@store')->name('Azmoon.store');
+    Route::put('/azmoon/{azmoon}','AzmoonController@update')->name('Azmoon.update');
+    Route::delete('/azmoon/{id}','AzmoonController@destroy')->name('Azmoon.destroy');
+#end region
+
+#region coursestudent
+Route::get('/coursestudent','CourseStudentController@index')->name('CourseStudent.index');
+Route::get('/coursestudent/{id}','CourseStudentController@show')->name('CourseStudent.show');
+Route::post('/coursestudent','CourseStudentController@store')->name('CourseStudent.store');
+Route::put('/coursestudent/{coursestudent}','CourseStudentController@update')->name('CourseStudent.update');
+Route::delete('/coursestudent/{id}','CourseStudentController@destroy')->name('CourseStudent.destroy');
+#end region

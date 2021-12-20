@@ -9,8 +9,8 @@ use App\Models\Gate;
 	public function getAll(); 
 	public function getGate($id);
 	public function addGate(GateCreateRequest $request);
-	public function updateGate(GateEditRequest $request,Gate $year);
-	public function deleteGate(Gate $year);
+	public function updateGate(GateEditRequest $request,Gate $gate);
+	public function deleteGate(Gate $gate);
 	//public function RestoreGate(Gate $user);
  
 	// more

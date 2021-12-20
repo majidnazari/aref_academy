@@ -85,16 +85,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 #end region
 
-
-#region Gate
-    Route::get('/gates','GateController@index')->name('gate.index');
-    Route::get('/gates/{id}','GateController@show')->name('gate.show');
-    Route::post('/gates','GateController@store')->name('gate.store');
-    Route::put('/gates/{gate}','GateController@update')->name('gate.update');
-    Route::delete('/gates/{id}','GateController@destroy')->name('gate.destroy');
-
-#end region
-
 #region AbsencePresence
 Route::get('/absencepresences','AbsencePresenceController@index')->name('AbsencePresence.index');
 Route::get('/absencepresences/{id}','AbsencePresenceController@show')->name('AbsencePresence.show');
@@ -118,4 +108,46 @@ Route::get('/coursestudent/{id}','CourseStudentController@show')->name('CourseSt
 Route::post('/coursestudent','CourseStudentController@store')->name('CourseStudent.store');
 Route::put('/coursestudent/{coursestudent}','CourseStudentController@update')->name('CourseStudent.update');
 Route::delete('/coursestudent/{id}','CourseStudentController@destroy')->name('CourseStudent.destroy');
+#end region
+
+#region studentContact
+Route::get('/studentcontact','StudentContactController@index')->name('StudentContact.index');
+Route::get('/studentcontact/{id}','StudentContactController@show')->name('StudentContact.show');
+Route::post('/studentcontact','StudentContactController@store')->name('StudentContact.store');
+Route::put('/studentcontact/{studentcontact}','StudentContactController@update')->name('StudentContact.update');
+Route::delete('/studentcontact/{id}','StudentContactController@destroy')->name('StudentContact.destroy');
+#end region
+
+#region studentFault
+Route::get('/studentfault','StudentFaultController@index')->name('StudentFault.index');
+Route::get('/studentfault/{id}','StudentFaultController@show')->name('StudentFault.show');
+Route::post('/studentfault','StudentFaultController@store')->name('StudentFault.store');
+Route::put('/studentfault/{studentfault}','StudentFaultController@update')->name('StudentFault.update');
+Route::delete('/studentfault/{id}','StudentFaultController@destroy')->name('StudentFault.destroy');
+#end region
+
+#region GroupGate
+Route::get('/groupgate','GroupGateController@index')->name('GroupGate.index');
+Route::get('/groupgate/{id}','GroupGateController@show')->name('GroupGate.show');
+Route::post('/groupgate','GroupGateController@store')->name('GroupGate.store');
+Route::put('/groupgate/{groupgate}','GroupGateController@update')->name('GroupGate.update');
+Route::delete('/groupgate/{id}','GroupGateController@destroy')->name('GroupGate.destroy');
+#end region
+
+#region Gate
+Route::get('/gates','GateController@index')->name('gate.index');
+Route::get('/gates/{id}','GateController@show')->name('gate.show');
+Route::post('/gates','GateController@store')->name('gate.store');
+Route::put('/gates/{gate}','GateController@update')->name('gate.update');
+Route::delete('/gates/{id}','GateController@destroy')->name('gate.destroy');
+
+#end region
+
+#region Group
+Route::get('/groups','GroupController@index')->name('group.index');
+Route::get('/groups/{id}','GroupController@show')->name('group.show');
+Route::post('/groups','GroupController@store')->name('group.store');
+Route::put('/groups/{group}','GroupController@update')->name('group.update');
+Route::delete('/groups/{id}','GroupController@destroy')->name('group.destroy');
+
 #end region

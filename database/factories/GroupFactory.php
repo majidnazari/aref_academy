@@ -25,10 +25,10 @@ class GroupFactory extends Factory
             $user=$user->id;
         }
         //dd( $user);
-        $name=$this->faker->name();
-       
+        $name=$this->faker->unique()->randomElement(["admin","user","readonly"]);       
        
         return  [
+            
             'user_id' => $user,			
 			'name' => $name	
         ];

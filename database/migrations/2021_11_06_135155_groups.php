@@ -16,9 +16,10 @@ class Groups extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('name');  
+            $table->string('name')->unique();  
             $table->timestamps();  
-            $table->softDeletes();          
+            $table->softDeletes(); 
+            $table->unique(array('user_id','name'));            
         });
     }
 

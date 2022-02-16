@@ -15,10 +15,16 @@ class GateFactory extends Factory
    
     public function definition()
     {
-        $user=User::factory()->create();
+        $user=$this->faker->randomElement(User::pluck('id'));// User::factory()->create();
+        if($user===null)
+        {
+            $user= User::factory()->create();
+            $user=$user->id;
+        }
         return [
-                    "user_id"     => $user->id,
-                    "name"        =>$this->faker->name(),
+                   
+                    "user_id"     => $user,
+                    "name"        =>$this->faker->unique()->randomElement(["student","year","fault","azmoon","studentContact"]),
                     "description" =>$this->faker->text(),
         ];
     }

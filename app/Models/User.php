@@ -28,6 +28,7 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
      * @var string[]
      */
     protected $fillable = [
+        "id",
         'mobile',
         'first_name',
         'last_name',
@@ -55,19 +56,19 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
         //'email_verified_at' => 'datetime',
     ];
 
-    public function Gates()
+    public function gates()
     {
         return $this->hasmany('Gate');
     }
-    public function Courses()
+    public function courses()
     {
         return $this->hasmany('Course');
     }
-    public function CourseSessions()
+    public function courseSessions()
     {
         return $this->hasmany('CourseSession');
     }
-    public function AbsencePresences()
+    public function absencePresences()
     {
         return $this->hasmany('AbsencePresence');
     }

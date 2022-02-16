@@ -11,38 +11,30 @@ use App\Repositories\Interfaces\GroupGateRepositoryInterface as GroupGateReposit
  
 class GroupGateRepository implements GroupGateRepositoryInter
 {
-	public function getAll(){
-		//return GroupGate::all();
+	public function getAll(){		
 		return  GroupGateResource::collection(GroupGate::all());
 	}
  
 	public function getGroupGate($id){
-		//return GroupGate::find($id);
-		$data=GroupGate::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=GroupGate::find($id);        
 		if(isset($data))
 			return new GroupGateResource($data);
 		else 
         {           
             return new GroupGateErrorResource("not found to fetch.");
         }
-		
 	}
 
 	public function addGroupGate(GroupGateCreateRequest $request){
-       // dd("hit");
-			//return GroupGate::create($request->all());
-			$data=self::groupGateData($request);
-           // dd($data);
+      
+			$data=self::groupGateData($request);          
 			$response= GroupGate::create($data);
 			return new GroupGateResource($response);       
 	}
 	public function updateGroupGate(GroupGateEditRequest $request,GroupGate $groupGate){
-		//return GroupGate::create($groupGate->all());
-		$data=self::groupGateData($request);
-		   //dd($request->all());
-           //dd($data);
+		
+		$data=self::groupGateData($request);		   
 	    $groupGateUpdated=$groupGate->update($data);
         if(!$groupGateUpdated)
         {
@@ -52,8 +44,7 @@ class GroupGateRepository implements GroupGateRepositoryInter
        
 	}
 	public function deleteGroupGate(GroupGate $groupGate){
-		$isDelete=$groupGate->delete();
-        //dd("ff");
+		$isDelete=$groupGate->delete();       
         if(!$isDelete)
         {
            return new GroupGateErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -73,8 +64,7 @@ class GroupGateRepository implements GroupGateRepositoryInter
 			'group_id' => $request->group_id,	
 			'name' => $request->name,	
 
-		   ];
-		   //dd($request->all());
+		   ];		 
 		return 	$data;
     }
  

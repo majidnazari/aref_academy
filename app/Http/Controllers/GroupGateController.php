@@ -64,9 +64,7 @@ class GroupGateController extends Controller
         {   
             //return $GroupGate;
             $data= $this->repository->deleteGroupGate($GroupGate);
-            return response()->json($data,200);          
-            // $isdel= $id->delete();
-            // return response()->json($isdel,200);
+            return response()->json($data,200); 
         }
         else
             return response()->json(new GroupGateErrorResource("not found to delete"),404);         

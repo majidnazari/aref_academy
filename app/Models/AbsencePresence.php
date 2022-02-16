@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AbsencePresence extends Model
+class AbsencePresence extends Model 
 {
     use HasFactory;
     use SoftDeletes;  
    
     protected $fillable=[
+        "id",
         "user_id",
         "course_session_id",
         "teacher_id",
@@ -21,14 +22,15 @@ class AbsencePresence extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        //return $this->belongsTo("users","id","user_id");
+        return $this->hasOne('App\Models\User', 'id', 'user_id')->select('id', 'email','first_name', 'last_name');
     }
-    public function CourseSession()
+    public function courseSession()
     {
-        return $this-blongsTo('CourseSession');
+        return $this->hasOne('App\Models\CourseSession',"id","course_session_id");
     }
-    public function Teacher()
+    public function teacher()
     {
-        return $this-blongsTo('teacher');
+        return $this-hasOne('App\Models\teacher',"id","teacher_id");
     }
 }

@@ -19,15 +19,13 @@ class CourseTest extends TestCase
      *
      * @return void
      */
-    public function test_CourseFetchAll()
+    public function test_courseFetchAll()
     {  
        // $course=self::courseData();
         $course=Course::factory()->make();
-        //dd($course->toArray());
-        $response_create = $this->post(route('Course.store'),$course->toArray());         
-        $response_getAll = $this->get(route('Course.index')); 
-        //dd($response_create->decodeResponseJson());
        
+        $response_create = $this->post(route('Course.store'),$course->toArray());         
+        $response_getAll = $this->get(route('Course.index'));        
        $response_getAll->assertSee($course["name"]);
        $response_getAll->assertSee($course["user_id"]);
        $response_getAll->assertSee($course["year_id"]);
@@ -35,16 +33,12 @@ class CourseTest extends TestCase
        $response_getAll->assertSee($course["lesson"]);
        $response_getAll->assertSee($course["type"]);    
     }
-    public function test_CourseStore()
+    public function test_courseStore()
     {
-        $course=Course::factory()->make();
-        //$course=self::courseData();
-      // dd($course["mobile"]);
-        $response = $this->post(route('Course.store'), $course->toArray());  
-       // dd($response["id"]);    
-        //$courses = Course::factory()->count(3)->make();       
-        $this->assertGreaterThan(0,Course::all()->count());        
-       // $this->assertDatabaseCount('courses', 1);
+        $course=Course::factory()->make();       
+        $response = $this->post(route('Course.store'), $course->toArray());              
+        $this->assertGreaterThan(0,Course::all()->count());       
+       
        $this->assertDatabaseHas('courses', [
         'name' => $course["name"],
         'type' => $course["type"],
@@ -62,14 +56,13 @@ class CourseTest extends TestCase
         ->first();
          $this->assertNotNull($course_response);        
     }
-    public function test_CourseUpdate()
+    public function test_courseUpdate()
     {     
         $course=Course::factory()->make();      
         //$newCourse=self::courseData();
         $responseCreate = $this->post(route('Course.store'), $course->toArray() );
         $anotherCourse=self::courseData();
-       // $email= $this->faker->unique()->safeEmail();
-        //$mobile=$this->faker->regexify('09[0-9]{9}');
+     
         $responseUpdate = $this->put(route('Course.update', $responseCreate['id']),$anotherCourse); 
         $courseFounded = Course::where('name', $anotherCourse["name"])
         ->where('type', $anotherCourse["type"])
@@ -78,18 +71,18 @@ class CourseTest extends TestCase
         ->where('teacher_id', $anotherCourse["teacher_id"])
         ->where('user_id', $anotherCourse["user_id"])
         ->first();
-       // dd($anotherCourse,$courseFounded);
+      
         $this->assertNotNull($courseFounded);
-        // $this->assertAuthenticatedAs($course);
+       
     }
-    public function test_CourseDelete()
+    public function test_courseDelete()
     { 
         $course=Course::factory()->make();
         //$course=self::courseData(); 
         $response = $this->post(route('Course.store'), $course->toArray() );          
         $responseDelete = $this->delete(route('Course.destroy', $response["id"]));        
         $CourseFound= Course::withTrashed()->find($response["id"]);  
-       //dd($CourseFound);
+      
         $this->assertSoftDeleted($CourseFound);      
     }
     public  function  courseData()
@@ -98,8 +91,7 @@ class CourseTest extends TestCase
         $user_id= $this->faker->randomDigit;
         $years_id= $this->faker->randomDigit;
         $teachers_id=$this->faker->randomDigit;
-        // $type=new Sequence(['public','private']);
-        // $lesson= new Sequence(['Mathematics','Physics','Biology']);
+       
         $typeSample=['public','private'];        
         $lessonSample= ['Mathematics','Physics','Biology'];
 

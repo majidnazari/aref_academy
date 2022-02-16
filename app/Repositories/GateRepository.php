@@ -10,37 +10,29 @@ use App\Repositories\Interfaces\GateRepositoryInterface as GateRepositoryInter;
  
 class GateRepository implements GateRepositoryInter
 {
-	public function getAll(){
-		//return Gate::all();
+	public function getAll(){		
 		return  GateResource::collection(Gate::all());
 	}
  
-	public function getGate($id){
-		//return Gate::find($id);
-		$data=Gate::find($id);
-        //dd($data);
-		//return $data;
+	public function getGate($id){		
+		$data=Gate::find($id);      
 		if(isset($data))
 			return new GateResource($data);
 		else 
         {           
             return new GateErrorResource("not found to fetch.");
         }
-		
 	}
 
 	public function addGate(GateCreateRequest $request){
-			//return Gate::create($request->all());
+			
 			$data=self::gateData($request);
-
 			$response= Gate::create($data);
 			return new GateResource($response);       
 	}
-	public function updateGate(GateEditRequest $request,Gate $gate){
-		//return Gate::create($gate->all());
-		$data=self::gateData($request);
-		   //dd($request->all());
-           //dd($data);
+	public function updateGate(GateEditRequest $request,Gate $gate){		
+		
+		$data=self::gateData($request);		   
 	    $gateUpdated=$gate->update($data);
         if(!$gateUpdated)
         {
@@ -51,7 +43,7 @@ class GateRepository implements GateRepositoryInter
 	}
 	public function deleteGate(Gate $gate){
 		$isDelete=$gate->delete();
-        //dd("ff");
+       
         if(!$isDelete)
         {
            return new GateErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -68,10 +60,8 @@ class GateRepository implements GateRepositoryInter
         $data=[
 			'user_id' => $request->user_id,			
 			'name' => $request->name,			
-			'description' => $request->description,			
-			//'course' => $request->course,			
+			'description' => $request->description,	
 		   ];
-		   //dd($request->all());
 		return 	$data;
     }
  

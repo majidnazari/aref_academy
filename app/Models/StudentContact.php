@@ -21,7 +21,7 @@ class StudentContact extends Model
         "is_called_successfull",
         
     ];
-    public function User()
+    public function user()
     {
         return $this->blongsTo('user');
     }

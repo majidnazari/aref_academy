@@ -18,7 +18,7 @@ class AzmoonController extends Controller
             $this->repository = $repository;
         }
         public function index()
-        {
+        {           
             $data=$this->repository->getAll();
             return response()->json($data,200);        
         }

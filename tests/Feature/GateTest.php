@@ -19,31 +19,23 @@ class GateTest extends TestCase
      *
      * @return void
      */
-    public function test_GateFetchAll()
+    public function test_gateFetchAll()
     {  
         //$gate=self::gateData();
-        $gate=Gate::factory()->make();
-        //dd($gate->toArray());
-        $response_create = $this->post(route('gate.store'),$gate->toArray()); 
-        //dd($response_create->decodeResponseJson());        
-        $response_getAll = $this->get(route('gate.index')); 
-        //dd($response_create->decodeResponseJson());   
-        //dd($gate["description"]);    
+        $gate=Gate::factory()->make();       
+        $response_create = $this->post(route('gate.store'),$gate->toArray());                 
+        $response_getAll = $this->get(route('gate.index'));           
        $response_getAll->assertSee($gate["description"]);
        $response_getAll->assertSee($gate["user_id"]);
        $response_getAll->assertSee($gate["name"]);
        
     }
-    public function test_GateStore()
+    public function test_gateStore()
     {
         //$gate=self::gateData();
-        $gate=Gate::factory()->make();
-      // dd($gate["mobile"]);
-        $response = $this->post(route('gate.store'), $gate->toArray()  );  
-       // dd($response["id"]);    
-        //$gates = Gate::factory()->count(3)->make();       
-        $this->assertGreaterThan(0,Gate::all()->count());        
-       // $this->assertDatabaseCount('gates', 1);
+        $gate=Gate::factory()->make();     
+        $response = $this->post(route('gate.store'), $gate->toArray()  ); 
+        $this->assertGreaterThan(0,Gate::all()->count()); 
        $this->assertDatabaseHas('gates', [
         'user_id' => $gate["user_id"],       
         'description' => $gate["description"],       
@@ -56,38 +48,29 @@ class GateTest extends TestCase
         ->first();
          $this->assertNotNull($gate_response);        
     }
-    public function test_GateUpdate()
+    public function test_gateUpdate()
     {           
         //$newGate=self::gateData();
         $gate=Gate::factory()->make();
         $responseCreate = $this->post(route('gate.store'), $gate->toArray()  );
-        $anotherGate=self::gateData();
-        //dd($responseCreate);
-        
-       // $email= $this->faker->unique()->safeEmail();
-        //$mobile=$this->faker->regexify('09[0-9]{9}');
+        $anotherGate=self::gateData();        
         $responseUpdate = $this->put(route('gate.update', $responseCreate['id']),$anotherGate); 
         $gateFounded = Gate::
         where('user_id', $anotherGate["user_id"])
         ->where('name', $anotherGate["name"])
         ->where('description', $anotherGate["description"])
-        ->first();
-        //dd($responseUpdate->decodeResponseJson());
-       // dd($responseCreate->decodeResponseJson(),$anotherGate,$responseUpdate->decodeResponseJson(),$gateFounded);
-        //dd($anotherGate);
+        ->first();       
         $this->assertNotNull($gateFounded);
-        // $this->assertAuthenticatedAs($gate);
+       
     }
-    public function test_GateDelete()
-    { 
-        //$gate=self::gateData(); 
-        //$gate=self::gateData(); 
+    public function test_gateDelete()
+    {        
         $gate=Gate::factory()->make();
         $response = $this->post(route('gate.store'), $gate->toArray() );          
         $responseDelete = $this->delete(route('gate.destroy', $response["id"]));        
         $GateFound= Gate::withTrashed()->find($response["id"]);  
-       //dd($GateFound);
-        $this->assertSoftDeleted($GateFound);      
+      
+        $this->assertSoftDeleted($GateFound);     
     }
     public  function  gateData()
     {        

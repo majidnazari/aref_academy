@@ -16,12 +16,10 @@ class FaultErrorResource extends JsonResource
     public function __Construct($req)
     {
        $this->error=$req;
-       //dd($err["name"]);
+     
     }
     public function toArray($request)
-    {
-       // dd($this->err["name"]);
-     //   dd($request);
+    {      
         return [
                 'success'   => false,
                 'message'   => 'Validation errors',

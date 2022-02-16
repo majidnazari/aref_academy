@@ -31,8 +31,7 @@ class StudentFaultController extends Controller
             
         }
         public function store(StudentFaultCreateRequest $request)
-        { 
-           // dd("hi");
+        {         
              $data= $this->repository->addStudentFault($request);
                   return response()->json($data,200); 
         }
@@ -63,8 +62,7 @@ class StudentFaultController extends Controller
                 //return $user;
                 $data= $this->repository->deleteStudentFault($studentcontact);
                 return response()->json($data,200);          
-                // $isdel= $id->delete();
-                // return response()->json($isdel,200);
+              
             }
             else
                 return response()->json(new StudentFaultErrorResource("not found to delete"),404);         

@@ -17,17 +17,17 @@ class StudentContactFactory extends Factory
      */
     public function definition()
     {
-        //dd("course session is run");
+       
         $user=$this->faker->randomElement(User::pluck('id'));// User::factory()->create();
         if($user===null)
         {
             $user= User::factory()->create();
             $user=$user->id;
         }
-        //dd( $user);
+      
         $student_id=$this->faker->randomDigit;
         $absencepresence_id=$this->faker->randomDigit;
-        //dd($course->id);
+      
         $who_answered=$this->faker->randomElement(["father","mother","other"]);
         $description=$this->faker->text;
         $is_called_successfull=$this->faker->randomElement([false,true]);

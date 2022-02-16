@@ -31,8 +31,7 @@ class StudentContactController extends Controller
             
         }
         public function store(StudentContactCreateRequest $request)
-        { 
-           // dd("hi");
+        {            
              $data= $this->repository->addStudentContact($request);
                   return response()->json($data,200); 
         }
@@ -56,15 +55,11 @@ class StudentContactController extends Controller
         { 
            // $user=$this->repository->GetStudentContact($id);   
             $studentcontact=StudentContact::find($id);
-    
-           // return $user; 
             if(isset($studentcontact))
             {   
-                //return $user;
+               
                 $data= $this->repository->deleteStudentContact($studentcontact);
-                return response()->json($data,200);          
-                // $isdel= $id->delete();
-                // return response()->json($isdel,200);
+                return response()->json($data,200); 
             }
             else
                 return response()->json(new StudentContactErrorResource("not found to delete"),404);         

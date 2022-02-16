@@ -15,13 +15,10 @@ class CourseSessionErrorResource extends JsonResource
     public $error;
     public function __Construct($req)
     {
-       $this->error=$req;
-       //dd($err["name"]);
+       $this->error=$req;    
     }
     public function toArray($request)
-    {
-       // dd($this->err["name"]);
-     //   dd($request);
+    {     
         return [
                 'success'   => false,
                 'message'   => 'Validation errors',

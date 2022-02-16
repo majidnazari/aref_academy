@@ -17,17 +17,17 @@ class StudentFaultFactory extends Factory
      */
     public function definition()
     {
-        //dd("course session is run");
+       
         $user=$this->faker->randomElement(User::pluck('id'));// User::factory()->create();
         if($user===null)
         {
             $user= User::factory()->create();
             $user=$user->id;
         }
-        //dd( $user);
+       
         $student_id=$this->faker->randomDigit;
         $fault_id=$this->faker->randomDigit;
-        //dd($course->id);       
+            
         return  [
             'user_id' => $user,			
 			'student_id' => $student_id,			

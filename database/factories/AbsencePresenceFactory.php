@@ -25,9 +25,9 @@ class AbsencePresenceFactory extends Factory
             $user= User::factory()->create();
             $user=$user->id;
         }
-       // dd($user->id);  
+       
         $course_session= CourseSession::factory()->create();//$this->faker->randomDigit;
-        //dd($course_session->id);
+        
         $teacher_id=$this->faker->randomDigit;
         $status=['dellay','absent','present'];
 

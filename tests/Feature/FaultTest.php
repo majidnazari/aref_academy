@@ -19,64 +19,48 @@ class FaultTest extends TestCase
      *
      * @return void
      */
-    public function test_FaultFetchAll()
+    public function test_faultFetchAll()
     {  
         //$fault=self::faultData();
         $fault=Fault::factory()->make();//faultData();
         $response_create = $this->post(route('Fault.store'),$fault->toArray());         
-        $response_getAll = $this->get(route('Fault.index')); 
-        //dd($response_create->decodeResponseJson());   
-        //dd($fault["description"]);    
+        $response_getAll = $this->get(route('Fault.index'));           
        $response_getAll->assertSee($fault["description"]);
        
     }
-    public function test_FaultStore()
-    {
-        //$fault=self::faultData();
-      // dd($fault["mobile"]);
+    public function test_faultStore()
+    {      
         $fault=Fault::factory()->make();
-        $response = $this->post(route('Fault.store'), $fault->toArray() );  
-       // dd($response["id"]);    
-        //$faults = Fault::factory()->count(3)->make();       
-        $this->assertGreaterThan(0,Fault::all()->count());        
-       // $this->assertDatabaseCount('faults', 1);
-       $this->assertDatabaseHas('faults', [
+        $response = $this->post(route('Fault.store'), $fault->toArray() );            
+        $this->assertGreaterThan(0,Fault::all()->count());
+        $this->assertDatabaseHas('faults', [
         'description' => $fault["description"],       
         ]);
         $fault_response = Fault::where('description', $fault["description"])->first();
          $this->assertNotNull($fault_response);        
     }
-    public function test_FaultUpdate()
+    public function test_faultUpdate()
     {           
         //$newFault=self::faultData();
         $fault=Fault::factory()->make();
         $responseCreate = $this->post(route('Fault.store'), $fault->toArray() );
-        $anotherFault=self::faultData();
-        //dd($responseCreate);
-        
-       // $email= $this->faker->unique()->safeEmail();
-        //$mobile=$this->faker->regexify('09[0-9]{9}');
+        $anotherFault=self::faultData();      
         $responseUpdate = $this->put(route('Fault.update', $responseCreate['id']),$anotherFault); 
         $faultFounded = Fault::where('description', $anotherFault["description"])->first();
-        //dd($responseUpdate->decodeResponseJson());
-       // dd($responseCreate->decodeResponseJson(),$anotherFault,$responseUpdate->decodeResponseJson(),$faultFounded);
-        //dd($anotherFault);
-        $this->assertNotNull($faultFounded);
-        // $this->assertAuthenticatedAs($fault);
+       
+        $this->assertNotNull($faultFounded);       
     }
-    public function test_FaultDelete()
+    public function test_faultDelete()
     { 
         //$fault=self::faultData(); 
         $fault=Fault::factory()->make();
         $response = $this->post(route('Fault.store'), $fault->toArray());          
         $responseDelete = $this->delete(route('Fault.destroy', $response["id"]));        
-        $FaultFound= Fault::withTrashed()->find($response["id"]);  
-       //dd($FaultFound);
+        $FaultFound= Fault::withTrashed()->find($response["id"]);       
         $this->assertSoftDeleted($FaultFound);      
     }
     public  function  faultData()
-    {        
-       // $name= $this->faker->name();
+    {   
         $description= $this->faker->name();     
 
         $fault=[

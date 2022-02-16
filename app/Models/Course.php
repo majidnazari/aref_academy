@@ -18,15 +18,15 @@ class Course extends Model
         "lesson",
         "type"
     ];
-    public function User()
+    public function user()
     {
         return $this->belongsTo('user');
     }
-    public function Year()
+    public function year()
     {
         return $this->belongsTo('year');
     }
-    public function Teacher()
+    public function teacher()
     {
         return $this->belongsTo('teacher');
     }

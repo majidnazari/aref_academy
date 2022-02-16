@@ -13,12 +13,13 @@ class AbsencePresenceResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {
+    {   
+        //return $this->resource;    
         return [
             "id" => $this->id,
-            "user_id" => $this->user_id,
-            "course_session_id" => $this->course_sessions_id,
-            "teacher_id" => $this->teachers_id,            
+            "user" => new UserResource($this->user),
+            "course_session" => new CourseSessionResource($this->courseSession),
+            "teacher_id" => $this->teacher_id,            
             "status" =>$this->status           
         ];
     }

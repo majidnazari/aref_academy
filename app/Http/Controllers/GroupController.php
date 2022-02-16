@@ -64,9 +64,8 @@ class GroupController extends Controller
         {   
             //return $user;
             $data= $this->repository->deleteGroup($user);
-            return response()->json($data,200);          
-            // $isdel= $id->delete();
-            // return response()->json($isdel,200);
+            return response()->json($data,200);         
+           
         }
         else
             return response()->json(new GroupErrorResource("not found to delete"),404);         

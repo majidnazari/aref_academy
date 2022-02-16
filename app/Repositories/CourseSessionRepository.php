@@ -21,15 +21,13 @@ use App\Repositories\Interfaces\CourseSessionRepositoryInterface as userInterfac
 class CourseSessionRepository  implements userInterface
 {
     public function getAll(){
-		//return CourseSession::all();
+		
 		return  CourseSessionResource::collection(CourseSession::all());
 	}
  
 	public function getCourseSession($id){
-		//return CourseSession::find($id);
-		$data=CourseSession::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=CourseSession::find($id);        
 		if(isset($data))
 			return new CourseSessionResource($data);
 		else 
@@ -38,28 +36,16 @@ class CourseSessionRepository  implements userInterface
         }
 	}
 
-	public function addCourseSession(CourseSessionCreateRequest $request){
-       
-    //    $data=self::CourseSessionData();
-    // $data=[
-    //     'name' =>$request->name,
-    //     'active' => $request->active,
-    //     //'course' => $request->course,			
-    //    ];
-        $data=self::courseSessionData($request);
-        //dd($data);
-       // dd($request->toarray());
-       //dd($request->teacher_id);
+	public function addCourseSession(CourseSessionCreateRequest $request){       
+  
+        $data=self::courseSessionData($request);        
        $response= CourseSession::create($data);
        return new CourseSessionResource($response);       
 	}	
 
     public function updateCourseSession(CourseSessionEditRequest $request,CourseSession $CourseSession){
-		//dd("this is user edit");
-		//dd($course);
+		
 		$data=self::courseSessionData($request);
-		   //dd($request->all());
-          // dd($data);
 	    $courseUpdated=$CourseSession->update($data);
         if(!$courseUpdated)
         {
@@ -69,10 +55,8 @@ class CourseSessionRepository  implements userInterface
        
 	}
 	public function deleteCourseSession(CourseSession $CourseSession)
-	{
-        //dd("fbcbv");		
-        $isDelete=$CourseSession->delete();
-        //dd("ff");
+	{       
+        $isDelete=$CourseSession->delete();       
         if(!$isDelete)
         {
            return new CourseSessionErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -126,10 +110,8 @@ class CourseSessionRepository  implements userInterface
 			'name' => $request->name,
 			'start_date' => $request->start_date,
 			'start_time' => $request->start_time,			
-			'end_time' => $request->end_time,
-			//'course' => $request->course,			
-		   ];
-		   //dd($request->all());
+			'end_time' => $request->end_time,					
+		   ];		  
 		return 	$data;
     }
    

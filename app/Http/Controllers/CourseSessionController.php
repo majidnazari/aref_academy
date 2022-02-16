@@ -55,15 +55,13 @@ class CourseSessionController extends Controller
     { 
        // $user=$this->repository->GetCourseSessions($id);   
         $user=CourseSession::find($id);
-
-       // return $user; 
+      
         if(isset($user))
         {   
-            //return $user;
+           
             $data= $this->repository->deleteCourseSession($user);
             return response()->json($data,200);          
-            // $isdel= $id->delete();
-            // return response()->json($isdel,200);
+           
         }
         else
             return response()->json(new CourseSessionErrorResource("not found to delete"),404);         
@@ -71,7 +69,7 @@ class CourseSessionController extends Controller
    
     public function addSessions(CourseSessionAddListOfDaysRequest $request)
     {
-        //dd($request);
+       
          $data=$this->repository->addListOfDays($request);
          return response()->json($data,200);
         

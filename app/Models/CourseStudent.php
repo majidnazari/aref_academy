@@ -17,15 +17,15 @@ class CourseStudent extends Model
         "user_id_created",
         "user_id_approved"
     ];
-    public function User()
+    public function user()
     {
         return $this->belongsTo('user');
     }
-    public function Course()
+    public function course()
     {
         return $this->belongsTo('course');
     }
-    public function Student()
+    public function student()
     {
         return $this->belongsTo('student');
     }

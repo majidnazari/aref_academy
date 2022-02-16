@@ -19,16 +19,14 @@ class GroupGateTest extends TestCase
      *
      * @return void
      */
-    public function test_GroupGateFetchAll()
+    public function test_groupGateFetchAll()
     {  
         //$groupgate=self::groupgateData();
-        $groupgate=GroupGate::factory()->make();
-        //dd($groupgate->toArray());
-        $response_create = $this->post(route('GroupGate.store'),$groupgate->toArray()); 
-        //dd($response_create->decodeResponseJson());        
+        $groupgate=GroupGate::factory()->make();       
+        $response_create = $this->post(route('GroupGate.store'),$groupgate->toArray());
+              
         $response_getAll = $this->get(route('GroupGate.index')); 
-        //dd($response_create->decodeResponseJson());   
-        //dd($groupgate["description"]);   
+       
        
        $response_getAll->assertSee($groupgate["user_id"]);
        $response_getAll->assertSee($groupgate["group_id"]);
@@ -36,16 +34,13 @@ class GroupGateTest extends TestCase
        $response_getAll->assertSee($groupgate["name"]);
        
     }
-    public function test_GroupGateStore()
+    public function test_groupGateStore()
     {
         //$groupgate=self::groupgateData();
-        $groupgate=GroupGate::factory()->make();
-       //dd($groupgate);
-        $response = $this->post(route('GroupGate.store'), $groupgate->toArray()  );  
-        //dd($response->decoderesponsejson());    
-        //$groupgates = GroupGate::factory()->count(3)->make();       
-        $this->assertGreaterThan(0,GroupGate::all()->count());        
-       // $this->assertDatabaseCount('groupgates', 1);
+        $groupgate=GroupGate::factory()->make();      
+        $response = $this->post(route('GroupGate.store'), $groupgate->toArray()  ); 
+          
+        $this->assertGreaterThan(0,GroupGate::all()->count());
        $this->assertDatabaseHas('group_gates', [
         'user_id' => $groupgate["user_id"],       
         'group_id' => $groupgate["group_id"],       
@@ -59,16 +54,12 @@ class GroupGateTest extends TestCase
         ->first();
         $this->assertNotNull($groupgate_response);        
     }
-    public function test_GroupGateUpdate()
+    public function test_groupGateUpdate()
     {           
         //$newGroupGate=self::groupgateData();
         $groupgate=GroupGate::factory()->make();
         $responseCreate = $this->post(route('GroupGate.store'), $groupgate->toArray()  );
-        $anotherGroupGate=self::groupgateData();
-        //dd($responseCreate);
-        
-       // $email= $this->faker->unique()->safeEmail();
-        //$mobile=$this->faker->regexify('09[0-9]{9}');
+        $anotherGroupGate=self::groupgateData();      
         $responseUpdate = $this->put(route('GroupGate.update', $responseCreate['id']),$anotherGroupGate); 
         $groupgateFounded = GroupGate::
         where('user_id', $anotherGroupGate["user_id"])
@@ -76,26 +67,23 @@ class GroupGateTest extends TestCase
         ->where('gate_id', $anotherGroupGate["gate_id"])
         ->where('name', $anotherGroupGate["name"])
         ->first();
-        //dd($responseUpdate->decodeResponseJson());
-       // dd($responseCreate->decodeResponseJson(),$anotherGroupGate,$responseUpdate->decodeResponseJson(),$groupgateFounded);
-        //dd($anotherGroupGate);
+        
         $this->assertNotNull($groupgateFounded);
-        // $this->assertAuthenticatedAs($groupgate);
+       
     }
-    public function test_GroupGateDelete()
+    public function test_groupGateDelete()
     { 
-        //$groupgate=self::groupgateData(); 
-        //$groupgate=self::groupgateData(); 
+        
         $groupgate=GroupGate::factory()->make();
         $response = $this->post(route('GroupGate.store'), $groupgate->toArray() );          
         $responseDelete = $this->delete(route('GroupGate.destroy', $response["id"]));        
         $GroupGateFound= GroupGate::withTrashed()->find($response["id"]);  
-       //dd($GroupGateFound);
+      
         $this->assertSoftDeleted($GroupGateFound);      
     }
     public  function  groupgateData()
-    {        
-       // $name= $this->faker->name();
+    {       
+       
         $description= $this->faker->text();     
 
         $groupgate=[

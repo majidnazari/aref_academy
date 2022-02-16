@@ -18,7 +18,7 @@ class StudentFault extends Model
         "fault_id"       
         
     ];
-    public function User()
+    public function user()
     {
         return $this->blongsTo('user');
     }

@@ -11,16 +11,13 @@ use App\Repositories\Interfaces\StudentFaultRepositoryInterface as StudentFaultR
  
 class StudentFaultRepository implements StudentFaultRepositoryInter
 {
-	public function getAll(){
-		//return StudentFault::all();
+	public function getAll(){		
 		return  StudentFaultResource::collection(StudentFault::all());
 	}
  
 	public function getStudentFault($id){
-		//return StudentFault::find($id);
-		$data=StudentFault::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=StudentFault::find($id);      
 		if(isset($data))
 			return new StudentFaultResource($data);
 		else 
@@ -31,18 +28,14 @@ class StudentFaultRepository implements StudentFaultRepositoryInter
 	}
 
 	public function addStudentFault(StudentFaultCreateRequest $request){
-        //dd("hit");
-			//return StudentFault::create($request->all());
+       
 			$data=self::studentfaultData($request);
-
 			$response= StudentFault::create($data);
 			return new StudentFaultResource($response);       
 	}
 	public function updateStudentFault(StudentFaultEditRequest $request,StudentFault $studentfault){
-		//return StudentFault::create($studentfault->all());
-		$data=self::studentfaultData($request);
-		   //dd($request->all());
-           //dd($data);
+		
+		$data=self::studentfaultData($request);		  
 	    $studentfaultUpdated=$studentfault->update($data);
         if(!$studentfaultUpdated)
         {
@@ -52,8 +45,7 @@ class StudentFaultRepository implements StudentFaultRepositoryInter
        
 	}
 	public function deleteStudentFault(StudentFault $studentfault){
-		$isDelete=$studentfault->delete();
-        //dd("ff");
+		$isDelete=$studentfault->delete();       
         if(!$isDelete)
         {
            return new StudentFaultErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -72,7 +64,7 @@ class StudentFaultRepository implements StudentFaultRepositoryInter
 			'student_id' => $request->student_id,			
 			'fault_id' => $request->fault_id,	
 		   ];
-		   //dd($request->all());
+		  
 		return 	$data;
     }
  

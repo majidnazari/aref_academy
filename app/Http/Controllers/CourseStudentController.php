@@ -60,8 +60,7 @@ class CourseStudentController extends Controller
             //return $user;
             $data= $this->repository->deleteCourseStudent($coursestudent);
             return response()->json($data,200);          
-            // $isdel= $id->delete();
-            // return response()->json($isdel,200);
+          
         }
         else
             return response()->json(new CourseStudentErrorResource("not found to delete"),404);         

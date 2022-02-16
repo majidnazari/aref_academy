@@ -15,21 +15,19 @@ class CourseStudentFactory extends Factory
      */
     public function definition()
     {
-        //dd("course session is run");
+       
         $user=$this->faker->randomElement(User::pluck('id'));// User::factory()->create();
         if($user===null)
         {
             $user= User::factory()->create();
             $user=$user->id;
         }
-        //dd( $user);
+       
         $course=Course::factory()->create();
-        //dd($course->id);
+        
         $student=$this->faker->randomDigit;
         $status=$this->faker->randomElement(['approved','pending']);              
       
-        //dd( $user);
-        
        return  [
                     "course_id"  => $course,
                     "student_id" => $student,

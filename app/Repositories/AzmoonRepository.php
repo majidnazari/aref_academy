@@ -24,9 +24,7 @@ class AzmoonRepository implements azmoonInterface
  
 	public function getAzmoon($id){
 		//return Azmoon::find($id);
-		$data=Azmoon::find($id);
-        //dd($data);
-		//return $data;
+		$data=Azmoon::find($id);        
 		if(isset($data))
 			return new AzmoonResource($data);
 		else 
@@ -37,20 +35,14 @@ class AzmoonRepository implements azmoonInterface
 
 	public function addAzmoon(AzmoonCreateRequest $request){
     
-        $data=self::azmoonData($request);
-     //dd($data);
-       // dd($request->toarray());
-       //dd($request->teacher_id);
+        $data=self::azmoonData($request);     
        $response= Azmoon::create($data);
        return new AzmoonResource($response);       
 	}	
 
     public function updateAzmoon(AzmoonEditRequest $request,Azmoon $azmoon){
-		//dd("this is user edit");
-		//dd($azmoon);
-		$data=self::azmoonData($request);
-		   //dd($request->all());
-          // dd($data);
+		
+		$data=self::azmoonData($request);		   
 	    $azmoonUpdated=$azmoon->update($data);
         if(!$azmoonUpdated)
         {
@@ -60,10 +52,8 @@ class AzmoonRepository implements azmoonInterface
        
 	}
 	public function deleteAzmoon(Azmoon $azmoon)
-	{
-        //dd("fbcbv");		
-        $isDelete=$azmoon->delete();
-        //dd("ff");
+	{        		
+        $isDelete=$azmoon->delete();        
         if(!$isDelete)
         {
            return new AzmoonErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -79,7 +69,7 @@ class AzmoonRepository implements azmoonInterface
 			'isSMSsend' => $request->isSMSsend,
 			'score' => $request->score,				
 		   ];
-		   //dd($request->all());
+		  
 		return 	$data;
     }
  

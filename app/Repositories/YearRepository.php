@@ -19,15 +19,14 @@ use App\Repositories\Interfaces\YearRepositoryInterface as userInterface;
 class YearRepository  implements userInterface
 {
     public function getAll(){
-		//return Year::all();
+	
 		return  YearResource::collection(Year::all());
 	}
  
 	public function getYear($id){
-		//return Year::find($id);
+		
 		$data=Year::find($id);
-        //dd($data);
-		//return $data;
+        
 		if(isset($data))
 			return new YearResource($data);
 		else 
@@ -38,23 +37,15 @@ class YearRepository  implements userInterface
 
 	public function addYear(YearCreateRequest $request){
        
-    //    $data=self::YearData();
-    // $data=[
-    //     'name' =>$request->name,
-    //     'active' => $request->active,
-    //     //'year' => $request->year,			
-    //    ];
+   
         $data=self::yearData($request);
        $response= Year::create($data);
        return new YearResource($response);       
 	}	
 
     public function updateYear(YearEditRequest $request,Year $year){
-		//dd("this is user edit");
-		//dd($year);
-		$data=self::yearData($request);
-		   //dd($request->all());
-          // dd($data);
+	
+		$data=self::yearData($request);		   
 	    $yearUpdated=$year->update($data);
         if(!$yearUpdated)
         {
@@ -64,10 +55,9 @@ class YearRepository  implements userInterface
        
 	}
 	public function deleteYear(Year $year)
-	{
-        //dd("fbcbv");		
+	{       	
         $isDelete=$year->delete();
-        //dd("ff");
+    
         if(!$isDelete)
         {
            return new YearErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -78,10 +68,9 @@ class YearRepository  implements userInterface
     {
         $data=[
 			'name' => $request->name,
-			'active' => $request->active
-			//'year' => $request->year,			
+			'active' => $request->active						
 		   ];
-		   //dd($request->all());
+		   
 		return 	$data;
     }
  

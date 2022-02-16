@@ -23,7 +23,7 @@ class CourseFactory extends Factory
             $user= User::factory()->create();
             $user=$user->id;
         }
-        //dd($user);
+        
         $year=Year::factory()->create();
         return [
             "user_id" => $user,

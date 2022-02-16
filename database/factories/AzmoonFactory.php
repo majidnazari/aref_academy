@@ -35,7 +35,7 @@ class AzmoonFactory extends Factory
             $course_session= CourseSession::factory()->create();
             $course_session=$course_session->id;
         }
-        //dd($course_session);
+        
         $isSMSsend= $this->faker->boolean;
         $score=$this->faker->randomFloat(2, 10, 100);
         return [

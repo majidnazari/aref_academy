@@ -18,14 +18,13 @@ use App\Repositories\Interfaces\UserRepositoryInterface as userInterface;
 class UserRepository  implements userInterface
 {
     public function getAll(){
-		//return User::all();
+		
 		return  UserResource::collection(User::all());
 	}
  
 	public function getUser($id){
-		//return User::find($id);
-		$data=User::find($id);
-		//return $data;
+		
+		$data=User::find($id);		
 		if(isset($data))
 			return new UserResource($data);
 		else 
@@ -48,8 +47,7 @@ class UserRepository  implements userInterface
 	}	
 
     public function updateUser(UserEditRequest $request,User $user){
-		//dd("this is user edit");
-		//dd($user);
+		
 		$data=[
 			'password' =>bcrypt($request->password),
 			'email' => $request->email,
@@ -58,7 +56,7 @@ class UserRepository  implements userInterface
 			'last_name' => $request->last_name,
 			'type' => $request->type,
 		   ];
-		   //dd($request->all());
+		  
 		return 	$user->update($data);
 	}
 	public function deleteUser(User $user)

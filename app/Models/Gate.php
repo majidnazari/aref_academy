@@ -16,7 +16,7 @@ class Gate extends Model
         "name"  ,
         "description"
     ];
-    public function User()
+    public function user()
     {
         return $this->blongsTo('user');
     }

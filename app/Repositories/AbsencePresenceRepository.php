@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Repositories;
-//use App\Http\Requests\AbsencePresenceCreateRequest;
 use App\Http\Requests\AbsencePresenceCreateRequest;
 use App\Http\Requests\AbsencePresenceEditRequest;
 use App\Http\Resources\AbsencePresenceResource;
+use App\Http\Resources\AbsencePresenceCollection;
 use App\Http\Resources\AbsencePresenceErrorResource;
 //use bcrypt; 
 use App\Models\AbsencePresence;
@@ -19,15 +19,14 @@ use App\Repositories\Interfaces\AbsencePresenceRepositoryInterface as userInterf
 class AbsencePresenceRepository  implements userInterface
 {
     public function getAll(){
-		//return AbsencePresence::all();
-		return  AbsencePresenceResource::collection(AbsencePresence::all());
+		$data= AbsencePresence::with("user")->get();
+		//return  AbsencePresenceResource::collection(AbsencePresence::with("user"));
+		return new  AbsencePresenceCollection ($data);
 	}
  
 	public function getAbsencePresence($id){
-		//return AbsencePresence::find($id);
-		$data=AbsencePresence::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=AbsencePresence::where("id",$id)->with("user")->with("courseSession")->first();       
 		if(isset($data))
 			return new AbsencePresenceResource($data);
 		else 
@@ -36,28 +35,16 @@ class AbsencePresenceRepository  implements userInterface
         }
 	}
 
-	public function addAbsencePresence(AbsencePresenceCreateRequest $request){
-       
-    //    $data=self::AbsencePresenceData();
-    // $data=[
-    //     'name' =>$request->name,
-    //     'active' => $request->active,
-    //     //'absencepresence' => $request->absencepresence,			
-    //    ];
-        $data=self::absencePresenceData($request);
-     //dd($data);
-       // dd($request->toarray());
-       //dd($request->teacher_id);
+	public function addAbsencePresence(AbsencePresenceCreateRequest $request){       
+    
+        $data=self::absencePresenceData($request);    
        $response= AbsencePresence::create($data);
        return new AbsencePresenceResource($response);       
 	}	
 
     public function updateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence){
-		//dd("this is user edit");
-		//dd($absencepresence);
-		$data=self::absencePresenceData($request);
-		   //dd($request->all());
-          // dd($data);
+		
+		$data=self::absencePresenceData($request);		
 	    $absencepresenceUpdated=$absencepresence->update($data);
         if(!$absencepresenceUpdated)
         {
@@ -66,11 +53,10 @@ class AbsencePresenceRepository  implements userInterface
 		return new AbsencePresenceResource($absencepresence);	
        
 	}
-	public function deleteAbsencePresence(AbsencePresence $absencepresence)
-	{
-        //dd("fbcbv");		
+	public function deleteAbsencePresence(AbsencePresence $absencepresence)	{
+       
         $isDelete=$absencepresence->delete();
-        //dd("ff");
+        
         if(!$isDelete)
         {
            return new AbsencePresenceErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -86,7 +72,7 @@ class AbsencePresenceRepository  implements userInterface
             'status' => $request->status,
 			//'absencepresence' => $request->absencepresence,			
 		   ];
-		   //dd($request->all());
+		  
 		return 	$data;
     }
  

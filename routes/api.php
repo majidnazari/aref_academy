@@ -95,6 +95,7 @@ Route::delete('/absencepresences/{id}','AbsencePresenceController@destroy')->nam
 #end region
 
 #region Azmoon
+//Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('/azmoon','AzmoonController@index')->name('Azmoon.index');
     Route::get('/azmoon/{id}','AzmoonController@show')->name('Azmoon.show');
     Route::post('/azmoon','AzmoonController@store')->name('Azmoon.store');

@@ -12,37 +12,30 @@ use App\Repositories\Interfaces\StudentContactRepositoryInterface as StudentCont
 class StudentContactRepository implements StudentContactRepositoryInter
 {
 	public function getAll(){
-		//return StudentContact::all();
+		
 		return  StudentContactResource::collection(StudentContact::all());
 	}
  
 	public function getStudentContact($id){
-		//return StudentContact::find($id);
-		$data=StudentContact::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=StudentContact::find($id);        
 		if(isset($data))
 			return new StudentContactResource($data);
 		else 
         {           
             return new StudentContactErrorResource("not found to fetch.");
         }
-		
 	}
 
 	public function addStudentContact(StudentContactCreateRequest $request){
-        //dd("hit");
-			//return StudentContact::create($request->all());
+       
 			$data=self::studentcontactData($request);
-
 			$response= StudentContact::create($data);
 			return new StudentContactResource($response);       
 	}
 	public function updateStudentContact(StudentContactEditRequest $request,StudentContact $studentcontact){
-		//return StudentContact::create($studentcontact->all());
-		$data=self::studentcontactData($request);
-		 //dd($request->all());
-           //dd($data);
+		
+		$data=self::studentcontactData($request);		
 	    $studentcontactUpdated=$studentcontact->update($data);
         if(!$studentcontactUpdated)
         {
@@ -52,8 +45,7 @@ class StudentContactRepository implements StudentContactRepositoryInter
        
 	}
 	public function deleteStudentContact(StudentContact $studentcontact){
-		$isDelete=$studentcontact->delete();
-        //dd("ff");
+		$isDelete=$studentcontact->delete();     
         if(!$isDelete)
         {
            return new StudentContactErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -75,7 +67,7 @@ class StudentContactRepository implements StudentContactRepositoryInter
 			'description' => $request->description,			
 			'is_called_successfull' => $request->is_called_successfull,	
 		   ];
-		   //dd($request->all());
+		  
 		return 	$data;
     }
  

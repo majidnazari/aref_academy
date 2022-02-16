@@ -19,15 +19,13 @@ use App\Repositories\Interfaces\CourseRepositoryInterface as userInterface;
 class CourseRepository  implements userInterface
 {
     public function getAll(){
-		//return Course::all();
+		
 		return  CourseResource::collection(Course::all());
 	}
  
 	public function getCourse($id){
-		//return Course::find($id);
-		$data=Course::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=Course::find($id);       
 		if(isset($data))
 			return new CourseResource($data);
 		else 
@@ -36,28 +34,16 @@ class CourseRepository  implements userInterface
         }
 	}
 
-	public function addCourse(CourseCreateRequest $request){
-       
-    //    $data=self::CourseData();
-    // $data=[
-    //     'name' =>$request->name,
-    //     'active' => $request->active,
-    //     //'course' => $request->course,			
-    //    ];
-        $data=self::courseData($request);
-     //dd($data);
-       // dd($request->toarray());
-       //dd($request->teacher_id);
+	public function addCourse(CourseCreateRequest $request){       
+    
+        $data=self::courseData($request);     
        $response= Course::create($data);
        return new CourseResource($response);       
 	}	
 
     public function updateCourse(CourseEditRequest $request,Course $course){
-		//dd("this is user edit");
-		//dd($course);
-		$data=self::courseData($request);
-		   //dd($request->all());
-          // dd($data);
+		
+		$data=self::courseData($request);		   
 	    $courseUpdated=$course->update($data);
         if(!$courseUpdated)
         {
@@ -68,9 +54,8 @@ class CourseRepository  implements userInterface
 	}
 	public function deleteCourse(Course $course)
 	{
-        //dd("fbcbv");		
+       		
         $isDelete=$course->delete();
-        //dd("ff");
         if(!$isDelete)
         {
            return new CourseErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -88,7 +73,7 @@ class CourseRepository  implements userInterface
 			'year_id' => $request->year_id,
 			//'course' => $request->course,			
 		   ];
-		   //dd($request->all());
+		 
 		return 	$data;
     }
  

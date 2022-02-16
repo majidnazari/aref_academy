@@ -19,14 +19,14 @@ class GroupGateFactory extends Factory
      */
     public function definition()
     {
-        //dd("course session is run");
+      
         $user=$this->faker->randomElement(User::pluck('id'));// User::factory()->create();
         if($user===null)
         {
             $user= User::factory()->create();
             $user=$user->id;
         }
-        //dd( $user);
+       
         $group=$this->faker->randomElement(Group::pluck('id'));// User::factory()->create();
         if($group===null)
         {

@@ -17,15 +17,15 @@ class Azmoon extends Model
         "isSMSsend",
         "score"        
     ];
-    public function User()
+    public function user()
     {
         return $this->belongsTo('user');
     }
-    public function Course()
+    public function course()
     {
         return $this->belongsTo('course');
     }
-    public function CourseSession()
+    public function courseSession()
     {
         return $this->belongsTo('CourseSession');
     }

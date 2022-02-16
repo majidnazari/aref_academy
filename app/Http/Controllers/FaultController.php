@@ -24,16 +24,13 @@ class FaultController extends Controller
     public function index()
     {
         $data=$this->repository->getAll();
-        return response()->json($data,200);
-        // $data=Fault::all();
-        // return response()->json($data,200);
+        return response()->json($data,200);      
     }
     public function show($id)
     {
         $data=$this->repository->getFault($id);
         return response()->json($data,200);
-        // $data=Fault::find($id);
-        // return response()->json($data,201);
+       
     }
     // public function showAll()
     // {
@@ -48,27 +45,7 @@ class FaultController extends Controller
 
          // $data=Fault::Create($request->all());
          $data= $this->repository->addFault($request);
-              return response()->json($data,200);
-        //return response()->json($data,200);
-    //     $rules=[
-    //         "description" =>  "required|min:4|unique:faults,description",
-    //     ];
-    //     //return response()->json("f",207);
-    // //    $data= $this->repository->AddFault($request);
-    // //    return response()->json($data,200); 
-
-    //         $validated =Validator::make(request()->all(),$rules) ;
-    //        // return response()->json("f",207);
-    //     // $validation=$request->validate([
-    //     //     "description" => "required|min:4",
-    //     // ]);
-    //   // $validated=Validator::make(request()->all(),self::roles());
-    //     if($validated->fails())
-    //         return response()->json($validated->errors(),209);  
-    //     elseif($validated->valid())
-    //         return response()->json("this is valid",205);  
-    //     else 
-    //     return response()->json("this is unknow",206); 
+              return response()->json($data,200);        
        
     }
     public function update(FaultEditRequest $request,Fault $fault)

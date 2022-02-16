@@ -17,31 +17,27 @@ class StudentContactTest extends TestCase
      *
      * @return void
      */
-    public function test_StudentContactFetchAll()
-    {  
-        //$studentcontact=self::studentcontactData();
-        $studentcontact=StudentContact::factory()->make();
-       // dd($studentcontact->toArray());
+    public function test_studentContactFetchAll()
+    { 
+        $studentcontact=StudentContact::factory()->make();       
         $response_create = $this->post(route('StudentContact.store'),$studentcontact->toArray()); 
-        //dd($response_create->decodeResponseJson());        
+             
         $response_getAll = $this->get(route('StudentContact.index')); 
-        //dd($response_create->decodeResponseJson());   
-        //dd($studentcontact["description"]);    
+          
        $response_getAll->assertSee($studentcontact["description"]);
        $response_getAll->assertSee($studentcontact["user_id"]);
        $response_getAll->assertSee($studentcontact["name"]);
        
     }
-    public function test_StudentContactStore()
+    public function test_studentContactStore()
     {
-        //$studentcontact=self::studentcontactData();
+       
         $studentcontact=StudentContact::factory()->make();
-      // dd($studentcontact["mobile"]);
+      
         $response = $this->post(route('StudentContact.store'), $studentcontact->toArray());  
-        //dd($response["id"]);    
-        //$studentcontacts = StudentContact::factory()->count(3)->make();       
+            
         $this->assertGreaterThan(0,StudentContact::all()->count());        
-       // $this->assertDatabaseCount('studentcontacts', 1);
+      
        $this->assertDatabaseHas('student_contacts', [
         'user_id' => $studentcontact["user_id"],       
         'student_id' => $studentcontact["student_id"],       
@@ -61,18 +57,15 @@ class StudentContactTest extends TestCase
         ->first();
          $this->assertNotNull($studentcontact_response);        
     }
-    public function test_StudentContactUpdate()
+    public function test_studentContactUpdate()
     {           
         //$newStudentContact=self::studentcontactData();
         $studentcontact=StudentContact::factory()->make();
         $responseCreate = $this->post(route('StudentContact.store'), $studentcontact->toArray()  );
         $anotherStudentContact=self::studentcontactData();
-        //dd($responseCreate->decodeResponseJson());
-        //dd($anotherStudentContact);
-       // $email= $this->faker->unique()->safeEmail();
-        //$mobile=$this->faker->regexify('09[0-9]{9}');
+      
         $responseUpdate = $this->put(route('StudentContact.update', $responseCreate['id']),$anotherStudentContact); 
-       // dd($responseUpdate->decoderesponseJson());
+      
         $studentcontact_response = StudentContact::
         where('user_id', $anotherStudentContact["user_id"])
         ->where('student_id', $anotherStudentContact["student_id"])
@@ -81,26 +74,22 @@ class StudentContactTest extends TestCase
         ->where('description', $anotherStudentContact["description"])
         ->where('is_called_successfull', $anotherStudentContact["is_called_successfull"])
         ->first();
-        //dd($responseUpdate->decodeResponseJson());
-       // dd($responseCreate->decodeResponseJson(),$anotherStudentContact,$responseUpdate->decodeResponseJson(),$studentcontactFounded);
-        //dd($anotherStudentContact);
+       
         $this->assertNotNull($studentcontact_response);
-        // $this->assertAuthenticatedAs($studentcontact);
+       
     }
-    public function test_StudentContactDelete()
-    { 
-        //$studentcontact=self::studentcontactData(); 
-        //$studentcontact=self::studentcontactData(); 
+    public function test_studentContactDelete()
+    {        
         $studentcontact=StudentContact::factory()->make();
         $response = $this->post(route('StudentContact.store'), $studentcontact->toArray() );          
         $responseDelete = $this->delete(route('StudentContact.destroy', $response["id"]));        
         $StudentContactFound= StudentContact::withTrashed()->find($response["id"]);  
-       //dd($StudentContactFound);
+      
         $this->assertSoftDeleted($StudentContactFound);      
     }
     public  function  studentcontactData()
     {        
-       // $name= $this->faker->name();
+      
         $user_id=$this->faker->randomDigit;
         $student_id=$this->faker->randomDigit;
         $absence_presence_id=$this->faker->randomDigit;

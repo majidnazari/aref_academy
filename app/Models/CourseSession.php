@@ -12,6 +12,7 @@ class CourseSession extends Model
     use SoftDeletes;
     protected $table='course_sessions';
     protected $fillable=[
+        "id",
         "user_id",
         "course_id",
         "name",
@@ -20,12 +21,12 @@ class CourseSession extends Model
         "end_time",
         
     ];
-    public function User()
+    public function user()
     {
         return $this->blongsTo('user');
     }
     public function course()
     {
-        return $this->hasmany('course');
+        return $this->hasMany('course');
     }    
 }

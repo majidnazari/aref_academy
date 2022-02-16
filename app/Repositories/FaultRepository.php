@@ -9,16 +9,13 @@ use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepositoryInter
  
 class FaultRepository implements FaultRepositoryInter
 {
-	public function getAll(){
-		//return Fault::all();
+	public function getAll(){		
 		return  FaultResource::collection(Fault::all());
 	}
  
 	public function getFault($id){
-		//return Fault::find($id);
-		$data=Fault::find($id);
-        //dd($data);
-		//return $data;
+		
+		$data=Fault::find($id);        
 		if(isset($data))
 			return new FaultResource($data);
 		else 
@@ -29,17 +26,14 @@ class FaultRepository implements FaultRepositoryInter
 	}
 
 	public function addFault(FaultCreateRequest $request){
-			//return Fault::create($request->all());
+			
 			$data=self::faultData($request);
-
 			$response= Fault::create($data);
 			return new FaultResource($response);       
 	}
 	public function updateFault(FaultEditRequest $request,Fault $fault){
-		//return Fault::create($fault->all());
-		$data=self::faultData($request);
-		   //dd($request->all());
-           //dd($data);
+		
+		$data=self::faultData($request);		 
 	    $faultUpdated=$fault->update($data);
         if(!$faultUpdated)
         {
@@ -49,8 +43,7 @@ class FaultRepository implements FaultRepositoryInter
        
 	}
 	public function deleteFault(Fault $fault){
-		$isDelete=$fault->delete();
-        //dd("ff");
+		$isDelete=$fault->delete();       
         if(!$isDelete)
         {
            return new FaultErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
@@ -65,10 +58,8 @@ class FaultRepository implements FaultRepositoryInter
 	public function faultData($request)
     {
         $data=[
-			'description' => $request->description,			
-			//'course' => $request->course,			
-		   ];
-		   //dd($request->all());
+			'description' => $request->description,
+		   ];		  
 		return 	$data;
     }
  

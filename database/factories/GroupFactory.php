@@ -24,15 +24,8 @@ class GroupFactory extends Factory
             $user= User::factory()->create();
             $user=$user->id;
         }
-<<<<<<< HEAD
-       
-        $name=$this->faker->name();
-       
-=======
-        //dd( $user);
-        $name=$this->faker->unique()->randomElement(["admin","user","readonly"]);       
->>>>>>> 78523a893b679506d9b6d76897f85d8fbdbefd3d
-       
+        
+        $name=$this->faker->unique()->randomElement(["admin","user","readonly"]); 
         return  [
             
             'user_id' => $user,			

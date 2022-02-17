@@ -27,16 +27,17 @@ class GroupGateTest extends TestCase
     public function test_groupGateFetchAll()
     {  
         //$groupgate=self::groupgateData();
-        $groupgate=GroupGate::factory()->make();       
+        $groupgate=GroupGate::factory()->make(); 
+       
         $response_create = $this->post(route('GroupGate.store'),$groupgate->toArray());
-              
+        //dd(  $response_create->toJson());          
         $response_getAll = $this->get(route('GroupGate.index')); 
        
        
        $response_getAll->assertSee($groupgate["user_id"]);
        $response_getAll->assertSee($groupgate["group_id"]);
        $response_getAll->assertSee($groupgate["gate_id"]);
-       $response_getAll->assertSee($groupgate["name"]);
+       $response_getAll->assertSee($groupgate["user_id_created"]);
        
     }
     public function test_groupGateStore()
@@ -49,11 +50,11 @@ class GroupGateTest extends TestCase
        $this->assertDatabaseHas('group_gates', [
         'user_id' => $groupgate["user_id"],       
         'group_id' => $groupgate["group_id"],       
-        'name' => $groupgate["name"],       
+        'user_id_created' => $groupgate["user_id_created"],       
         ]);
         $groupgate_response = GroupGate::
         where('user_id', $groupgate["user_id"])
-        ->where('name', $groupgate["name"])
+        ->where('user_id_created', $groupgate["user_id_created"])
         ->where('gate_id', $groupgate["gate_id"])
         ->where('group_id', $groupgate["group_id"])
         ->first();
@@ -70,7 +71,7 @@ class GroupGateTest extends TestCase
         where('user_id', $anotherGroupGate["user_id"])
         ->where('group_id', $anotherGroupGate["group_id"])
         ->where('gate_id', $anotherGroupGate["gate_id"])
-        ->where('name', $anotherGroupGate["name"])
+        ->where('user_id_created', $anotherGroupGate["user_id_created"])
         ->first();
         
         $this->assertNotNull($groupgateFounded);
@@ -95,7 +96,7 @@ class GroupGateTest extends TestCase
             "user_id" =>$this->faker->randomDigit,
             "group_id" =>$this->faker->randomDigit,
             "gate_id" =>$this->faker->randomDigit,                                    
-            'name' => $this->faker->firstName(),                         
+            'user_id_created' => $this->faker->randomDigit//$this->faker->firstName(),                         
         ];
         return $groupgate;
     }

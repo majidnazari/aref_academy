@@ -62,7 +62,7 @@ class GroupGateRepository implements GroupGateRepositoryInter
 			'user_id' => $request->user_id,			
 			'gate_id' => $request->gate_id,			
 			'group_id' => $request->group_id,	
-			'name' => $request->name,	
+			'user_id_created' => $request->user_id_created,	
 
 		   ];		 
 		return 	$data;

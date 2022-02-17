@@ -36,15 +36,15 @@ class GroupGateFactory extends Factory
         $gate=$this->faker->randomElement(Gate::pluck('id'));// User::factory()->create();
         if($gate===null)
         {
-            $ugateser= Gate::factory()->create();
-            $gate=$gate->id;
+            $gateuser= Gate::factory()->create();
+            $gate=$gateuser->id;
         }
        $name=$this->faker->firstName();
         return  [
+            'user_id_created' => $user,
             'user_id' => $user,			
 			'group_id' => $group,			
-			'gate_id' => $gate,
-            "name"=>$name
+			'gate_id' => $gate           
         ];
     }
 }

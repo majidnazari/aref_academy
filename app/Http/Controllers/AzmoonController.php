@@ -9,21 +9,29 @@ use App\Models\Azmoon;
 use App\Repositories\AzmoonRepository as AzmoonRepo;
 use App\Http\Resources\AzmoonErrorResource;
 
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
+
 class AzmoonController extends Controller
 {
     
         private $repository;
+        protected $user;
         public function __construct(AzmoonRepo $repository)
         {
             $this->repository = $repository;
+            $this->user = JWTAuth::parseToken()->authenticate();
         }
         public function index()
-        {           
+        {                     
             $data=$this->repository->getAll();
             return response()->json($data,200);        
         }
         public function show($id)
         {
+           
             $data=$this->repository->getAzmoon($id);
             return response()->json($data,200);
             

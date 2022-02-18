@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+    Route::post('/login', [ApiController::class, 'authenticate']);
+    Route::post('/register', [ApiController::class, 'register']);
+   // Route::get('/logout', [ApiController::class, 'logout']);
 #region jwt auth
         /////////////////////////////////////jwt auth //////////////////////////////////////////////////////
-        Route::post('login', 'AuthController@login')->name("login");
-        Route::post('register', 'AuthController@register');
+        // Route::post('/Auth/login', 'AuthController@login')->name("login");
+        // Route::post('/Auth/logout', 'AuthController@logout')->name("logout");
+        // Route::post('Auth/register', 'AuthController@register');
 
         // Refresh route
         Route::get('/refresh',function(){
@@ -86,21 +91,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 #end region
 
 #region AbsencePresence
-Route::get('/absencepresences','AbsencePresenceController@index')->name('AbsencePresence.index');
-Route::get('/absencepresences/{id}','AbsencePresenceController@show')->name('AbsencePresence.show');
-Route::post('/absencepresences','AbsencePresenceController@store')->name('AbsencePresence.store');
-Route::put('/absencepresences/{absencepresence}','AbsencePresenceController@update')->name('AbsencePresence.update');
-Route::delete('/absencepresences/{id}','AbsencePresenceController@destroy')->name('AbsencePresence.destroy');
-
+Route::group(['middleware' => ['jwt.verify'],"prefix"=>"abspre"], function() {
+    Route::get('/logout', [ApiController::class, 'logout']);
+    Route::get('/get_user', [ApiController::class, 'get_user']);
+        Route::get('/absencepresences','AbsencePresenceController@index')->name('AbsencePresence.index');
+        Route::get('/absencepresences/{id}','AbsencePresenceController@show')->name('AbsencePresence.show');
+        Route::post('/absencepresences','AbsencePresenceController@store')->name('AbsencePresence.store');
+        Route::put('/absencepresences/{absencepresence}','AbsencePresenceController@update')->name('AbsencePresence.update');
+        Route::delete('/absencepresences/{id}','AbsencePresenceController@destroy')->name('AbsencePresence.destroy');
+});
 #end region
 
 #region Azmoon
-//Route::group(['middleware' => 'jwt.auth'], function() {
+Route::group(['middleware' => ['jwt.verify'],"prefix"=>"azmoon"], function() {
+    Route::get('/logout', [ApiController::class, 'logout']);
+    Route::get('/get_user', [ApiController::class, 'get_user']);
     Route::get('/azmoon','AzmoonController@index')->name('Azmoon.index');
     Route::get('/azmoon/{id}','AzmoonController@show')->name('Azmoon.show');
     Route::post('/azmoon','AzmoonController@store')->name('Azmoon.store');
     Route::put('/azmoon/{azmoon}','AzmoonController@update')->name('Azmoon.update');
     Route::delete('/azmoon/{id}','AzmoonController@destroy')->name('Azmoon.destroy');
+});
 #end region
 
 #region coursestudent

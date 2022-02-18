@@ -72,6 +72,7 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
     {
         return $this->hasmany('AbsencePresence');
     }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -81,4 +82,5 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
     {
         return [];
     }
+    
 }

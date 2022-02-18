@@ -18,7 +18,7 @@ class BaseAuthController extends Controller
  * @return \Illuminate\Http\JsonResponse
  */
     public function login(Request $request)
-    {
+    {        
        //return response()->json("h1",200);
             $rules = [
                 'email' => 'required|email',

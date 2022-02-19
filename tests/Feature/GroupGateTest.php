@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 class GroupGateTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

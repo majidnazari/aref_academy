@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class GateTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

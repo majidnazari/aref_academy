@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class CourseSessionTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

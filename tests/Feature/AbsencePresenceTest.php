@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 class AbsencePresenceTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
+    use RefreshDatabase;
     //use User;
     //use Fault;
     /**

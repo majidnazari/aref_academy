@@ -22,7 +22,7 @@ class AzmoonController extends Controller
         public function __construct(AzmoonRepo $repository)
         {
             $this->repository = $repository;
-            $this->user = JWTAuth::parseToken()->authenticate();
+            //$this->user = JWTAuth::parseToken()->authenticate();
         }
         public function index()
         {                     

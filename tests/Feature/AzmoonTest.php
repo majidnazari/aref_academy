@@ -12,6 +12,31 @@ class AzmoonTest extends TestCase
 {   
     use WithFaker;
     //use RefreshDatabase;
+    protected $token="";
+
+    public function testLogin()
+    {
+        // $baseUrl = Config::get('app.url') . '/api/login';
+        // $email = Config::get('api.apiEmail');
+        // $password = Config::get('api.apiPassword');
+
+        $baseUrl="localhost:8000/api/login";
+        $email="majidnazarister@gmail.com";
+        $password="12345";
+
+        $response = $this->post(route("login"), [
+            'email' => $email,
+            'password' => $password
+        ]);
+        $this->assertNotNull($response["token"]);
+        $this->token=$response["token"];
+        //dd($response["token"]);
+        // $response
+        //     ->assertStatus(200)
+        //     ->assertJsonStructure([
+        //         'access_token', 'token_type', 'expires_in'
+        //     ]);
+    }
     /**
      * A basic feature test example.
      *
@@ -19,7 +44,8 @@ class AzmoonTest extends TestCase
      */
     public function test_azmoonFetchAll()
     {  
-       
+        $this->testLogin();
+        $this->withHeader('Authorization', 'Bearer ' . $this->token);
         $azmoon=Azmoon::factory()->make();             
         $response_create = $this->post(route('Azmoon.store'),$azmoon->toArray());
                
@@ -34,7 +60,7 @@ class AzmoonTest extends TestCase
     }
     public function test_azmoonStore()
     {        
-        $azmoon=Azmoon::factory()->make();
+        $azmoon=Azmoon::factory()->make();        
       
         $response = $this->post(route('Azmoon.store'), $azmoon->toArray());  
             

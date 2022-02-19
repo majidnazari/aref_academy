@@ -18,8 +18,8 @@ use App\Http\Controllers\ApiController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-    Route::post('/login', [ApiController::class, 'authenticate']);
-    Route::post('/register', [ApiController::class, 'register']);
+    Route::post('/login', [ApiController::class, 'authenticate'])->name("login");
+    Route::post('/register', [ApiController::class, 'register'])->name("register");
    // Route::get('/logout', [ApiController::class, 'logout']);
 #region jwt auth
         /////////////////////////////////////jwt auth //////////////////////////////////////////////////////
@@ -92,8 +92,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 #region AbsencePresence
 Route::group(['middleware' => ['jwt.verify'],"prefix"=>"abspre"], function() {
-    Route::get('/logout', [ApiController::class, 'logout']);
-    Route::get('/get_user', [ApiController::class, 'get_user']);
+   Route::get('/logout', [ApiController::class, 'logout']);
+    //Route::get('/get_user', [ApiController::class, 'get_user']);
         Route::get('/absencepresences','AbsencePresenceController@index')->name('AbsencePresence.index');
         Route::get('/absencepresences/{id}','AbsencePresenceController@show')->name('AbsencePresence.show');
         Route::post('/absencepresences','AbsencePresenceController@store')->name('AbsencePresence.store');
@@ -105,7 +105,7 @@ Route::group(['middleware' => ['jwt.verify'],"prefix"=>"abspre"], function() {
 #region Azmoon
 Route::group(['middleware' => ['jwt.verify'],"prefix"=>"azmoon"], function() {
     Route::get('/logout', [ApiController::class, 'logout']);
-    Route::get('/get_user', [ApiController::class, 'get_user']);
+   // Route::get('/get_user', [ApiController::class, 'get_user']);
     Route::get('/azmoon','AzmoonController@index')->name('Azmoon.index');
     Route::get('/azmoon/{id}','AzmoonController@show')->name('Azmoon.show');
     Route::post('/azmoon','AzmoonController@store')->name('Azmoon.store');

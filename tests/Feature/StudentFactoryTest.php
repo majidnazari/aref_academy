@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class StudentFaultTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

@@ -14,7 +14,7 @@ class AzmoonTest extends TestCase
     //use RefreshDatabase;
     protected static $token=null;   
 
-    public function  testLogin()
+    public function  loginUser()
     {
         // $baseUrl = Config::get('app.url') . '/api/login';
         // $email = Config::get('api.apiEmail');
@@ -41,7 +41,7 @@ class AzmoonTest extends TestCase
     {  
         if(self::$token===null)
         {
-            $this->testLogin();
+            $this->loginUser();
         }   
         
        // $this->withHeader('Authorization', 'Bearer ' . $this->token);
@@ -62,7 +62,7 @@ class AzmoonTest extends TestCase
     {  
         if(self::$token===null)
         {
-            $this->testLogin();
+            $this->loginUser();
         }  
         $headers['Authorization'] = 'Bearer ' . self::$token;  
 
@@ -84,7 +84,7 @@ class AzmoonTest extends TestCase
     { 
         if(self::$token===null)
         {
-            $this->testLogin();
+            $this->loginUser();
         }  
         $headers['Authorization'] = 'Bearer ' . self::$token;   
         $azmoon=Azmoon::factory()->make();
@@ -106,7 +106,7 @@ class AzmoonTest extends TestCase
     { 
         if(self::$token===null)
         {
-            $this->testLogin();
+            $this->loginUser();
         }        
          $this->withHeader('Authorization', 'Bearer ' .self::$token);
         $azmoon=Azmoon::factory()->make(); 

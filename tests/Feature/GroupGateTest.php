@@ -30,7 +30,7 @@ class GroupGateTest extends TestCase
         $groupgate=GroupGate::factory()->make(); 
        
         $response_create = $this->post(route('GroupGate.store'),$groupgate->toArray());
-        //dd(  $response_create->toJson());          
+               
         $response_getAll = $this->get(route('GroupGate.index')); 
        
        

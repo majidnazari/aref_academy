@@ -14,7 +14,31 @@ use Illuminate\Support\Facades\Hash;
 class AbsencePresenceTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
+    //use RefreshDatabase;
+    protected static $token=null;  
+    public function  LoginUser()
+    {
+        // $baseUrl = Config::get('app.url') . '/api/login';
+        // $email = Config::get('api.apiEmail');
+        // $password = Config::get('api.apiPassword');
+
+        $baseUrl="localhost:8000/api/login";
+        $email="majidnazarister@gmail.com";
+        $password="12345";
+
+        $response = $this->post(route("login"), [
+            'email' => $email,
+            'password' => $password
+        ]);
+      if(!isset( $response["token"]))
+      {
+          return "please register at first.";
+      }
+      return $response["token"];
+       // self::$token=$response["token"];
+       // $this->assertNotNull($response["token"]);
+       
+    }
     //use User;
     //use Fault;
     /**
@@ -23,7 +47,10 @@ class AbsencePresenceTest extends TestCase
      * @return void
      */
     public function test_absencePresenceFetchAll()
-    {         
+    {  
+        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
+        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
+
         //$data=self::AbsencePresenceData();   
         $data= AbsencePresence::factory()->make();  
        
@@ -33,6 +60,9 @@ class AbsencePresenceTest extends TestCase
     }
     public function test_absencePresenceStore()
     {
+        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
+        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
+
         $data= AbsencePresence::factory()->make();      
          $response = $this->post(route('AbsencePresence.store'), $data->toArray() );
          $this->assertGreaterThan(0,AbsencePresence::all()->count());        
@@ -53,6 +83,9 @@ class AbsencePresenceTest extends TestCase
     }
     public function test_absencePresenceUpdate()
     {
+        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
+        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
+
        // $newAbsencePresence=self::absencePresenceData();
         $data= AbsencePresence::factory()->make(); 
         $responseCreate = $this->post(route('AbsencePresence.store'), $data->toArray());
@@ -70,6 +103,9 @@ class AbsencePresenceTest extends TestCase
     }
     public function test_absencePresenceDelete()
     {
+        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
+        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
+        
         $data= AbsencePresence::factory()->make();
         //$absencepresence=self::AbsencePresenceData();
         $response = $this->post(route('AbsencePresence.store'), $data->toArray() );

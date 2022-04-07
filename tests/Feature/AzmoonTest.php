@@ -12,9 +12,9 @@ class AzmoonTest extends TestCase
 {   
     use WithFaker;
     //use RefreshDatabase;
-    protected $token="";
+    protected static $token=null;   
 
-    public function testLogin()
+    public function  testLogin()
     {
         // $baseUrl = Config::get('app.url') . '/api/login';
         // $email = Config::get('api.apiEmail');
@@ -28,14 +28,9 @@ class AzmoonTest extends TestCase
             'email' => $email,
             'password' => $password
         ]);
+        self::$token=$response["token"];
         $this->assertNotNull($response["token"]);
-        $this->token=$response["token"];
-        //dd($response["token"]);
-        // $response
-        //     ->assertStatus(200)
-        //     ->assertJsonStructure([
-        //         'access_token', 'token_type', 'expires_in'
-        //     ]);
+       
     }
     /**
      * A basic feature test example.
@@ -44,12 +39,17 @@ class AzmoonTest extends TestCase
      */
     public function test_azmoonFetchAll()
     {  
-        $this->testLogin();
-        $this->withHeader('Authorization', 'Bearer ' . $this->token);
+        if(self::$token===null)
+        {
+            $this->testLogin();
+        }   
+        
+       // $this->withHeader('Authorization', 'Bearer ' . $this->token);
+        $headers['Authorization'] = 'Bearer ' . self::$token;
         $azmoon=Azmoon::factory()->make();             
-        $response_create = $this->post(route('Azmoon.store'),$azmoon->toArray());
-               
-        $response_getAll = $this->get(route('Azmoon.index')); 
+        $response_create = $this->post(route('Azmoon.store'),$azmoon->toArray(),$headers);
+          
+        $response_getAll = $this->get(route('Azmoon.index'),$headers); 
       
        $response_getAll->assertSee($azmoon["score"]);
        $response_getAll->assertSee($azmoon["user_id"]);
@@ -59,10 +59,15 @@ class AzmoonTest extends TestCase
    
     }
     public function test_azmoonStore()
-    {        
-        $azmoon=Azmoon::factory()->make();        
-      
-        $response = $this->post(route('Azmoon.store'), $azmoon->toArray());  
+    {  
+        if(self::$token===null)
+        {
+            $this->testLogin();
+        }  
+        $headers['Authorization'] = 'Bearer ' . self::$token;  
+
+        $azmoon=Azmoon::factory()->make(); 
+        $response = $this->post(route('Azmoon.store'), $azmoon->toArray(),$headers);  
             
         $this->assertGreaterThan(0,Azmoon::all()->count());        
       
@@ -76,12 +81,17 @@ class AzmoonTest extends TestCase
         ]);           
     }
     public function test_azmoonUpdate()
-    {   
+    { 
+        if(self::$token===null)
+        {
+            $this->testLogin();
+        }  
+        $headers['Authorization'] = 'Bearer ' . self::$token;   
         $azmoon=Azmoon::factory()->make();
-        $responseCreate = $this->post(route('Azmoon.store'), $azmoon->toArray());
+        $responseCreate = $this->post(route('Azmoon.store'), $azmoon->toArray(),$headers);
         $anotherAzmoon=self::azmoonData();
 
-        $responseUpdate = $this->put(route('Azmoon.update', $responseCreate['id']),$anotherAzmoon);       
+        $responseUpdate = $this->put(route('Azmoon.update', $responseCreate['id']),$anotherAzmoon,$headers);       
         $azmoonFounded = Azmoon::
         where('user_id', $anotherAzmoon["user_id"])
         ->where('course_id', $anotherAzmoon["course_id"])
@@ -94,9 +104,15 @@ class AzmoonTest extends TestCase
     }
     public function test_azmoonDelete()
     { 
+        if(self::$token===null)
+        {
+            $this->testLogin();
+        }        
+         $this->withHeader('Authorization', 'Bearer ' .self::$token);
         $azmoon=Azmoon::factory()->make(); 
-        $response = $this->post(route('Azmoon.store'), $azmoon->toArray() );          
-        $responseDelete = $this->delete(route('Azmoon.destroy', $response["id"]));        
+        $response = $this->post(route('Azmoon.store'), $azmoon->toArray());          
+        $responseDelete = $this->delete( route('Azmoon.destroy', $response["id"])); 
+           
         $AzmoonFound= Azmoon::withTrashed()->find($response["id"]);  
       
         $this->assertSoftDeleted($AzmoonFound);      

@@ -28,7 +28,11 @@ class AbsencePresenceCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
+            "user_id" => [
+                "required",
+                "int"
+               // Rule::exists("users","id")
+            ],
             "course_session_id" => ["required","int"],
             "teacher_id" => ["required","int"],            
             "status" =>[

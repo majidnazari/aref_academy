@@ -9,6 +9,10 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 
+
+
+use App\Http\Utils\AutheticationUtility;
+
 class ApiController extends Controller
 {
     public function register(Request $request)
@@ -61,29 +65,55 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-
+        
         //Request is validated
         //Crean token
-        try {
-            if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json([
-                	'success' => false,
-                	'message' => 'Login credentials are invalid.',
-                ], 400);
-            }
-        } catch (JWTException $e) {
-    	return $credentials;
-            return response()->json([
-                	'success' => false,
-                	'message' => 'Could not create token.',
-                ], 500);
-        }
+        // try {
+        //     if(!$user)
+        //     {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Login fields are invalid.',
+        //         ], 401);
+        //     }
+        //     if (! $token = JWTAuth::attempt($credentials)) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Login credentials are invalid.',
+        //         ], 400);
+        //     }
+            
+        // } catch (JWTException $e) {
+    	// return $credentials;
+        //     return response()->json([
+        //         	'success' => false,
+        //         	'message' => 'Could not create token.',
+        //         ], 500);
+        // }
+        
+        try { 
+                $authUtil = new AutheticationUtility();       
+                $user_tmp = $authUtil->getUser($request->email, $request->password);   
+                $factory = \JWTFactory::customClaims($user_tmp);
+                $payload = $factory->make();
+                $token = JWTAuth::encode($payload);
+                $tmp=explode('"',$token);
+                //dd($token["-value"]);
+                // dd($tmp[0]);
+                // verify the credentials and create a token for the user
+                if (!$tmp[0]) { 
+                    return response()->json(['error' => 'invalid_token'], 401);
+                } 
+            } catch (JWTException $e) { 
+                // something went wrong 
+                return response()->json(['error' => 'could_not_create_token'], 500); 
+            } 
  	
  		//Token created, return with success response and jwt token
         return response()->json([
             'success' => true,
-            'token' => $token,
-        ]);
+            'token' => $tmp[0],
+        ],200);
     }
  
     public function logout(Request $request)

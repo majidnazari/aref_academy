@@ -13,15 +13,17 @@ class UserResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {
+    {        
+        if ($this->resource != null) {
         //return parent::toArray($request);
-        return [
-            "id" => $this->id,
-            "first_name" => $this->first_name,
-            "last_name" =>  $this->last_name,
-            "email" => $this->email, 
-            "mobile" => $this->mobile,
-            "type" => $this->type        
-        ];
+                return [
+                    "id" => $this->id,
+                    "first_name" => $this->first_name,
+                    "last_name" =>  $this->last_name,
+                    "email" => $this->email, 
+                    "mobile" => $this->mobile,
+                    "type" => $this->type        
+                ];
+            }
     }
 }

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('first_name')->string(20);
             $table->string('last_name')->string(30);
+            $table->boolean('is_teacher')->default(false);
             //$table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

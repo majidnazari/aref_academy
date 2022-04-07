@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 #end region 
 
+
+
 #region user
+Route::group(["middleware" => ["jwt.verify"]], function(){
 
     Route::get('/users','UserController@index')->name('User.index');
     //Route::get('/users/all','UserController@showAll')->name('User.showAll');
@@ -55,7 +59,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/users','UserController@store')->name('User.store');
     Route::put('/users/{user}','UserController@update')->name('User.update');
     Route::delete('/users/{id}','UserController@destroy')->name('User.destroy');
-
+});
 #end region
 
 #region Course
@@ -161,5 +165,11 @@ Route::get('/groups/{id}','GroupController@show')->name('group.show');
 Route::post('/groups','GroupController@store')->name('group.store');
 Route::put('/groups/{group}','GroupController@update')->name('group.update');
 Route::delete('/groups/{id}','GroupController@destroy')->name('group.destroy');
+
+#end region
+
+#region teacher 
+
+    Route::apiResource("teachers",TeacherController::class);
 
 #end region

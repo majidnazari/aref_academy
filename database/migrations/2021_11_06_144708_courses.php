@@ -19,8 +19,8 @@ class Courses extends Migration
             $table->foreignId('year_id');     
             $table->foreignId('teacher_id');       
             $table->string('name'); 
-            $table->enum('lesson',['Mathematics','Physics','Biology']);            
-            $table->enum('type',['public','private']);            
+            $table->enum('lesson',['Mathematics','Physics','Biology'])->default('Mathematics');            
+            $table->enum('type',['public','private'])->default('public');            
             $table->timestamps();  
             $table->softDeletes();          
         });

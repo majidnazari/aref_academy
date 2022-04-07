@@ -17,7 +17,7 @@ class CourseStudents extends Migration
             $table->id();
             $table->foreignId('course_id');            
             $table->foreignId('student_id');            
-            $table->enum('status',['approved','pending']);            
+            $table->enum('status',['approved','pending'])->default('pending');            
             $table->foreignId('user_id_created');
             $table->foreignId('user_id_approved');
             $table->timestamps();   

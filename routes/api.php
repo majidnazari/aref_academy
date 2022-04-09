@@ -170,6 +170,12 @@ Route::delete('/groups/{id}','GroupController@destroy')->name('group.destroy');
 
 #region teacher 
 
-    Route::apiResource("teachers",TeacherController::class);
+    Route::apiResource("teachers",'TeacherController');
+
+#end region
+
+#region  Student   
+    
+    Route::apiResource("students",'StudentController');
 
 #end region

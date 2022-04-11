@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 
 
-use App\Http\Utils\AutheticationUtility;
+use App\Http\Utils\AuthenticationUtility;
 
 class ApiController extends Controller
 {
@@ -92,7 +92,7 @@ class ApiController extends Controller
         // }
         
         try { 
-                $authUtil = new AutheticationUtility();       
+                $authUtil = new AuthenticationUtility();       
                 $user_tmp = $authUtil->getUser($request->email, $request->password);   
                 $factory = \JWTFactory::customClaims($user_tmp);
                 $payload = $factory->make();

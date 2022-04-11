@@ -3,12 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use illuminate\Validation\Rule;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StudentEditeRequest extends FormRequest
+class StudentEditRequest extends FormRequest
 {
+
+    public function authorize()
+    {
+        return true;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -19,21 +25,19 @@ class StudentEditeRequest extends FormRequest
         return [
             "first_name" =>["nullable"],
             "last_name" => ["nullable"],            
-            "phone" => ["nullable","string"],
-            "level" => ["nullable", Rule::in(['1', '2','3','4'])],
+            "phone" => ["nullable","size:11"],          
             "major" => ["nullable", Rule::in(['mathematics', 'experimental', 'humanities', 'art', 'other'])],
             "egucation_level" => ["nullable",Rule::in(['6', '7', '8', '9', '10', '11', '12', '13', '14'])]            
            ];
     }
-    public function  errorValidation(Validator $validator)
+    public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json(
-            [
-                "details" => $validator->errors(),
-                "success" => false,
-                'message'   => 'Validation errors',
-                "code"  =>400
-            ]
-            ));
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'details'      => $validator->errors(),
+            'code'      =>400
+        ],400
+        ));
     }
 }

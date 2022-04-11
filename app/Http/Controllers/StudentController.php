@@ -26,47 +26,40 @@ class StudentController extends Controller
             return response()->json($data,200);        
         }
         public function show($id)
-        {
-            $data=$this->repository->getStudentFault($id);
+        {            
+            $data=$this->repository->getStudent($id);
             return response()->json($data,200);
             
         }
         public function store(StudentCreateRequest $request)
-        {         
-             $data= $this->repository->addStudentFault($request);
+        {                    
+             $data= $this->repository->addStudent($request);
                   return response()->json($data,200); 
         }
         public function update(StudentEditRequest $request,$id)
-        {
-            // $studentcontact=StudentFault::find($id);
-            // if($studentcontact===null)
-            // {
-            //     return new StudentFaultErrorResource("not found to update.");
-            // }
-            // else
-            // {
-            //     //return response()->json($request->all(),200);
-            //     $data= $this->repository->updateStudentFault($request,$studentcontact);
-            //     return response()->json($data,200);      
-            // }
-               
+        {            
+            $data= $this->repository->updateStudent($request,$id);
+            //dd($data->resource);
+            if($data->resource)
+            {
+                return response()->json($data,200);
+            }
+            return response()->json(new StudentErrorResource("not found to edit",404));
+             
         }
     
         public function destroy($id)
         { 
-            // $user=$this->repository->GetStudentFault($id);   
-            //     $studentcontact=StudentFault::find($id);
-        
-            //    // return $user; 
-            //     if(isset($studentcontact))
-            //     {   
-            //         //return $user;
-            //         $data= $this->repository->deleteStudentFault($studentcontact);
-            //         return response()->json($data,200);          
-                
-            //     }
-            //     else
-            //         return response()->json(new StudentFaultErrorResource("not found to delete"),404);         
+            $data= $this->repository->deleteStudent($id); 
+            
+            if($data)          
+            {
+                return response()->json($data,200); 
+
+            }
+            //dd($data);
+            return response()->json(new StudentErrorResource("not found to delete",404));   
+                  
         }     
 
 }

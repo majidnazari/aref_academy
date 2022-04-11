@@ -35,12 +35,9 @@ class UserController extends Controller
               return response()->json($data,200); 
     }
     public function update(UserEditRequest $request,User $user)
-    {
-       
-       
+    {     
         //return response()->json($request->all(),200);
         $data= $this->repository->updateUser($request,$user);
-
         // return (new OrderDetailCollection($orderDetails))->additional([
         //     'errors' => null,
         // ])->response()->setStatusCode(200);

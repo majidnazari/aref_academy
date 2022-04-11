@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 
 
-class AutheticationUtility
+class AuthenticationUtility
 {
     public  function getUser(string  $email, string $password)
     {
@@ -21,7 +21,7 @@ class AutheticationUtility
         // $response = Http::get('localhost:8002/api/login');
         // dd($response->getBody()); 
         //dd(env('REMOTE_SERVER'));
-        $response = Http::post(env('REMOTE_SERVER'), [
+        $response = Http::post(env('REMOTE_SERVER')."login", [
             'email' => "$email",
             'password' => "$password"
         ]);

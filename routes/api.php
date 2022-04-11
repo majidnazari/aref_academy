@@ -176,6 +176,12 @@ Route::delete('/groups/{id}','GroupController@destroy')->name('group.destroy');
 
 #region  Student   
     
-    Route::apiResource("students",'StudentController');
+   // Route::apiResource("students",'StudentController');
+
+Route::get('/student','StudentController@index')->name('Student.index');
+Route::get('/student/{id}','StudentController@show')->name('Student.show');
+Route::post('/student','StudentController@store')->name('Student.store');
+Route::put('/student/{student}','StudentController@update')->name('Student.update');
+Route::delete('/student/{id}','StudentController@destroy')->name('Student.destroy');
 
 #end region

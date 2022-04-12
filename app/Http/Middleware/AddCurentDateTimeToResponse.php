@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Http\Resources\GeneralReource;
 use Carbon\Carbon;
 
 class AddCurentDateTimeToResponse
@@ -18,9 +19,8 @@ class AddCurentDateTimeToResponse
     public function handle(Request $request, Closure $next)// Cross-Origin Resource Sharing (CORS)
     {
         //return $next($request);
-        $response = $next($request);
-        $content = json_decode($response->content(), true);
-
+        $response = $next($request);      
+        //return new GeneralReource($response);
         //Check if the response is JSON
         if (json_last_error() == JSON_ERROR_NONE) {
 

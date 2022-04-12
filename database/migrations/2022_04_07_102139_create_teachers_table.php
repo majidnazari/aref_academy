@@ -17,7 +17,7 @@ class CreateTeachersTable extends Migration
             $table->Increments('id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('mobile',11);
+            $table->string('mobile',11)->unique();
             $table->string('address',100);
             $table->foreignId('user_id');
             $table->timestamps();

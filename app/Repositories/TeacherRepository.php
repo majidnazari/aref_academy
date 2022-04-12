@@ -37,9 +37,10 @@ class TeacherRepository implements TeacheRepo
         $teacher=Teacher::find($id);
         if(!$teacher)
         {
-            //dd("false");
+            dd("false");
             return null;
         }
+        dd("true");
         return $teacher;
        // return new TeacherResource($teacher);
         //return response()->json($teacher,200);

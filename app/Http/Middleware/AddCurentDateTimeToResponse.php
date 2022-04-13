@@ -20,11 +20,11 @@ class AddCurentDateTimeToResponse
     {
         //return $next($request);
         $response = $next($request);      
-        //return new GeneralReource($response);
+        return new GeneralReource($response);
         //Check if the response is JSON
         if (json_last_error() == JSON_ERROR_NONE) {
 
-            return response()->json(["data"=>$response,'currentDateTime' => Carbon::now()->format('Y-m-d H:i:s')],200);
+            return response()->json(["data"=>$request,'currentDateTime' => Carbon::now()->format('Y-m-d H:i:s')],200);
             // $response->setContent(json_encode(array_merge(
             //     $content,
             //     [                    

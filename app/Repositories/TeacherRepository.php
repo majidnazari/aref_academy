@@ -29,25 +29,21 @@ class TeacherRepository implements TeacheRepo
     public function getAll()
     {
        $teachers= Teacher::paginate(env('PAGE_COUNT'));
+       return $teachers;
       // return new  TeacherCollectionresource($teachers);
        return response()->json($teachers,200);
     }   
 	public function getTeacher($id)
-    {       
-        $teacher=Teacher::find($id);
-        if(!$teacher)
-        {
-            dd("false");
-            return null;
-        }
-        dd("true");
+    {     
+        $teacher=Teacher::find($id);      
+       // $result= $teacher !== null ?  $teacher:  null;
         return $teacher;
+       
        // return new TeacherResource($teacher);
         //return response()->json($teacher,200);
     }
 	public function addTeacher(TeacherCreateRequest $request)
-    {
-
+    {       
         $teacher=Teacher::create($request->all());
         return new TeacherResource($teacher);
     }

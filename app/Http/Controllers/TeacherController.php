@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\TeacherRepository;
 use App\Http\Requests\TeacherCreateRequest;
 use App\Http\Requests\TeacherEditRequest;
-use App\Http\Resources\TeacherCollectionResource;
+use App\Http\Resources\TeacherCollection;
 use App\Http\Resources\TeacherResource;
 
 class TeacherController extends Controller
@@ -25,10 +25,18 @@ class TeacherController extends Controller
     public function index()
     {
         
-        $data=$this->repository->getAll(); 
+        $data=$this->repository->getAll();
+        return (new  TeacherCollection($data))->additional([
+            'errors' => null,
+        ])->response()->setStatusCode(200); 
+
+        return new TeacherCollection($data);  
        //dd($data->content());
-        return(json_decode($data->content()));
-       // return new TeacherCollectionResource($data);      
+       // return(json_decode($data->content()));
+        return (new TeacherResource($data))->additional([
+            'errors' => null,
+        ])->response()->setStatusCode(404);  
+        return new TeacherCollection($data);      
         //return response()->json($data,200);
     }
      /**
@@ -37,28 +45,29 @@ class TeacherController extends Controller
      * @param  \App\Models\teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher)
+    public function show($id)
     {       
-        $data=$this->repository->getTeacher($teacher);
+       $data=$this->repository->getTeacher($id);
+       //return ($data);
        if(!$data)
        {   
-            dd("false");
-        }
-       dd("true");
+            return (new TeacherResource(null))->additional([
+                'errors' => ["show teacher" => "there is no teacher to show"],
+            ])->response()->setStatusCode(404);  
+       }
+      
         return (new TeacherResource($data))->additional([
             'errors' => null,
-        ])->response()->setStatusCode(201); 
+        ])->response()->setStatusCode(200); 
 
-        return response()->json($data);
-        if($data != null)
-        { 
-            return (new TeacherResource($data))->additional([
-                'errors' => null,
-            ])->response()->setStatusCode(201);  
-        }
-         return (new TeacherResource($data))->additional([
-            'errors' => ["show teacher" => "there is no teacher to show"],
-        ])->response()->setStatusCode(201);  
+        // return response()->json($data);
+        // if($data != null)
+        // { 
+        //     return (new TeacherResource($data))->additional([
+        //         'errors' => null,
+        //     ])->response()->setStatusCode(201);  
+        // }
+        
         //return ($data);
         
         //return new TeacherResource($data);
@@ -84,9 +93,18 @@ class TeacherController extends Controller
      */
     public function store(TeacherCreateRequest $request)
     {
-        $data=$this->repository->addTeacher($request);
-        dd($data);
-        return response()->json($data,200);
+        $data=$this->repository->addTeacher($request); 
+        if(!$data)
+       {   
+            return (new TeacherResource($data))->additional([
+                'errors' => ["adding teacher" => "there is one more like this"],
+            ])->response()->setStatusCode(400);  
+       }
+      
+        return (new TeacherResource($data))->additional([
+            'errors' => null,
+        ])->response()->setStatusCode(200);        
+        //return response()->json($data,200);
     }
 
    

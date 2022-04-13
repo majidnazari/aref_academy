@@ -95,11 +95,11 @@ class TeacherController extends Controller
     {
         $data=$this->repository->addTeacher($request); 
         if(!$data)
-       {   
-            return (new TeacherResource($data))->additional([
-                'errors' => ["adding teacher" => "there is one more like this"],
-            ])->response()->setStatusCode(400);  
-       }
+        {   
+                return (new TeacherResource($data))->additional([
+                    'errors' => ["adding teacher" => "there is one more like this"],
+                ])->response()->setStatusCode(400);  
+        }
       
         return (new TeacherResource($data))->additional([
             'errors' => null,
@@ -126,9 +126,22 @@ class TeacherController extends Controller
      * @param  \App\Models\teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, teacher $teacher)
+    public function update(TeacherEditRequest $request, int $teacher_id)
     {
-        //
+        $data=$this->repository->updateTeacher($request,$teacher_id);
+        if(!$data)
+        {
+            return (new TeacherResource(null))->additional([
+                "error" =>["update" => "There is no any teacher with this id"]
+            ])->response()->setStatusCode(400);
+    
+        }
+        // if the update theacher be true the request goes to show
+        return (new TeacherResource($request))->additional(
+            [ "error" => null]
+         )->response()->setStatusCode(201);
+        
+        
     }
 
     /**
@@ -137,8 +150,20 @@ class TeacherController extends Controller
      * @param  \App\Models\teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(teacher $teacher)
+    public function destroy(int $teacher_id)
     {
-        //
+       $data=$this->repository->deleteTeacher($teacher_id);
+       if(!$data)
+       {
+           return (new TeacherResource(null))->additional([
+               "error" =>["update" => "There is no any teacher with this id"]
+           ])->response()->setStatusCode(400);
+   
+       }
+       // if the update theacher be true the request goes to show
+       return (new TeacherResource(null))->additional(
+           [ "error" => null]
+        )->response()->setStatusCode(201);
+       
     }
 }

@@ -30,6 +30,7 @@ class TeacherResource extends JsonResource
         if($this->resource!=null)
         {
             return [
+                'id' => $this->id != null ? $this->id : null,
                 'first_name' => $this->first_name,
                 'last_name' =>$this->last_name,
                 'mobile' =>$this->mobile,

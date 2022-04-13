@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class TeacherEditRequest extends FormRequest
 {
@@ -24,7 +27,21 @@ class TeacherEditRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "first_name" => ["nullable","string"],
+            "last_name" => ["nullable","string"],
+            "mobile" => ["nullable","size:11",Rule::unique('teachers')->ignore('id')],
+            "address" => ["nullable","string"],
+            "user_id" => ["nullable","int"]
         ];
+    }
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'details'      => $validator->errors(),
+            'code'      =>400
+        ],400));
+        
     }
 }

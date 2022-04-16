@@ -18,28 +18,34 @@ use App\Repositories\Interfaces\AbsencePresenceRepositoryInterface as userInterf
  */
 class AbsencePresenceRepository  implements userInterface
 {
-    public function getAll(){
-		$data= AbsencePresence::with("user")->get();
+    public function getAll()
+	{
+		$absencepresence= AbsencePresence::with("user")->paginate(env('PAGE_COUNT'));
+		//$teachers= Teacher::paginate(env('PAGE_COUNT'));
+		return $absencepresence;
 		//return  AbsencePresenceResource::collection(AbsencePresence::with("user"));
-		return new  AbsencePresenceCollection ($data);
+		//return new  AbsencePresenceCollection ($data);
 	}
  
 	public function getAbsencePresence($id){
 		
 		$data=AbsencePresence::where("id",$id)->with("user")->with("courseSession")->first();       
-		if(isset($data))
-			return new AbsencePresenceResource($data);
-		else 
-        {           
-            return new AbsencePresenceErrorResource("not found to fetch.");
-        }
+		return $data;
+
+			//return new AbsencePresenceResource($data);
+		// else 
+        // {           
+        //     return new AbsencePresenceErrorResource("not found to fetch.");
+        // }
 	}
 
-	public function addAbsencePresence(AbsencePresenceCreateRequest $request){       
+	public function addAbsencePresence(AbsencePresenceCreateRequest $request)
+	{       
     
-        $data=self::absencePresenceData($request);    
-       $response= AbsencePresence::create($data);
-       return new AbsencePresenceResource($response);       
+        $data=$this->absencePresenceData($request);    
+      	$response= AbsencePresence::create($data);
+		  return $response;
+       // return new AbsencePresenceResource($response);       
 	}	
 
     public function updateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence){

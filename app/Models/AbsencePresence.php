@@ -31,6 +31,6 @@ class AbsencePresence extends Model
     }
     public function teacher()
     {
-        return $this-hasOne('App\Models\teacher',"id","teacher_id");
+        return $this->hasOne('App\Models\teacher',"id","teacher_id");
     }
 }

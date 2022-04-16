@@ -14,13 +14,15 @@ class AbsencePresenceResource extends JsonResource
      */
     public function toArray($request)
     {   
-        //return $this->resource;    
-        return [
-            "id" => $this->id,
-            "user" => new UserResource($this->user),
-            "course_session" => new CourseSessionResource($this->courseSession),
-            "teacher_id" => $this->teacher_id,            
-            "status" =>$this->status           
-        ];
+        //return $this->resource;   
+        if ($this->resource != null) { 
+            return [ 
+                "id" => $this->id !== null ? $this->id : null,
+                "user" => new UserResource($this->user),
+                "course_session" => new CourseSessionResource($this->courseSession),
+                "teacher_id" => $this->teacher_id,            
+                "status" =>$this->status           
+            ];
+        }
     }
 }

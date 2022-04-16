@@ -14,14 +14,16 @@ class CourseSessionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            "id" => $this->id,
-            "user_id" =>$this->user_id,
-            "course_id" => $this->course_id,            
-            "name" =>$this->name,
-            "start_date" => $this->start_date,
-            "start_time" => $this->start_time,
-            "end_time" => $this->end_time,               
-        ];
+        if ($this->resource != null) {
+            return [
+                "id" => $this->id,
+                "user_id" => $this->user_id,
+                "course_id" => $this->course_id,
+                "name" => $this->name,
+                "start_date" => $this->start_date,
+                "start_time" => $this->start_time,
+                "end_time" => $this->end_time,
+            ];
+        }
     }
 }

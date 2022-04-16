@@ -32,7 +32,7 @@ class TeacherRepository implements TeacheRepo
        $teachers= Teacher::paginate(env('PAGE_COUNT'));
        return $teachers;
       // return new  TeacherCollectionresource($teachers);
-       return response()->json($teachers,200);
+      // return response()->json($teachers,200);
     }   
 	public function getTeacher($id)
     {     
@@ -45,7 +45,7 @@ class TeacherRepository implements TeacheRepo
     }
 	public function addTeacher(TeacherCreateRequest $request)
     {       
-        $teacher=Teacher::create($request->all());
+        $teacher=Teacher::create($this->teacherData($request)/*$request->all()*/);
         return $teacher;
         //return new TeacherResource($teacher);
     }

@@ -8,20 +8,24 @@
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
-        "laravel/framework": "^8.65",
-        "laravel/sanctum": "^2.11",
+        "laravel/framework": "^9.2",
+        "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.5",
+        "mll-lab/laravel-graphql-playground": "^2.6",
         "nesbot/carbon": "^2.54",
+        "nuwave/lighthouse": "^5.47",
+        "stella-maris/clock": "^0.1.4",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
+        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
+        "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10"
+        
     },
     "autoload": {
         "psr-4": {

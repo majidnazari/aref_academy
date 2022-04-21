@@ -107,15 +107,15 @@ Route::group(['middleware' => ['jwt.verify'],"prefix"=>"abspre"], function() {
 #end region
 
 #region Azmoon
-Route::group(['middleware' => ['jwt.verify'],"prefix"=>"azmoon"], function() {
-    Route::get('/logout', [ApiController::class, 'logout']);
+//Route::group(['middleware' => ['jwt.verify'],"prefix"=>"azmoon"], function() {
+    //Route::get('/logout', [ApiController::class, 'logout']);
    // Route::get('/get_user', [ApiController::class, 'get_user']);
     Route::get('/azmoon','AzmoonController@index')->name('Azmoon.index');
     Route::get('/azmoon/{id}','AzmoonController@show')->name('Azmoon.show');
     Route::post('/azmoon','AzmoonController@store')->name('Azmoon.store');
     Route::put('/azmoon/{azmoon}','AzmoonController@update')->name('Azmoon.update');
     Route::delete('/azmoon/{id}','AzmoonController@destroy')->name('Azmoon.destroy');
-});
+//});
 #end region
 
 #region coursestudent

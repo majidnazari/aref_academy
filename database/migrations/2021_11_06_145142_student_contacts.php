@@ -15,10 +15,10 @@ class StudentContacts extends Migration
     {
         Schema::create('student_contacts', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');            
-            $table->integer('students_id'); 
-            $table->integer('absence_presences_id'); 
-            $table->enum('who_answered',['father','mother','other']);            
+            $table->foreignId('user_id');            
+            $table->foreignId('student_id'); 
+            $table->foreignId('absence_presence_id'); 
+            $table->enum('who_answered',['father','mother','other'])->default('father');            
             $table->text('description');
             $table->boolean('is_called_successfull')->default(false);
             $table->timestamps();

@@ -2,15 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\SoftDeletes;
+//use Illuminate\Contracts\Auth\Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject //extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+
+    //public function getAuthIdentifierName();
+    //public function getAuthIdentifier();
+    //public function getAuthPassword();
+    // public function getRememberToken();
+    // public function setRememberToken($value);
+    // public function getRememberTokenName();
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +28,13 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        "id",
+        'mobile',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'type'
     ];
 
     /**
@@ -30,7 +44,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        //'remember_token',
     ];
 
     /**
@@ -39,6 +53,34 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        //'email_verified_at' => 'datetime',
     ];
+
+    public function gates()
+    {
+        return $this->hasmany('Gate');
+    }
+    public function courses()
+    {
+        return $this->hasmany('Course');
+    }
+    public function courseSessions()
+    {
+        return $this->hasmany('CourseSession');
+    }
+    public function absencePresences()
+    {
+        return $this->hasmany('AbsencePresence');
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+    
 }

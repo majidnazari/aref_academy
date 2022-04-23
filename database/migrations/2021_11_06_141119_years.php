@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CourseYears extends Migration
+class Years extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CourseYears extends Migration
      */
     public function up()
     {
-        Schema::create('course_years', function (Blueprint $table) {
+        Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');            
-            $table->integer('courses_id');            
-            $table->char('year',4);            
-            $table->timestamps();            
+            $table->string('name');            
+            $table->boolean('active')->default(false);            
+            //$table->char('year',4)->nullable();            
+            $table->timestamps(); 
+            $table->softDeletes();           
         });
     }
     /**
@@ -28,7 +29,7 @@ class CourseYears extends Migration
      */
     public function down()
     {
-        schema::dropIfExists('course_years');
+        schema::dropIfExists('years');
     }
     
 

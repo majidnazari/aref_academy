@@ -15,12 +15,14 @@ class Courses extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');     
-            $table->integer('teachers_id');       
-            $table->integer('name'); 
-            $table->enum('lesson',['Mathematics','Physics','Biology']);            
-            $table->enum('type',['public','private']);            
-            $table->timestamps();            
+            $table->foreignId('user_id');     
+            $table->foreignId('year_id');     
+            $table->foreignId('teacher_id');       
+            $table->string('name'); 
+            $table->enum('lesson',['Mathematics','Physics','Biology'])->default('Mathematics');            
+            $table->enum('type',['public','private'])->default('public');            
+            $table->timestamps();  
+            $table->softDeletes();          
         });
     }
     /**

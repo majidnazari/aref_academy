@@ -15,10 +15,11 @@ class StudentFaults extends Migration
     {
         Schema::create('student_faults', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');            
-            $table->integer('students_id');            
-            $table->integer('faults_id');            
-            $table->timestamps();            
+            $table->foreignId('user_id');            
+            $table->foreignId('student_id');            
+            $table->foreignId('fault_id');            
+            $table->timestamps();
+            $table->softDeletes();            
         });
     }
 

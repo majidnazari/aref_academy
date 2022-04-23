@@ -15,11 +15,14 @@ class Gates extends Migration
     {
         Schema::create('gates', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');
-            $table->string('name');          
+            $table->foreignId('user_id');
+            $table->string('name')->unique();          
             $table->text('description');
-            $table->timestamps();            
+            $table->timestamps();  
+            $table->softDeletes();   
+            $table->unique(array('user_id','name'));       
         });
+      
     }
 
     /**

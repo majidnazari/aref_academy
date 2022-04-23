@@ -15,12 +15,13 @@ class CourseStudents extends Migration
     {
         Schema::create('course_students', function (Blueprint $table) {
             $table->id();
-            $table->integer('Courses_id');            
-            $table->integer('students_id');            
-            $table->enum('status',['approved','pending']);            
-            $table->integer('users_id_created');
-            $table->integer('users_id_approved');
-            $table->timestamps();            
+            $table->foreignId('course_id');            
+            $table->foreignId('student_id');            
+            $table->enum('status',['approved','pending'])->default('pending');            
+            $table->foreignId('user_id_created');
+            $table->foreignId('user_id_approved');
+            $table->timestamps();   
+            $table->softDeletes();         
         });
     }
     /**

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 #end region 
 
+
+
 #region user
+Route::group(["middleware" => ["jwt.verify"]], function(){
 
     Route::get('/users','UserController@index')->name('User.index');
     //Route::get('/users/all','UserController@showAll')->name('User.showAll');
@@ -55,7 +59,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/users','UserController@store')->name('User.store');
     Route::put('/users/{user}','UserController@update')->name('User.update');
     Route::delete('/users/{id}','UserController@destroy')->name('User.destroy');
-
+});
 #end region
 
 #region Course
@@ -103,15 +107,15 @@ Route::group(['middleware' => ['jwt.verify'],"prefix"=>"abspre"], function() {
 #end region
 
 #region Azmoon
-Route::group(['middleware' => ['jwt.verify'],"prefix"=>"azmoon"], function() {
-    Route::get('/logout', [ApiController::class, 'logout']);
+//Route::group(['middleware' => ['jwt.verify'],"prefix"=>"azmoon"], function() {
+    //Route::get('/logout', [ApiController::class, 'logout']);
    // Route::get('/get_user', [ApiController::class, 'get_user']);
     Route::get('/azmoon','AzmoonController@index')->name('Azmoon.index');
     Route::get('/azmoon/{id}','AzmoonController@show')->name('Azmoon.show');
     Route::post('/azmoon','AzmoonController@store')->name('Azmoon.store');
     Route::put('/azmoon/{azmoon}','AzmoonController@update')->name('Azmoon.update');
     Route::delete('/azmoon/{id}','AzmoonController@destroy')->name('Azmoon.destroy');
-});
+//});
 #end region
 
 #region coursestudent
@@ -161,5 +165,23 @@ Route::get('/groups/{id}','GroupController@show')->name('group.show');
 Route::post('/groups','GroupController@store')->name('group.store');
 Route::put('/groups/{group}','GroupController@update')->name('group.update');
 Route::delete('/groups/{id}','GroupController@destroy')->name('group.destroy');
+
+#end region
+
+#region teacher 
+
+    Route::apiResource("teacher",'TeacherController');
+
+#end region
+
+#region  Student  
+    
+   // Route::apiResource("students",'StudentController');
+
+Route::get('/student','StudentController@index')->name('Student.index');
+Route::get('/student/{id}','StudentController@show')->name('Student.show');
+Route::post('/student','StudentController@store')->name('Student.store');
+Route::put('/student/{student}','StudentController@update')->name('Student.update');
+Route::delete('/student/{id}','StudentController@destroy')->name('Student.destroy');
 
 #end region

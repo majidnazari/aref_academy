@@ -8,30 +8,58 @@ use App\Http\Requests\AbsencePresenceEditRequest;
 use App\Models\AbsencePresence;
 use App\Repositories\AbsencePresenceRepository as AbsencePresenceRepo;
 use App\Http\Resources\AbsencePresenceErrorResource;
+use App\Http\Resources\AbsencePresenceResource;
+use App\Http\Resources\AbsencePresenceCollection;
+
 
 class AbsencePresenceController extends Controller
 {
     private $repository;
     public function __construct(AbsencePresenceRepo $repository)
-    {
+    { 
         $this->repository = $repository;
     }
     public function index()
     {
         $data=$this->repository->getAll();
-        return response()->json($data,200);        
+        return (new AbsencePresenceCollection($data))->additional([
+            "error" => null
+        ])->response()->setStatusCode(200);
+        // if(! $data)
+        // {
+            
+        // }
+        // return response()->json($data,200);        
     }
     public function show($id)
     {
         $data=$this->repository->getAbsencePresence($id);
-        return response()->json($data,200);
+        if(! $data)
+        {
+            return (new AbsencePresenceResource(null))->additional([
+                "error" => ["absence presence" => "there is no any record with this id."]
+            ])->response()->setStatusCode(400);
+        }
+        return (new AbsencePresenceResource($data))->additional([
+            "error" => null
+        ])->response()->setStatusCode(201);
+       // return response()->json($data,200);
         
     }
     public function store(AbsencePresenceCreateRequest $request)
     { 
 
          $data= $this->repository->addAbsencePresence($request);
-              return response()->json($data,200); 
+         if(! $data)
+         {
+             return (new AbsencePresenceResource(null))->additional([
+                 "error" => ["absence presence" => "there is a problem to save data."]
+             ])->response()->setStatusCode(400);
+         }
+         return (new AbsencePresenceResource($data))->additional([
+             "error" => null
+         ])->response()->setStatusCode(201);
+       //  return response()->json($data,200); 
     }
     public function update(AbsencePresenceEditRequest $request,$id)
     {

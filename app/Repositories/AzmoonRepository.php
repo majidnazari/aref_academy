@@ -19,7 +19,7 @@ class AzmoonRepository implements azmoonInterface
 {        
     public function getAll(){
 		//return Azmoon::all();
-		return  AzmoonResource::collection(Azmoon::all());
+		return  AzmoonResource::collection(Azmoon::paginate(env('PAGE_COUNT')));
 	}
  
 	public function getAzmoon($id){

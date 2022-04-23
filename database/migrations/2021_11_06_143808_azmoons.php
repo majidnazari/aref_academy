@@ -19,7 +19,7 @@ class Azmoons extends Migration
             $table->foreignId('course_id');            
             $table->foreignId('course_session_id');            
             $table->boolean('isSMSsend')->default(false);            
-            $table->float('score');                      
+            $table->float('score')->nullable();                      
             $table->timestamps();  
             $table->softDeletes();          
         });

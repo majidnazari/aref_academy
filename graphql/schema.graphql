@@ -20,7 +20,7 @@ type Query {
 }
 
 "Account of a person who utilizes this application."
-type User {
+type User_tmp {
     "Unique primary key."
     id: ID!
 
@@ -40,6 +40,55 @@ type User {
     updated_at: DateTime!
 }
 
-type Query {
-  hello(name: String): String!
+type User {
+  id: ID!
+  type: String!
+  mobile: String! 
+  email: String!
+  password: String!
+  first_name: String!
+  last_name: String!
+  is_teacher: Int!
+  created_at: String!
+  updated_at: String
 }
+type Mutation {
+  createUser(input: CreateUserInput! @spread): User! @create  
+
+  updateUser(
+    id:ID!
+    type: String
+    mobile: String    
+    first_name: String
+    last_name: String
+    is_teacher: Int  
+    ): User! @update
+
+    deleteUser(id:ID!): User @delete
+}
+
+input CreateUserInput {
+  type: String!
+  mobile: String!  
+  email: String!
+  password: String!
+  first_name: String!
+  last_name: String!
+  is_teacher: Int!  
+}
+input updateuserinput {
+  id:ID!
+  type: String!
+  mobile: String!  
+  email: String!
+  password: String!
+  first_name: String!
+  last_name: String!
+  is_teacher: Int!  
+}
+
+type query{
+  user(id:ID! @eq) :User  @find
+  users:[User!]! @paginate
+}
+

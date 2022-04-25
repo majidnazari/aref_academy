@@ -6,12 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+//use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
+//use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\SoftDeletes;
 //use Illuminate\Contracts\Auth\Authenticatable;
 
-class User extends Authenticatable implements JWTSubject //extends Authenticatable implements JWTSubject
+class User extends Authenticatable //implements JWTSubject //extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
 
@@ -31,8 +32,8 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
         "id",
         'type',
         'mobile',
-        'email',
-        'password',
+       // 'email',
+       // 'password',
         'first_name',
         'last_name',
         'is_teacher'

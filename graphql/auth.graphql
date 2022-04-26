@@ -50,8 +50,13 @@ type RegisterResponse {
     status: RegisterStatuses!
 }
 
+# type UpdatePasswordResponse {
+#     status: String!
+#     message: String
+# }
+
 type UpdatePasswordResponse {
-    status: String!
+    status: String
     message: String
 }
 
@@ -61,7 +66,7 @@ enum RegisterStatuses {
 }
 
 input ForgotPasswordInput {
-    email: String! @rules(apply: ["required", "email"])
+    email: String! @rules(apply: ["required", "size:11"])
 }
 
 input NewPasswordWithCodeInput {
@@ -72,8 +77,11 @@ input NewPasswordWithCodeInput {
 }
 
 input RegisterInput {
-    name: String! @rules(apply: ["required", "string"])
-    email: String! @rules(apply: ["required", "email", "unique:users,email"])
+    first_name: String! @rules(apply: ["required", "string"])
+    last_name: String! @rules(apply: ["required", "string"])
+    type: String! @rules(apply: ["required", "string"])
+    is_teacher: Int! @rules(apply: ["required", "int"])
+    email: String! @rules(apply: ["required", "size:11", "unique:users,email"])
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
@@ -88,6 +96,7 @@ input VerifyEmailInput {
 }
 
 input UpdatePassword {
+    email:String! @rules(apply: ["required" , "size:11"])
     old_password: String!
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!

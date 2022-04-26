@@ -20,12 +20,14 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('user', function () {
-   User::create([
-        'first_name' => 'Jose ',
-        'last_name' => ' Fonseca',
-        'type' => 'admin',
-        'is_teacher' => 1,        
-        'email' => '09150000000',
-        'password' => bcrypt('123456789qq')
+   user::create([
+    'type' => "admin",    
+     'email' => "09372120899",
+     'password' => bcrypt('123456789qq'),
+     'first_name' => "majid",
+     'last_name' => "nazari",
+     'is_teacher' => 1 ,
+     'created_at' => Carbon\Carbon::now(),      
+     'updated_at' => Carbon\Carbon::now(),      
     ]);
 })->describe('Create sample user');

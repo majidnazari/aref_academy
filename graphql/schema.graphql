@@ -6,11 +6,15 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 type Query {
-    users: [User!]! @guard(with: ["api"]) @paginate  #(type: "paginator" model: "App\\User")
-    user(id:ID @eq):User  @guard(with: ["api"]) @find
+    #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
+    # //user(id:ID @eq):User  @guard(with: ["api"]) @find
 
     azmoons: [Azmoon!]! @guard(with: ["api"]) @paginate
     azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
+
+    test1param(name:String="abdollah"): String
+    GetUser(id:ID!):User! @guard(with: ["api"]) @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    GetUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
 }
 
 
@@ -144,6 +148,7 @@ type Azmoon {
     }
 
 type Mutation {
+    test2:String!
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
     refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
     logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")

@@ -20,12 +20,12 @@ class UserSeeder extends Seeder
         //
        DB::table('users')->insert([
 
-        "email" => "majidnazarister@gmail.com",
+        // "email" => "majidnazarister@gmail.com",
         "type" =>"admin",
         "password" => bcrypt("12345"),
         "first_name" => "majid",
         "last_name" => "nazari",
-        "mobile" => "09372120890",
+        "email" => "09372120890",
         "created_at" =>Carbon::now(),
         "updated_at" =>Carbon::now()
 

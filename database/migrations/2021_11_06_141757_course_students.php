@@ -18,7 +18,7 @@ class CourseStudents extends Migration
             $table->foreignId('course_id');            
             $table->foreignId('student_id');            
             $table->enum('status',['approved','pending'])->default('pending');            
-            $table->foreignId('user_id_created');
+            $table->foreignId('user_id_creator');
             $table->foreignId('user_id_approved');
             $table->timestamps();   
             $table->softDeletes();         

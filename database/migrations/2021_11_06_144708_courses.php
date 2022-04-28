@@ -15,7 +15,7 @@ class Courses extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');     
+            $table->foreignId('user_id_creator');     
             $table->foreignId('year_id');     
             $table->foreignId('teacher_id');       
             $table->string('name'); 

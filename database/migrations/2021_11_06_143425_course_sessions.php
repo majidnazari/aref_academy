@@ -15,7 +15,7 @@ class CourseSessions extends Migration
     {
         Schema::create('course_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');  
+            $table->foreignId('user_id_creator');  
             $table->foreignId('course_id');            
             $table->string('name'); 
             $table->date('start_date');            

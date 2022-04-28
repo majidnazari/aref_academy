@@ -58,10 +58,16 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
         //'email_verified_at' => 'datetime',
     ];
 
-    public function gates()
+    // public function gates()
+    // {
+    //     return $this->hasmany('Gate');
+    // }
+    public function groups()
     {
-        return $this->hasmany('Gate');
+        return $this->belongsTo('Group');
     }
+
+    
     public function courses()
     {
         return $this->hasmany('Course');

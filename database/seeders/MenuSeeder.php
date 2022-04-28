@@ -16,17 +16,59 @@ class MenuSeeder extends Seeder
      */
     public function run()
     {
-        // DB::table('users')->insert([
+        $now=Carbon::now();
+        //
+       DB::table('menus')->insert([
 
-        //     // "email" => "majidnazarister@gmail.com",
-        //     "type" =>"admin",
-        //     "password" => bcrypt("12345"),
-        //     "first_name" => "majid",
-        //     "last_name" => "nazari",
-        //     "email" => "09372120890",
-        //     "created_at" =>Carbon::now(),
-        //     "updated_at" =>Carbon::now()
-    
-        //    ]);
+        // "email" => "majidnazarister@gmail.com",
+        //"type" =>"admin",
+       [
+        "slug" => "link",
+        "name" => "داشبورد ادمین",
+        "icon" => "fas fa-tachometer-alt",
+        "href" => "/admin",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+       [ 
+           "slug" => "link",
+            "name" => "داشبورد مدیر آموزشگاه",
+            "icon" => "fas fa-tachometer-alt",
+            "href" => "/manager",
+            "parent_id" => 0,        
+            "created_at" => $now,
+            "updated_at" =>$now
+       ],
+       [ 
+           "slug" => "link",
+            "name" => "داشبورد مالی",
+            "icon" => "fas fa-tachometer-alt",
+            "href" => "/financial",
+            "parent_id" => 0,        
+            "created_at" => $now,
+            "updated_at" =>$now
+       ],
+       [ 
+            "slug" => "link",
+            "name" => "داشبورد دبیر",
+            "icon" => "fas fa-tachometer-alt",
+            "href" => "/teacher",
+            "parent_id" => 0,        
+            "created_at" => $now,
+            "updated_at" =>$now
+       ],
+       [ 
+           "slug" => "link",
+           "name" => "داشبورد پذیرنده",
+           "icon" => "fas fa-tachometer-alt",
+           "href" => "/acceptor",
+           "parent_id" => 0,        
+           "created_at" => $now,
+           "updated_at" =>$now
+       ]
+
+
+       ]);
     }
 }

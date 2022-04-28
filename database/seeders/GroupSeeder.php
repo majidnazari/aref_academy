@@ -21,27 +21,38 @@ class GroupSeeder extends Seeder
        
         DB::table('groups')->insert([
             [
-            "user_id" => 0,
+            "user_id_creator" => 0,
             "name" =>"admin",            
+            "type" =>"admin",            
             "created_at" => $now,
             "updated_at" => $now
     
            ],
            [
-            "user_id" => 0,
+            "user_id_creator" => 0,
             "name" =>"manager",            
+            "type" =>"manager",            
             "created_at" => $now,
             "updated_at" => $now
            ],
            [
-            "user_id" => 0,
+            "user_id_creator" => 0,
             "name" =>"financial",            
+            "type" =>"financial",            
             "created_at" => $now,
             "updated_at" => $now
            ],
            [
-            "user_id" => 0,
+            "user_id_creator" => 0,
             "name" =>"acceptor",            
+            "type" =>"acceptor",            
+            "created_at" => $now,
+            "updated_at" => $now
+           ],
+           [
+            "user_id_creator" => 0,
+            "name" =>"teacher",            
+            "type" =>"teacher",            
             "created_at" => $now,
             "updated_at" => $now
            ]

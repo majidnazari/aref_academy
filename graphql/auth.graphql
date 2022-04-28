@@ -79,8 +79,8 @@ input NewPasswordWithCodeInput {
 input RegisterInput {
     first_name: String! @rules(apply: ["required", "string"])
     last_name: String! @rules(apply: ["required", "string"])
-    type: String! @rules(apply: ["required", "string"])
-    is_teacher: Int! @rules(apply: ["required", "int"])
+    #type: String! @rules(apply: ["required", "string"])
+    #is_teacher: Int! @rules(apply: ["required", "int"])
     email: String! @rules(apply: ["required", "size:11", "unique:users,email"])
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!

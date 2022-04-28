@@ -24,8 +24,8 @@ type User {
     last_name: String!
     #mobile: String!
     email: String!
-    type: String!
-    is_teacher: Int!
+    #type: String!
+    #is_teacher: Int!
     created_at: DateTime!
     updated_at: DateTime!
 }
@@ -137,14 +137,14 @@ type Azmoon {
           score:Float!
    }
    input CreateUserInput {
-      type: String!
+     # type: String!
      # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
      # email: String! @rules(apply: ["email","unique:users,email"])
       email: String! @rules(apply: ["size:11","unique:users,email"])
       password: String! @hash @rules(apply: ["min:6"])
       first_name: String!
       last_name: String!
-      is_teacher: Int!  
+     # is_teacher: Int!  
     }
 
 type Mutation {
@@ -164,13 +164,13 @@ type Mutation {
 
     updateUser(
       id:ID!
-      type: String
+     # type: String
      # mobile: String 
      # email:String  
      # password: String!      
       first_name: String
       last_name: String
-      is_teacher: Int  
+     # is_teacher: Int  
       ): User! @update
 
       deleteUser(id:ID!): User @delete

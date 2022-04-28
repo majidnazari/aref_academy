@@ -15,6 +15,7 @@ class Years extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id_creator');
             $table->string('name');            
             $table->boolean('active')->default(false);            
             //$table->char('year',4)->nullable();            

@@ -15,7 +15,7 @@ class Azmoons extends Migration
     {
         Schema::create('azmoons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');            
+            $table->foreignId('user_id_creator');            
             $table->foreignId('course_id');            
             $table->foreignId('course_session_id');            
             $table->boolean('isSMSsend')->default(false);            

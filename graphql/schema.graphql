@@ -13,7 +13,7 @@ type Query {
     azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     test1param(name:String="abdollah"): String
-    GetUser(id:ID!):User! @guard(with: ["api"]) @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    GetUser(id:ID!):User!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
     GetUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
 }
 
@@ -25,9 +25,62 @@ type User {
     #mobile: String!
     email: String!
     #type: String!
-    #is_teacher: Int!
+    #is_teacher: Int!    
     created_at: DateTime!
     updated_at: DateTime!
+    groups: [Group!]! @belongsTo
+}
+
+type Group{
+  id:ID!
+  user_id_creator:Int
+  key:String
+  name:String
+  type:String
+  created_at: DateTime!
+  updated_at: DateTime!
+  users: [User!]! @belongsToMany
+  pivot: GroupPivot
+
+  menus: [Menu!]! @belongsTo
+}
+type GroupPivot {
+    id: ID!
+    user_id_creator:Int
+    user_id: Int!
+    group_id: Int!
+    key: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    user: [User!]! @hasMany
+    group: [Group!]! @hasMany
+}
+
+type Menu {
+    id: ID!
+    slug: String!
+    name: String!
+    icon: String!
+    href: String!
+    #type: String!
+    parent_id: Int!    
+    created_at: DateTime!
+    updated_at: DateTime!
+    groups: [Group!]! @belongsToMany
+    pivot: MenuPivot
+}
+
+type MenuPivot {
+    id: ID!
+    user_id_creator:Int
+    menu_id: Int!
+    group_id: Int!   
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    menu: [Menu!]! @hasMany
+    group: [Group!]! @hasMany
 }
 
 
@@ -148,7 +201,7 @@ type Azmoon {
     }
 
 type Mutation {
-    test2:String!
+    #test2:String!
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
     refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
     logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")

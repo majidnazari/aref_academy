@@ -9,17 +9,17 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 
-final class GetUser implements ErrorHandler
+final class GetUser //implements ErrorHandler
 {
     /**
      * @param  null  $_
      * @param  array{}  $args
      */
-    public function __invoke($_, Closure $next):?array
+    public function __invoke($_, Closure $next)
     {
         // TODO implement the resolver
         //return User::find($args['id']);
-        return null;      
+       // return null;      
        
     }
     function resolveUserId($id): User
@@ -32,7 +32,7 @@ final class GetUser implements ErrorHandler
     {
         // try
         // {
-             $user= User::find($args['id'])->with('groups');
+             $user= User::find($args['id']);
              return $user;
         // }
         // catch (\Throwable $error) {

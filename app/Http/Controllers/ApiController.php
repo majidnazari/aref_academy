@@ -18,14 +18,14 @@ class ApiController extends Controller
     public function register(Request $request)
     {
     	//Validate data
-        $data = $request->only('first_name','last_name','type','mobile', 'email', 'password');
+        $data = $request->only('first_name','last_name',/*'type',*/'mobile', 'email', 'password');
         $validator = Validator::make($data, [
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|size:11|unique:users',
             'password' => 'required|string|min:5|max:50',
             'mobile' => "required|string|size:11",
-            'type' => "required"
+           // 'type' => "required"
         ]);
 
         //Send failed response if request is not valid
@@ -37,7 +37,7 @@ class ApiController extends Controller
         $user = User::create([
         	'first_name' => $request->first_name,
         	'last_name' => $request->last_name,
-        	'type' => $request->type,
+        	//'type' => $request->type,
         	'mobile' => $request->mobile,        	
         	'email' => $request->email,
         	'password' => bcrypt($request->password)
@@ -57,18 +57,18 @@ class ApiController extends Controller
 
         //valid credential
         $validator = Validator::make($credentials, [
-            'email' => 'required|email',
+            'email' => 'required|size:11',
             'password' => 'required|string|min:5|max:50'
         ]);
-
+       
         //Send failed response if request is not valid
-        if ($validator->fails()) {
+        if ($validator->fails()) {           
             return response()->json(['error' => $validator->messages()], 403);
         }
         
         //Request is validated
         //Crean token
-        try {
+        try {            
             // if(!$user)
             // {
             //     return response()->json([

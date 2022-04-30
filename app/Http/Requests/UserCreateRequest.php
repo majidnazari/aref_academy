@@ -32,10 +32,10 @@ class UserCreateRequest extends FormRequest
             //"email" => ["required","email","unique:users,email"],
             "email" => ["required","size:11","unique:users,email"],
             "password" => ["required","string"],
-            "type" => [
-                "required",
-                 Rule::in(["admin", "manager","financial","acceptor"]),
-             ],
+            // "type" => [
+            //     "required",
+            //      Rule::in(["admin", "manager","financial","acceptor"]),
+            //  ],
            // "type" => ["required","in(["admin","manager","financial","acceptor"])"]
 
         ];

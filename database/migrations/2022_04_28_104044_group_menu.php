@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('group_menus', function (Blueprint $table) {
+        Schema::create('group_menu', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id_creator')->unsigned();
             $table->foreignId('group_id')->unsigned();
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        schema::dropIfExists('group_menus');
+        schema::dropIfExists('group_menu');
     }
 };

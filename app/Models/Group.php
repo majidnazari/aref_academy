@@ -14,17 +14,44 @@ class Group extends Model
     use softDeletes;
     protected $fillable=[
         "user_id",
-        "name"
+        "name",
+        "type"
     ];
 
-    public function user()
+    public function users()
     {
-        return  $this->hasMany(User::class);
+        //return  $this->hasMany(User::class);
+         return $this->belongsToMany(User::class);
+         //->withPivot(
+
+        //     "id",
+        //     "user_id_creator",
+        //     "user_id",
+        //     "group_id",
+        //     "key",
+        //     "created_at",
+        //     "updated_at"     
+
+        // );
+        //->withPivot(
+            
+        //     'user_id',
+        //     'group_id',
+        //     'key'
+
+        // );;//->using(GroupGate::class);
     }
     
     public function menus()
     {
-        return $this->belongsToMany(Menu::class);
+        return $this->belongsToMany(Menu::class)->withPivot(
+            "id",
+            "user_id_creator",
+            "group_id",
+            "menu_id",
+            "created_at",
+            "updated_at"
+        );
     }
     public function gates()
     {

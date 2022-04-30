@@ -62,9 +62,24 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     // {
     //     return $this->hasmany('Gate');
     // }
+    // public function groups()
+    // {
+    //     return $this->belongsTo('Group');
+    // }
     public function groups()
     {
-        return $this->belongsTo('Group');
+       // return $this->belongsTo('Group');
+        return $this->belongsToMany(Group::class)->withPivot(
+            
+            "id",
+            "user_id_creator",
+            "user_id",
+            "group_id",
+            "key",
+            "created_at",
+            "updated_at" 
+
+        );//->using(GroupGate::class);
     }
 
     

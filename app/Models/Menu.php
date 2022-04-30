@@ -13,14 +13,17 @@ class Menu extends Model
     use HasFactory;
     use softDeletes;
     protected $fillable=[       
-        "user_id",
+        "slug",
         "name"  ,
-        "description"
+        "icon",
+        "href",
+        "parent_id"
+
     ];
-    public function user()
-    {
-        return $this->blongsTo(User::class);
-    }
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
     public function groups()
     {
         return $this->belongsToMany(Group::class);

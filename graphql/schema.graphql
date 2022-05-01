@@ -13,8 +13,12 @@ type Query {
     azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     test1param(name:String="abdollah"): String
-    GetUser(id:ID!):User!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
-    GetUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
+    GetUser(id:ID!):User! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    #  GetUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
+    #  GetUsers: [User!]!  @paginate(builder: "App\\Models\\User@resolveUser")
+    #  GetUsers: [User!]! @paginate(defaultCount: 10 )
+    GetUsers: [User] @guard(with:["api"]) @paginate(builder: "App\\Models\\User@resolveUser")
+     
 }
 
 

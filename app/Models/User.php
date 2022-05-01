@@ -11,10 +11,16 @@ use Laravel\Passport\HasApiTokens;
 //use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\SoftDeletes;
 //use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Database\Concerns\BuildsQueries;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+
 
 class User extends Authenticatable //implements JWTSubject //extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,BuildsQueries;
 
     //public function getAuthIdentifierName();
     //public function getAuthIdentifier();
@@ -57,6 +63,13 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     protected $casts = [
         //'email_verified_at' => 'datetime',
     ];
+
+    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    {
+        return DB::table('users');
+           // ->leftJoinSub(...)
+           // ->groupBy(...);
+    }
 
     // public function gates()
     // {

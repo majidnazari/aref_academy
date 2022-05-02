@@ -18,7 +18,7 @@ class GroupUserSeeder extends Seeder
     {
         $now=Carbon::now();
         //
-       DB::table('group_menu')->insert([
+       DB::table('group_user')->insert([
 
         // "email" => "majidnazarister@gmail.com",
         //"type" =>"admin",

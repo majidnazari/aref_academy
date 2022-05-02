@@ -14,10 +14,11 @@ type Query {
 
     test1param(name:String="abdollah"): String
     getUser(id:ID!):User! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
-    #  GetUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
+    # getUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
     #  GetUsers: [User!]!  @paginate(builder: "App\\Models\\User@resolveUser")
     #  GetUsers: [User!]! @paginate(defaultCount: 10 )
-    getUsers: [User] @guard(with:["api"]) @paginate(builder: "App\\Models\\User@resolveUser")
+    # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
+    getUsers: [User!]!  @guard(with:["api"]) @paginate(builder: "App\\Models\\User@resolveUser")
      
 }
 
@@ -38,7 +39,7 @@ type User {
 type Group{
   id:ID!
   user_id_creator:Int
-  key:String
+  # key:String
   name:String
   type:String
   created_at: DateTime!

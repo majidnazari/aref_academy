@@ -21,7 +21,7 @@ final class GetUsers
     }
     function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $users= User::all();//paginate(2);
+        $users= User::paginate(2);       
         return $users;
     }
 }

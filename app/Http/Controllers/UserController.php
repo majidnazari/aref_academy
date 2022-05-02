@@ -8,7 +8,7 @@ use App\Http\Requests\UserEditRequest;
 Use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepository as UserRepo;
-
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,6 +16,13 @@ class UserController extends Controller
     public function __construct(UserRepo $repository)
     {
         $this->repository = $repository;
+    }
+    public function index2()
+    {
+       $data= DB::table('users')
+        ->leftJoin('group_user','users.id','=','group_user.user_id')
+        ->leftJoin('groups','group_user.user_id','=','groups.id')->get();
+        return response()->json($data,200);        
     }
     public function index()
     {

@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 #end region 
 
-
+Route::get('/users2','UserController@index2')->name('User.index2');
 
 #region user
 Route::group(["middleware" => ["jwt.verify"]], function(){

@@ -66,7 +66,9 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
 
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        return DB::table('users');
+        return DB::table('users')
+        ->leftJoin('group_user','users.id','=','group_user.user_id')
+        ->leftJoin('groups','group_user.user_id','=','groups.id');
            // ->leftJoinSub(...)
            // ->groupBy(...);
     }

@@ -202,10 +202,21 @@ type Azmoon {
       password: String! @hash @rules(apply: ["min:6"])
       first_name: String!
       last_name: String!
-      group_user:Int!
+      group_id:Int!
       # group_user:createGroupUserInput! @create
      # is_teacher: Int!  
     }
+   input UpdateUserInput {
+       id:ID!
+     # type: String
+     # mobile: String 
+      email:String  
+     # password: String!      
+      first_name: String
+      last_name: String
+      group_id:Int 
+      # ): User! @update
+   }
     # input createGroupUserInput {
     #   user_id_creator:Int!
     #   user_id:Int!
@@ -228,21 +239,9 @@ type Mutation {
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
   # region user
   #  createUser(input: CreateUserInput! @spread): User! @create  
-    createUser(input: CreateUserInput! @spread): User!  @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve")
- 
-
-    updateUser(
-      id:ID!
-     # type: String
-     # mobile: String 
-     # email:String  
-     # password: String!      
-      first_name: String
-      last_name: String
-     # is_teacher: Int  
-      ): User! @update
-
-      deleteUser(id:ID!): User @delete
+    createUser(input: CreateUserInput! @spread): User!  @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @delete
 
   #end 
   

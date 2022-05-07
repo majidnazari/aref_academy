@@ -36,13 +36,13 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
      */
     protected $fillable = [
         "id",
-        'type',
+        //'type',
         //'mobile',
         'email',
         'password',
         'first_name',
-        'last_name',
-        'is_teacher'
+        'last_name'
+        //'is_teacher'
     ];
 
     /**
@@ -66,6 +66,7 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
 
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
+       
         return DB::table('users')
         ->leftJoin('group_user','users.id','=','group_user.user_id')
         ->leftJoin('groups','group_user.user_id','=','groups.id');

@@ -33,7 +33,7 @@ type User {
     #is_teacher: Int!    
     created_at: DateTime!
     updated_at: DateTime!
-    groups: [Group!]! @belongsTo
+    groups: [Group!] @belongsTo
 }
 
 type Group{
@@ -202,8 +202,17 @@ type Azmoon {
       password: String! @hash @rules(apply: ["min:6"])
       first_name: String!
       last_name: String!
+      group_user:Int!
+      # group_user:createGroupUserInput! @create
      # is_teacher: Int!  
     }
+    # input createGroupUserInput {
+    #   user_id_creator:Int!
+    #   user_id:Int!
+    #   group_id:Int!
+    #   # created_at:DateTime
+    #   # updated_at:datetime
+    # }
 
 type Mutation {
     #test2:String!
@@ -218,7 +227,9 @@ type Mutation {
     #updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
   # region user
-   createUser(input: CreateUserInput! @spread): User! @create  
+  #  createUser(input: CreateUserInput! @spread): User! @create  
+    createUser(input: CreateUserInput! @spread): User!  @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve")
+ 
 
     updateUser(
       id:ID!

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Concerns\BuildsQueries;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 
@@ -67,10 +68,12 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
        
-        return DB::table('users')
-        ->select('users.id As userId','users.*','group_user.*','groups.*')
-        ->leftJoin('group_user','users.id','=','group_user.user_id')
-        ->leftJoin('groups','group_user.user_id','=','groups.id');
+        return DB::table('users');
+        // ->select('users.id As userId','users.*','group_user.*','groups.*','group_user.id As groupUserId','groups.id As groupId')
+        // ->leftJoin('group_user','users.id','=','group_user.user_id')
+        // ->leftJoin('groups','group_user.user_id','=','groups.id');
+
+       
            // ->leftJoinSub(...)
            // ->groupBy(...);
     }
@@ -83,20 +86,24 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     // {
     //     return $this->belongsTo('Group');
     // }
-    public function groups()
+    public function groups() 
     {
+        return $this->belongsToMany(Group::class);
+                    // ->using(GroupUser::class) // only needed to retrieve the tag from the tag_id
+                    // ->withPivot('created_at');
        // return $this->belongsTo('Group');
-        return $this->belongsToMany(Group::class)->withPivot(
+        // return $this->belongsToMany(Group::class)->withPivot(
             
-            "id",
-            "user_id_creator",
-            "user_id",
-            "group_id",
-            "key",
-            "created_at",
-            "updated_at" 
+        //     "id",
+        //     "groupId",
+        //     "user_id_creator",
+        //     "user_id",
+        //     "group_id",
+        //     "key",
+        //     "created_at",
+        //     "updated_at" 
 
-        );//->using(GroupGate::class);
+        // )->using(GroupUser::class);
     }
 
     

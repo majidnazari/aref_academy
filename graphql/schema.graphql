@@ -13,19 +13,22 @@ type Query {
     azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     test1param(name:String="abdollah"): String
-    getUser(id:ID!):User! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    getUser(id:ID!):User @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    # getGroup(id:ID!):Group! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveUserAttribute") 
+
     # getUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
     #  GetUsers: [User!]!  @paginate(builder: "App\\Models\\User@resolveUser")
     #  GetUsers: [User!]! @paginate(defaultCount: 10 )
     # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
     getUsers: [User]  @guard(with:["api"]) @paginate(builder: "App\\Models\\User@resolveUser")
-    getGroups: [Group]  @guard(with:["api"]) @paginate(builder: "App\\Models\\Group@resolveUser")
+    # getGroups: [Group!]!  @guard(with:["api"]) @paginate(builder: "App\\Models\\Group@resolveUser")
      
 }
 
 
 type User {
-    userId: ID
+    id:ID    
+    userId:ID
     first_name: String
     last_name: String
     #mobile: String!
@@ -35,10 +38,11 @@ type User {
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
-    groups: [Group!] @belongsTo
+    groups: [Group] @belongsTo
 }
 
-type Group{
+type Group{ 
+  id:ID
   groupId:ID
   user_id_creator:Int
   # key:String
@@ -47,12 +51,13 @@ type Group{
   created_at: DateTime
   updated_at: DateTime
   deleted_at: DateTime
-  users: [User!] @belongsToMany
-  pivot: GroupPivot
+  users: [User] @belongsToMany
+  pivot: GroupUserPivot
 
   menus: [Menu!] @belongsTo
 }
-type GroupPivot {
+type GroupUserPivot { 
+    id:ID   
     groupUserId: ID
     user_id_creator:Int
     user_id: Int
@@ -67,7 +72,7 @@ type GroupPivot {
 }
 
 type Menu {
-    menuId: ID
+    menuId: Int
     slug: String
     name: String
     icon: String
@@ -83,7 +88,7 @@ type Menu {
 }
 
 type MenuPivot {
-    groupMenuId: ID
+    groupMenuId: Int
     user_id_creator:Int
     menu_id: Int
     group_id: Int  
@@ -97,7 +102,7 @@ type MenuPivot {
 
 
 type Azmoon {
-  id:ID
+  id:Int
   user_id:Int
   course_id:Int
   course_session_id:Int

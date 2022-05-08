@@ -8,6 +8,9 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+
 
 final class GetUser //implements ErrorHandler
 {
@@ -28,18 +31,28 @@ final class GetUser //implements ErrorHandler
         return $user;
     }
     
-    function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)//: Builder
     {
-        // try
-        // {
-             $user= User::find($args['id']);
-             return $user;
+       
+        // return DB::table('users')
+        // ->select('users.id As userId','users.*','group_user.*','groups.*','group_user.id As groupUserId','groups.id As groupId')
+        // ->leftJoin('group_user','users.id','=','group_user.user_id')
+        // ->leftJoin('groups','group_user.user_id','=','groups.id')
+        // ->where('users.id',$args['id']);
+            $user= User::find($args['id']);
+            return $user;
         // }
         // catch (\Throwable $error) {
         //     $errorPool = app(\Nuwave\Lighthouse\Execution\ErrorPool::class);
         //     $errorPool->record($error);
         // }
+
+        // return DB::table('users')
+        // ->select('users.id As userId','users.*','group_user.*','groups.*','group_user.id As groupUserId','groups.id As groupId')
+        // ->leftJoin('group_user','users.id','=','group_user.user_id')
+        // ->leftJoin('groups','group_user.user_id','=','groups.id')
+        // ->where('users.id',$args['id'])->get();
         
-      
+            
     }
 }

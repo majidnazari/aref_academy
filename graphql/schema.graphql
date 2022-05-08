@@ -19,6 +19,7 @@ type Query {
     #  GetUsers: [User!]! @paginate(defaultCount: 10 )
     # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
     getUsers: [User]  @guard(with:["api"]) @paginate(builder: "App\\Models\\User@resolveUser")
+    getGroups: [Group]  @guard(with:["api"]) @paginate(builder: "App\\Models\\Group@resolveUser")
      
 }
 

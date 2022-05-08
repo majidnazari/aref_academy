@@ -8,16 +8,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
 use App\Models\Gate;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Database\Concerns\BuildsQueries;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+
 class Group extends Model
 {
     use HasFactory;
     use softDeletes;
     protected $fillable=[
-        "user_id",
+        "user_id_creator",
         "name",
         "type"
     ];
 
+
+    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    {
+       
+        return DB::table('groups')
+        ->select('groups.id As groupId','groups.*');
+        // ->leftJoin('group_user','users.id','=','group_user.user_id')
+        // ->leftJoin('groups','group_user.user_id','=','groups.id');
+           // ->leftJoinSub(...)
+           // ->groupBy(...);
+    }
     public function users()
     {
         //return  $this->hasMany(User::class);

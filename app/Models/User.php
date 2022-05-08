@@ -68,6 +68,7 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     {
        
         return DB::table('users')
+        ->select('users.id As userId','users.*','group_user.*','groups.*')
         ->leftJoin('group_user','users.id','=','group_user.user_id')
         ->leftJoin('groups','group_user.user_id','=','groups.id');
            // ->leftJoinSub(...)

@@ -65,11 +65,7 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
         //'email_verified_at' => 'datetime',
     ];
 
-    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        return $this->where('deleted_at', null);
-    }
-
+    
     // public function gates()
     // {
     //     return $this->hasmany('Gate');

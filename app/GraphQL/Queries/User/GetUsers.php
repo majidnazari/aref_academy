@@ -19,9 +19,14 @@ final class GetUsers
     {
         // TODO implement the resolver
     }
-    function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    // function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    // {
+    //     $users= User::paginate(2);       
+    //     return $users;
+    // }
+    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $users= User::paginate(2);       
-        return $users;
+        return User::where('deleted_at', null);
     }
+
 }

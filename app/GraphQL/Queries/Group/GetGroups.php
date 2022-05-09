@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 
-final class GetGroup
+final class GetGroups
 {
     /**
      * @param  null  $_
@@ -18,9 +18,8 @@ final class GetGroup
     {
         // TODO implement the resolver
     }
-    function resolveGroupAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    public function resolveGroup($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $group= Group::select('groups.id as groupId','groups.*')->find($args['id']);
-        return $group;
+        return Group::where('deleted_at', null);
     }
 }

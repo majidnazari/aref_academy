@@ -1,14 +1,14 @@
 <?php
 
-namespace App\GraphQL\Queries\Group;
+namespace App\GraphQL\Queries\Teacher;
 
-use App\Models\Group;
+use App\Models\Teacher;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 
-final class GetGroup
+final class GetTeachers
 {
     /**
      * @param  null  $_
@@ -18,9 +18,8 @@ final class GetGroup
     {
         // TODO implement the resolver
     }
-    function resolveGroupAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    public function resolveTeacher($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $group= Group::select('groups.id as groupId','groups.*')->find($args['id']);
-        return $group;
+        return Teacher::where('deleted_at', null);
     }
 }

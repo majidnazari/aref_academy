@@ -253,6 +253,13 @@ type Teacher {
     #   # updated_at:datetime
     # }
 
+    input CreateTeacherInput{
+      first_name: String
+      last_name: String
+      mobile: String
+      address:String
+    }
+
 type Mutation {
     #test2:String!
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
@@ -272,6 +279,11 @@ type Mutation {
     deleteUser(id:ID!): User @delete
 
   #end 
+
+  # region teacher
+    createTeacher(input: CreateTeacherInput! @spread): Teacher!  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\CreateTeacher@resolver")
+
+  #end region
   
   #region azmoon
     createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create

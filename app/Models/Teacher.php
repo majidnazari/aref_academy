@@ -17,7 +17,7 @@ class Teacher extends Model
         "last_name",
         "mobile",
         "address",
-        "user_id"
+        "user_id_creator"
        
     ];
     public function user()

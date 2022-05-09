@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Mutations\Teacher;
 
-use App\Models\User;
+use App\Models\Teacher;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\GroupUser;
 use Illuminate\Support\Facades\Hash;
@@ -21,42 +21,42 @@ final class CreateTeacher
     {
         // TODO implement the resolver
     }
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
         //$user_id=Auth::user();
-        $user_date=[
+        $teacher_date=[
             'user_id_creator' => 1,
-            'email' => $args['email'],
-            'password' => Hash::make($args['password']),
+            'mobile' => $args['mobile'],
+            'address' => $args['address'],
             'first_name' => $args['first_name'],
             'last_name' => $args['last_name'],
         ];
-        $user_resut=User::create($user_date);
-        //return $user_resut;
+        $teacher_resut=Teacher::create($teacher_date);
+        return $teacher_resut;
 
-        if($user_resut)
-        {
-            $group_user_data=[
-                'user_id_creator' => 1,
-                'user_id' => $user_resut->id,
-                'group_id' => $args['group_id'],
-                'key' =>''
+        // if($teacher_resut)
+        // {
+        //     $group_user_data=[
+        //         'user_id_creator' => 1,
+        //         'user_id' => $user_resut->id,
+        //         'group_id' => $args['group_id'],
+        //         'key' =>''
                 
-            ];
-          if( !$group_user_result= GroupUser::create($group_user_data))
-          {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot create group user'),
-            ];
-          }
-          return $user_resut;
+        //     ];
+        //   if( !$group_user_result= GroupUser::create($group_user_data))
+        //   {
+        //     return [
+        //         'status'  => 'Error',
+        //         'message' => __('cannot create group user'),
+        //     ];
+        //   }
+        //   return $user_resut;
           
-        }
-        return [
-            'status'  => 'Error',
-            'message' => __('cannot create user'),
-        ];
+        // }
+        // return [
+        //     'status'  => 'Error',
+        //     'message' => __('cannot create user'),
+        // ];
             
        
     }

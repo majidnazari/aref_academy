@@ -65,17 +65,9 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
         //'email_verified_at' => 'datetime',
     ];
 
-    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-       
-        return DB::table('users');
-        // ->select('users.id As userId','users.*','group_user.*','groups.*','group_user.id As groupUserId','groups.id As groupId')
-        // ->leftJoin('group_user','users.id','=','group_user.user_id')
-        // ->leftJoin('groups','group_user.user_id','=','groups.id');
-
-       
-           // ->leftJoinSub(...)
-           // ->groupBy(...);
+        return $this->where('deleted_at', null);
     }
 
     // public function gates()
@@ -89,8 +81,8 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     public function groups() 
     {
         return $this->belongsToMany(Group::class);
-                    // ->using(GroupUser::class) // only needed to retrieve the tag from the tag_id
-                    // ->withPivot('created_at');
+        // ->using(GroupUser::class) // only needed to retrieve the tag from the tag_id
+        // ->withPivot('created_at');
        // return $this->belongsTo('Group');
         // return $this->belongsToMany(Group::class)->withPivot(
             

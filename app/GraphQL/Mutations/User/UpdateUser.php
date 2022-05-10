@@ -23,7 +23,8 @@ final class UpdateUser
     }
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {  
-
+        $user_id=auth()->guard('api')->user()->id;
+        $args["user_id_creator"]=$user_id;
         $user=User::find($args['id']);
         if(!$user)
         {
@@ -32,22 +33,23 @@ final class UpdateUser
                 'message' => __('cannot update user'),
             ];
         }
-        if(isset($args['email']))
-        {
-            $user->email=$args['email'];
-        }
-        if(isset($args['first_name']))
-        {
-            $user->first_name=$args['first_name'];
-        }
-        if(isset($args['last_name']))
-        {
-            $user->last_name=$args['last_name'];
-        }
-        if(isset($args['last_name']))
-        {
-            $user->last_name=$args['last_name'];
-        }
+        // if(isset($args['email']))
+        // {
+        //     $user->email=$args['email'];
+        // }
+        // if(isset($args['first_name']))
+        // {
+        //     $user->first_name=$args['first_name'];
+        // }
+        // if(isset($args['last_name']))
+        // {
+        //     $user->last_name=$args['last_name'];
+        // }
+        // if(isset($args['last_name']))
+        // {
+        //     $user->last_name=$args['last_name'];
+        // }
+        $user->fill($args);
         $user->save();
 
         if(isset($args['group_id']))

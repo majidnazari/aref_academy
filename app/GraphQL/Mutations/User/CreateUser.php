@@ -24,9 +24,9 @@ final class CreateUser
     }
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
-        //$user_id=Auth::user();
+        $user_id=auth()->guard('api')->user()->id;
         $user_date=[
-            'user_id_creator' => 1,
+            'user_id_creator' => $user_id,
             'email' => $args['email'],
             'password' => Hash::make($args['password']),
             'first_name' => $args['first_name'],

@@ -13,6 +13,7 @@ class Year extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        "user_id_creator",
         'name',
         'active'
        // 'year'

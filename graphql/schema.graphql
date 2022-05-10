@@ -25,6 +25,8 @@ type Query {
     #  GetUsers: [User!]! @paginate(defaultCount: 10 )
     # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
    
+    getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
+    getYears: [Year]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
   
      
 }
@@ -123,6 +125,16 @@ type Teacher {
   last_name:String
   mobile:String
   address:String
+  created_at:DateTime
+  updated_at:DateTime
+  deleted_at:DateTime
+}
+
+type Year {
+  id:ID!
+  user_id_creator:Int
+  name:String
+  active:Boolean  
   created_at:DateTime
   updated_at:DateTime
   deleted_at:DateTime
@@ -254,11 +266,29 @@ type Teacher {
     # }
 
     input CreateTeacherInput{
+      first_name: String!
+      last_name: String!
+      mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+      address:String!
+    }
+    input UpdateTeacherInput{
+      id:ID!
       first_name: String
       last_name: String
-      mobile: String
+      mobile: String @rules(apply: ["size:11","unique:teachers,mobile"])
       address:String
     }
+
+    input CreateYearInput{
+      name: String!
+      active: Boolean!      
+    }
+    input UpdateYearInput{
+      id:ID!
+      name: String
+      active: Boolean   
+    }
+    
 
 type Mutation {
     #test2:String!
@@ -282,8 +312,15 @@ type Mutation {
 
   # region teacher
     createTeacher(input: CreateTeacherInput! @spread): Teacher!  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\CreateTeacher@resolver")
-
+    updateTeacher(input: UpdateTeacherInput! @spread): Teacher!  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\UpdateTeacher@resolver")
+    deleteTeacher(id:ID!):Teacher @delete
   #end region
+
+   # region yaer
+    createYear(input: CreateYearInput! @spread): Year!  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
+    updateYear(input: UpdateYearInput! @spread): Year!  @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
+    deleteYear(id:ID!):Year @delete
+  #end yaer
   
   #region azmoon
     createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create

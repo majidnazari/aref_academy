@@ -28,10 +28,75 @@ type Query {
     getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
     getYears: [Year]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
   
-     
+
+
+    getStudent(id:ID!):Student @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
+    getStudents: [Student]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
+
 }
+type Student{
+        id:ID
+        phone:String,
+        first_name:String,
+        last_name:String,
+        level:Int,
+        egucation_level:Int,
+        parents_job_title:String,
+        home_phone:String,
+        father_phone:String,
+        mother_phone:String,
+        school:String,
+        average:Float,
+        major:String,
+        introducing:String,
+        student_phone:String,
+        citys_id:Int,
+        sources_id:Int,
+        supporters_id:Int,
+        archived:String
+}
+ 
+# type Student{
+#   id:ID
+#   first_name:String
+#   last_name:String
+#   last_year_grade:String
+#   consultants_id:Int
+#   parents_job_title:String
+#   home_phone:String
+#   father_phone:String
+#   mother_phone:String
+#   phone:String
+#   level:Int
+#   school:String
+#   introducing:String
+#   student_phone:String
+#   sources_id:Int
+#   supporters_id:Int
+#   users_id:Int
+#   marketers_id:Int
+#   average:Float
+#   viewed:Int
+#   major:String
+#   egucation_level:Int
+#   provinces_id:Int
+#   is_from_site:Int
+#   description:String
+#   supporter_seen:Int
+#   saloon:String
+#   supporter_start_date:DateTime
+#   banned:Int
+#   cities_id:Int
+#   archived:Int
+#   outside_consultants:String
+#   own_purchases:Int
+#   other_purchases:Int
+#   today_purchases:Int
 
-
+#   created_at: DateTime
+#   updated_at: DateTime
+#   is_deleted:Int
+# }
 type User {
     id:ID    
     userId:ID

@@ -22,6 +22,7 @@ final class GetStudents
     public function resolveStudent($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $response = Http::get(env('REMOTE_SERVER')."student_index");
-        return $response ;   
+       
+        return $response->getBody() ;   
     }
 }

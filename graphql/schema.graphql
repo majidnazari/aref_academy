@@ -50,7 +50,7 @@ type Student{
         major:String,
         introducing:String,
         student_phone:String,
-        citys_id:Int,
+        cities_id:Int,
         sources_id:Int,
         supporters_id:Int,
         archived:String
@@ -354,6 +354,53 @@ type Year {
       active: Boolean   
     }
     
+    input CreateStudentInput{
+      # first_name: String!
+      # last_name: String!
+      # mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+      # address:String!
+
+       
+        phone:String!,# @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String!,
+        last_name:String!,
+        level:Int!,
+        egucation_level:String!,
+        parents_job_title:String,
+        home_phone:String,
+        father_phone:String,
+        mother_phone:String,
+        school:String,
+        average:Float,
+        major:String!,
+        introducing:String,
+        student_phone:String,
+        cities_id:Int,
+        sources_id:Int,
+        supporters_id:Int,
+        archived:Int
+    }
+     input UpdateStudentInput{
+        id:Int!
+        phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String,
+        last_name:String,
+        level:Int,
+        egucation_level:String,
+        parents_job_title:String,
+        home_phone:String,
+        father_phone:String,
+        mother_phone:String,
+        school:String,
+        average:Float,
+        major:String!,
+        introducing:String,
+        student_phone:String,
+        cities_id:Int,
+        sources_id:Int,
+        supporters_id:Int,
+        archived:Int
+    }
 
 type Mutation {
     #test2:String!
@@ -386,6 +433,11 @@ type Mutation {
     updateYear(input: UpdateYearInput! @spread): Year!  @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
     deleteYear(id:ID!):Year @delete
   #end yaer
+  # region Student
+    createStudent(input: CreateStudentInput! @spread): Student!  @field(resolver: "App\\GraphQL\\Mutations\\Student\\CreateStudent@resolver")
+    updateStudent(input: UpdateStudentInput! @spread): Student!  @field(resolver: "App\\GraphQL\\Mutations\\Student\\UpdateStudent@resolver")
+    deleteStudent(id:ID!):Student  @field(resolver: "App\\GraphQL\\Mutations\\Student\\DeleteStudent@resolver")
+  #end Student
   
   #region azmoon
     createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create

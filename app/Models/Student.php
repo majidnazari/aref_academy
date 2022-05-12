@@ -23,7 +23,7 @@ class Student extends Model
         'major',
         'introducing',
         'student_phone',
-        'citys_id',
+        'cities_id',
         'sources_id',
         'supporters_id',
         'archived'

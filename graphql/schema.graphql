@@ -36,8 +36,8 @@ type Query {
 
 }
 type CourseSession{       
-        course_id:Int!,
-        name:String!,
+        course_id:Int,
+        name:String,
         start_date:Date,
         start_time:String,
         end_time:String,
@@ -453,7 +453,7 @@ type Year {
             
     }
     input UpdateCourseSessionInput{       
-      
+        id:ID!
         course_id:Int,
         name:String,
         start_date:Date,

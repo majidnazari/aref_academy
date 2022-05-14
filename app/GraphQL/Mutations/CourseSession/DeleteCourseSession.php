@@ -35,7 +35,7 @@ final class DeleteCourseSession
         }
         $CourseSession_result= $CourseSession->delete();        
        
-        return $CourseSession_result;
+        return $CourseSession;
         
     }
     

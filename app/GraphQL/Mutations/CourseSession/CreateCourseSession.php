@@ -26,6 +26,7 @@ final class CreateCourseSession
         $CourseSession_date = [
             'user_id_creator' => $user_id,
             'course_id' => $args['course_id'],
+            'name' => $args['name'],
             'start_date' => $args['start_date'],
             'start_time' => $args['start_time'],
             'end_time' => $args['end_time'],

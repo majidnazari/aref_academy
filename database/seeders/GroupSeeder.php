@@ -23,6 +23,7 @@ class GroupSeeder extends Seeder
             [
             "user_id_creator" => 0,
             "name" =>"admin",            
+            "persian_name" =>"مدیر ارشد",            
             "type" =>"admin",            
             "created_at" => $now,
             "updated_at" => $now
@@ -30,28 +31,32 @@ class GroupSeeder extends Seeder
            ],
            [
             "user_id_creator" => 0,
-            "name" =>"manager",            
+            "name" =>"manager", 
+            "persian_name" =>"مدیر",             
             "type" =>"manager",            
             "created_at" => $now,
             "updated_at" => $now
            ],
            [
             "user_id_creator" => 0,
-            "name" =>"financial",            
+            "name" =>"financial", 
+            "persian_name" =>"مالی",             
             "type" =>"financial",            
             "created_at" => $now,
             "updated_at" => $now
            ],
            [
             "user_id_creator" => 0,
-            "name" =>"acceptor",            
+            "name" =>"acceptor",
+            "persian_name" =>"پذیرشگر",              
             "type" =>"acceptor",            
             "created_at" => $now,
             "updated_at" => $now
            ],
            [
             "user_id_creator" => 0,
-            "name" =>"teacher",            
+            "name" =>"teacher",  
+            "persian_name" =>"دبیر",          
             "type" =>"teacher",            
             "created_at" => $now,
             "updated_at" => $now

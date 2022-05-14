@@ -16,7 +16,7 @@ class Course extends Model
         "teacher_id",       
         "name",
         "lesson",
-        "type"
+        "type",
     ];
     public function user()
     {

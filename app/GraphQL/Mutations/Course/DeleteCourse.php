@@ -24,17 +24,17 @@ final class DeleteCourse
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {  
         $user_id=auth()->guard('api')->user()->id;
-        $args["user_id_creator"]=$user_id;
+        //$args["user_id_creator"]=$user_id;
         $course=Course::find($args['id']);
         
         if(!$course)
         {
             return [
                 'status'  => 'Error',
-                'message' => __('cannot update course'),
+                'message' => __('cannot delete course'),
             ];
         }
-        $course_filled= $course->fill($args);
+        $course_filled= $course->delete();
         $course->save();       
        
         return $course;

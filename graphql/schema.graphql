@@ -131,6 +131,7 @@ type Group{
   user_id_creator:Int
   # key:String
   name:String
+  persian_name:String
   type:String
   created_at: DateTime
   updated_at: DateTime
@@ -416,6 +417,25 @@ type Year {
         supporters_id:Int,
         archived:Int
     }
+    input CreateCourseInput{       
+      
+      year_id:Int!
+      teacher_id:Int!
+      name:String!
+      lesson:String!
+      type:String!
+            
+    }
+     input UpdateCourseInput{       
+      id:ID!
+      year_id:Int
+      teacher_id:Int
+      name:String
+      lesson:String
+      type:String
+      
+    }
+    
 
 type Mutation {
     #test2:String!
@@ -470,9 +490,9 @@ type Mutation {
   #end region
 
    # region Course
-    # createCourse(input: CreateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
-    # updateCourse(input: UpdateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
-    # deleteCourse(id:ID!):Course  @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
+    createCourse(input: CreateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
+    updateCourse(input: UpdateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
+    deleteCourse(id:ID!):Course  @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
    #end Course
 
 }

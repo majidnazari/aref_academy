@@ -17,6 +17,7 @@ class Groups extends Migration
             $table->id();
             $table->foreignId('user_id_creator');
             $table->string('name')->unique();  
+            $table->string('persian_name')->unique();  
             $table->string('type')->unique();  
             $table->timestamps();  
             $table->softDeletes(); 

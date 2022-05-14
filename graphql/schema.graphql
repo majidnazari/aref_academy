@@ -28,11 +28,24 @@ type Query {
     getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
     getYears: [Year]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
   
-
-
     getStudent(id:ID!):Student @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
     getStudents: [Student]  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
 
+    getCourse(id:ID!):Course @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
+    getCourses: [Course]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
+
+}
+type Course{
+      id:ID
+      user_id_creator:Int
+      year_id:Int
+      teacher_id:Int
+      name:String
+      lesson:String
+      type:String
+      created_at:DateTime
+      updated_at:DateTime
+      deleted_at:DateTime
 }
 type Student{
         id:ID
@@ -455,6 +468,12 @@ type Mutation {
     deleteAzmoon(id:ID!):Azmoon @delete
 
   #end region
+
+   # region Course
+    # createCourse(input: CreateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
+    # updateCourse(input: UpdateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
+    # deleteCourse(id:ID!):Course  @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
+   #end Course
 
 }
 

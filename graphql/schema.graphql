@@ -99,7 +99,7 @@ type Student{
 # }
 type User {
     id:ID    
-    userId:ID
+    # userId:ID
     first_name: String
     last_name: String
     #mobile: String!
@@ -114,7 +114,7 @@ type User {
 
 type Group{ 
   id:ID
-  groupId:ID
+  # groupId:ID
   user_id_creator:Int
   # key:String
   name:String
@@ -129,7 +129,7 @@ type Group{
 }
 type GroupUserPivot { 
     id:ID   
-    groupUserId: ID
+    # groupUserId: ID
     user_id_creator:Int
     user_id: Int
     group_id: Int
@@ -143,7 +143,8 @@ type GroupUserPivot {
 }
 
 type Menu {
-    menuId: Int
+    id:ID
+    # menuId: Int
     slug: String
     name: String
     icon: String
@@ -159,7 +160,8 @@ type Menu {
 }
 
 type MenuPivot {
-    groupMenuId: Int
+    id:ID
+    # groupMenuId: Int
     user_id_creator:Int
     menu_id: Int
     group_id: Int  

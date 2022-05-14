@@ -130,7 +130,7 @@ type User {
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
-    groups: Group @belongsTo
+    groups: [Group] @belongsTo
 }
 
 type Group{ 

@@ -23,6 +23,6 @@ final class GetStudents
     {
         $response = Http::get(env('REMOTE_SERVER')."student_index");
        
-        return $response->getBody() ;   
+        return $response->json();   
     }
 }

@@ -12,8 +12,8 @@ class CourseSession extends Model
     use SoftDeletes;
     protected $table='course_sessions';
     protected $fillable=[
-        "id",
-        "user_id",
+        
+        "user_id_creator",
         "course_id",
         "name",
         "start_date",

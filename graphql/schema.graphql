@@ -35,6 +35,14 @@ type Query {
     getCourses: [Course]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
 }
+type CourseSession{       
+        course_id:Int!,
+        name:String!,
+        start_date:Date,
+        start_time:String,
+        end_time:String,
+}
+
 type Course{
       id:ID
       user_id_creator:Int
@@ -122,7 +130,7 @@ type User {
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
-    groups: [Group] @belongsTo
+    groups: Group @belongsTo
 }
 
 type Group{ 
@@ -435,7 +443,24 @@ type Year {
       type:String
       
     }
-    
+    input CreateCourseSessionInput{       
+      
+        course_id:Int!,
+        name:String!,
+        start_date:Date!,
+        start_time:String!,
+        end_time:String!,
+            
+    }
+    input UpdateCourseSessionInput{       
+      
+        course_id:Int,
+        name:String,
+        start_date:Date,
+        start_time:String,
+        end_time:String,
+            
+    }
 
 type Mutation {
     #test2:String!
@@ -494,6 +519,12 @@ type Mutation {
     updateCourse(input: UpdateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
     deleteCourse(id:ID!):Course  @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
    #end Course
+
+    # region Course_Session
+    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
+    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
+    deleteCourseSession(id:ID!):CourseSession  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
+    #end Course_session
 
 }
 

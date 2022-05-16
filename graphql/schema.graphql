@@ -50,6 +50,18 @@ type Query {
     getAzmoon(id:ID!):Azmoon @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
     getAzmoons: [Azmoon]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
     
+
+    getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
+    getAzmoonResults: [AzmoonResult]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
+    
+}
+type AzmoonResult{
+    id:ID
+    student_id:Int,
+    result_score:String, 
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
 }
 
 type Azmoon{
@@ -553,6 +565,18 @@ type Year {
           score:Float
     }
 
+    input CreateAzmoonResultInput{ 
+         
+          student_id:Int,
+          result_score:String, 
+    }
+    input UpdateAzmoonResultInput{
+        id:ID
+        student_id:Int,
+        result_score:String, 
+    }
+    
+
 
 type Mutation {
     #test2:String!
@@ -635,5 +659,11 @@ type Mutation {
       updateAzmoon(input: UpdateAzmoonInput! @spread): Azmoon!  @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\UpdateAzmoon@resolver")
       deleteAzmoon(id:ID!):Azmoon  @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
     #end Azmoon
+
+     #region AzmoonResult
+      createAzmoonResult(input: CreateAzmoonResultInput! @spread): AzmoonResult!  @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\CreateAzmoonResult@resolver")
+      updateAzmoonResult(input: UpdateAzmoonResultInput! @spread): AzmoonResult!  @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\UpdateAzmoonResult@resolver")
+      deleteAzmoonResult(id:ID!):AzmoonResult  @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\DeleteAzmoonResult@resolver")
+    #end AzmoonResult
 }
 

@@ -20,6 +20,6 @@ final class GetGroups
     }
     public function resolveGroup($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return Group::where('deleted_at', null);
+        return Group::where('deleted_at', null)->orderBy('id','desc');
     }
 }

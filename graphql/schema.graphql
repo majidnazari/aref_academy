@@ -9,10 +9,10 @@ type Query {
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
     # //user(id:ID @eq):User  @guard(with: ["api"]) @find
 
-    azmoons: [Azmoon!]! @guard(with: ["api"]) @paginate
-    azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
+    # azmoons: [Azmoon!]! @guard(with: ["api"]) @paginate
+    # azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
-    test1param(name:String="abdollah"): String
+    # test1param(name:String="abdollah"): String
     getUser(id:ID!):User @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
     getUsers: [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
@@ -46,8 +46,23 @@ type Query {
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
     getAbsencePresences: [AbsencePresence]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
     
+
+    getAzmoon(id:ID!):Azmoon @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
+    getAzmoons: [Azmoon]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
+    
 }
 
+type Azmoon{
+    id:ID
+    user_id_creator:Int,
+    course_id:Int,
+    course_session_id:Int,
+    isSMSsend:Int,
+    score:Float
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+}
 
 type AbsencePresence{
     id:ID
@@ -233,17 +248,6 @@ type MenuPivot {
 }
 
 
-type Azmoon {
-  id:Int
-  user_id:Int
-  course_id:Int
-  course_session_id:Int
-  isSMSsend:Int
-  score:Float
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at: DateTime
-}
 type Teacher {
   id:ID!
   user_id_creator:Int
@@ -534,7 +538,21 @@ type Year {
         updated_at:DateTime
         deleted_at:DateTime
     }
-    
+
+    input CreateAzmoonInput{ 
+          course_id:Int
+          course_session_id:Int
+          isSMSsend:Int
+          score:Float
+    }
+    input UpdateAzmoonInput{
+          id:ID!          
+          course_id:Int
+          course_session_id:Int
+          isSMSsend:Int
+          score:Float
+    }
+
 
 type Mutation {
     #test2:String!
@@ -573,20 +591,20 @@ type Mutation {
     deleteStudent(id:ID!):Student  @field(resolver: "App\\GraphQL\\Mutations\\Student\\DeleteStudent@resolver")
   #end Student
   
-  #region azmoon
-    createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create
-    updateAzmoon(
-          id:ID!
-          user_id:Int
-          course_id:Int
-          course_session_id:Int
-          isSMSsend:Int
-          score:Float
-    ): Azmoon! @update
+  # #region azmoon
+  #   createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create
+  #   updateAzmoon(
+  #         id:ID!
+  #         user_id:Int
+  #         course_id:Int
+  #         course_session_id:Int
+  #         isSMSsend:Int
+  #         score:Float
+  #   ): Azmoon! @update
 
-    deleteAzmoon(id:ID!):Azmoon @delete
+  #   deleteAzmoon(id:ID!):Azmoon @delete
 
-  #end region
+  # #end region
 
    # region Course
     createCourse(input: CreateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
@@ -611,5 +629,11 @@ type Mutation {
       updateAbsencePresence(input: UpdateAbsencePresenceInput! @spread): AbsencePresence!  @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@resolver")
       deleteAbsencePresence(id:ID!):AbsencePresence  @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\DeleteAbsencePresence@resolver")
     #end AbsencePresence
+
+    #region Azmoon
+      createAzmoon(input: CreateAzmoonInput! @spread): Azmoon!  @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\CreateAzmoon@resolver")
+      updateAzmoon(input: UpdateAzmoonInput! @spread): Azmoon!  @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\UpdateAzmoon@resolver")
+      deleteAzmoon(id:ID!):Azmoon  @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
+    #end Azmoon
 }
 

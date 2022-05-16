@@ -20,7 +20,7 @@ final class GetCourseStudents
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $CourseStudent= CourseStudent::where('deleted_at', null);
+        $CourseStudent= CourseStudent::where('deleted_at', null)->orderBy('id','desc');
         return $CourseStudent;
     }
 }

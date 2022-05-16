@@ -11,7 +11,7 @@ class Azmoon extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        "user_id",
+        "user_id_creator",
         "course_id",
         "course_session_id",
         "isSMSsend",

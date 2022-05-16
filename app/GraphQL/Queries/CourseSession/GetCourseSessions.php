@@ -20,6 +20,6 @@ final class GetCourseSessions
     }
     public function resolveCourseSession($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return CourseSession::where('deleted_at', null);
+        return CourseSession::where('deleted_at', null)->orderBy('id','desc');
     }
 }

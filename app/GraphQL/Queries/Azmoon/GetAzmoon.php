@@ -1,15 +1,14 @@
 <?php
 
-namespace App\GraphQL\Queries\Course;
+namespace App\GraphQL\Queries\Azmoon;
 
-use App\Models\Course;
+use App\Models\Azmoon;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 
-
-final class GetCourses
+final class GetAzmoon
 {
     /**
      * @param  null  $_
@@ -19,9 +18,9 @@ final class GetCourses
     {
         // TODO implement the resolver
     }
-
-    public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    function resolveAzmoonAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        return Course::where('deleted_at', null)->orderBy('id','desc');
+        $Azmoon= Azmoon::find($args['id']);
+        return $Azmoon;
     }
 }

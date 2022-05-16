@@ -20,7 +20,7 @@ final class GetAbsencePresences
     }
     function resolveAbsencePresence($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $AbsencePresence= AbsencePresence::where('deleted_at', null);
+        $AbsencePresence= AbsencePresence::where('deleted_at', null)->orderBy('id','desc');
         return $AbsencePresence;
     }
 }

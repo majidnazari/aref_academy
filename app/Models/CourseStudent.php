@@ -14,7 +14,7 @@ class CourseStudent extends Model
         "course_id",
         "student_id",
         "status",
-        "user_id_created",
+        "user_id_creator",
         "user_id_approved"
     ];
     public function user()

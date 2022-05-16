@@ -34,8 +34,45 @@ type Query {
     getCourse(id:ID!):Course @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses: [Course]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
+
+    getCourseSession(id:ID!):CourseSession @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
+    getCourseSessions: [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
+    
+
+    getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
+    getCourseStudents: [CourseStudent]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
+    
+
+    getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
+    getAbsencePresences: [AbsencePresence]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
+    
 }
-type CourseSession{       
+
+
+type AbsencePresence{
+    id:ID
+    user_id_creator:Int,
+    course_session_id:Int,
+    teacher_id:Int,
+    status:String,
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+}
+type CourseStudent{   
+        id:ID!
+        course_id:Int
+        student_id:Int
+        status:String
+        user_id_creator:Int
+        user_id_approved:Int      
+
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+}
+type CourseSession{   
+        id:ID!
         course_id:Int,
         name:String,
         start_date:Date,
@@ -462,6 +499,43 @@ type Year {
             
     }
 
+    input CreateCourseStudentInput{ 
+        
+        course_id:Int,
+        student_id:Int,
+        status:String,
+    }
+    input UpdateCourseStudentInput{       
+        id:ID!
+        course_id:Int,
+        student_id:Int,
+        status:String,
+            
+    }
+
+
+    input CreateAbsencePresenceInput{       
+       
+        course_session_id:Int,
+        teacher_id:Int,
+        status:String,
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+            
+    }
+    input UpdateAbsencePresenceInput{
+
+        id:ID!        
+        course_session_id:Int,
+        teacher_id:Int,
+        status:String,
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+    }
+    
+
 type Mutation {
     #test2:String!
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
@@ -526,5 +600,16 @@ type Mutation {
     deleteCourseSession(id:ID!):CourseSession  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
     #end Course_session
 
+    #region Course_Student
+    createCourseStudent(input: CreateCourseStudentInput! @spread): CourseStudent!  @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudent@resolver")
+    updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent!  @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
+    deleteCourseStudent(id:ID!):CourseStudent  @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
+    #end Course_Student
+
+    #region AbsencePresence
+      createAbsencePresence(input: CreateAbsencePresenceInput! @spread): AbsencePresence!  @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\CreateAbsencePresence@resolver")
+      updateAbsencePresence(input: UpdateAbsencePresenceInput! @spread): AbsencePresence!  @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@resolver")
+      deleteAbsencePresence(id:ID!):AbsencePresence  @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\DeleteAbsencePresence@resolver")
+    #end AbsencePresence
 }
 

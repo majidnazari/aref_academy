@@ -13,6 +13,7 @@ class Fault extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        "user_id_creator",
         'description'
     ];
 }

@@ -54,6 +54,19 @@ type Query {
     getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
     getAzmoonResults: [AzmoonResult]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
     
+
+    getFault(id:ID!):Fault @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
+    getFaults: [Fault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
+    
+}
+
+type Fault{
+    id:ID
+    user_id_creator:Int,
+    description:String, 
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
 }
 type AzmoonResult{
     id:ID
@@ -575,6 +588,14 @@ type Year {
         student_id:Int,
         result_score:String, 
     }
+
+    input CreateFaultInput{         
+          description:String!         
+    }
+    input UpdateFaultInput{
+        id:Int
+        description:String
+    }
     
 
 
@@ -660,10 +681,16 @@ type Mutation {
       deleteAzmoon(id:ID!):Azmoon  @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
     #end Azmoon
 
-     #region AzmoonResult
+    #region AzmoonResult
       createAzmoonResult(input: CreateAzmoonResultInput! @spread): AzmoonResult!  @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\CreateAzmoonResult@resolver")
       updateAzmoonResult(input: UpdateAzmoonResultInput! @spread): AzmoonResult!  @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\UpdateAzmoonResult@resolver")
       deleteAzmoonResult(id:ID!):AzmoonResult  @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\DeleteAzmoonResult@resolver")
+    #end AzmoonResult
+
+    #region AzmoonResult
+      createFault(input: CreateFaultInput! @spread): Fault!  @field(resolver: "App\\GraphQL\\Mutations\\Fault\\CreateFault@resolver")
+      updateFault(input: UpdateFaultInput! @spread): Fault!  @field(resolver: "App\\GraphQL\\Mutations\\Fault\\UpdateFault@resolver")
+      deleteFault(id:ID!):Fault  @field(resolver: "App\\GraphQL\\Mutations\\Fault\\DeleteFault@resolver")
     #end AzmoonResult
 }
 

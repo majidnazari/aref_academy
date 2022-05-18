@@ -18,4 +18,9 @@ class Year extends Model
         'active'
        // 'year'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,"user_id_creator");
+    }
 }

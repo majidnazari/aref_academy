@@ -20,7 +20,7 @@ final class GetYear
     }
     function resolveYearAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $group= Year::find($args['id']);
-        return $group;
+        $year= Year::find($args['id']);
+        return $year;
     }
 }

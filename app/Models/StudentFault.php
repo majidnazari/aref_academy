@@ -20,7 +20,7 @@ class StudentFault extends Model
     ];
     public function user()
     {
-        return $this->blongsTo('user');
+        return $this->belongsTo('user');
     }
     public function student()
     {

@@ -14,4 +14,9 @@ class AzmoonResult extends Model
         "student_id",
         "result_score"              
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class,"student_id");
+    }
 }

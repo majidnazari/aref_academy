@@ -30,5 +30,60 @@ final class CreateFault
         ];
         $course_result=Fault::create($course_date);
         return $course_result;
+          
+        //  $ops=explode(' ',"5 2 C D +");
+       
+        //  $sulotion=new Sulotion($ops);
+        //  $output=$sulotion->CalPoints($ops);
+        //  return  $output;   
     }
+
+    
 }
+// class Sulotion{
+
+//     function CalPoints($ops)
+//     {
+//         $arr_tmp=[];
+//         $i=0;
+//         $total=0;
+//         foreach($ops as $op)
+//         {
+//             switch ($op){
+                
+//                 case "C":  
+//                     //return $i;
+//                     //return $arr_tmp[$i-1];
+//                     $key=$i-1; 
+//                     array_splice($arr_tmp,$key, 1);                  
+//                     //$arr_tmp[$i-1]=0;
+//                     $i--;
+//                    // return $arr_tmp[$i-1];
+//                     break;
+//                 case "D":
+//                     //return $i;
+//                     //return $arr_tmp[$i-1]*2;
+//                     $arr_tmp[$i]=$arr_tmp[$i-1]*2;
+//                     $i++;
+//                     break;
+//                 case "+":
+
+//                     $arr_tmp[$i]=$arr_tmp[$i-1]+$arr_tmp[$i-2];
+//                     $i++;
+//                     break;
+//                 default:    
+//                     $arr_tmp[$i]=$op;
+//                     $i++;
+                   
+
+//             }
+           
+
+//         }        
+//         foreach($arr_tmp as $arr)
+//         {
+//             $total+=$arr;
+//         }
+//         return $total;
+//     }
+// }

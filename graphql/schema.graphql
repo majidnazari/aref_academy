@@ -58,46 +58,58 @@ type Query {
     getFault(id:ID!):Fault @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
     getFaults: [Fault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
     
+
 }
 
 type Fault{
     id:ID
-    user_id_creator:Int,
-    description:String, 
+    user_id_creator:Int
+    description:String
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+   
 }
 type AzmoonResult{
     id:ID
-    student_id:Int,
-    result_score:String, 
+    student_id:Int
+    result_score:String 
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime
+    student:Student @belongsTo
 }
 
 type Azmoon{
     id:ID
-    user_id_creator:Int,
-    course_id:Int,
-    course_session_id:Int,
-    isSMSsend:Int,
+    user_id_creator:Int
+    course_id:Int
+    course_session_id:Int
+    isSMSsend:Int
     score:Float
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime
+    user:User @belongsTo
+    course:Course @belongsTo
+    courseSession:CourseSession @belongsTo
+    
 }
 
 type AbsencePresence{
     id:ID
-    user_id_creator:Int,
-    course_session_id:Int,
-    teacher_id:Int,
-    status:String,
+    user_id_creator:Int
+    course_session_id:Int
+    teacher_id:Int
+    status:String
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime
+    user:User @belongsTo
+    courseSession:CourseSession @belongsTo
+    teacher:User @belongsTo
 }
 type CourseStudent{   
         id:ID!
@@ -110,14 +122,22 @@ type CourseStudent{
         created_at:DateTime
         updated_at:DateTime
         deleted_at:DateTime
+
+        user_creator:User @belongsTo
+        user_approved:User @belongsTo
+        course:Course @belongsTo
+
 }
 type CourseSession{   
         id:ID!
-        course_id:Int,
-        name:String,
-        start_date:Date,
-        start_time:String,
-        end_time:String,
+        user_id_creator:Int
+        course_id:Int
+        name:String
+        start_date:Date
+        start_time:String
+        end_time:String
+        user:User @belongsTo
+        course: Course @belongsTo
 }
 
 type Course{
@@ -131,6 +151,10 @@ type Course{
       created_at:DateTime
       updated_at:DateTime
       deleted_at:DateTime
+      user:User @belongsTo
+      year:Year @belongsTo
+      teacher:User @belongsTo
+
 }
 type Student{
         id:ID
@@ -208,6 +232,9 @@ type User {
     updated_at: DateTime
     deleted_at: DateTime
     groups: [Group] @belongsTo
+    # faults:[Fault] @belongsToMany
+    faults: [Fault] @hasMany
+   
 }
 
 type Group{ 
@@ -287,12 +314,13 @@ type Teacher {
 
 type Year {
   id:ID!
-  user_id_creator:Int
+  user_id_creator:Int  
   name:String
   active:Boolean  
   created_at:DateTime
   updated_at:DateTime
   deleted_at:DateTime
+  user: User! @belongsTo
 }
 
 # "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
@@ -595,8 +623,7 @@ type Year {
     input UpdateFaultInput{
         id:Int
         description:String
-    }
-    
+    }    
 
 
 type Mutation {

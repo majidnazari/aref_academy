@@ -20,14 +20,14 @@ class Course extends Model
     ];
     public function user()
     {
-        return $this->belongsTo('user');
+        return $this->belongsTo(User::class,"user_id_creator");
     }
     public function year()
     {
-        return $this->belongsTo('year');
+        return $this->belongsTo(Year::class,"year_id");
     }
     public function teacher()
     {
-        return $this->belongsTo('teacher');
+        return $this->belongsTo(User::class,"teacher_id");
     }
 }

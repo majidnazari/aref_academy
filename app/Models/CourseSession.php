@@ -23,10 +23,10 @@ class CourseSession extends Model
     ];
     public function user()
     {
-        return $this->blongsTo('user');
+        return $this->belongsTo(User::class,"user_id_creator");
     }
     public function course()
     {
-        return $this->hasMany('course');
+        return $this->belongsTo(Course::class,"course_id");
     }    
 }

@@ -19,14 +19,14 @@ class Azmoon extends Model
     ];
     public function user()
     {
-        return $this->belongsTo('user');
+        return $this->belongsTo(User::class,"user_id_creator");
     }
     public function course()
     {
-        return $this->belongsTo('course');
+        return $this->belongsTo(Course::class,"course_id");
     }
     public function courseSession()
     {
-        return $this->belongsTo('CourseSession');
+        return $this->belongsTo(CourseSession::class,"course_session_id");
     }
 }

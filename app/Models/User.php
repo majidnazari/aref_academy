@@ -16,6 +16,8 @@ use Illuminate\Database\Query\Builder;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Concerns\BuildsQueries;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 
@@ -93,7 +95,18 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
 
         // )->using(GroupUser::class);
     }
-
+    public function years() 
+    {
+        return $this->hasmany(Year::class);
+    }
+    // public function fault():HasMany
+    // {
+    //     return $this->hasMany(Fault::class,"user_id_creator");
+    // }
+    public function faults()
+    {
+        return $this->hasMany(Fault::class);
+    }
     
     public function courses()
     {

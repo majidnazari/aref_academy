@@ -19,7 +19,7 @@ class Gate extends Model
     ];
     public function user()
     {
-        return $this->blongsTo(User::class);
+        return $this->blongsTo(User::class,"user_id_creator");
     }
     public function groups()
     {

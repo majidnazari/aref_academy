@@ -14,7 +14,7 @@ type Query {
 
     # test1param(name:String="abdollah"): String
     getUser(id:ID!):User @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
-    getUsers: [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
+    getUsers(first_name: String @eq orderBy: [OrderByClause!] @orderBy): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
     getGroups: [Group]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Group\\GetGroups@resolveGroup")
     
@@ -59,6 +59,16 @@ type Query {
     getFaults: [Fault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
     
 
+}
+
+input OrderByClause{
+    field: String!
+    order: SortOrder!
+}
+
+enum SortOrder {
+    ASC
+    DESC
 }
 
 type Fault{

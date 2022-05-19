@@ -21,6 +21,6 @@ final class GetYears
     
     function resolveYear($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        return Year::where('deleted_at', null)->orderBy('id','desc');
+        return Year::where('deleted_at', null);//->orderBy('id','desc');
     }
 }

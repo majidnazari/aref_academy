@@ -20,6 +20,6 @@ final class GetAzmoonResults
     }
     public function resolveAzmoonResult($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return AzmoonResult::where('deleted_at', null)->orderBy('id','desc');
+        return AzmoonResult::where('deleted_at', null);//->orderBy('id','desc');
     }
 }

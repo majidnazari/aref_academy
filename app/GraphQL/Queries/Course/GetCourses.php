@@ -22,6 +22,6 @@ final class GetCourses
 
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return Course::where('deleted_at', null)->orderBy('id','desc');
+        return Course::where('deleted_at', null);//->orderBy('id','desc');
     }
 }

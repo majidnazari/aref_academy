@@ -26,7 +26,7 @@ final class GetUsers
     // }
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('deleted_at', null)->orderBy('id','desc');
+        return User::where('deleted_at', null);//->orderBy('id','desc');
     }
 
 }

@@ -4,7 +4,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
-
+directive @upperCase on FIELD_DEFINITION
 type Query {
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
     # //user(id:ID @eq):User  @guard(with: ["api"]) @find
@@ -14,9 +14,20 @@ type Query {
 
     # test1param(name:String="abdollah"): String
     getUser(id:ID!):User @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
-    getUsers(first_name: String @eq orderBy: [OrderByClause!] @orderBy): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
+    getUsers(
+      first_name: String @like(template : "%{}%") 
+      last_name: String @like(template : "%{}%")
+      email: String @like(template : "%{}%")
+      orderBy: [OrderByClause!] @orderBy
+       ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
-    getGroups: [Group]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Group\\GetGroups@resolveGroup")
+    getGroups(
+      name:String @like (template : "%{}%")
+      persian_name:String @like (template : "%{}%")
+      type:String @like(template : "%{}%")
+      orderBy:[OrderByClause!] @orderBy
+    
+    ): [Group]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Group\\GetGroups@resolveGroup")
     
     getTeacher(id:ID!):Teacher @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Teacher\\GetTeacher@resolveTeacherAttribute") 
     getTeachers: [Teacher]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Teacher\\GetTeachers@resolveTeacher")
@@ -26,41 +37,74 @@ type Query {
     # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
    
     getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
-    getYears: [Year]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
+    getYears(
+      name: String @like (template : "%{}%")
+      active: Boolean @eq
+      orderBy:[OrderByClause!] @orderBy
+
+    ): [Year]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
   
     getStudent(id:ID!):Student @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
     getStudents: [Student]  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
 
     getCourse(id:ID!):Course @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
-    getCourses: [Course]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
+    getCourses(
+      name:String @like(template: "%{}%")
+      lesson: String @like(template: "%{}%")      
+      orderBy:[OrderByClause!] @orderBy
+    ): [Course]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
 
     getCourseSession(id:ID!):CourseSession @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
-    getCourseSessions: [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
+    getCourseSessions(
+       name:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
     
 
     getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
-    getCourseStudents: [CourseStudent]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
+    getCourseStudents(
+       status:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseStudent]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
     
 
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
-    getAbsencePresences: [AbsencePresence]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
+    getAbsencePresences(
+         status:String @like(template: "%{}%")
+         orderBy:[OrderByClause!] @orderBy
+    ): [AbsencePresence]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
     
 
     getAzmoon(id:ID!):Azmoon @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
-    getAzmoons: [Azmoon]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
+    getAzmoons(
+       isSMSsend:Boolean @eq
+       score:Float @eq       
+       orderBy:[OrderByClause!] @orderBy
+    ): [Azmoon]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
     
 
     getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
-    getAzmoonResults: [AzmoonResult]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
+    getAzmoonResults(
+         result_score:String @eq 
+         orderBy:[OrderByClause!] @orderBy
+    ): [AzmoonResult]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
     
 
     getFault(id:ID!):Fault @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
-    getFaults: [Fault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
+    getFaults(
+       description:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [Fault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
     
 
 }
-
+ enum LessonEnum{
+   Mathematics @enum(value: 0)
+   Physics @enum(value:1)
+   Biology @enum(value: 2)
+  
+ }
 input OrderByClause{
     field: String!
     order: SortOrder!
@@ -229,11 +273,12 @@ type Student{
 #   updated_at: DateTime
 #   is_deleted:Int
 # }
+
 type User {
     id:ID    
     # userId:ID
     first_name: String
-    last_name: String
+    last_name: String 
     #mobile: String!
     email: String
     #type: String!

@@ -21,7 +21,7 @@ final class GetFaults
 
     function resolveFault($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $Fault= Fault::where('deleted_at', null)->orderBy('id','desc');
+        $Fault= Fault::where('deleted_at', null);//->orderBy('id','desc');
         return $Fault;
     }
 }

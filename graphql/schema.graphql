@@ -18,6 +18,7 @@ type Query {
       first_name: String @like(template : "%{}%") 
       last_name: String @like(template : "%{}%")
       email: String @like(template : "%{}%")
+      groups_id: Int @belongsToMany(relation: "groups")
       orderBy: [OrderByClause!] @orderBy
        ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
@@ -45,7 +46,10 @@ type Query {
     ): [Year]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
   
     getStudent(id:ID!):Student @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
-    getStudents: [Student]  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
+    getStudents(
+      first_name: String @like (template : "%{}%")
+      orderBy:[OrderByClause!] @orderBy
+    ): [Student]  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
 
     getCourse(id:ID!):Course @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses(
@@ -58,13 +62,23 @@ type Query {
     getCourseSession(id:ID!):CourseSession @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
     getCourseSessions(
        name:String @like(template: "%{}%")
+      #  start_date:String @where(operator: ">=")
+       date_after: Date @where(operator: ">=", key: "start_date")# @where(operator: ">=", clause: "orWhere", key: "created_at")
+       date_befor: Date @where(operator: "<=", key: "start_date")# @where(operator: "<=", clause: "orWhere", key: "created_at")
+       
+       start_time_after: String @where(operator: ">=", key: "start_time")
+       start_time_befor: Date @where(operator: "<=", key: "start_time")
+
+       end_time_after: String @where(operator: ">=", key: "end_time")
+       end_time_befor: String @where(operator: "<=", key: "end_time")
+
        orderBy:[OrderByClause!] @orderBy
     ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
     
 
     getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
     getCourseStudents(
-       status:String @like(template: "%{}%")
+       status:String @like(template: "%{}%")      
        orderBy:[OrderByClause!] @orderBy
     ): [CourseStudent]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
     
@@ -78,19 +92,21 @@ type Query {
 
     getAzmoon(id:ID!):Azmoon @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
     getAzmoons(
-       isSMSsend:Boolean @eq
-       score:Float @eq       
+       isSMSsend:Boolean @eq 
+       score_gt:Float @where(operator: ">=", key: "score")     
+       score_lt:Float @where(operator: "<=", key: "score")     
        orderBy:[OrderByClause!] @orderBy
     ): [Azmoon]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
     
 
     getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
     getAzmoonResults(
-         result_score:String @eq 
+         result_score_gt:Float @where(operator: ">=" , key: "result_score")         
+         result_score_lt:Float @where(operator: "<=" , key: "result_score")         
          orderBy:[OrderByClause!] @orderBy
     ): [AzmoonResult]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
     
-
+    
     getFault(id:ID!):Fault @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
     getFaults(
        description:String @like(template: "%{}%")
@@ -133,7 +149,7 @@ type AzmoonResult{
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime
-    student:Student @belongsTo
+    student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
 }
 
 type Azmoon{

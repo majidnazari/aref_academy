@@ -2,27 +2,21 @@
 
 namespace App\GraphQL\Queries\Student;
 
-use App\Models\Student;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Http;
 
 final class GetStudents
 {
-    /**
-     * @param  null  $_
-     * @param  array{}  $args
-     */
-    public function __invoke($_, array $args)
-    {
-        // TODO implement the resolver
-    }
-    public function resolveStudent($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function resolveStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $response = Http::get(env('REMOTE_SERVER')."student_index");
-       
-        return $response->json();   
+        $result = json_decode($response->body());
+        $first_name = $args['first_name'];
+      
+        return array_filter($result, function ($item) use ($first_name)
+        {
+            return \strpos($item->first_name, $first_name) !== false;
+        });   
     }
 }

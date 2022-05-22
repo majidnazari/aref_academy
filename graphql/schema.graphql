@@ -4,7 +4,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
-directive @upperCase on FIELD_DEFINITION
+
 type Query {
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
     # //user(id:ID @eq):User  @guard(with: ["api"]) @find
@@ -17,8 +17,9 @@ type Query {
     getUsers(
       first_name: String @like(template : "%{}%") 
       last_name: String @like(template : "%{}%")
-      email: String @like(template : "%{}%")
-      groups_id: Int @belongsToMany(relation: "groups")
+      email: String @like(template : "%{}%")      
+      group_id: Int  
+      # group_id: Group  @belongsToMany(relation: "groups" ) 
       orderBy: [OrderByClause!] @orderBy
        ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
@@ -298,7 +299,8 @@ type User {
     #mobile: String!
     email: String
     #type: String!
-    #is_teacher: Int!    
+    #is_teacher: Int! 
+   
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime

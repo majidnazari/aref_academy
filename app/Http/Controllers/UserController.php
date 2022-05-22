@@ -17,6 +17,21 @@ class UserController extends Controller
     {
         $this->repository = $repository;
     }
+    public function test()
+    {
+        // $data= DB::table('users')
+        // ->leftJoin('group_user','users.id','=','group_user.user_id')
+        // ->leftJoin('groups','group_user.user_id','=','groups.id')
+        // ->where('id',1)->get();
+        // return response()->json($data,200);
+        $user=User::where('deleted_at', null)->whereHas('groups',function ($query){
+            $query->where("groups.id",3);
+        })        
+        ->with('groups')
+        ->get();
+        return $user;
+       
+    }
     public function index2()
     {
        $data= DB::table('users')

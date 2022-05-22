@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Concerns\BuildsQueries;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Group extends Model
@@ -25,20 +26,20 @@ class Group extends Model
     ];
 
 
-    public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
-    {
+    // public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    // {
        
-        return DB::table('groups')
-        ->select('groups.id As groupId','groups.*');
-        // ->leftJoin('group_user','users.id','=','group_user.user_id')
-        // ->leftJoin('groups','group_user.user_id','=','groups.id');
-           // ->leftJoinSub(...)
-           // ->groupBy(...);
-    }
-    public function users()
+    //     return DB::table('groups')
+    //     ->select('groups.id As groupId','groups.*');
+    //     // ->leftJoin('group_user','users.id','=','group_user.user_id')
+    //     // ->leftJoin('groups','group_user.user_id','=','groups.id');
+    //        // ->leftJoinSub(...)
+    //        // ->groupBy(...);
+    // }
+    public function users():HasMany
     {
         //return  $this->hasMany(User::class);
-         return $this->belongsToMany(User::class);
+         return $this->hasMany(User::class);
          //->withPivot(
 
         //     "id",

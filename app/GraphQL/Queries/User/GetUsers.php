@@ -8,7 +8,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
-
 final class GetUsers
 {
     /**
@@ -26,7 +25,15 @@ final class GetUsers
     // }
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('deleted_at', null);//->orderBy('id','desc');
+    //    $user= User::where('deleted_at', null);//->orderBy('id','desc');
+    //    return $user;
+
+            $user=User::where('deleted_at', null)->whereHas('groups',function ($query) use($args){
+                $query->where("groups.id",$args["group_id"]);
+            })        
+            ->with('groups');
+            
+            return $user;
     }
 
 }

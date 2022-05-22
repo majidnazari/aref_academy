@@ -76,7 +76,7 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     // {
     //     return $this->belongsTo('Group');
     // }
-    public function groups() 
+    public function groups():BelongsToMany 
     {
         return $this->belongsToMany(Group::class);
         // ->using(GroupUser::class) // only needed to retrieve the tag from the tag_id

@@ -185,3 +185,7 @@ Route::put('/student/{student}','StudentController@update')->name('Student.updat
 Route::delete('/student/{id}','StudentController@destroy')->name('Student.destroy');
 
 #end region
+
+
+
+Route::get('/user_test','UserController@test');

@@ -23,10 +23,10 @@ class UserSeeder extends Seeder
 
         // "email" => "majidnazarister@gmail.com",
         //"type" =>"admin",
-       [ "password" => Hash::make("123456"),
-        "first_name" => "majid",
-        "last_name" => "nazari",
-        "email" => "09372120890",
+       [ "password" => Hash::make("1234asdfA"),
+        "first_name" => "admin",
+        "last_name" => "admin",
+        "email" => "09153254678",
         "created_at" => $now,
         "updated_at" =>$now
        ],

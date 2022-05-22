@@ -24,7 +24,7 @@ final class CreateUser
     }
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
-        $user_id=auth()->guard('api')->user()->id;
+        $user_id=auth()->guard('api')->user()->id;        
         $user_date=[
             'user_id_creator' => $user_id,
             'email' => $args['email'],

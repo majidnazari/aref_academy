@@ -23,7 +23,7 @@ class CourseStudents extends Migration
             $table->enum('student_status',['ok','refused','fired'])->default('ok');            
             $table->foreignId('user_id_manager');
             $table->foreignId('user_id_financial');
-            $table->foreignId('student_status');
+            $table->foreignId('user_id_student_status');
             $table->timestamps();   
             $table->softDeletes();         
         });

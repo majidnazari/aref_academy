@@ -27,14 +27,15 @@ final class GetUsers
     {
     //    $user= User::where('deleted_at', null);//->orderBy('id','desc');
     //    return $user;
-        if(isset($args["group_id"]))
-        {
+        
             $user=User::where('deleted_at', null)->whereHas('groups',function ($query) use($args){
-                $query->where("groups.id",$args["group_id"]);
-            })        
+                if(isset($args["group_id"]))
+                    $query->where("groups.id",$args["group_id"]);
+                else
+                  return true;
+            })       
             ->with('groups');
-        }
-            
+        
             
             return $user;
     }

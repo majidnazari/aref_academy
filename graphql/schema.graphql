@@ -18,7 +18,7 @@ type Query {
       first_name: String @like(template : "%{}%") 
       last_name: String @like(template : "%{}%")
       email: String @like(template : "%{}%")      
-      group_id: Int  
+      group_id: Int!  
       # group_id: Group  @belongsToMany(relation: "groups" ) 
       orderBy: [OrderByClause!] @orderBy
        ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")

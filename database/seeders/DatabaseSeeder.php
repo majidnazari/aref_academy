@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             GroupSeeder::class,
             MenuSeeder::class,
             GroupMenusSeeder::class,
-            GroupUserSeeder::class
+            GroupUserSeeder::class,
+            BranchSeeder::class,
+            BranchClassRoomSeeder::class,
         ]);
     }
 }

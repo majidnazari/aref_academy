@@ -20,7 +20,10 @@ class Courses extends Migration
             $table->foreignId('teacher_id');       
             $table->string('name'); 
             $table->enum('lesson',['Mathematics','Physics','Biology'])->default('Mathematics');            
+            $table->enum('education_level',['1','2','3','4','5','6','7','8','9','10','11','12','13','14']);            
             $table->enum('type',['public','private'])->default('public');            
+            $table->enum('financial_status',['approved','pending'])->default('pending');
+            $table->foreignId('user_id_financial');      
             $table->timestamps();  
             $table->softDeletes();          
         });

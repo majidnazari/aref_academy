@@ -17,6 +17,9 @@ class Course extends Model
         "name",
         "lesson",
         "type",
+        "education_level",
+        "financial_status",
+        "user_id_financial",
     ];
     public function user()
     {

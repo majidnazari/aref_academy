@@ -265,6 +265,9 @@ type Course{
       name:String
       lesson:String
       type:String
+      education_level:String
+      financial_status:String
+      user_id_financial:Int
       created_at:DateTime
       updated_at:DateTime
       deleted_at:DateTime

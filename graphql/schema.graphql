@@ -87,6 +87,11 @@ type Query {
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
     getAbsencePresences(
          status:String @like(template: "%{}%")
+         user_id_creator:Int
+         course_session_id:Int
+         course_session_date:Date
+         teacher_id:Int
+
          orderBy:[OrderByClause!] @orderBy
     ): [AbsencePresence]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
     
@@ -115,6 +120,22 @@ type Query {
     ): [Fault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
     
 
+    getBranch(id:ID!):Branch @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Branch\\GetBranch@resolveBranchAttribute") 
+    getBranches(
+       name:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [Branch]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Branch\\GetBranches@resolveBranchesAttribute") 
+    
+
+    getBranchClassRoom(id:ID!):BranchClassRoom @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRoom@resolveBranchClassRoomAttribute") 
+    getBranchClassRooms(
+       name:String @like(template: "%{}%")
+       description:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [BranchClassRoom]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRooms@resolveBranchClassRoomsAttribute") 
+    
+
+
 }
  enum LessonEnum{
    Mathematics @enum(value: 0)
@@ -132,6 +153,31 @@ enum SortOrder {
     DESC
 }
 
+type Branch{
+    id:ID
+    user_id_creator:Int
+    name:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+   
+}
+type BranchClassRoom{
+    id:ID
+    user_id_creator:Int
+    branch_id:Int
+    name:String
+    description:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+    branch:Branch @belongsTo
+   
+}
 type Fault{
     id:ID
     user_id_creator:Int
@@ -698,6 +744,25 @@ type Year {
         description:String
     }    
 
+    input CreateBranchInput{         
+          name:String!         
+    }
+    input UpdateBranchInput{
+        id:Int
+        name:String
+    }
+    input CreateBranchClassRoomInput{ 
+          branch_id:Int
+          description:String        
+          name:String         
+    }
+    input UpdateBranchClassRoomInput{
+        id:Int
+        branch_id:Int
+        description:String        
+        name:String
+    }
+     
 
 type Mutation {
     #test2:String!
@@ -792,5 +857,16 @@ type Mutation {
       updateFault(input: UpdateFaultInput! @spread): Fault!  @field(resolver: "App\\GraphQL\\Mutations\\Fault\\UpdateFault@resolver")
       deleteFault(id:ID!):Fault  @field(resolver: "App\\GraphQL\\Mutations\\Fault\\DeleteFault@resolver")
     #end AzmoonResult
+
+    #region Branch
+      createBranch(input: CreateBranchInput! @spread): Branch!  @field(resolver: "App\\GraphQL\\Mutations\\Branch\\CreateBranch@resolver")
+      updateBranch(input: UpdateBranchInput! @spread): Branch!  @field(resolver: "App\\GraphQL\\Mutations\\Branch\\UpdateBranch@resolver")
+      deleteBranch(id:ID!):Branch  @field(resolver: "App\\GraphQL\\Mutations\\Branch\\DeleteBranch@resolver")
+    #end Branch
+    #region BranchClassRoom
+      createBranchClassRoom(input: CreateBranchClassRoomInput! @spread): BranchClassRoom!  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\CreateBranchClassRoom@resolver")
+      updateBranchClassRoom(input: UpdateBranchClassRoomInput! @spread): BranchClassRoom!  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\UpdateBranchClassRoom@resolver")
+      deleteBranchClassRoom(id:ID!):BranchClassRoom  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\DeleteBranchClassRoom@resolver")
+    #end BranchClassRoom
 }
 

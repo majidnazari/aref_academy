@@ -644,7 +644,10 @@ type Year {
       teacher_id:Int!
       name:String!
       lesson:String!
+      education_level:String!
       type:String!
+      financial_status:String
+      user_id_financial:Int
             
     }
      input UpdateCourseInput{       
@@ -653,7 +656,10 @@ type Year {
       teacher_id:Int
       name:String
       lesson:String
+      education_level:String      
       type:String
+      financial_status:String
+      user_id_financial:Int
       
     }
     input CreateCourseSessionInput{       

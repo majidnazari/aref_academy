@@ -31,6 +31,9 @@ final class CreateCourse
             "teacher_id" => $args['teacher_id'],            
             'name' => $args['name'],
             "lesson"=> $args["lesson"],
+            "education_level"=> $args["education_level"],
+            "financial_status" => isset($args["financial_status"]) ? $args["financial_status"] : 'pending' ,
+            "user_id_financial" => isset($args["user_id_financial"]) ? $args["user_id_financial"] : null ,            
             "type" => $args["type"],
            
             

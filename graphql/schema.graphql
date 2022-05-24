@@ -63,6 +63,7 @@ type Query {
     getCourseSession(id:ID!):CourseSession @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
     getCourseSessions(
        name:String @like(template: "%{}%")
+       course_id:Int @eq
       #  start_date:String @where(operator: ">=")
        date_after: Date @where(operator: ">=", key: "start_date")# @where(operator: ">=", clause: "orWhere", key: "created_at")
        date_befor: Date @where(operator: "<=", key: "start_date")# @where(operator: "<=", clause: "orWhere", key: "created_at")

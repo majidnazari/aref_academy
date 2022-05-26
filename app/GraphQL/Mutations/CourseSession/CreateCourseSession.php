@@ -43,11 +43,11 @@ final class CreateCourseSession
         $name=$args['name'] ??  "";
         $price=$args['price'] ?? 0;
         $special=$args['special'] ?? false;
-        $courseSession="";
+        $courseSession=[];
         while (strtotime($date) <= strtotime($to_date)) {
             $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
             if (in_array($this->getNameOfTheDate($date), $days)) {
-                $courseSession = CourseSession::create([
+                $courseSession[] = CourseSession::create([
                     'user_id_creator' => $user_id,
                     'course_id' => $args['course_id'],
                     'name' => $name,

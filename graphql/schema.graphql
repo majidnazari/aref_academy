@@ -688,10 +688,10 @@ type Year {
         end_time:String!
             
     }
-      input CreateCourseSessionByDuringDateInput{       
+      input CreateCourseSessionByDuringDateInput @Validator{       
       
         course_id:Int!
-        days:[String]!
+        days:[String]
         name:String
         price:Float
         special:Boolean
@@ -861,7 +861,7 @@ type Mutation {
 
     # region Course_Session
     createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
-    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
+    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @spread): [CourseSession]!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
     updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
     deleteCourseSession(id:ID!):CourseSession  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
     #end Course_session

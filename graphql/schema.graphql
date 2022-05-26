@@ -654,6 +654,19 @@ type Year {
       user_id_financial:Int
             
     }
+    # input CreateCourseWithDateInput{       
+      
+    #   year_id:Int!
+    #   teacher_id:Int!
+    #   name:String!
+    #   lesson:String!
+    #   education_level:String!
+    #   type:String!
+    #   financial_status:String
+    #   user_id_financial:Int
+            
+    # }
+    
      input UpdateCourseInput{       
       id:ID!
       year_id:Int
@@ -668,11 +681,24 @@ type Year {
     }
     input CreateCourseSessionInput{       
       
-        course_id:Int!,
-        name:String!,
-        start_date:Date!,
-        start_time:String!,
-        end_time:String!,
+        course_id:Int!
+        name:String!
+        start_date:Date!
+        start_time:String!
+        end_time:String!
+            
+    }
+      input CreateCourseSessionByDuringDateInput{       
+      
+        course_id:Int!
+        days:[String]!
+        name:String
+        price:Float
+        special:Boolean
+        start_date:String!
+        end_date:String!
+        start_time:String!
+        end_time:String!      
             
     }
     input UpdateCourseSessionInput{       
@@ -828,12 +854,14 @@ type Mutation {
 
    # region Course
     createCourse(input: CreateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
+    # createCourseWithDate(input: CreateCourseWithDateInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolverWithDate")
     updateCourse(input: UpdateCourseInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
     deleteCourse(id:ID!):Course  @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
    #end Course
 
     # region Course_Session
     createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
+    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
     updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
     deleteCourseSession(id:ID!):CourseSession  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
     #end Course_session

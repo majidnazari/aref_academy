@@ -16,6 +16,8 @@ class CourseSession extends Model
         "user_id_creator",
         "course_id",
         "name",
+        "price",
+        "special",
         "start_date",
         "start_time",
         "end_time",

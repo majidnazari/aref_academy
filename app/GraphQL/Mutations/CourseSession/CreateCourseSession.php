@@ -23,10 +23,15 @@ final class CreateCourseSession
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $user_id = auth()->guard('api')->user()->id;
+        $name=$args['name'] ??  "";
+        $price=$args['price'] ?? 0;
+        $special=$args['special'] ?? false;
         $CourseSession_date = [
             'user_id_creator' => $user_id,
             'course_id' => $args['course_id'],
-            'name' => $args['name'],
+            'name' => $name,
+            'price' => $price,
+            'special' => $special,
             'start_date' => $args['start_date'],
             'start_time' => $args['start_time'],
             'end_time' => $args['end_time'],

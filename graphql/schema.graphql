@@ -1,11 +1,37 @@
 
+scalar _Any
+scalar _FieldSet
+scalar TestScaler
+
+# a union of all types that use the @key directive
+union _Entity = Student | Course | User
+
+type _Service {
+  sdl: String
+}
+
+extend type Query {
+  _entities(representations: [_Any!]!): [_Entity]! @field(resolver: "App\\GraphQL\\Queries\\_entities@__invoke") 
+  _service: _Service!  @field(resolver: "App\\GraphQL\\Queries\\_service@__invoke") 
+}
+
+directive @external on FIELD_DEFINITION
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+directive @key(fields: _FieldSet!) repeatable on OBJECT | INTERFACE
+
+# this is an optional directive discussed below
+directive @extends on OBJECT | INTERFACE
+
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-type Query {
+
+  type Query { 
+   
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
     # //user(id:ID @eq):User  @guard(with: ["api"]) @find
 
@@ -138,6 +164,7 @@ type Query {
 
 
 }
+
  enum LessonEnum{
    Mathematics @enum(value: 0)
    Physics @enum(value:1)
@@ -233,6 +260,7 @@ type CourseStudent{
         id:ID!
         course_id:Int
         student_id:Int
+        student:Student
         status:String
         user_id_creator:Int
         user_id_approved:Int      
@@ -277,8 +305,8 @@ type Course{
       teacher:User @belongsTo
 
 }
-type Student{
-        id:ID
+  type Student {
+        # id:ID! @external
         phone:String,
         first_name:String,
         last_name:String,
@@ -341,13 +369,13 @@ type Student{
 #   is_deleted:Int
 # }
 
-type User {
+  type User {
     id:ID    
     # userId:ID
     first_name: String
     last_name: String 
     #mobile: String!
-    email: String
+    email: String! 
     #type: String!
     #is_teacher: Int! 
    
@@ -679,11 +707,13 @@ type Year {
       user_id_financial:Int
       
     }
-    input CreateCourseSessionInput{       
+    input CreateCourseSessionInput @validator{       
       
         course_id:Int!
-        name:String!
-        start_date:Date!
+        name:String
+        price:Int
+        special:Boolean
+        start_date:String!
         start_time:String!
         end_time:String!
             

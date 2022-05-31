@@ -275,10 +275,12 @@ type CourseStudent{
 
 }
 type CourseSession{   
-        id:ID!
+        id:ID
         user_id_creator:Int
         course_id:Int
         name:String
+        price:Int
+        special:Boolean
         start_date:Date
         start_time:String
         end_time:String

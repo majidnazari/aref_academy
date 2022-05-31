@@ -737,6 +737,8 @@ type Year {
         id:ID!
         course_id:Int,
         name:String,
+        price:Float
+        special:Boolean
         start_date:Date,
         start_time:String,
         end_time:String,

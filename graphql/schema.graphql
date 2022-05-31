@@ -725,7 +725,7 @@ type Year {
         course_id:Int!
         days:[String]
         name:String
-        price:Float
+        price:Int
         special:Boolean
         start_date:String!
         end_date:String!
@@ -737,7 +737,7 @@ type Year {
         id:ID!
         course_id:Int,
         name:String,
-        price:Float
+        price:Int
         special:Boolean
         start_date:Date,
         start_time:String,

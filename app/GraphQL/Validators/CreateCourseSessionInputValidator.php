@@ -32,6 +32,7 @@ final class CreateCourseSessionInputValidator extends Validator
                 'date',
                 'date_format:"Y-m-d"',
                 Rule::unique('course_sessions','start_date')
+                ->where('deleted_at',null)
                 ->where('course_id',$this->arg('course_id'))
                 ->ignore($this->arg('id'), 'id')
                   

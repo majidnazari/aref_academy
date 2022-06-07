@@ -16,7 +16,7 @@
         "laravel/tinker": "^2.5",
         "mll-lab/laravel-graphql-playground": "^2.6",
         "nesbot/carbon": "^2.54",
-        "nuwave/lighthouse": "^5.48",
+        "nuwave/lighthouse": "^5.52",
         "stella-maris/clock": "^0.1.4",
         "tymon/jwt-auth": "^1.0"
     },

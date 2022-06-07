@@ -176,7 +176,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        //\Nuwave\Lighthouse\Federation\FederationServiceProvider::class,
+        \Nuwave\Lighthouse\Federation\FederationServiceProvider::class,
         
     ],
 

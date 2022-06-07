@@ -1,7 +1,6 @@
 
 scalar _Any
 scalar _FieldSet
-scalar TestScaler
 
 # a union of all types that use the @key directive
 union _Entity = Student | Course | User
@@ -10,10 +9,10 @@ type _Service {
   sdl: String
 }
 
-extend type Query {
-  _entities(representations: [_Any!]!): [_Entity]! @field(resolver: "App\\GraphQL\\Queries\\_entities@__invoke") 
-  _service: _Service!  @field(resolver: "App\\GraphQL\\Queries\\_service@__invoke") 
-}
+# extend type Query {
+#   _entities(representations: [_Any!]!): [_Entity]! @field(resolver: "App\\GraphQL\\Queries\\_entities@__invoke") 
+#   _service: _Service!  @field(resolver: "App\\GraphQL\\Queries\\_service@__invoke") 
+# }
 
 directive @external on FIELD_DEFINITION
 directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
@@ -30,8 +29,9 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 
-  type Query { 
-   
+  type Query @extends { 
+     _entities(representations: [_Any!]!): [_Entity]! 
+     _service: _Service!  
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
     # //user(id:ID @eq):User  @guard(with: ["api"]) @find
 
@@ -104,7 +104,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
     
 
-    getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
+    getCourseStudent(id:ID!):CourseStudent   @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
     getCourseStudents(
        status:String @like(template: "%{}%")      
        orderBy:[OrderByClause!] @orderBy
@@ -161,7 +161,6 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
        orderBy:[OrderByClause!] @orderBy
     ): [BranchClassRoom]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRooms@resolveBranchClassRoomsAttribute") 
     
-
 
 }
 
@@ -256,11 +255,11 @@ type AbsencePresence{
     courseSession:CourseSession @belongsTo
     teacher:User @belongsTo
 }
-type CourseStudent{   
+type CourseStudent @key(fields: "id"){   
         id:ID!
         course_id:Int
         student_id:Int
-        student:Student
+        student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")  
         status:String
         user_id_creator:Int
         user_id_approved:Int      
@@ -307,26 +306,26 @@ type Course{
       teacher:User @belongsTo
 
 }
-  type Student {
-        # id:ID! @external
-        phone:String,
-        first_name:String,
-        last_name:String,
-        level:Int,
-        egucation_level:Int,
-        parents_job_title:String,
-        home_phone:String,
-        father_phone:String,
-        mother_phone:String,
-        school:String,
-        average:Float,
-        major:String,
-        introducing:String,
-        student_phone:String,
-        cities_id:Int,
-        sources_id:Int,
-        supporters_id:Int,
-        archived:String
+  type Student @key(fields: "id")  @extends {
+         id:ID @external
+        # phone:String 
+        # first_name:String @external
+        # last_name:String @external
+        # level:Int @external
+        # egucation_level:Int @external
+        # parents_job_title:String @external
+        # home_phone:String @external
+        # father_phone:String @external
+        # mother_phone:String @external
+        # school:String @external
+        # average:Float @external
+        # major:String @external
+        # introducing:String @external
+        # student_phone:String @external
+        # cities_id:Int @external
+        # sources_id:Int @external
+        # supporters_id:Int @external
+        # archived:String @external
 }
  
 # type Student{

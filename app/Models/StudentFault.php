@@ -13,7 +13,7 @@ class StudentFault extends Model
     use SoftDeletes;
     protected $table='student_faults';
     protected $fillable=[
-        "user_id",
+        "user_id_creator",
         "student_id",
         "fault_id"       
         

@@ -23,4 +23,8 @@ final class GetStudentContact
         $StudentContact= StudentContact::find($args['id']);
         return $StudentContact;
     }
+    function resolvetestAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    {       
+        return $args['token'];
+    }
 }

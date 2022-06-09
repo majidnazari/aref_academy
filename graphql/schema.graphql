@@ -171,7 +171,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
      getStudentFaults(           
        orderBy:[OrderByClause!] @orderBy
     ): [StudentFault]   @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
-    
+     
+     gettest(token:String) :String @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
 }
 
  enum LessonEnum{

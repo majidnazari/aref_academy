@@ -15,6 +15,8 @@ use App\Http\Controllers\TeacherController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/users','UserController@store')->name('User.store');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -188,4 +190,4 @@ Route::delete('/student/{id}','StudentController@destroy')->name('Student.destro
 
 
 
-Route::get('/user_test','UserController@test');
+Route::post('/user_test','UserController@test');

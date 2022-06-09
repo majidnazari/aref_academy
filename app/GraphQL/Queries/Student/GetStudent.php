@@ -16,7 +16,7 @@ final class GetStudent
     }
     public function resolveGetStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-       // Log::info(json_encode($context));
+        //Log::info(json_encode($context->request()));
         $response = Http::get(env('REMOTE_SERVER').'getStudent/'.$rootValue['student_id']);
         //$getPost= Post::find($args['id']);
         return $response;

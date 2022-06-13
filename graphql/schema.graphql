@@ -343,20 +343,22 @@ type Course{
       teacher:User @belongsTo
 
 }
-  type Student @key(fields: "id")  @extends {
-         id:ID @external
-        # phone:String 
-        # first_name:String @external
-        # last_name:String @external
-        # level:Int @external
-        # egucation_level:Int @external
-        # parents_job_title:String @external
-        # home_phone:String @external
-        # father_phone:String @external
-        # mother_phone:String @external
+  type Student @key(fields: "id")  {
+        id:ID 
+        phone:String 
+        first_name:String 
+        last_name:String 
+        egucation_level:Int 
+        level:String
+        parents_job_title:String 
+        father_phone:String 
+        mother_phone:String 
+        major:String 
+        description:String 
+        # level:Int @external        
+        # home_phone:String @external        
         # school:String @external
-        # average:Float @external
-        # major:String @external
+        # average:Float @external        
         # introducing:String @external
         # student_phone:String @external
         # cities_id:Int @external
@@ -364,6 +366,27 @@ type Course{
         # supporters_id:Int @external
         # archived:String @external
 }
+#   type Student @key(fields: "id")  @extends {
+#          id:ID @external
+#         # phone:String 
+#         # first_name:String @external
+#         # last_name:String @external
+#         # level:Int @external
+#         # egucation_level:Int @external
+#         # parents_job_title:String @external
+#         # home_phone:String @external
+#         # father_phone:String @external
+#         # mother_phone:String @external
+#         # school:String @external
+#         # average:Float @external
+#         # major:String @external
+#         # introducing:String @external
+#         # student_phone:String @external
+#         # cities_id:Int @external
+#         # sources_id:Int @external
+#         # supporters_id:Int @external
+#         # archived:String @external
+# }
  
 # type Student{
 #   id:ID
@@ -668,45 +691,58 @@ type Year {
       # address:String!
 
        
-        phone:String!,# @rules(apply: ["size:11","unique:students,phone"]),
-        first_name:String!,
-        last_name:String!,
-        level:Int!,
-        egucation_level:String!,
-        parents_job_title:String,
-        home_phone:String,
-        father_phone:String,
-        mother_phone:String,
-        school:String,
-        average:Float,
-        major:String!,
-        introducing:String,
-        student_phone:String,
-        cities_id:Int,
-        sources_id:Int,
-        supporters_id:Int,
-        archived:Int
+        phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String!
+        last_name:String!
+        level:String!
+        egucation_level:String!
+        parents_job_title:String!
+        home_phone:String!
+        father_phone:String!
+        mother_phone:String!
+        # school:String
+        # average:Float
+        major:String!
+        description:String!
+        # introducing:String
+        # student_phone:String
+        # cities_id:Int
+        # sources_id:Int
+        # supporters_id:Int
+        # archived:Int
     }
      input UpdateStudentInput{
         id:Int!
-        phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
-        first_name:String,
-        last_name:String,
-        level:Int,
-        egucation_level:String,
-        parents_job_title:String,
-        home_phone:String,
-        father_phone:String,
-        mother_phone:String,
-        school:String,
-        average:Float,
-        major:String!,
-        introducing:String,
-        student_phone:String,
-        cities_id:Int,
-        sources_id:Int,
-        supporters_id:Int,
-        archived:Int
+        phone:String # @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String
+        last_name:String
+        level:String
+        egucation_level:String
+        parents_job_title:String
+        home_phone:String
+        father_phone:String
+        mother_phone:String        
+        major:String
+        description:String
+
+        # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
+        # first_name:String,
+        # last_name:String,
+        # level:Int,
+        # egucation_level:String,
+        # parents_job_title:String,
+        # home_phone:String,
+        # father_phone:String,
+        # mother_phone:String,
+        # school:String,
+        # average:Float,
+        # major:String!,
+        # introducing:String,
+        # student_phone:String,
+        # cities_id:Int,
+        # sources_id:Int,
+        # supporters_id:Int,
+        # archived:Int
     }
     input CreateCourseInput{       
       

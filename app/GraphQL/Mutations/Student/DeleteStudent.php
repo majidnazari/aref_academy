@@ -24,7 +24,7 @@ final class DeleteStudent
     }
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
-        $user_id=auth()->guard('api')->user()->id;       
+       // $user_id=auth()->guard('api')->user()->id;       
         $response = Http::delete(env('REMOTE_SERVER')."student_destroy/".$args['id']);   
        // $student_resut=Student::create($student_date);
         return $response;

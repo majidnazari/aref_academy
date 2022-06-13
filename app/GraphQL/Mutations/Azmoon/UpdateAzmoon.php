@@ -32,7 +32,7 @@ final class UpdateAzmoon
         {
             return [
                 'status'  => 'Error',
-                'message' => __('cannot update course'),
+                'message' => __('cannot update azmoon'),
             ];
         }
         $course_filled= $Azmoon->fill($args);

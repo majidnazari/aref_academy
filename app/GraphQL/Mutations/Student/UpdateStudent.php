@@ -23,7 +23,7 @@ final class UpdateStudent
     }
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {  
-        $user_id=auth()->guard('api')->user()->id;
+       // $user_id=auth()->guard('api')->user()->id;
         $student_date=[
             'phone' => $args['phone'],
             'first_name' => $args['first_name'],
@@ -34,15 +34,16 @@ final class UpdateStudent
             'home_phone' => $args['home_phone'],
             'father_phone' => $args['father_phone'],
             'mother_phone' => $args['mother_phone'],
-            'school' => $args['school'],
-            'average' => $args['average'],
+            //'school' => $args['school'],
+            //'average' => $args['average'],
             'major' => $args['major'],
-            'introducing' => $args['introducing'],
-            'student_phone' => $args['student_phone'],
-            'cities_id' => $args['cities_id'],
-            'sources_id' => $args['sources_id'],
-            'supporters_id' => $args['supporters_id'],
-            'archived' => $args['archived']
+            'description' => $args['description']   
+            //'introducing' => $args['introducing'],
+           // 'student_phone' => $args['student_phone'],
+            //'cities_id' => $args['cities_id'],
+            //'sources_id' => $args['sources_id'],
+            //'supporters_id' => $args['supporters_id'],
+            //'archived' => $args['archived']
         ];
         $response = Http::put(env('REMOTE_SERVER')."student_update/".$args['id'],$student_date);   
         // $student_resut=Student::create($student_date);

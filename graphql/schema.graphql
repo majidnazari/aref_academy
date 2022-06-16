@@ -143,7 +143,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [Azmoon] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
     
 
-    getAzmoonResult(id:ID!):AzmoonResult   @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
+    getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])   @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
     getAzmoonResults(
          result_score_gt:Float @where(operator: ">=" , key: "result_score")         
          result_score_lt:Float @where(operator: "<=" , key: "result_score")         
@@ -184,6 +184,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [StudentFault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
      
      gettest(token:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
+     testHeader(simpleparameter:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
 }
 
  enum LessonEnum{

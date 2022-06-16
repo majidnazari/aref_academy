@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use Log;
 
 final class GetStudentContact
 {
@@ -26,5 +27,10 @@ final class GetStudentContact
     function resolvetestAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {       
         return $args['token'];
+    }
+    function resolvetestHeaderAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    {
+        Log::info($context->request()->header("Authorization"));       
+        return $context->request()->header("Authorization");
     }
 }

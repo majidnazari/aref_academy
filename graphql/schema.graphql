@@ -601,28 +601,6 @@ type Year {
       # address:String!
 
        
-        phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
-        first_name:String!
-        last_name:String!
-        level:String!
-        egucation_level:String!
-        parents_job_title:String!
-        home_phone:String!
-        father_phone:String!
-        mother_phone:String!
-        # school:String
-        # average:Float
-        major:String!
-        description:String!
-        # introducing:String
-        # student_phone:String
-        # cities_id:Int
-        # sources_id:Int
-        # supporters_id:Int
-        # archived:Int
-    }
-     input UpdateStudentInput{
-        id:Int!
         phone:String # @rules(apply: ["size:11","unique:students,phone"]),
         first_name:String
         last_name:String
@@ -631,9 +609,31 @@ type Year {
         parents_job_title:String
         home_phone:String
         father_phone:String
-        mother_phone:String        
+        mother_phone:String
+        # school:String
+        # average:Float
         major:String
         description:String
+        # introducing:String
+        # student_phone:String
+        # cities_id:Int
+        # sources_id:Int
+        # supporters_id:Int
+        # archived:Int
+    }
+     input UpdateStudentInput{
+        id:Int
+        phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String! 
+        last_name:String! 
+        level:String! 
+        egucation_level:String! 
+        parents_job_title:String! 
+        home_phone:String! 
+        father_phone:String! 
+        mother_phone:String!        
+        major:String! 
+        description:String! 
 
         # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
         # first_name:String,

@@ -167,6 +167,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
     getBranchClassRoom(id:ID!):BranchClassRoom  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRoom@resolveBranchClassRoomAttribute") 
     getBranchClassRooms(
+       branch_id:Int
        name:String @like(template: "%{}%")
        description:String @like(template: "%{}%")
        orderBy:[OrderByClause!] @orderBy
@@ -601,11 +602,11 @@ type Year {
       # address:String!
 
        
-        phone:String # @rules(apply: ["size:11","unique:students,phone"]),
-        first_name:String
-        last_name:String
+        phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String!
+        last_name:String!
         level:String
-        egucation_level:String
+        egucation_level:String!
         parents_job_title:String
         home_phone:String
         father_phone:String
@@ -622,18 +623,18 @@ type Year {
         # archived:Int
     }
      input UpdateStudentInput{
-        id:Int
+        id:Int!
         phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
         first_name:String! 
         last_name:String! 
-        level:String! 
+        level:String
         egucation_level:String! 
-        parents_job_title:String! 
-        home_phone:String! 
-        father_phone:String! 
-        mother_phone:String!        
-        major:String! 
-        description:String! 
+        parents_job_title:String
+        home_phone:String
+        father_phone:String 
+        mother_phone:String       
+        major:String 
+        description:String 
 
         # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
         # first_name:String,

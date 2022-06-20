@@ -380,7 +380,7 @@ type Course{
 #         # archived:String @external
 # }
   type Student @key(fields: "id")  @extends {
-         id:ID @external
+         id:Int @external
        
 }
  

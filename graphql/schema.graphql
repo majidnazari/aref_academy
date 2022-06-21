@@ -118,7 +118,14 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
     getCourseStudents(
        student_id:Int @eq
-       status:String @like(template: "%{}%")      
+       course_id:Int @eq
+       user_id_creator:Int @eq
+       user_id_manager:Int @eq
+       user_id_financial:Int @eq
+       user_id_student_status:Int @eq
+       manager_status:String @like(template: "%{}%")      
+       financial_status:String @like(template: "%{}%")      
+       student_status:String @like(template: "%{}%")      
        orderBy:[OrderByClause!] @orderBy
     ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
     
@@ -313,14 +320,21 @@ type CourseStudent @key(fields: "id"){
         student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")  
         status:String
         user_id_creator:Int
-        user_id_approved:Int      
+        user_id_manager:Int  
+        user_id_financial:Int  
+        user_id_student_status:Int  
+        manager_status:String
+        financial_status:String
+        student_status:String   
 
         created_at:DateTime
         updated_at:DateTime
         deleted_at:DateTime
 
         user_creator:User @belongsTo
-        user_approved:User @belongsTo
+        user_manager:User @belongsTo
+        user_financial:User @belongsTo
+        user_student_status:User @belongsTo
         course:Course @belongsTo
 
 }

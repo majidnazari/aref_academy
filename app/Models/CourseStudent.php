@@ -13,17 +13,29 @@ class CourseStudent extends Model
     protected $fillable=[        
         "course_id",
         "student_id",
-        "status",
+        "manager_status",
+        "financial_status",
+        "student_status",
         "user_id_creator",
-        "user_id_approved"
+        "user_id_manager",
+        "user_id_financial",
+        "user_id_student_status"
     ];
     public function user_creator()
     {
         return $this->belongsTo(User::class,"user_id_creator");
     }
-    public function user_approved()
+    public function user_manager()
     {
-        return $this->belongsTo(User::class,"user_id_approved");
+        return $this->belongsTo(User::class,"user_id_manager");
+    }
+    public function user_financial()
+    {
+        return $this->belongsTo(User::class,"user_id_financial");
+    }
+    public function user_student_status()
+    {
+        return $this->belongsTo(User::class,"user_id_student_status");
     }
     public function course()
     {

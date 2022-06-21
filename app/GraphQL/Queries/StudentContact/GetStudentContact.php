@@ -30,7 +30,7 @@ final class GetStudentContact
     }
     function resolvetestHeaderAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        Log::info($context->request()->header("Authorization"));       
+        //Log::info($context->request()->header("Authorization"));       
         return $context->request()->header("Authorization");
     }
 }

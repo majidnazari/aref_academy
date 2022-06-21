@@ -117,6 +117,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
     getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
     getCourseStudents(
+       student_id:Int @eq
        status:String @like(template: "%{}%")      
        orderBy:[OrderByClause!] @orderBy
     ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
@@ -185,7 +186,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [StudentFault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
      
      gettest(token:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
-     testHeader(simpleparameter:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
+     testHeader(simpleparameter:String) : String @cacheControl(maxAge: 3600, scope: PUBLIC) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
 }
 
  enum LessonEnum{

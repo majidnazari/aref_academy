@@ -317,8 +317,8 @@ type CourseStudent @key(fields: "id"){
         id:ID!
         course_id:Int
         student_id:Int
-        student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")  
-        status:String
+        student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent") 
+       
         user_id_creator:Int
         user_id_manager:Int  
         user_id_financial:Int  
@@ -745,15 +745,26 @@ type Year {
 
     input CreateCourseStudentInput{ 
         
-        course_id:Int,
-        student_id:Int,
-        status:String,
+        course_id:Int!
+        student_id:Int!
+        manager_status:String
+        financial_status:String
+        student_status:String
+        user_id_manager:Int
+        user_id_financial:Int
+        user_id_student_status:Int
+        
     }
     input UpdateCourseStudentInput{       
         id:ID!
-        course_id:Int,
-        student_id:Int,
-        status:String,
+        course_id:Int
+        student_id:Int
+        manager_status:String
+        financial_status:String
+        student_status:String
+        user_id_manager:Int
+        user_id_financial:Int
+        user_id_student_status:Int
             
     }
 

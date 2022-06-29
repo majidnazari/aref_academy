@@ -135,7 +135,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -176,7 +175,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
 
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        \Nuwave\Lighthouse\Federation\FederationServiceProvider::class,
+        \Nuwave\Lighthouse\CacheControl\CacheControlServiceProvider::class,
         
     ],
 

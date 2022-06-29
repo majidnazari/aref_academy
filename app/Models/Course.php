@@ -11,23 +11,26 @@ class Course extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        "user_id",
-        "teacher_id",
+        "user_id_creator",
         "year_id",
+        "teacher_id",       
         "name",
         "lesson",
-        "type"
+        "type",
+        "education_level",
+        "financial_status",
+        "user_id_financial",
     ];
     public function user()
     {
-        return $this->belongsTo('user');
+        return $this->belongsTo(User::class,"user_id_creator");
     }
     public function year()
     {
-        return $this->belongsTo('year');
+        return $this->belongsTo(Year::class,"year_id");
     }
     public function teacher()
     {
-        return $this->belongsTo('teacher');
+        return $this->belongsTo(User::class,"teacher_id");
     }
 }

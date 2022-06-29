@@ -1,18 +1,30 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
-    },
-    "devDependencies": {
-        "axios": "^0.21",
-        "laravel-mix": "^6.0.6",
-        "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
-    }
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production",
+    "graphql:codegen": "graphql codegen",
+    "graphql:diff": "graphql diff",
+    "graphql:similar": "graphql similar"
+  },
+  "devDependencies": {
+    "axios": "^0.21",
+    "laravel-mix": "^6.0.6",
+    "lodash": "^4.17.19",
+    "postcss": "^8.1.14",
+    "graphql-cli": "4.1.0",
+    "@graphql-cli/codegen": "2.2.3",
+    "@graphql-cli/diff": "2.1.0",
+    "@graphql-cli/similar": "2.1.0"
+  },
+  "dependencies": {
+    "@apollo/gateway": "^2.0.3",
+    "apollo-server": "^3.8.1",
+    "graphql": "^16.5.0"
+  }
 }

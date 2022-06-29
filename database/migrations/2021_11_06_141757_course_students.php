@@ -15,11 +15,15 @@ class CourseStudents extends Migration
     {
         Schema::create('course_students', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id_creator');            
             $table->foreignId('course_id');            
             $table->foreignId('student_id');            
-            $table->enum('status',['approved','pending'])->default('pending');            
-            $table->foreignId('user_id_created');
-            $table->foreignId('user_id_approved');
+            $table->enum('manager_status',['approved','pending'])->default('pending');            
+            $table->enum('financial_status',['approved','pending'])->default('pending');            
+            $table->enum('student_status',['ok','refused','fired'])->default('ok');            
+            $table->foreignId('user_id_manager');
+            $table->foreignId('user_id_financial');
+            $table->foreignId('user_id_student_status');
             $table->timestamps();   
             $table->softDeletes();         
         });

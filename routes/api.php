@@ -15,6 +15,8 @@ use App\Http\Controllers\TeacherController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/users','UserController@store')->name('User.store');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -47,7 +49,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 #end region 
 
-
+Route::get('/users2','UserController@index2')->name('User.index2');
 
 #region user
 Route::group(["middleware" => ["jwt.verify"]], function(){
@@ -185,3 +187,7 @@ Route::put('/student/{student}','StudentController@update')->name('Student.updat
 Route::delete('/student/{id}','StudentController@destroy')->name('Student.destroy');
 
 #end region
+
+
+
+Route::post('/user_test','UserController@test');

@@ -26,15 +26,16 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "mobile" => ["required","size:11","unique:users,mobile"],
+            //"mobile" => ["required","size:11","unique:users,mobile"],
             "first_name" => ["required","string"],
             "last_name" => ["required","string"],
-            "email" => ["required","email","unique:users,email"],
+            //"email" => ["required","email","unique:users,email"],
+            "email" => ["required","size:11","unique:users,email"],
             "password" => ["required","string"],
-            "type" => [
-                "required",
-                 Rule::in(["admin", "manager","financial","acceptor"]),
-             ],
+            // "type" => [
+            //     "required",
+            //      Rule::in(["admin", "manager","financial","acceptor"]),
+            //  ],
            // "type" => ["required","in(["admin","manager","financial","acceptor"])"]
 
         ];

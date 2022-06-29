@@ -12,6 +12,12 @@ When expected as an input type, any string (such as `"4"`) or integer
 scalar ID
 
 """
+The `Int` scalar type represents non-fractional signed whole numeric
+values. Int can represent values between -(2^31) and 2^31 - 1. 
+"""
+scalar Int
+
+"""
 The `String` scalar type represents textual data, represented as UTF-8
 character sequences. The String type is most often used by GraphQL to
 represent free-form human-readable text.
@@ -19,10 +25,14 @@ represent free-form human-readable text.
 scalar String
 
 """
-The `Int` scalar type represents non-fractional signed whole numeric
-values. Int can represent values between -(2^31) and 2^31 - 1. 
+The `Float` scalar type represents signed double-precision fractional
+values as specified by
+[IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). 
 """
-scalar Int
+scalar Float
+
+"""The `Boolean` scalar type represents `true` or `false`."""
+scalar Boolean
 
 """A paginated list of User items."""
 type UserPaginator {
@@ -60,15 +70,197 @@ type PaginatorInfo {
   total: Int!
 }
 
-"""The `Boolean` scalar type represents `true` or `false`."""
-scalar Boolean
+"""A paginated list of Group items."""
+type GroupPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
 
-"""
-The `Float` scalar type represents signed double-precision fractional
-values as specified by
-[IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). 
-"""
-scalar Float
+  """A list of Group items."""
+  data: [Group!]!
+}
+
+"""A paginated list of Teacher items."""
+type TeacherPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Teacher items."""
+  data: [Teacher!]!
+}
+
+"""A paginated list of Year items."""
+type YearPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Year items."""
+  data: [Year!]!
+}
+
+"""A paginated list of Course items."""
+type CoursePaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Course items."""
+  data: [Course!]!
+}
+
+"""A paginated list of CourseSession items."""
+type CourseSessionPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of CourseSession items."""
+  data: [CourseSession!]!
+}
+
+"""A paginated list of CourseStudent items."""
+type CourseStudentPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of CourseStudent items."""
+  data: [CourseStudent!]!
+}
+
+"""A paginated list of AbsencePresence items."""
+type AbsencePresencePaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of AbsencePresence items."""
+  data: [AbsencePresence!]!
+}
+
+"""A paginated list of Azmoon items."""
+type AzmoonPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Azmoon items."""
+  data: [Azmoon!]!
+}
+
+"""A paginated list of AzmoonResult items."""
+type AzmoonResultPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of AzmoonResult items."""
+  data: [AzmoonResult!]!
+}
+
+"""A paginated list of Fault items."""
+type FaultPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Fault items."""
+  data: [Fault!]!
+}
+
+"""A paginated list of Branch items."""
+type BranchPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of Branch items."""
+  data: [Branch!]!
+}
+
+"""A paginated list of BranchClassRoom items."""
+type BranchClassRoomPaginator {
+  """Pagination information about the list of items."""
+  paginatorInfo: PaginatorInfo!
+
+  """A list of BranchClassRoom items."""
+  data: [BranchClassRoom!]!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+type AuthPayload {
+  access_token: String
+  refresh_token: String
+  expires_in: Int
+  token_type: String
+  user: User
+}
+
+input RefreshTokenInput {
+  refresh_token: String
+}
+
+type RefreshTokenPayload {
+  access_token: String!
+  refresh_token: String!
+  expires_in: Int!
+  token_type: String!
+}
+
+type LogoutResponse {
+  status: String!
+  message: String
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+type ForgotPasswordResponse {
+  status: String!
+  message: String
+}
+
+input NewPasswordWithCodeInput {
+  email: String!
+  token: String!
+  password: String!
+  password_confirmation: String!
+}
+
+input RegisterInput {
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  password_confirmation: String!
+}
+
+type RegisterResponse {
+  tokens: AuthPayload
+  status: RegisterStatuses!
+}
+
+enum RegisterStatuses {
+  MUST_VERIFY_EMAIL
+  SUCCESS
+}
+
+input SocialLoginInput {
+  provider: String!
+  token: String!
+}
+
+input VerifyEmailInput {
+  token: String!
+}
+
+input UpdatePassword {
+  email: String!
+  old_password: String!
+  password: String!
+  password_confirmation: String!
+}
+
+type UpdatePasswordResponse {
+  status: String
+  message: String
+}
 
 """
 A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all
@@ -271,15 +463,6 @@ enum __DirectiveLocation {
   INPUT_FIELD_DEFINITION
 }
 
-"""Directions for ordering a list of records."""
-enum SortOrder {
-  """Sort records in ascending order."""
-  ASC
-
-  """Sort records in descending order."""
-  DESC
-}
-
 """
 Aggregate functions when ordering by a relation without specifying a column.
 """
@@ -306,15 +489,6 @@ enum OrderByRelationWithColumnAggregateFunction {
 
   """Amount of items."""
   COUNT
-}
-
-"""Allows ordering a list of records."""
-input OrderByClause {
-  """The column that is used for ordering."""
-  column: String!
-
-  """The direction that is used for ordering."""
-  order: SortOrder!
 }
 
 """Information about pagination using a simple paginator."""

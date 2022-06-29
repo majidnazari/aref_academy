@@ -15,7 +15,7 @@ class StudentFaults extends Migration
     {
         Schema::create('student_faults', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');            
+            $table->foreignId('user_id_creator');            
             $table->foreignId('student_id');            
             $table->foreignId('fault_id');            
             $table->timestamps();

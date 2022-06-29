@@ -23,14 +23,15 @@ class StudentContact extends Model
     ];
     public function user()
     {
-        return $this->blongsTo('user');
+        return $this->belongsTo(User::class,'user_id_creator');
     }
     public function student()
     {
-        return $this->hasmany('student');
+        return $this->belongsTo(Student::class,"student_id");
     }
     public function absencepresence()
     {
-        return $this->hasmany(AbsencePresence::class);
+       // return $this->hasmany(AbsencePresence::class);
+        return $this->belongsTo(AbsencePresence::class,"student_id");
     }  
 }

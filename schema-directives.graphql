@@ -482,6 +482,91 @@ directive @validator(
   class: String
 ) repeatable on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION | FIELD_DEFINITION | INPUT_OBJECT
 
+# Directive class: Nuwave\Lighthouse\Federation\Directives\ExtendsDirective
+"""
+Some libraries such as graphql-java don't have native support for type extensions in their printer. Apollo Federation
+supports using an @extends directive in place of extend type to annotate type references:
+
+    type User @key(fields: "id") @extends {
+
+instead of:
+
+    extend type User @key(fields: "id") {
+"""
+directive @extends on OBJECT | INTERFACE
+
+# Directive class: Nuwave\Lighthouse\Federation\Directives\ExternalDirective
+"""
+Individual federated services should be runnable without having the entire graph present. Fields marked with @external
+are declarations of fields that are defined in another service. All fields referred to in @key, @requires, and @provides
+directives need to have corresponding @external fields in the same service.
+
+https://www.apollographql.com/docs/apollo-server/federation/federation-spec/#schema-modifications-glossary
+"""
+directive @external on FIELD_DEFINITION
+
+# Directive class: Nuwave\Lighthouse\Federation\Directives\KeyDirective
+"""
+The @key directive is used to indicate a combination of fields that
+can be used to uniquely identify and fetch an object or interface.
+"""
+directive @key(
+    """
+    Fields that can be used to uniquely identify and fetch an object or interface.
+    """
+    fields: _FieldSet!
+) repeatable on OBJECT | INTERFACE
+
+# Directive class: Nuwave\Lighthouse\Federation\Directives\ProvidesDirective
+"""
+The `@provides` directive is used to annotate the expected returned fieldset from a field
+on a base type that is  guaranteed to be selectable by the gateway. Given the following example:
+
+```graphql
+type Review @key(fields: "id") {
+  product: Product @provides(fields: "name")
+}
+
+extend type Product @key(fields: "upc") {
+  upc: String @external
+  name: String @external
+}
+```
+
+When fetching `Review.product` from the Reviews service, it is possible to request the `name`
+with the expectation that the Reviews service can provide it when going from review to product.
+`Product.name` is an external field on an external type which is why the local type extension
+of `Product` and annotation of `name` is required.
+
+https://www.apollographql.com/docs/federation/federation-spec/#provides
+"""
+directive @provides(
+    """
+    The fields this service can provide from the returned type of this field.
+    """
+    fields: _FieldSet!
+) on FIELD_DEFINITION
+
+# Directive class: Nuwave\Lighthouse\Federation\Directives\RequiresDirective
+"""
+The @requires directive is used to annotate the required input fieldset from a base type for a resolver. It is used to
+develop a query plan where the required fields may not be needed by the client, but the service may need additional
+information from other services. For example:
+
+    extend type User @key(fields: "id") {
+      id: ID! @external
+      email: String @external
+      reviews: [Review] @requires(fields: "email")
+    }
+"""
+directive @requires(
+    """
+    It is used to develop a query plan where the required fields may not be needed by the client, but the service may
+    need additional information from other services.
+    """
+    fields: _FieldSet!
+) on FIELD_DEFINITION
+
 # Directive class: Nuwave\Lighthouse\Schema\Directives\AggregateDirective
 """
 Returns an aggregate of a column in a given relationship or model.
@@ -690,7 +775,7 @@ directive @cache(
 """
 Specify the field to use as a key when creating a cache.
 """
-directive @cacheKey on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @cacheKey on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 # Directive class: Nuwave\Lighthouse\Schema\Directives\ClearCacheDirective
 """
@@ -770,6 +855,17 @@ directive @count(
   Apply scopes to the underlying query.
   """
   scopes: [String!]
+
+  """
+  Count only rows where the given columns are non-null.
+  `*` counts every row.
+  """
+  columns: [String!]! = ["*"]
+
+  """
+  Should exclude duplicated rows?
+  """
+  distinct: Boolean! = false
 ) on FIELD_DEFINITION
 
 # Directive class: Nuwave\Lighthouse\Schema\Directives\CreateDirective
@@ -1270,7 +1366,51 @@ directive @morphToMany(
   Apply scopes to the underlying query.
   """
   scopes: [String!]
+
+  """
+  Allows to resolve the relation as a paginated list.
+  """
+  type: MorphToManyType
+
+  """
+  Allow clients to query paginated lists without specifying the amount of items.
+  Overrules the `pagination.default_count` setting from `lighthouse.php`.
+  """
+  defaultCount: Int
+
+  """
+  Limit the maximum amount of items that clients can request from paginated lists.
+  Overrules the `pagination.max_count` setting from `lighthouse.php`.
+  """
+  maxCount: Int
+
+  """
+  Specify a custom type that implements the Edge interface
+  to extend edge object.
+  Only applies when using Relay style "connection" pagination.
+  """
+  edgeType: String
 ) on FIELD_DEFINITION
+
+"""
+Options for the `type` argument of `@morphToMany`.
+"""
+enum MorphToManyType {
+    """
+    Offset-based pagination, similar to the Laravel default.
+    """
+    PAGINATOR
+
+    """
+    Offset-based pagination like the Laravel "Simple Pagination", which does not count the total number of records.
+    """
+    SIMPLE
+
+    """
+    Cursor-based pagination, compatible with the Relay specification.
+    """
+    CONNECTION
+}
 
 # Directive class: Nuwave\Lighthouse\Schema\Directives\NamespaceDirective
 """

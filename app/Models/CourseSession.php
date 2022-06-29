@@ -12,10 +12,12 @@ class CourseSession extends Model
     use SoftDeletes;
     protected $table='course_sessions';
     protected $fillable=[
-        "id",
-        "user_id",
+        
+        "user_id_creator",
         "course_id",
         "name",
+        "price",
+        "special",
         "start_date",
         "start_time",
         "end_time",
@@ -23,10 +25,10 @@ class CourseSession extends Model
     ];
     public function user()
     {
-        return $this->blongsTo('user');
+        return $this->belongsTo(User::class,"user_id_creator");
     }
     public function course()
     {
-        return $this->hasMany('course');
+        return $this->belongsTo(Course::class,"course_id");
     }    
 }

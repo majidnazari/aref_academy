@@ -13,8 +13,14 @@ class Year extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        "user_id_creator",
         'name',
         'active'
        // 'year'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,"user_id_creator");
+    }
 }

@@ -6,14 +6,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+//use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
+//use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\SoftDeletes;
 //use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Database\Concerns\BuildsQueries;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class User extends Authenticatable implements JWTSubject //extends Authenticatable implements JWTSubject
+
+class User extends Authenticatable //implements JWTSubject //extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,BuildsQueries;
 
     //public function getAuthIdentifierName();
     //public function getAuthIdentifier();
@@ -29,12 +39,13 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
      */
     protected $fillable = [
         "id",
-        'mobile',
-        'first_name',
-        'last_name',
+        //'type',
+        //'mobile',
         'email',
         'password',
-        'type'
+        'first_name',
+        'last_name'
+        //'is_teacher'
     ];
 
     /**
@@ -56,10 +67,47 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
         //'email_verified_at' => 'datetime',
     ];
 
-    public function gates()
+    
+    // public function gates()
+    // {
+    //     return $this->hasmany('Gate');
+    // }
+    // public function groups()
+    // {
+    //     return $this->belongsTo('Group');
+    // }
+    public function groups():BelongsToMany 
     {
-        return $this->hasmany('Gate');
+        return $this->belongsToMany(Group::class);
+        // ->using(GroupUser::class) // only needed to retrieve the tag from the tag_id
+        // ->withPivot('created_at');
+       // return $this->belongsTo('Group');
+        // return $this->belongsToMany(Group::class)->withPivot(
+            
+        //     "id",
+        //     "groupId",
+        //     "user_id_creator",
+        //     "user_id",
+        //     "group_id",
+        //     "key",
+        //     "created_at",
+        //     "updated_at" 
+
+        // )->using(GroupUser::class);
     }
+    public function years() 
+    {
+        return $this->hasmany(Year::class);
+    }
+    // public function fault():HasMany
+    // {
+    //     return $this->hasMany(Fault::class,"user_id_creator");
+    // }
+    public function faults()
+    {
+        return $this->hasMany(Fault::class);
+    }
+    
     public function courses()
     {
         return $this->hasmany('Course');
@@ -81,6 +129,6 @@ class User extends Authenticatable implements JWTSubject //extends Authenticatab
     public function getJWTCustomClaims()
     {
         return [];
-    }
+    }    
     
 }

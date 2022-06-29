@@ -27,11 +27,11 @@ class UserEditRequest extends FormRequest
     public function rules()
     {
         return [
-            "mobile" => ["nullable","size:11","unique:users,mobile,".$this->id],//[Rule::requiredIf($this->mobile),"nullable","size:11","unique:users,mobile,".$this->id],
+            //"mobile" => ["nullable","size:11","unique:users,mobile,".$this->id],//[Rule::requiredIf($this->mobile),"nullable","size:11","unique:users,mobile,".$this->id],
             //'role_id' => Rule::requiredIf($request->user()->is_admin),
             "first_name" => ["nullable","string"],
             "last_name" => ["nullable","string"],
-            "email" => ["nullable","email","unique:users,email,".$this->id],//[Rule::requiredIf($this->id),"nullable","email","unique:users,email,".$this->id],
+            "email" => ["nullable","size:11","unique:users,email,".$this->id],//[Rule::requiredIf($this->id),"nullable","email","unique:users,email,".$this->id],
             "password" => ["nullable","string"],
             "type" => [
                 "nullable",

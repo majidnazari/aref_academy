@@ -1,45 +1,953 @@
-"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+
+scalar _Any
+scalar _FieldSet
+
+# a union of all types that use the @key directive
+union _Entity = Student | Course | User
+
+type _Service {
+  sdl: String
+}
+
+# extend type Query {
+#   _entities(representations: [_Any!]!): [_Entity]! @field(resolver: "App\\GraphQL\\Queries\\_entities@__invoke") 
+#   _service: _Service!  @field(resolver: "App\\GraphQL\\Queries\\_service@__invoke") 
+# }
+
+directive @external on FIELD_DEFINITION
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+directive @key(fields: _FieldSet!) repeatable on OBJECT | INTERFACE
+
+# this is an optional directive discussed below
+directive @extends on OBJECT | INTERFACE
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
-"Indicates what fields are available at the top level of a query operation."
-type Query {
-    "Find a single user by an identifying attribute."
-    user(
-      "Search by primary key."
-      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-      "Search by email address."
-      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
 
-    "List multiple users."
-    users(
-      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
-      name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
+  type Query @extends { 
+     _entities(representations: [_Any!]!): [_Entity]! 
+     _service: _Service!  
+    #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
+    # //user(id:ID @eq):User  @guard(with: ["api"]) @find
+
+    # azmoons: [Azmoon!]! @guard(with: ["api"]) @paginate
+    # azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
+
+    # test1param(name:String="abdollah"): String
+    getUser(id:ID!):User  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    getUsers(
+      first_name: String @like(template : "%{}%") 
+      last_name: String @like(template : "%{}%")
+      email: String @like(template : "%{}%")      
+      group_id: Int  
+      # group_id: Group  @belongsToMany(relation: "groups" ) 
+      orderBy: [OrderByClause!] @orderBy
+       ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
+    getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
+    getGroups(
+      name:String @like (template : "%{}%")
+      persian_name:String @like (template : "%{}%")
+      type:String @like(template : "%{}%")
+      orderBy:[OrderByClause!] @orderBy
+    
+    ): [Group] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Group\\GetGroups@resolveGroup")
+    
+    getTeacher(id:ID!):Teacher @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Teacher\\GetTeacher@resolveTeacherAttribute") 
+    getTeachers: [Teacher]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Teacher\\GetTeachers@resolveTeacher")
+    # getUsers: [User!]!  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUserAttribute") 
+    #  GetUsers: [User!]!  @paginate(builder: "App\\Models\\User@resolveUser")
+    #  GetUsers: [User!]! @paginate(defaultCount: 10 )
+    # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
+   
+    getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
+    getYears(
+      name: String @like (template : "%{}%")
+      active: Boolean @eq
+      orderBy:[OrderByClause!] @orderBy
+
+    ): [Year] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
+  
+    # getStudent(id:ID!):Student  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
+    # getStudents(
+    #   first_name: String @like (template : "%{}%")
+    #   last_name: String @like (template : "%{}%")
+    #   phone: String @like (template : "%{}%")
+    #   level: String @like (template : "%{}%")
+    #   egucation_level: String @like (template : "%{}%")
+    #   parents_job_title: String @like (template : "%{}%")
+    #   home_phone: String @like (template : "%{}%")
+    #   father_phone: String @like (template : "%{}%")
+    #   mother_phone: String @like (template : "%{}%")
+    #   major: String @like (template : "%{}%")
+    #   description: String @like (template : "%{}%")
+      
+    #   orderBy:[OrderByClause!] @orderBy
+    # ): [Student] @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
+
+    getCourse(id:ID!):Course @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
+    getCourses(
+      name:String @like(template: "%{}%")
+      lesson: String @like(template: "%{}%")      
+      orderBy:[OrderByClause!] @orderBy
+    ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
+
+
+    getCourseSession(id:ID!):CourseSession  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
+    getCourseSessions(
+       name:String @like(template: "%{}%")
+       course_id:Int @eq
+      #  start_date:String @where(operator: ">=")
+       date_after: Date @where(operator: ">=", key: "start_date")# @where(operator: ">=", clause: "orWhere", key: "created_at")
+       date_befor: Date @where(operator: "<=", key: "start_date")# @where(operator: "<=", clause: "orWhere", key: "created_at")
+       
+       start_time_after: String @where(operator: ">=", key: "start_time")
+       start_time_befor: Date @where(operator: "<=", key: "start_time")
+
+       end_time_after: String @where(operator: ">=", key: "end_time")
+       end_time_befor: String @where(operator: "<=", key: "end_time")
+
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
+    
+
+    getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
+    getCourseStudents(
+       student_id:Int @eq
+       course_id:Int @eq
+       user_id_creator:Int @eq
+       user_id_manager:Int @eq
+       user_id_financial:Int @eq
+       user_id_student_status:Int @eq
+       manager_status:String @like(template: "%{}%")      
+       financial_status:String @like(template: "%{}%")      
+       student_status:String @like(template: "%{}%")      
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
+    
+
+    getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
+    getAbsencePresences(
+         status:String @like(template: "%{}%")
+         user_id_creator:Int
+         course_session_id:Int
+         course_session_date:Date
+         teacher_id:Int
+
+         orderBy:[OrderByClause!] @orderBy
+    ): [AbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
+    
+
+    getAzmoon(id:ID!):Azmoon @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
+    getAzmoons(
+       isSMSsend:Boolean @eq 
+       score_gt:Float @where(operator: ">=", key: "score")     
+       score_lt:Float @where(operator: "<=", key: "score")     
+       orderBy:[OrderByClause!] @orderBy
+    ): [Azmoon] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
+    
+
+    getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])   @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
+    getAzmoonResults(
+         result_score_gt:Float @where(operator: ">=" , key: "result_score")         
+         result_score_lt:Float @where(operator: "<=" , key: "result_score")         
+         orderBy:[OrderByClause!] @orderBy
+    ): [AzmoonResult] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
+    
+    
+    getFault(id:ID!):Fault  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
+    getFaults(
+       description:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [Fault] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
+    
+
+    getBranch(id:ID!):Branch @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Branch\\GetBranch@resolveBranchAttribute") 
+    getBranches(
+       name:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [Branch]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Branch\\GetBranches@resolveBranchesAttribute") 
+    
+
+    getBranchClassRoom(id:ID!):BranchClassRoom  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRoom@resolveBranchClassRoomAttribute") 
+    getBranchClassRooms(
+       branch_id:Int
+       name:String @like(template: "%{}%")
+       description:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [BranchClassRoom] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRooms@resolveBranchClassRoomsAttribute") 
+    
+
+     getStudentContact(id:ID!):StudentContact @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolveStudentContactAttribute") 
+     getStudentContacts(           
+       orderBy:[OrderByClause!] @orderBy
+    ): [StudentContact] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContacts@resolveStudentContact") 
+    
+     getStudentFault(id:ID!):StudentFault @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFault@resolveStudentFaultAttribute") 
+     getStudentFaults(           
+       orderBy:[OrderByClause!] @orderBy
+    ): [StudentFault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
+     
+     gettest(token:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
+     testHeader(simpleparameter:String) : String @cacheControl(maxAge: 3600, scope: PUBLIC) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
 }
 
-"Account of a person who utilizes this application."
-type User {
-    "Unique primary key."
-    id: ID!
-
-    "Non-unique name."
-    name: String!
-
-    "Unique email address."
-    email: String!
-
-    "When the email was verified."
-    email_verified_at: DateTime
-
-    "When the account was created."
-    created_at: DateTime!
-
-    "When the account was last updated."
-    updated_at: DateTime!
+ enum LessonEnum{
+   Mathematics @enum(value: 0)
+   Physics @enum(value:1)
+   Biology @enum(value: 2)
+  
+ }
+input OrderByClause{
+    field: String!
+    order: SortOrder!
 }
 
-type Query {
-  hello(name: String): String!
+enum SortOrder {
+    ASC
+    DESC
 }
+type StudentContact{
+  id:ID
+  user_id_creator:Int
+  student_id:Int
+  student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")
+  absence_presence_id:Int
+  who_answered:String
+  description:String
+  is_called_successfull:Boolean
+  created_at:DateTime
+  updated_at:DateTime
+  deleted_at:DateTime
+}
+
+type StudentFault{
+  id:ID
+  user_id_creator:Int
+  student_id:Int
+  student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")
+  fault_id:Int  
+  created_at:DateTime
+  updated_at:DateTime
+  deleted_at:DateTime
+}
+
+type Branch{
+    id:ID
+    user_id_creator:Int
+    name:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+   
+}
+type BranchClassRoom{
+    id:ID
+    user_id_creator:Int
+    branch_id:Int
+    name:String
+    description:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+    branch:Branch @belongsTo
+   
+}
+type Fault{
+    id:ID
+    user_id_creator:Int
+    description:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+   
+}
+type AzmoonResult{
+    id:ID
+    student_id:Int
+    result_score:String 
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
+}
+
+type Azmoon{
+    id:ID
+    user_id_creator:Int
+    course_id:Int
+    course_session_id:Int
+    isSMSsend:Int
+    score:Float
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    user:User @belongsTo
+    course:Course @belongsTo
+    courseSession:CourseSession @belongsTo
+    
+}
+
+type AbsencePresence{
+    id:ID
+    user_id_creator:Int
+    course_session_id:Int
+    teacher_id:Int
+    student_id:Int
+    student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")
+    status:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    user:User @belongsTo
+    courseSession:CourseSession @belongsTo
+    teacher:User @belongsTo
+}
+type CourseStudent @key(fields: "id"){   
+        id:ID!
+        course_id:Int
+        student_id:Int
+        student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent") 
+       
+        user_id_creator:Int
+        user_id_manager:Int  
+        user_id_financial:Int  
+        user_id_student_status:Int  
+        manager_status:String
+        financial_status:String
+        student_status:String   
+
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+
+        user_creator:User @belongsTo
+        user_manager:User @belongsTo
+        user_financial:User @belongsTo
+        user_student_status:User @belongsTo
+        course:Course @belongsTo
+
+}
+type CourseSession{   
+        id:ID
+        user_id_creator:Int
+        course_id:Int
+        name:String
+        price:Int
+        special:Boolean
+        start_date:Date
+        start_time:String
+        end_time:String
+        user:User @belongsTo
+        course: Course @belongsTo
+}
+
+type Course{
+      id:ID
+      user_id_creator:Int
+      year_id:Int
+      teacher_id:Int
+      name:String
+      lesson:String
+      type:String
+      education_level:String
+      financial_status:String
+      user_id_financial:Int
+      created_at:DateTime
+      updated_at:DateTime
+      deleted_at:DateTime
+      user:User @belongsTo
+      year:Year @belongsTo
+      teacher:User @belongsTo
+
+}
+#   type Student @key(fields: "id")  {
+#         id:ID 
+#         phone:String 
+#         first_name:String 
+#         last_name:String 
+#         egucation_level:Int 
+#         level:String
+#         parents_job_title:String 
+#         father_phone:String 
+#         mother_phone:String 
+#         major:String 
+#         description:String 
+#         # level:Int @external        
+#         # home_phone:String @external        
+#         # school:String @external
+#         # average:Float @external        
+#         # introducing:String @external
+#         # student_phone:String @external
+#         # cities_id:Int @external
+#         # sources_id:Int @external
+#         # supporters_id:Int @external
+#         # archived:String @external
+# }
+  type Student @key(fields: "id")  @extends {
+         id:Int @external
+       
+}
+ 
+# type Student{
+#   id:ID
+#   first_name:String
+#   last_name:String
+#   last_year_grade:String
+#   consultants_id:Int
+#   parents_job_title:String
+#   home_phone:String
+#   father_phone:String
+#   mother_phone:String
+#   phone:String
+#   level:Int
+#   school:String
+#   introducing:String
+#   student_phone:String
+#   sources_id:Int
+#   supporters_id:Int
+#   users_id:Int
+#   marketers_id:Int
+#   average:Float
+#   viewed:Int
+#   major:String
+#   egucation_level:Int
+#   provinces_id:Int
+#   is_from_site:Int
+#   description:String
+#   supporter_seen:Int
+#   saloon:String
+#   supporter_start_date:DateTime
+#   banned:Int
+#   cities_id:Int
+#   archived:Int
+#   outside_consultants:String
+#   own_purchases:Int
+#   other_purchases:Int
+#   today_purchases:Int
+
+#   created_at: DateTime
+#   updated_at: DateTime
+#   is_deleted:Int
+# }
+
+  type User {
+    id:ID    
+    # userId:ID
+    first_name: String
+    last_name: String 
+    #mobile: String!
+    email: String! 
+    #type: String!
+    #is_teacher: Int! 
+   
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    groups: [Group] @belongsTo
+    # faults:[Fault] @belongsToMany
+    faults: [Fault] @hasMany
+   
+}
+
+type Group{ 
+  id:ID
+  # groupId:ID
+  user_id_creator:Int
+  # key:String
+  name:String
+  persian_name:String
+  type:String
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  users: [User] @belongsToMany
+  pivot: GroupUserPivot
+
+  menus: [Menu!] @belongsTo
+}
+type GroupUserPivot { 
+    id:ID   
+    # groupUserId: ID
+    user_id_creator:Int
+    user_id: Int
+    group_id: Int
+    key: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+
+    user: [User!] @hasMany
+    group: [Group!] @hasMany
+}
+
+type Menu {
+    id:ID
+    # menuId: Int
+    slug: String
+    name: String
+    icon: String
+    href: String
+    #type: String!
+    parent_id: Int    
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+
+    groups: [Group!] @belongsToMany
+    pivot: MenuPivot
+}
+
+type MenuPivot {
+    id:ID
+    # groupMenuId: Int
+    user_id_creator:Int
+    menu_id: Int
+    group_id: Int  
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+
+    menu: [Menu!] @hasMany
+    group: [Group!] @hasMany
+}
+
+
+type Teacher {
+  id:ID!
+  user_id_creator:Int
+  first_name:String
+  last_name:String
+  mobile:String
+  address:String
+  created_at:DateTime
+  updated_at:DateTime
+  deleted_at:DateTime
+}
+
+type Year {
+  id:ID!
+  user_id_creator:Int  
+  name:String
+  active:Boolean  
+  created_at:DateTime
+  updated_at:DateTime
+  deleted_at:DateTime
+  user: User! @belongsTo
+}
+
+
+  
+  input CreateAzmoonInput{
+          user_id:Int!
+          course_id:Int!
+          course_session_id:Int!
+          isSMSsend:Int!
+          score:Float!
+   }
+   input CreateUserInput {
+     # type: String!
+     # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
+     # email: String! @rules(apply: ["email","unique:users,email"])
+      email: String! @rules(apply: ["size:11","unique:users,email"])
+      password: String! @hash @rules(apply: ["min:6"])
+      first_name: String!
+      last_name: String!
+      group_id:Int!
+      # group_user:createGroupUserInput! @create
+     # is_teacher: Int!  
+    }
+   input UpdateUserInput {
+       id:ID!
+     # type: String
+     # mobile: String 
+      email:String  
+     # password: String!      
+      first_name: String
+      last_name: String
+      group_id:Int 
+      # ): User! @update
+   }
+    # input createGroupUserInput {
+    #   user_id_creator:Int!
+    #   user_id:Int!
+    #   group_id:Int!
+    #   # created_at:DateTime
+    #   # updated_at:datetime
+    # }
+
+    input CreateTeacherInput{
+      first_name: String!
+      last_name: String!
+      mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+      address:String!
+    }
+    input UpdateTeacherInput{
+      id:ID!
+      first_name: String
+      last_name: String
+      mobile: String @rules(apply: ["size:11","unique:teachers,mobile"])
+      address:String
+    }
+
+    input CreateYearInput{
+      name: String!
+      active: Boolean!      
+    }
+    input UpdateYearInput{
+      id:ID!
+      name: String
+      active: Boolean   
+    }
+    
+    input CreateStudentInput{
+      # first_name: String!
+      # last_name: String!
+      # mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+      # address:String!
+
+       
+        phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String!
+        last_name:String!
+        level:String
+        egucation_level:String!
+        parents_job_title:String
+        home_phone:String
+        father_phone:String
+        mother_phone:String
+        # school:String
+        # average:Float
+        major:String
+        description:String
+        # introducing:String
+        # student_phone:String
+        # cities_id:Int
+        # sources_id:Int
+        # supporters_id:Int
+        # archived:Int
+    }
+     input UpdateStudentInput{
+        id:Int!
+        phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+        first_name:String! 
+        last_name:String! 
+        level:String
+        egucation_level:String! 
+        parents_job_title:String
+        home_phone:String
+        father_phone:String 
+        mother_phone:String       
+        major:String 
+        description:String 
+
+        # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
+        # first_name:String,
+        # last_name:String,
+        # level:Int,
+        # egucation_level:String,
+        # parents_job_title:String,
+        # home_phone:String,
+        # father_phone:String,
+        # mother_phone:String,
+        # school:String,
+        # average:Float,
+        # major:String!,
+        # introducing:String,
+        # student_phone:String,
+        # cities_id:Int,
+        # sources_id:Int,
+        # supporters_id:Int,
+        # archived:Int
+    }
+    input CreateCourseInput{       
+      
+      year_id:Int!
+      teacher_id:Int!
+      name:String!
+      lesson:String!
+      education_level:String!
+      type:String!
+      financial_status:String
+      user_id_financial:Int
+            
+    }
+    # input CreateCourseWithDateInput{       
+      
+    #   year_id:Int!
+    #   teacher_id:Int!
+    #   name:String!
+    #   lesson:String!
+    #   education_level:String!
+    #   type:String!
+    #   financial_status:String
+    #   user_id_financial:Int
+            
+    # }
+    
+     input UpdateCourseInput{       
+      id:ID!
+      year_id:Int
+      teacher_id:Int
+      name:String
+      lesson:String
+      education_level:String      
+      type:String
+      financial_status:String
+      user_id_financial:Int
+      
+    }
+    input CreateCourseSessionInput @validator{       
+      
+        course_id:Int!
+        name:String
+        price:Int
+        special:Boolean
+        start_date:String!
+        start_time:String!
+        end_time:String!
+            
+    }
+      input CreateCourseSessionByDuringDateInput @Validator{       
+      
+        course_id:Int!
+        days:[String]
+        name:String
+        price:Int
+        special:Boolean
+        start_date:String!
+        end_date:String!
+        start_time:String!
+        end_time:String!      
+            
+    }
+    input UpdateCourseSessionInput{       
+        id:ID!
+        course_id:Int,
+        name:String,
+        price:Int
+        special:Boolean
+        start_date:Date,
+        start_time:String,
+        end_time:String,
+            
+    }
+
+    input CreateCourseStudentInput{ 
+        
+        course_id:Int!
+        student_id:Int!
+        manager_status:String
+        financial_status:String
+        student_status:String
+        user_id_manager:Int
+        user_id_financial:Int
+        user_id_student_status:Int
+        
+    }
+    input UpdateCourseStudentInput{       
+        id:ID!
+        course_id:Int
+        student_id:Int
+        manager_status:String
+        financial_status:String
+        student_status:String
+        user_id_manager:Int
+        user_id_financial:Int
+        user_id_student_status:Int
+            
+    }
+
+
+    input CreateAbsencePresenceInput{       
+       
+        course_session_id:Int,
+        teacher_id:Int,
+        status:String,
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+            
+    }
+    input UpdateAbsencePresenceInput{
+
+        id:ID!        
+        course_session_id:Int,
+        teacher_id:Int,
+        status:String,
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+    }
+
+    input CreateAzmoonInput{ 
+          course_id:Int
+          course_session_id:Int
+          isSMSsend:Int
+          score:Float
+    }
+    input UpdateAzmoonInput{
+          id:ID!          
+          course_id:Int
+          course_session_id:Int
+          isSMSsend:Int
+          score:Float
+    }
+
+    input CreateAzmoonResultInput{ 
+         
+          student_id:Int,
+          result_score:String, 
+    }
+    input UpdateAzmoonResultInput{
+        id:ID
+        student_id:Int,
+        result_score:String, 
+    }
+
+    input CreateFaultInput{         
+          description:String!         
+    }
+    input UpdateFaultInput{
+        id:Int
+        description:String
+    }    
+
+    input CreateBranchInput{         
+          name:String!         
+    }
+    input UpdateBranchInput{
+        id:Int
+        name:String
+    }
+    input CreateBranchClassRoomInput{ 
+          branch_id:Int
+          description:String        
+          name:String         
+    }
+    input UpdateBranchClassRoomInput{
+        id:Int
+        branch_id:Int
+        description:String        
+        name:String
+    }
+     
+
+type Mutation {
+    #test2:String!
+    login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+    refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
+    logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
+    forgotPassword(input: ForgotPasswordInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
+    updateForgottenPassword(input: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
+    register(input: RegisterInput @spread): RegisterResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
+    socialLogin(input: SocialLoginInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
+    verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
+    #updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
+    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
+  # region user
+  #  createUser(input: CreateUserInput! @spread): User! @create  
+    createUser(input: CreateUserInput! @spread): User! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @guard(with:["api"]) @delete
+
+  #end 
+
+  # region teacher
+    createTeacher(input: CreateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\CreateTeacher@resolver")
+    updateTeacher(input: UpdateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\UpdateTeacher@resolver")
+    deleteTeacher(id:ID!):Teacher @guard(with:["api"]) @delete
+  #end region
+
+   # region yaer
+    createYear(input: CreateYearInput! @spread): Year! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
+    updateYear(input: UpdateYearInput! @spread): Year! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
+    deleteYear(id:ID!):Year @guard(with:["api"]) @delete
+  #end yaer
+  # # region Student
+  #   createStudent(input: CreateStudentInput! @spread): Student! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Student\\CreateStudent@resolver")
+  #   updateStudent(input: UpdateStudentInput! @spread): Student! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Student\\UpdateStudent@resolver")
+  #   deleteStudent(id:ID!):Student @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Student\\DeleteStudent@resolver")
+  # #end Student
+  
+  # #region azmoon
+  #   createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create
+  #   updateAzmoon(
+  #         id:ID!
+  #         user_id:Int
+  #         course_id:Int
+  #         course_session_id:Int
+  #         isSMSsend:Int
+  #         score:Float
+  #   ): Azmoon! @update
+
+  #   deleteAzmoon(id:ID!):Azmoon @delete
+
+  # #end region
+
+   # region Course
+    createCourse(input: CreateCourseInput! @spread): Course! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
+    # createCourseWithDate(input: CreateCourseWithDateInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolverWithDate")
+    updateCourse(input: UpdateCourseInput! @spread): Course! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
+    deleteCourse(id:ID!):Course  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
+   #end Course
+
+    # region Course_Session
+    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
+    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @guard(with:["api"]) @spread): [CourseSession]!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
+    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
+    deleteCourseSession(id:ID!):CourseSession @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
+    #end Course_session
+
+    #region Course_Student
+    createCourseStudent(input: CreateCourseStudentInput! @spread): CourseStudent! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudent@resolver")
+    updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
+    deleteCourseStudent(id:ID!):CourseStudent @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
+    #end Course_Student
+
+    #region AbsencePresence
+      createAbsencePresence(input: CreateAbsencePresenceInput! @spread): AbsencePresence! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\CreateAbsencePresence@resolver")
+      updateAbsencePresence(input: UpdateAbsencePresenceInput! @spread): AbsencePresence! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@resolver")
+      deleteAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\DeleteAbsencePresence@resolver")
+    #end AbsencePresence
+
+    #region Azmoon
+      createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\CreateAzmoon@resolver")
+      updateAzmoon(input: UpdateAzmoonInput! @spread): Azmoon! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\UpdateAzmoon@resolver")
+      deleteAzmoon(id:ID!):Azmoon @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
+    #end Azmoon
+
+    #region AzmoonResult
+      createAzmoonResult(input: CreateAzmoonResultInput! @spread): AzmoonResult! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\CreateAzmoonResult@resolver")
+      updateAzmoonResult(input: UpdateAzmoonResultInput! @spread): AzmoonResult! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\UpdateAzmoonResult@resolver")
+      deleteAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\DeleteAzmoonResult@resolver")
+    #end AzmoonResult
+
+    #region AzmoonResult
+      createFault(input: CreateFaultInput! @spread): Fault! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\CreateFault@resolver")
+      updateFault(input: UpdateFaultInput! @spread): Fault! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\UpdateFault@resolver")
+      deleteFault(id:ID!):Fault @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\DeleteFault@resolver")
+    #end AzmoonResult
+
+    #region Branch
+      createBranch(input: CreateBranchInput! @spread): Branch! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\CreateBranch@resolver")
+      updateBranch(input: UpdateBranchInput! @spread): Branch! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\UpdateBranch@resolver")
+      deleteBranch(id:ID!):Branch @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\DeleteBranch@resolver")
+    #end Branch
+    #region BranchClassRoom
+      createBranchClassRoom(input: CreateBranchClassRoomInput! @spread): BranchClassRoom! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\CreateBranchClassRoom@resolver")
+      updateBranchClassRoom(input: UpdateBranchClassRoomInput! @spread): BranchClassRoom! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\UpdateBranchClassRoom@resolver")
+      deleteBranchClassRoom(id:ID!):BranchClassRoom @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\DeleteBranchClassRoom@resolver")
+    #end BranchClassRoom
+}
+

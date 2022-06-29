@@ -13,14 +13,14 @@ class StudentFault extends Model
     use SoftDeletes;
     protected $table='student_faults';
     protected $fillable=[
-        "user_id",
+        "user_id_creator",
         "student_id",
         "fault_id"       
         
     ];
     public function user()
     {
-        return $this->blongsTo('user');
+        return $this->belongsTo('user');
     }
     public function student()
     {

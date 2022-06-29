@@ -15,6 +15,7 @@ class Faults extends Migration
     {
         Schema::create('faults', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id_creator');
             $table->text('description');            
             $table->timestamps();
             $table->softDeletes();            

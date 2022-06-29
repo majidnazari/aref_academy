@@ -38,7 +38,7 @@ final class CreateCourseStudent
             'student_status' => isset($args['student_status']) ? $args['student_status'] : 'ok',
             'user_id_manager' => isset($args['user_id_manager']) ? $args['user_id_manager'] : 0,
             'user_id_financial' => isset($args['user_id_financial']) ? $args['user_id_financial'] : 0,
-            'user_id_student_status' => isset($args['user_id_student_status']) ? $args['user_id_student_status'] : 0,
+            'user_id_student_status' => isset($args['user_id_student_status']) ? $args['user_id_student_status'] :  $user_id,
             
             'user_id_creator' =>  $user_id,
             'user_id_approved' => 0            

@@ -34,6 +34,19 @@ final class UpdateCourseStudent
             ];
         }
         $CourseStudente_result= $CourseStudente->fill($args);
+        if(isset($args['student_status'])){
+           
+            $CourseStudente['user_id_student_status']=$user_id;            
+        }
+        if(isset($args['financial_status'])){
+            
+            $CourseStudente['user_id_financial']=$user_id;            
+        }
+        if(isset($args['manager_status'])){
+           
+            $CourseStudente['user_id_manager']=$user_id;            
+        }
+        
         $CourseStudente_result->save();       
        
         return $CourseStudente_result;

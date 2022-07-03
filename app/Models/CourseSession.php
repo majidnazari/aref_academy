@@ -14,6 +14,7 @@ class CourseSession extends Model
     protected $fillable=[
         
         "user_id_creator",
+        "branch_class_room_id",
         "course_id",
         "name",
         "price",
@@ -30,5 +31,9 @@ class CourseSession extends Model
     public function course()
     {
         return $this->belongsTo(Course::class,"course_id");
+    }    
+    public function classRoom()
+    {
+        return $this->belongsTo(BranchClassRoom::class,"branch_class_room_id");
     }    
 }

@@ -192,6 +192,13 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
        orderBy:[OrderByClause!] @orderBy
     ): [StudentFault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
      
+
+     getLesson(id:ID!):Lesson @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Lesson\\GetLesson@resolveLessonAttribute") 
+     getLessons(           
+       orderBy:[OrderByClause!] @orderBy
+    ): [Lesson]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Lesson\\GetLessons@resolveLesson") 
+     
+
      gettest(token:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
      testHeader(simpleparameter:String) : String @cacheControl(maxAge: 3600, scope: PUBLIC) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
 }
@@ -297,6 +304,9 @@ type Azmoon{
     courseSession:CourseSession @belongsTo
     
 }
+type Lesson{
+  name:String
+}
 
 type AbsencePresence{
     id:ID
@@ -341,6 +351,7 @@ type CourseStudent @key(fields: "id"){
 type CourseSession{   
         id:ID
         user_id_creator:Int
+        branch_class_room_id:Int
         course_id:Int
         name:String
         price:Int
@@ -350,15 +361,17 @@ type CourseSession{
         end_time:String
         user:User @belongsTo
         course: Course @belongsTo
+        classRoom:BranchClassRoom @belongsTo
 }
 
 type Course{
       id:ID
       user_id_creator:Int
+      branch_id:Int
       year_id:Int
       teacher_id:Int
       name:String
-      lesson:String
+      lesson_id:Int
       type:String
       education_level:String
       financial_status:String
@@ -369,6 +382,8 @@ type Course{
       user:User @belongsTo
       year:Year @belongsTo
       teacher:User @belongsTo
+      lesson:Lesson @belongsTo
+      branch:Branch @belongsTo
 
 }
 #   type Student @key(fields: "id")  {
@@ -671,11 +686,11 @@ type Year {
         # archived:Int
     }
     input CreateCourseInput{       
-      
+      branch_id:Int!
       year_id:Int!
       teacher_id:Int!
       name:String!
-      lesson:String!
+      lesson_id:Int!
       education_level:String!
       type:String!
       financial_status:String
@@ -697,10 +712,11 @@ type Year {
     
      input UpdateCourseInput{       
       id:ID!
+      branch_id:Int
       year_id:Int
       teacher_id:Int
       name:String
-      lesson:String
+      lesson_id:Int
       education_level:String      
       type:String
       financial_status:String
@@ -710,6 +726,7 @@ type Year {
     input CreateCourseSessionInput @validator{       
       
         course_id:Int!
+        branch_class_room_id:Int!
         name:String
         price:Int
         special:Boolean
@@ -734,6 +751,7 @@ type Year {
     input UpdateCourseSessionInput{       
         id:ID!
         course_id:Int,
+        branch_class_room_id:Int,
         name:String,
         price:Int
         special:Boolean
@@ -839,6 +857,16 @@ type Year {
         id:Int
         branch_id:Int
         description:String        
+        name:String
+    }
+
+     input CreateLessonInput{ 
+              
+          name:String         
+    }
+    input UpdateLessonInput{
+        id:Int
+           
         name:String
     }
      
@@ -949,5 +977,10 @@ type Mutation {
       updateBranchClassRoom(input: UpdateBranchClassRoomInput! @spread): BranchClassRoom! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\UpdateBranchClassRoom@resolver")
       deleteBranchClassRoom(id:ID!):BranchClassRoom @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\DeleteBranchClassRoom@resolver")
     #end BranchClassRoom
+     #region Lesson
+      createLesson(input: CreateLessonInput! @spread): Lesson! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\CreateLesson@resolver")
+      updateLesson(input: UpdateLessonInput! @spread): Lesson! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\UpdateLesson@resolver")
+      deleteLesson(id:ID!):Lesson @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\DeleteLesson@resolver")
+    #end Lesson
 }
 

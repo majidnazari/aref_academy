@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 
 final class CreateUser
@@ -32,6 +33,10 @@ final class CreateUser
             'first_name' => $args['first_name'],
             'last_name' => $args['last_name'],
         ];
+        $exist_user=User::where('email',$args['email'])->first();
+        // if($exist_user){
+        //     return Error::createLocatedError("USER-CREATE-RECORD_IS_EXIST");
+        // }
         $user_resut=User::create($user_date);
         //return $user_resut;
 

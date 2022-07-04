@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 
 final class UpdateTeacher

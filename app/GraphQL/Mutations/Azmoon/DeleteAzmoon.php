@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class DeleteAzmoon
 {
@@ -29,10 +30,7 @@ final class DeleteAzmoon
         
         if(!$Azmoon)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete Azmoon'),
-            ];
+           return Error::createLocatedError("BRANCH-DELETE-RECORD_NOT_FOUND");
         }
         $Azmoon_filled= $Azmoon->delete();
         $Azmoon->save();       

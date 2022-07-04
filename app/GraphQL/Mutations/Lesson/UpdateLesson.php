@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class UpdateLesson
 {
@@ -25,7 +26,11 @@ final class UpdateLesson
     {  
         $user_id=auth()->guard('api')->user()->id;
         $args["user_id_creator"]=$user_id;
-        $Lesson=Lesson::find($args['id']);        
+        $Lesson=Lesson::find($args['id']);  
+        if(!$Lesson)
+        {
+            return Error::createLocatedError('LESSON-UPDATE-RECORD_NOT_FOUND');
+        }      
         
         $year_filled= $Lesson->fill($args);
         $Lesson->save();       

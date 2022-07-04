@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 
 final class UpdateBranch
@@ -30,10 +31,7 @@ final class UpdateBranch
         
         if(!$BranchResult)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update Branch'),
-            ];
+            return Error::createLocatedError("BRANCH-UPDATE-RECORD_NOT_FOUND");
         }
         $BranchResult_filled= $BranchResult->fill($args);
         $BranchResult->save();       

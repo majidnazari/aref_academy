@@ -34,7 +34,7 @@ final class CreateLesson
         $lesson=Lesson::where("name","=",$args['name'])->first();
         if($lesson)
         {
-            return Error::createLocatedError('درس تکراریست.');
+            return Error::createLocatedError('LESSON-CREATE-RECORD_IS_EXIST');
         }
         $lesson_resut=Lesson::create($lesson_date);
         return $lesson_resut;

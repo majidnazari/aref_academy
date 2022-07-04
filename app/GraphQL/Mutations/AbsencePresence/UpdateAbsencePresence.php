@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class UpdateAbsencePresence
 {
@@ -29,11 +30,9 @@ final class UpdateAbsencePresence
         
         if(!$AbsencePresence)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update AbsencePresence'),
-            ];
+            return Error::createLocatedError('ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND');
         }
+       
         $AbsencePresence_result= $AbsencePresence->fill($args);
         $AbsencePresence->save();       
        

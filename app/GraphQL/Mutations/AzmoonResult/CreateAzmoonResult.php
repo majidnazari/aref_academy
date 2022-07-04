@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class CreateAzmoonResult
 {
@@ -28,6 +29,13 @@ final class CreateAzmoonResult
             'student_id' => $args['student_id'],
             "result_score" => $args['result_score']            
         ];
+        $is_exist= AzmoonResult::where('student_id',$args['student_id'])
+       ->where('result_score',$args['result_score'])       
+       ->first();
+       if($is_exist)
+        {
+                return Error::createLocatedError("AZMOONRESULT-CREATE-RECORD_IS_EXIST");
+        }
         $AzmoonResult_result=AzmoonResult::create($AzmoonResult);
         return $AzmoonResult_result;
     }

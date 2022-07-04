@@ -1,0 +1,34 @@
+{
+    "LESSON-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "LESSON-UPDATE-RECORD_NOT_FOUND":" رکورد مورد نظر یافت نشد. ",
+    "LESSON-DELETE-RECORD_NOT_FOUND":" رکورد مورد نظر یافت نشد. ",
+    "LESSON-DELETE-RECORD_IS_USED" :"به دلیل استفاده از این درس نمیتوانید آنرا حذف کنید",
+
+    "YEAR-CREATE-RECORD_IS_EXIST":"سال تحصیلی تعریف شده از قبل وجود دارد.",
+    "YEAR-UPDATE-RECORD_NOT_FOUND":"سال مورد نظر یافت نشد.",
+
+    "USER-CREATE-RECORD_IS_EXIST" : "کاربر از قبل وجود دارد.",  
+   
+    "ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND" :"رکورد مورد نظر یافت نشد.",
+    "ABSENCEPRESENCE-DELETE-RECORD_NOT_FOUND":"رکورد مورد نظر یافت نشد.",
+
+    "AZMOON-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "AZMOON-UPDATE-RECORD_NOT_FOUND":"رکورد مورد نظر یافت نشد.",
+    "AZMOON-DELETE-RECORD_NOT_FOUND" : "رکورد مورد نظر یافت نشد.",
+
+    "AZMOONRESULT-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر وجود دارد. ",
+    "AZMOONRESULT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "AZMOONRESULT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "BRANCH-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر وجود دارد. ",
+    "BRANCH-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "BRANCH-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر یافت نشد.",
+    "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر یافت نشد.",
+
+    
+
+}

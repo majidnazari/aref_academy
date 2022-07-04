@@ -739,6 +739,7 @@ type Year {
       input CreateCourseSessionByDuringDateInput @Validator{       
       
         course_id:Int!
+        branch_class_room_id:Int!
         days:[String]
         name:String
         price:Int

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class UpdateYear
 {
@@ -29,10 +30,7 @@ final class UpdateYear
         
         if(!$year)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update Year'),
-            ];
+            return Error::createLocatedError("YEAR-UPDATE-RECORD_NOT_FOUND");
         }
         $year_filled= $year->fill($args);
         $year->save();       

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class DeleteAbsencePresence
 {
@@ -29,10 +30,7 @@ final class DeleteAbsencePresence
         
         if(!$AbsencePresence)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete course'),
-            ];
+            return Error::createLocatedError('ABSENCEPRESENCE-DELETE-RECORD_NOT_FOUND');
         }
         $AbsencePresence_result= $AbsencePresence->delete();           
        

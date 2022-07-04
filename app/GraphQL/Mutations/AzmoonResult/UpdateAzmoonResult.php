@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class UpdateAzmoonResult
 {
@@ -29,10 +30,9 @@ final class UpdateAzmoonResult
         
         if(!$AzmoonResult)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update AzmoonResult'),
-            ];
+            
+            return Error::createLocatedError('AZMOONRESULT-UPDATE-RECORD_NOT_FOUND');
+        
         }
         $AzmoonResult_filled= $AzmoonResult->fill($args);
         $AzmoonResult->save();       

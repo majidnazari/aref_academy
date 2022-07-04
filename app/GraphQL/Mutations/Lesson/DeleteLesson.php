@@ -29,21 +29,16 @@ final class DeleteLesson
         $user_id=auth()->guard('api')->user()->id;
         //$args["user_id_creator"]=$user_id;
         $Lesson=Lesson::find($args['id']);
+        if(!$Lesson)
+        {
+            return Error::createLocatedError('LESSON-DELETE-RECORD_NOT_FOUND');
+        }  
         $is_used=Course::where('lesson_id','=',$args['id'])->first();
         if($is_used)
         {
-            return Error::createLocatedError('به دلیل استفاده از این درس نمیتوانید آنرا حذف کنید');
+            return Error::createLocatedError("LESSON-DELETE-RECORD_IS_USED");
         }
-
        
-        
-        if(!$Lesson)
-        {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete Lesson'),
-            ];
-        }
         $Fault_filled= $Lesson->delete(); 
         return $Lesson;
     }

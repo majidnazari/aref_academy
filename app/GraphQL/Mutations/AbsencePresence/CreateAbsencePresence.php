@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class CreateAbsencePresence
 {
@@ -31,6 +32,14 @@ final class CreateAbsencePresence
             'status' => $args['status']           
             
         ];
+        $is_exist=AbsencePresence::where('course_session_id',$args['course_session_id'])
+        ->where('teacher_id',$args['teacher_id'])
+        ->where('status',$args['status'])
+        ->first();
+        if($is_exist)
+        {
+                return Error::createLocatedError("ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST");
+        }
         $AbsencePresence=AbsencePresence::create($AbsencePresence);
         return $AbsencePresence;
     }

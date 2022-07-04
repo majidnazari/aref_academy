@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class CreateBranch
 {
@@ -28,6 +29,12 @@ final class CreateBranch
             'user_id_creator' => $user_id,
             "name" => $args['name']            
         ];
+        $is_exist= Branch::where('name',$args['name'])              
+        ->first();
+        if($is_exist)
+         {
+                 return Error::createLocatedError("BRANCH-CREATE-RECORD_IS_EXIST");
+         }
         $BranchResult_result=Branch::create($BranchResult);
         return $BranchResult_result;
     }

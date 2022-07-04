@@ -305,6 +305,7 @@ type Azmoon{
     
 }
 type Lesson{
+  id:Int
   name:String
 }
 

@@ -28,6 +28,7 @@ final class CreateCourseSession
         $special=$args['special'] ?? false;
         $CourseSession_date = [
             'user_id_creator' => $user_id,
+            'branch_class_room_id' => $args['branch_class_room_id'],
             'course_id' => $args['course_id'],
             'name' => $name,
             'price' => $price,
@@ -54,6 +55,7 @@ final class CreateCourseSession
             if (in_array($this->getNameOfTheDate($date), $days)) {
                 $courseSession[] = CourseSession::create([
                     'user_id_creator' => $user_id,
+                    'branch_class_room_id' => $args['branch_class_room_id'],
                     'course_id' => $args['course_id'],
                     'name' => $name,
                     'price' => $price,

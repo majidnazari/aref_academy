@@ -27,10 +27,11 @@ final class CreateCourse
         $user_id=auth()->guard('api')->user()->id;
         $course_date=[
             'user_id_creator' => $user_id,
+            "branch_id" => $args['branch_id'],
             "year_id" => $args['year_id'],
             "teacher_id" => $args['teacher_id'],            
             'name' => $args['name'],
-            "lesson"=> $args["lesson"],
+            "lesson_id"=> $args["lesson_id"],
             "education_level"=> $args["education_level"],
             "financial_status" => isset($args["financial_status"]) ? $args["financial_status"] : 'pending' ,
             "user_id_financial" => isset($args["user_id_financial"]) ? $args["user_id_financial"] : null ,            

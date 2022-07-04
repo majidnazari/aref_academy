@@ -12,10 +12,11 @@ class Course extends Model
     use SoftDeletes;
     protected $fillable=[
         "user_id_creator",
+        "branch_id",
         "year_id",
         "teacher_id",       
         "name",
-        "lesson",
+        "lesson_id",
         "type",
         "education_level",
         "financial_status",
@@ -32,5 +33,13 @@ class Course extends Model
     public function teacher()
     {
         return $this->belongsTo(User::class,"teacher_id");
+    }
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class,"lesson_id");
+    }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class,"branch_id");
     }
 }

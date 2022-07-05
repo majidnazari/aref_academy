@@ -30,10 +30,7 @@ final class UpdateCourse
         
         if(!$course)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update course'),
-            ];
+            return Error::createLocatedError("COURSE-UPDATE-RECORD_NOT_FOUND");
         }
         $course_filled= $course->fill($args);
         $course->save();       

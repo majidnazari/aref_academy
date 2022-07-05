@@ -30,10 +30,7 @@ final class DeleteCourse
         
         if(!$course)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete course'),
-            ];
+            return Error::createLocatedError("COURSE-DELETE-RECORD_NOT_FOUND");
         }
         $course_filled= $course->delete();
         $course->save();       

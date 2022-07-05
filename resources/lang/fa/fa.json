@@ -26,8 +26,12 @@
     "BRANCH-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
 
     "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
-    "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر یافت نشد.",
-    "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر یافت نشد.",
+    "BRANCHCLASSROOM-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "BRANCHCLASSROOM-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "COURSE-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSE-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "COURSE-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
 
     
 

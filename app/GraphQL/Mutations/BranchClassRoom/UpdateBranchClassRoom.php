@@ -32,10 +32,7 @@ final class UpdateBranchClassRoom
         
         if(!$BranchClassRoomResult)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update BranchClassRoom'),
-            ];
+            return Error::createLocatedError("BRANCHCLASSROOM-UPDATE-RECORD_NOT_FOUND");
         }
         $BranchClassRoomResult_filled= $BranchClassRoomResult->fill($args);
         $BranchClassRoomResult->save();       

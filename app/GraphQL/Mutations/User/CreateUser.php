@@ -29,7 +29,7 @@ final class CreateUser
         $user_date=[
             'user_id_creator' => $user_id,
             'email' => $args['email'],
-            'password' => Hash::make($args['password']),
+            'password' => $args['password'],
             'first_name' => $args['first_name'],
             'last_name' => $args['last_name'],
         ];

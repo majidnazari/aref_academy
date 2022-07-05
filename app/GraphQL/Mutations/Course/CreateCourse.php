@@ -40,6 +40,14 @@ final class CreateCourse
            
             
         ];
+        $is_exist= Course::where($course_date)->first();
+        // ->where('name',$args['name'])              
+        // //->where('description',$args['description'])              
+        // ->first();
+        if($is_exist)
+         {
+                 return Error::createLocatedError("COURSE-CREATE-RECORD_IS_EXIST");
+         }
         $course_result=Course::create($course_date);
         return $course_result;
     }

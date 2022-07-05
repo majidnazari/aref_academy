@@ -31,10 +31,7 @@ final class DeleteBranchClassRoom
         
         if(!$BranchClassRoomResult)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete BranchClassRoom'),
-            ];
+            return Error::createLocatedError("BRANCHCLASSROOM-DELETE-RECORD_NOT_FOUND");
         }
         $BranchClassRoomResult_filled= $BranchClassRoomResult->delete();              
        

@@ -38,6 +38,12 @@ final class CreateCourseSession
             'start_time' => $args['start_time'],
             'end_time' => $args['end_time'],
         ];
+        $is_exist= CourseSession::where($CourseSession_date)->first();
+        
+        if($is_exist)
+         {
+                 return Error::createLocatedError("COURSE-CREATE-RECORD_IS_EXIST");
+         }
         $CourseSession_result = CourseSession::create($CourseSession_date);
         return $CourseSession_result;
     }

@@ -39,7 +39,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     # azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     # test1param(name:String="abdollah"): String
-    getUser(id:ID!):User @can(ability: "getAllUser")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    getUser(id:ID!):User @can(ability: "view")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
     getUsers(
       first_name: String @like(template : "%{}%") 
       last_name: String @like(template : "%{}%")
@@ -47,7 +47,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       group_id: Int  
       # group_id: Group  @belongsToMany(relation: "groups" ) 
       orderBy: [OrderByClause!] @orderBy
-       ): [User]  @guard(with:["api"]) @can(ability: "getAllUser") @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
+       ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
     getGroups(
       name:String @like (template : "%{}%")
@@ -64,7 +64,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     #  GetUsers: [User!]! @paginate(defaultCount: 10 )
     # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
    
-    getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
+    getYear(id:ID!):Year @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
     getYears(
       name: String @like (template : "%{}%")
       active: Boolean @eq
@@ -888,9 +888,9 @@ type Mutation {
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
   # region user
   #  createUser(input: CreateUserInput! @spread): User! @create  
-    createUser(input: CreateUserInput! @spread): User! @can(ability: "getAllUser") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
-    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "getAllUser") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
-    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "getAllUser") @delete
+    createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "delete") @delete
 
   #end 
 
@@ -901,9 +901,9 @@ type Mutation {
   #end region
 
    # region yaer
-    createYear(input: CreateYearInput! @spread): Year! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
-    updateYear(input: UpdateYearInput! @spread): Year! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
-    deleteYear(id:ID!):Year @guard(with:["api"]) @delete
+    createYear(input: CreateYearInput! @spread): Year! @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
+    updateYear(input: UpdateYearInput! @spread): Year! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
+    deleteYear(id:ID!):Year @guard(with:["api"]) @delete @can(ability: "delete")
   #end yaer
   # # region Student
   #   createStudent(input: CreateStudentInput! @spread): Student! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Student\\CreateStudent@resolver")

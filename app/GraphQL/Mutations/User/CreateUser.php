@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations\User;
 
+use App\Models\GroupGate;
 use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\GroupUser;
@@ -28,6 +29,7 @@ final class CreateUser
         $user_id=auth()->guard('api')->user()->id;        
         $user_date=[
             'user_id_creator' => $user_id,
+            'group_id' => $args['group_id'],
             'email' => $args['email'],
             'password' => $args['password'],
             'first_name' => $args['first_name'],
@@ -42,14 +44,14 @@ final class CreateUser
 
         if($user_resut)
         {
-            $group_user_data=[
+            $group_gate_data=[
                 'user_id_creator' => 1,
                 'user_id' => $user_resut->id,
                 'group_id' => $args['group_id'],
                 'key' =>''
                 
             ];
-          if( !$group_user_result= GroupUser::create($group_user_data))
+          if( !$group_Gate_result= GroupGate::create($group_gate_data))
           {
             return [
                 'status'  => 'Error',

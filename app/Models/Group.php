@@ -22,7 +22,8 @@ class Group extends Model
     protected $fillable=[
         "user_id_creator",
         "name",
-        "type"
+        "type",
+        "persian_name"
     ];
 
 
@@ -69,10 +70,15 @@ class Group extends Model
             "menu_id",
             "created_at",
             "updated_at"
+            
         );
     }
-    public function gates()
-    {
-        return $this->belongsToMany(Gate::class,'group_gates','group_id','gate_id','id','id')->withPivot(["user_id_created"]);
-    }
+    // public function gates()
+    // {
+    //     return $this->belongsToMany(Gate::class,'group_gates','group_id','gate_id','id','id')->withPivot(["user_id_created"]);
+    // }
+    // public function groupUser()
+    // {
+    //     return $this->belongsToMany(GroupUser::class,'group_user','group_id','user_id','id','id')->withPivot(["user_id_created","key"]);
+    // }
 }

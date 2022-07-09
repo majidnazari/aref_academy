@@ -190,4 +190,4 @@ Route::delete('/student/{id}','StudentController@destroy')->name('Student.destro
 
 
 
-Route::post('/user_test','UserController@test');
+Route::get('/user_test/{id}','UserController@test');//->middleware('IsAdmin'); 

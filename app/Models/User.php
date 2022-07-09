@@ -41,6 +41,7 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
         "id",
         //'type',
         //'mobile',
+        'group_id',
         'email',
         'password',
         'first_name',
@@ -76,9 +77,17 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     // {
     //     return $this->belongsTo('Group');
     // }
-    public function groups():BelongsToMany 
+    public function group()
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsTo(Group::class);
+        // return $this->belongsToMany(Group::class)->withPivot(
+        //     "id",
+        //     "user_id_creator",
+        //     "key",
+        //     "user_id",
+        //     "group_id"
+
+        // );
         // ->using(GroupUser::class) // only needed to retrieve the tag from the tag_id
         // ->withPivot('created_at');
        // return $this->belongsTo('Group');

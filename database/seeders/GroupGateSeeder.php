@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class GroupUserSeeder extends Seeder
+class GroupGateSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class GroupUserSeeder extends Seeder
     {
         $now=Carbon::now();
         //
-       DB::table('group_user')->insert([
+       DB::table('group_gate')->insert([
 
         // "email" => "majidnazarister@gmail.com",
         //"type" =>"admin",

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             GroupSeeder::class,
             MenuSeeder::class,
             GroupMenusSeeder::class,
-            GroupUserSeeder::class,
+            GroupGateSeeder::class,
             BranchSeeder::class,
             BranchClassRoomSeeder::class,
         ]);

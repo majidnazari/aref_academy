@@ -8,6 +8,7 @@ use App\Http\Requests\UserEditRequest;
 Use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepository as UserRepo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -18,9 +19,17 @@ class UserController extends Controller
     {
         $this->repository = $repository;
     }
-    public function test(string $token)
+    public function test(int $id) 
     {
-        dd($token);
+        //return $user_id=auth()->guard('api')->user()->id;
+        $users=User::where('deleted_at',null)
+        // ->whereHas('groups', function($q) {
+        //     $q->where('group_id', '=', 1)
+        //     ->where('user_id',1); 
+        // }) 
+        ->with("group")         
+        ->get();
+        return $users;
         try {
             $token="lll";
             //$token="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNWJlMjA3Yjk2YWY0NjY0NjZhOTdhODgwODVhMGMwMTU3ODU1MzRiYTljNGMxNzBlYjlhMzAyYjVlYzRlMjVmNjNmMmU1NDJmOTA3YTE3YmMiLCJpYXQiOjE2NTQ3NjI4MjIuNzU3NjQ0LCJuYmYiOjE2NTQ3NjI4MjIuNzU3NjQ5LCJleHAiOjE2NTYwNTg4MjIuNzAzMDYyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.VqmGxGQkkJxYgWUfN33AMfra1F6-lHX7L1d25TW8ppDewIFNgiAbBFAyQhYSY91M4dWyEDWwKbpHkyccmEe0RrGMl0YZ8LBuFjLDAqThuvdlJ7PGlYrNVVeyeBQBGKZJo_J0qBPTVtEv-I9NSfpuMQhqhMDX5PfMr6j8ry-jAt_NhTfH439pWs4iybEzKWjFBQrt8NYoTRp5fufDX4CRLZzVrggiWDMj9JNGOmmv8oMLVwWJeIXLXlZB6XElip5KP-yddwOOTFNvVRkemwDU8hiHdc0xo8so3ZeezwG5kO3J8-vSlgRndVIUmAj2tYQof0yqjV_bx1gLcyjzYi6paZVCjYNqBQufbL66MDuKH12tBuLpefw-GDfP_zq2t4csdV7sxFhIVU5u2xY9MGcRkpVv0bD75WsYuYKRkKkRlnfeSs0BAlQVxAQf9gOLI9foEkvLk2fh87RJ7TRSEfsY2xWKNXiJgpAbgq80eL5I34FHWm4pBeM4dPeaXvzw77NylHwdOx0pcwDU3_EsUQaZfJBtSRy2BjxgLvLEtB8PCce84M1hrZU_F0NRMzHcmSnTJ1oCkbp3EWFT_n3AiX_b3e_d5iqEpSx24FfLqz-3zrW8HcYA0AsxawFF5v1sHqqWEoonMJEpZ10VZNZuWVRoPPd3trMCVgtdstJWO_iURWc";
@@ -47,10 +56,10 @@ class UserController extends Controller
         // ->leftJoin('groups','group_user.user_id','=','groups.id')
         // ->where('id',1)->get();
         // return response()->json($data,200);
-        $user=User::where('deleted_at', null)->whereHas('groups',function ($query){
+        $user=User::where('deleted_at', null)->whereHas('group',function ($query){
             $query->where("groups.id",3);
         })        
-        ->with('groups')
+        ->with('group')
         ->get();
         return $user;
        

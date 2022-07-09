@@ -2,15 +2,18 @@
 
 namespace App\GraphQL\Queries\User;
 
+use App\AuthFacade\CheckAuthFacade;
 use App\Models\User;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use App\Models\Group;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
-
+use Illuminate\Support\Facades\Route;
+use AuthRole;
 
 final class GetUser //implements ErrorHandler
 {
@@ -33,14 +36,45 @@ final class GetUser //implements ErrorHandler
     
     function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)//: Builder
     {
-       
+        // $allow_user=array("admin");
+        // return auth()->guard('api')->user()->group->type;
+        $user= User::find($args['id']);
+            return $user;
+        // if(in_array($user_role,$allow_user))
+        //     return true;
+        // return false;
+        // $g=User::where('deleted_at',null)
+        // ->whereHas('groups', function($q) use($user_id) {
+        //     $q->where('group_id','=',1)
+        //     ->where('user_id',$user_id); 
+        // }) 
+        // ->first();
+        // return $g->groups[0]->type;
+
+      //$role= AuthRole::GetRole( $user_id);
+        // $users_exist=User::where('deleted_at',null)
+        // ->whereHas('groups', function($q) use($user_id) {
+        //     $q->where('group_id',1)
+        //     ->where('user_id',$user_id); 
+        // }) 
+        // ->with("groups")         
+        // ->first();
         // return DB::table('users')
         // ->select('users.id As userId','users.*','group_user.*','groups.*','group_user.id As groupUserId','groups.id As groupId')
         // ->leftJoin('group_user','users.id','=','group_user.user_id')
         // ->leftJoin('groups','group_user.user_id','=','groups.id')
         // ->where('users.id',$args['id']);
-            $user= User::find($args['id']);
-            return $user;
+        // if($users_exist){
+        //     return "it is admin";
+        // if($role=="admin"){
+        //     $user= User::find($args['id']);
+        //     return $user;
+        // }
+        // return null;
+            
+        // }
+        // return "it is not admin";
+           
         // }
         // catch (\Throwable $error) {
         //     $errorPool = app(\Nuwave\Lighthouse\Execution\ErrorPool::class);

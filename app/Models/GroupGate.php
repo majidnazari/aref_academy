@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class GroupUser  extends Pivot //extends Model
+class GroupGate  extends Pivot //extends Model
 {
     use HasFactory;
     use softDeletes;
@@ -18,12 +18,12 @@ class GroupUser  extends Pivot //extends Model
         "group_id",
         "key"        
     ];
-    // public function groups()
-    // {
-    //     return $this->hasMany(Group::class);
-    // }
-    // public function users()
-    // {
-    //     return $this->hasMany(User::class);
-    // }
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

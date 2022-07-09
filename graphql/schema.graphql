@@ -29,7 +29,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 
-  type Query @extends { 
+  type Query @extends  { 
      _entities(representations: [_Any!]!): [_Entity]! 
      _service: _Service!  
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
@@ -39,7 +39,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     # azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     # test1param(name:String="abdollah"): String
-    getUser(id:ID!):User  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    getUser(id:ID!):User @can(ability: "getAllUser")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
     getUsers(
       first_name: String @like(template : "%{}%") 
       last_name: String @like(template : "%{}%")
@@ -47,7 +47,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       group_id: Int  
       # group_id: Group  @belongsToMany(relation: "groups" ) 
       orderBy: [OrderByClause!] @orderBy
-       ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
+       ): [User]  @guard(with:["api"]) @can(ability: "getAllUser") @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
     getGroups(
       name:String @like (template : "%{}%")
@@ -460,6 +460,7 @@ type Course{
   type User {
     id:ID    
     # userId:ID
+    group_id:Int
     first_name: String
     last_name: String 
     #mobile: String!
@@ -470,7 +471,7 @@ type Course{
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
-    groups: [Group] @belongsTo
+    group: Group @belongsTo
     # faults:[Fault] @belongsToMany
     faults: [Fault] @hasMany
    
@@ -487,25 +488,25 @@ type Group{
   created_at: DateTime
   updated_at: DateTime
   deleted_at: DateTime
-  users: [User] @belongsToMany
-  pivot: GroupUserPivot
+  users: [User] @hasMany
+  # pivot: GroupUserPivot
 
   menus: [Menu!] @belongsTo
 }
-type GroupUserPivot { 
-    id:ID   
-    # groupUserId: ID
-    user_id_creator:Int
-    user_id: Int
-    group_id: Int
-    key: String
-    created_at: DateTime
-    updated_at: DateTime
-    deleted_at: DateTime
+# type GroupUserPivot { 
+#     id:ID   
+#     # groupUserId: ID
+#     user_id_creator:Int
+#     user_id: Int
+#     group_id: Int
+#     key: String
+#     created_at: DateTime
+#     updated_at: DateTime
+#     deleted_at: DateTime
 
-    user: [User!] @hasMany
-    group: [Group!] @hasMany
-}
+#     user: [User!] @hasMany
+#     group: [Group!] @hasMany
+# }
 
 type Menu {
     id:ID
@@ -887,9 +888,9 @@ type Mutation {
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
   # region user
   #  createUser(input: CreateUserInput! @spread): User! @create  
-    createUser(input: CreateUserInput! @spread): User! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
-    updateUser(input: UpdateUserInput! @spread): User! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
-    deleteUser(id:ID!): User @guard(with:["api"]) @delete
+    createUser(input: CreateUserInput! @spread): User! @can(ability: "getAllUser") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "getAllUser") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "getAllUser") @delete
 
   #end 
 

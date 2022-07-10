@@ -29,7 +29,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 
-  type Query @extends { 
+  type Query @extends  { 
      _entities(representations: [_Any!]!): [_Entity]! 
      _service: _Service!  
     #users: [User!]!  @paginate  #(type: "paginator" model: "App\\User")
@@ -39,7 +39,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     # azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     # test1param(name:String="abdollah"): String
-    getUser(id:ID!):User  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+    getUser(id:ID!):User @can(ability: "view")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
     getUsers(
       first_name: String @like(template : "%{}%") 
       last_name: String @like(template : "%{}%")
@@ -47,7 +47,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       group_id: Int  
       # group_id: Group  @belongsToMany(relation: "groups" ) 
       orderBy: [OrderByClause!] @orderBy
-       ): [User]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser")
+       ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
     getGroups(
       name:String @like (template : "%{}%")
@@ -64,7 +64,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     #  GetUsers: [User!]! @paginate(defaultCount: 10 )
     # getUsers: [User!]!  @guard(with:["api"]) @paginate(defaultCount: 10) #(builder: "App\\Models\\User@resolveUser")
    
-    getYear(id:ID!):Year @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
+    getYear(id:ID!):Year @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
     getYears(
       name: String @like (template : "%{}%")
       active: Boolean @eq
@@ -89,7 +89,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     #   orderBy:[OrderByClause!] @orderBy
     # ): [Student] @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
 
-    getCourse(id:ID!):Course @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
+    getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses(
       name:String @like(template: "%{}%")
       lesson: String @like(template: "%{}%")      
@@ -97,7 +97,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
 
-    getCourseSession(id:ID!):CourseSession  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
+    getCourseSession(id:ID!):CourseSession  @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
     getCourseSessions(
        name:String @like(template: "%{}%")
        course_id:Int @eq
@@ -115,7 +115,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
     
 
-    getCourseStudent(id:ID!):CourseStudent @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
+    getCourseStudent(id:ID!):CourseStudent @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
     getCourseStudents(
        student_id:Int @eq
        course_id:Int @eq
@@ -130,7 +130,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
     
 
-    getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
+    getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
     getAbsencePresences(
          status:String @like(template: "%{}%")
          user_id_creator:Int
@@ -139,10 +139,13 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
          teacher_id:Int
 
          orderBy:[OrderByClause!] @orderBy
-    ): [AbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
+    ): [AbsencePresence] 
+    @guard(with:["api"])
+   
+    @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
     
 
-    getAzmoon(id:ID!):Azmoon @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
+    getAzmoon(id:ID!):Azmoon @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
     getAzmoons(
        isSMSsend:Boolean @eq 
        score_gt:Float @where(operator: ">=", key: "score")     
@@ -151,7 +154,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [Azmoon] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
     
 
-    getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"])   @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
+    getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
     getAzmoonResults(
          result_score_gt:Float @where(operator: ">=" , key: "result_score")         
          result_score_lt:Float @where(operator: "<=" , key: "result_score")         
@@ -159,21 +162,21 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [AzmoonResult] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
     
     
-    getFault(id:ID!):Fault  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
+    getFault(id:ID!):Fault  @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
     getFaults(
        description:String @like(template: "%{}%")
        orderBy:[OrderByClause!] @orderBy
     ): [Fault] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
     
 
-    getBranch(id:ID!):Branch @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Branch\\GetBranch@resolveBranchAttribute") 
+    getBranch(id:ID!):Branch @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Branch\\GetBranch@resolveBranchAttribute") 
     getBranches(
        name:String @like(template: "%{}%")
        orderBy:[OrderByClause!] @orderBy
     ): [Branch]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Branch\\GetBranches@resolveBranchesAttribute") 
     
 
-    getBranchClassRoom(id:ID!):BranchClassRoom  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRoom@resolveBranchClassRoomAttribute") 
+    getBranchClassRoom(id:ID!):BranchClassRoom  @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRoom@resolveBranchClassRoomAttribute") 
     getBranchClassRooms(
        branch_id:Int
        name:String @like(template: "%{}%")
@@ -182,18 +185,18 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [BranchClassRoom] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRooms@resolveBranchClassRoomsAttribute") 
     
 
-     getStudentContact(id:ID!):StudentContact @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolveStudentContactAttribute") 
+     getStudentContact(id:ID!):StudentContact @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolveStudentContactAttribute") 
      getStudentContacts(           
        orderBy:[OrderByClause!] @orderBy
     ): [StudentContact] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContacts@resolveStudentContact") 
     
-     getStudentFault(id:ID!):StudentFault @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFault@resolveStudentFaultAttribute") 
+     getStudentFault(id:ID!):StudentFault @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFault@resolveStudentFaultAttribute") 
      getStudentFaults(           
        orderBy:[OrderByClause!] @orderBy
     ): [StudentFault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
      
 
-     getLesson(id:ID!):Lesson @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Lesson\\GetLesson@resolveLessonAttribute") 
+     getLesson(id:ID!):Lesson @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Lesson\\GetLesson@resolveLessonAttribute") 
      getLessons(           
        orderBy:[OrderByClause!] @orderBy
     ): [Lesson]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Lesson\\GetLessons@resolveLesson") 
@@ -460,6 +463,7 @@ type Course{
   type User {
     id:ID    
     # userId:ID
+    group_id:Int
     first_name: String
     last_name: String 
     #mobile: String!
@@ -470,7 +474,7 @@ type Course{
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
-    groups: [Group] @belongsTo
+    group: Group @belongsTo
     # faults:[Fault] @belongsToMany
     faults: [Fault] @hasMany
    
@@ -487,25 +491,25 @@ type Group{
   created_at: DateTime
   updated_at: DateTime
   deleted_at: DateTime
-  users: [User] @belongsToMany
-  pivot: GroupUserPivot
+  users: [User] @hasMany
+  # pivot: GroupUserPivot
 
   menus: [Menu!] @belongsTo
 }
-type GroupUserPivot { 
-    id:ID   
-    # groupUserId: ID
-    user_id_creator:Int
-    user_id: Int
-    group_id: Int
-    key: String
-    created_at: DateTime
-    updated_at: DateTime
-    deleted_at: DateTime
+# type GroupUserPivot { 
+#     id:ID   
+#     # groupUserId: ID
+#     user_id_creator:Int
+#     user_id: Int
+#     group_id: Int
+#     key: String
+#     created_at: DateTime
+#     updated_at: DateTime
+#     deleted_at: DateTime
 
-    user: [User!] @hasMany
-    group: [Group!] @hasMany
-}
+#     user: [User!] @hasMany
+#     group: [Group!] @hasMany
+# }
 
 type Menu {
     id:ID
@@ -887,9 +891,9 @@ type Mutation {
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
   # region user
   #  createUser(input: CreateUserInput! @spread): User! @create  
-    createUser(input: CreateUserInput! @spread): User! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
-    updateUser(input: UpdateUserInput! @spread): User! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
-    deleteUser(id:ID!): User @guard(with:["api"]) @delete
+    createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "delete") @delete
 
   #end 
 
@@ -900,9 +904,9 @@ type Mutation {
   #end region
 
    # region yaer
-    createYear(input: CreateYearInput! @spread): Year! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
-    updateYear(input: UpdateYearInput! @spread): Year! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
-    deleteYear(id:ID!):Year @guard(with:["api"]) @delete
+    createYear(input: CreateYearInput! @spread): Year! @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
+    updateYear(input: UpdateYearInput! @spread): Year! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
+    deleteYear(id:ID!):Year @guard(with:["api"]) @delete @can(ability: "delete")
   #end yaer
   # # region Student
   #   createStudent(input: CreateStudentInput! @spread): Student! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Student\\CreateStudent@resolver")
@@ -926,63 +930,63 @@ type Mutation {
   # #end region
 
    # region Course
-    createCourse(input: CreateCourseInput! @spread): Course! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
+    createCourse(input: CreateCourseInput! @spread): Course! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
     # createCourseWithDate(input: CreateCourseWithDateInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolverWithDate")
-    updateCourse(input: UpdateCourseInput! @spread): Course! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
-    deleteCourse(id:ID!):Course  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
+    updateCourse(input: UpdateCourseInput! @spread): Course!  @can(ability: "update") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
+    deleteCourse(id:ID!):Course  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
    #end Course
 
     # region Course_Session
-    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
-    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @guard(with:["api"]) @spread): [CourseSession]!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
-    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
-    deleteCourseSession(id:ID!):CourseSession @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
+    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession!  @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
+    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput!  @can(ability: "create") @guard(with:["api"]) @spread): [CourseSession]!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
+    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession!  @can(ability: "update") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
+    deleteCourseSession(id:ID!):CourseSession  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
     #end Course_session
 
     #region Course_Student
-    createCourseStudent(input: CreateCourseStudentInput! @spread): CourseStudent! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudent@resolver")
-    updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
-    deleteCourseStudent(id:ID!):CourseStudent @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
+    createCourseStudent(input: CreateCourseStudentInput! @spread): CourseStudent!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudent@resolver")
+    updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
+    deleteCourseStudent(id:ID!):CourseStudent  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
     #end Course_Student
 
     #region AbsencePresence
-      createAbsencePresence(input: CreateAbsencePresenceInput! @spread): AbsencePresence! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\CreateAbsencePresence@resolver")
-      updateAbsencePresence(input: UpdateAbsencePresenceInput! @spread): AbsencePresence! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@resolver")
-      deleteAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\DeleteAbsencePresence@resolver")
+      createAbsencePresence(input: CreateAbsencePresenceInput! @spread): AbsencePresence!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\CreateAbsencePresence@resolver")
+      updateAbsencePresence(input: UpdateAbsencePresenceInput! @spread): AbsencePresence!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@resolver")
+      deleteAbsencePresence(id:ID!):AbsencePresence  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\DeleteAbsencePresence@resolver")
     #end AbsencePresence
 
     #region Azmoon
-      createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\CreateAzmoon@resolver")
-      updateAzmoon(input: UpdateAzmoonInput! @spread): Azmoon! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\UpdateAzmoon@resolver")
-      deleteAzmoon(id:ID!):Azmoon @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
+      createAzmoon(input: CreateAzmoonInput! @spread): Azmoon!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\CreateAzmoon@resolver")
+      updateAzmoon(input: UpdateAzmoonInput! @spread): Azmoon!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\UpdateAzmoon@resolver")
+      deleteAzmoon(id:ID!):Azmoon @guard(with:["api"])  @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
     #end Azmoon
 
     #region AzmoonResult
-      createAzmoonResult(input: CreateAzmoonResultInput! @spread): AzmoonResult! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\CreateAzmoonResult@resolver")
-      updateAzmoonResult(input: UpdateAzmoonResultInput! @spread): AzmoonResult! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\UpdateAzmoonResult@resolver")
-      deleteAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\DeleteAzmoonResult@resolver")
+      createAzmoonResult(input: CreateAzmoonResultInput! @spread): AzmoonResult!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\CreateAzmoonResult@resolver")
+      updateAzmoonResult(input: UpdateAzmoonResultInput! @spread): AzmoonResult!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\UpdateAzmoonResult@resolver")
+      deleteAzmoonResult(id:ID!):AzmoonResult  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AzmoonResult\\DeleteAzmoonResult@resolver")
     #end AzmoonResult
 
     #region AzmoonResult
-      createFault(input: CreateFaultInput! @spread): Fault! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\CreateFault@resolver")
-      updateFault(input: UpdateFaultInput! @spread): Fault! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\UpdateFault@resolver")
-      deleteFault(id:ID!):Fault @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\DeleteFault@resolver")
+      createFault(input: CreateFaultInput! @spread): Fault!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\CreateFault@resolver")
+      updateFault(input: UpdateFaultInput! @spread): Fault!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\UpdateFault@resolver")
+      deleteFault(id:ID!):Fault  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\DeleteFault@resolver")
     #end AzmoonResult
 
     #region Branch
-      createBranch(input: CreateBranchInput! @spread): Branch! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\CreateBranch@resolver")
-      updateBranch(input: UpdateBranchInput! @spread): Branch! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\UpdateBranch@resolver")
-      deleteBranch(id:ID!):Branch @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\DeleteBranch@resolver")
+      createBranch(input: CreateBranchInput! @spread): Branch!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\CreateBranch@resolver")
+      updateBranch(input: UpdateBranchInput! @spread): Branch!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\UpdateBranch@resolver")
+      deleteBranch(id:ID!):Branch  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\DeleteBranch@resolver")
     #end Branch
     #region BranchClassRoom
-      createBranchClassRoom(input: CreateBranchClassRoomInput! @spread): BranchClassRoom! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\CreateBranchClassRoom@resolver")
-      updateBranchClassRoom(input: UpdateBranchClassRoomInput! @spread): BranchClassRoom! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\UpdateBranchClassRoom@resolver")
-      deleteBranchClassRoom(id:ID!):BranchClassRoom @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\DeleteBranchClassRoom@resolver")
+      createBranchClassRoom(input: CreateBranchClassRoomInput! @spread): BranchClassRoom!  @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\CreateBranchClassRoom@resolver")
+      updateBranchClassRoom(input: UpdateBranchClassRoomInput! @spread): BranchClassRoom!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\UpdateBranchClassRoom@resolver")
+      deleteBranchClassRoom(id:ID!):BranchClassRoom  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\DeleteBranchClassRoom@resolver")
     #end BranchClassRoom
      #region Lesson
-      createLesson(input: CreateLessonInput! @spread): Lesson! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\CreateLesson@resolver")
-      updateLesson(input: UpdateLessonInput! @spread): Lesson! @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\UpdateLesson@resolver")
-      deleteLesson(id:ID!):Lesson @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\DeleteLesson@resolver")
+      createLesson(input: CreateLessonInput! @spread): Lesson! @guard(with:["api"])  @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\CreateLesson@resolver")
+      updateLesson(input: UpdateLessonInput! @spread): Lesson! @guard(with:["api"])  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\UpdateLesson@resolver")
+      deleteLesson(id:ID!):Lesson  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\DeleteLesson@resolver")
     #end Lesson
 }
 

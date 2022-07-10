@@ -7,6 +7,9 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
+use AuthRole;
+use GraphQL\Error\Error;
 
 final class GetUsers
 {
@@ -27,17 +30,24 @@ final class GetUsers
     {
     //    $user= User::where('deleted_at', null);//->orderBy('id','desc');
     //    return $user;
-        
-            $user=User::where('deleted_at', null)->whereHas('groups',function ($query) use($args){
+            // if (! Gate::allows('GetAllUsers')) {
+            //     abort(403);
+            // }
+        if( AuthRole::CheckAccessibility()){
+            $user=User::where('deleted_at', null)->whereHas('group',function ($query) use($args){
                 if(isset($args["group_id"]))
                     $query->where("groups.id",$args["group_id"]);
                 else
                   return true;
             })       
-            ->with('groups');
+            ->with('group');
         
             
             return $user;
+        }
+        $User =User::where('deleted_at',null)
+        ->where('id',-1);       
+        return  $User;
     }
 
 }

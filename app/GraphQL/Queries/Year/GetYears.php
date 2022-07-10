@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use AuthRole;
+use GraphQL\Error\Error;
 
 final class GetYears
 {
@@ -21,6 +23,11 @@ final class GetYears
     
     function resolveYear($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        return Year::where('deleted_at', null);//->orderBy('id','desc');
+        if( AuthRole::CheckAccessibility()){
+             return Year::where('deleted_at', null);//->orderBy('id','desc');
+        }
+        $Year =Year::where('deleted_at',null)
+        ->where('id',-1);       
+        return  $Year;
     }
 }

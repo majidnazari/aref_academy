@@ -2,14 +2,14 @@
 
 namespace App\Policies;
 
+use App\Models\Azmoon;
 use App\Models\User;
-use App\Models\Year;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class YearPolicy
+class AzmoonPolicy
 {
     use HandlesAuthorization;
-    private $group_access_year=array("admin");
+    private $group_access_azmoon=array("admin");
 
     /**
      * Determine whether the user can view any models.
@@ -17,10 +17,10 @@ class YearPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_year))
+        if(in_array($user_role,$this->group_access_azmoon))
             return true;
         return false;
     }
@@ -29,13 +29,13 @@ class YearPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Year  $year
+     * @param  \App\Models\Azmoon  $azmoon
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Year $year=null):bool
+    public function view(User $user, Azmoon $azmoon=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_year))
+        if(in_array($user_role,$this->group_access_azmoon))
             return true;
         return false;
     }
@@ -46,10 +46,10 @@ class YearPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_year))
+        if(in_array($user_role,$this->group_access_azmoon))
             return true;
         return false;
     }
@@ -58,13 +58,13 @@ class YearPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Year  $year
+     * @param  \App\Models\Azmoon  $azmoon
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Year $year=null):bool
+    public function update(User $user, Azmoon $azmoon=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_year))
+        if(in_array($user_role,$this->group_access_azmoon))
             return true;
         return false;
     }
@@ -73,13 +73,13 @@ class YearPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Year  $year
+     * @param  \App\Models\Azmoon  $azmoon
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Year $year=null):bool
+    public function delete(User $user, Azmoon $azmoon=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_year))
+        if(in_array($user_role,$this->group_access_azmoon))
             return true;
         return false;
     }
@@ -88,10 +88,10 @@ class YearPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Year  $year
+     * @param  \App\Models\Azmoon  $azmoon
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Year $year)
+    public function restore(User $user, Azmoon $azmoon)
     {
         //
     }
@@ -100,10 +100,10 @@ class YearPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Year  $year
+     * @param  \App\Models\Azmoon  $azmoon
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Year $year)
+    public function forceDelete(User $user, Azmoon $azmoon)
     {
         //
     }

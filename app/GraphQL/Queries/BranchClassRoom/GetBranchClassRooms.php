@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use AuthRole;
+use GraphQL\Error\Error;
 
 final class GetBranchClassRooms
 {
@@ -20,21 +22,26 @@ final class GetBranchClassRooms
     }
     function resolveBranchClassRoomsAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
+        if( AuthRole::CheckAccessibility()){
         //$BranchClassRoom= BranchClassRoom::where('deleted_at', null);
-        $BranchClassRoom=BranchClassRoom::where('deleted_at', null)
-                         ->whereHas('branch',function($query) use($args){
-                                    if(isset($args['branch_id'])){
-                                        $query->where('branches.id',$args['branch_id']);
-                                    }  
-                                    // if(isset($args['teacher_id'])){
+            $BranchClassRoom=BranchClassRoom::where('deleted_at', null)
+                            ->whereHas('branch',function($query) use($args){
+                                        if(isset($args['branch_id'])){
+                                            $query->where('branches.id',$args['branch_id']);
+                                        }  
+                                        // if(isset($args['teacher_id'])){
 
-                                    //     $query->where('users1.id',$args['teacher_id']);
-                                        
-                                    // }
-                                    return true;  
+                                        //     $query->where('users1.id',$args['teacher_id']);
+                                            
+                                        // }
+                                        return true;  
 
-                          })
-                          ->with('branch');
-        return $BranchClassRoom;
+                            })
+                            ->with('branch');
+            return $BranchClassRoom;
+                        }
+                        $BranchClassRoom =BranchClassRoom::where('deleted_at',null)
+                        ->where('id',-1);       
+                        return  $BranchClassRoom;        
     }
 }

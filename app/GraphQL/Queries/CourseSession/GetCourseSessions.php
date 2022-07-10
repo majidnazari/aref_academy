@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use AuthRole;
+use GraphQL\Error\Error;
 
 final class GetCourseSessions
 {
@@ -20,6 +22,12 @@ final class GetCourseSessions
     }
     public function resolveCourseSession($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return CourseSession::where('deleted_at', null);//->orderBy('id','desc');
+        if( AuthRole::CheckAccessibility()){
+            return CourseSession::where('deleted_at', null);//->orderBy('id','desc');
+       }
+       $CourseSession =CourseSession::where('deleted_at',null)
+       ->where('id',-1);       
+       return  $CourseSession;
+        
     }
 }

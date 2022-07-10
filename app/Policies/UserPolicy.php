@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class UserPolicy
 {
     use HandlesAuthorization;
-    private $allowed_user=array("admin");
+    private $group_access_user=array("admin");
 
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class UserPolicy
     public function viewAny(User $user)
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->allowed_user))
+        if(in_array($user_role,$this->group_access_user))
             return true;
         return false;
     }
@@ -34,7 +34,7 @@ class UserPolicy
     public function view(User $user, User $model=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->allowed_user))
+        if(in_array($user_role,$this->group_access_user))
             return true;
         return false;
     }
@@ -48,7 +48,7 @@ class UserPolicy
     public function create(User $user):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->allowed_user))
+        if(in_array($user_role,$this->group_access_user))
             return true;
         return false;
     }
@@ -63,7 +63,7 @@ class UserPolicy
     public function update(User $user, User $model=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->allowed_user))
+        if(in_array($user_role,$this->group_access_user))
             return true;
         return false;
     }
@@ -78,7 +78,7 @@ class UserPolicy
     public function delete(User $user, User $model=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->allowed_user))
+        if(in_array($user_role,$this->group_access_user))
             return true;
         return false;
     }

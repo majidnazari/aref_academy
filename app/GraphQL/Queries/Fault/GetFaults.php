@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use AuthRole;
+use GraphQL\Error\Error;
 
 final class GetFaults
 {
@@ -21,7 +23,12 @@ final class GetFaults
 
     function resolveFault($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $Fault= Fault::where('deleted_at', null);//->orderBy('id','desc');
-        return $Fault;
+        if( AuthRole::CheckAccessibility()){
+                $Fault= Fault::where('deleted_at', null);//->orderBy('id','desc');
+                return $Fault;
+            }
+            $Fault =Fault::where('deleted_at',null)
+            ->where('id',-1);       
+            return  $Fault;
     }
 }

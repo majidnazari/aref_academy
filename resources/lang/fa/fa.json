@@ -6,8 +6,7 @@
 
     "YEAR-CREATE-RECORD_IS_EXIST":"سال تحصیلی تعریف شده از قبل وجود دارد.",
     "YEAR-UPDATE-RECORD_NOT_FOUND":"سال مورد نظر یافت نشد.",
-
-    "USER-CREATE-RECORD_IS_EXIST" : "کاربر از قبل وجود دارد.",  
+     
    
     "ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
     "ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND" :"رکورد مورد نظر یافت نشد.",
@@ -33,6 +32,22 @@
     "COURSE-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
     "COURSE-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
 
-    
+
+    "USER-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "USER-DELETE-CANNOT_SUICIDE" : "نمیتوانید خودکشی کنید.",
+    "USER-CREATE-RECORD_IS_EXIST" : "کاربر از قبل وجود دارد.", 
+
+    "COURSESESSION-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSESESSION-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "COURSESESSION-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+
+    "COURSESTUDENT-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSESTUDENT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "COURSESTUDENT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "FAULT-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "FAULT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "FAULT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
 
 }

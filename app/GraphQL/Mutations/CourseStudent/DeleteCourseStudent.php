@@ -26,13 +26,10 @@ final class DeleteCourseStudent
         $user_id=auth()->guard('api')->user()->id;
         $args["user_id_creator"]=$user_id;
         $CourseStudent=CourseStudent::find($args['id']);
-        
+
         if(!$CourseStudent)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete CourseStudent'),
-            ];
+                return Error::createLocatedError("COURSESTUDENT-DELETE-RECORD_NOT_FOUND");
         }
         $CourseStudent_result= $CourseStudent->delete();        
        

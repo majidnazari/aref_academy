@@ -29,10 +29,7 @@ final class UpdateCourseStudent
         
         if(!$CourseStudente)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update CourseStudent'),
-            ];
+                return Error::createLocatedError("COURSESTUDENT-UPDATE-RECORD_NOT_FOUND");
         }
         $CourseStudente_result= $CourseStudente->fill($args);
         if(isset($args['student_status'])){

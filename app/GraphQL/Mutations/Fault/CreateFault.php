@@ -25,12 +25,18 @@ final class CreateFault
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
         $user_id=auth()->guard('api')->user()->id;
-        $course_date=[
+        $fault_date=[
             'user_id_creator' => $user_id,
             "description" => $args['description'] 
         ];
-        $course_result=Fault::create($course_date);
-        return $course_result;
+        $is_exist= Fault::where($fault_date)       
+        ->first();
+        if($is_exist)
+         {
+                 return Error::createLocatedError("FAULT-CREATE-RECORD_IS_EXIST");
+         }
+        $fault_result=Fault::create($fault_date);
+        return $fault_result;
           
         //  $ops=explode(' ',"5 2 C D +");
        

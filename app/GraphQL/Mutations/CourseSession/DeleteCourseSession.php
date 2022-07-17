@@ -26,14 +26,19 @@ final class DeleteCourseSession
         $user_id=auth()->guard('api')->user()->id;
         $args["user_id_creator"]=$user_id;
         $CourseSession=CourseSession::find($args['id']);
-        
+
         if(!$CourseSession)
         {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot delete CourseSession'),
-            ];
+                return Error::createLocatedError("COURSESESSION-DELETE-RECORD_NOT_FOUND");
         }
+        
+        // if(!$CourseSession)
+        // {
+        //     return [
+        //         'status'  => 'Error',
+        //         'message' => __('cannot delete CourseSession'),
+        //     ];
+        // }
         $CourseSession_result= $CourseSession->delete();        
        
         return $CourseSession;

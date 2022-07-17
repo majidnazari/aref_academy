@@ -25,15 +25,12 @@ final class UpdateCourseSession
     {
         $user_id=auth()->guard('api')->user()->id;
         $args["user_id_creator"]=$user_id;
-        $CourseSession=CourseSession::find($args['id']);
-        
+        $CourseSession=CourseSession::find($args['id']);        
+       
         if(!$CourseSession)
-        {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update CourseSession'),
-            ];
-        }
+         {
+                 return Error::createLocatedError("COURSESESSION-UPDATE-RECORD_NOT_FOUND");
+         }
         $CourseSession_result= $CourseSession->fill($args);
         $CourseSession_result->save();       
        

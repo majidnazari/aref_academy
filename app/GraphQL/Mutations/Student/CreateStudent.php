@@ -23,8 +23,10 @@ final class CreateStudent
         // TODO implement the resolver
     }
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
-    {        
-        //$user_id=auth()->guard('api')->user()->id;
+    {  
+        //return "yyyy";      
+        $user_id=auth()->guard('api')->user()->group->type;
+        return $user_id;
         $student_date=[
             'phone' => $args['phone'],
             'first_name' => $args['first_name'],
@@ -38,8 +40,9 @@ final class CreateStudent
             //'school' => $args['school'],
             //'average' => $args['average'],
             'major' => $args['major'],
-            'description' => $args['description']   
-            //'introducing' => $args['introducing'],
+            'description' => $args['description'] ,
+            'role' => 'hassan'  ,
+            //'introducing' => $args['introducing'],.
            // 'student_phone' => $args['student_phone'],
             //'cities_id' => $args['cities_id'],
             //'sources_id' => $args['sources_id'],
@@ -53,6 +56,12 @@ final class CreateStudent
             // 'active' => $args['active']
             
         ];
+        // $is_exist= Http::get(env('REMOTE_SERVER')."student_show/".$id);      
+       
+        // if($is_exist)
+        //  {
+        //          return Error::createLocatedError("FAULT-CREATE-RECORD_IS_EXIST");
+        //  }
         
         $response = Http::post(env('REMOTE_SERVER')."student_store",$student_date);   
        // $student_resut=Student::create($student_date);

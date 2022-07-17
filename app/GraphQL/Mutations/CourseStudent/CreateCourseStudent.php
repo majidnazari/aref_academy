@@ -24,13 +24,13 @@ final class CreateCourseStudent
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $user_id = auth()->guard('api')->user()->id;
-        $course_exist= CourseStudent::where('course_id',$args['course_id'])
+        $is_exist= CourseStudent::where('course_id',$args['course_id'])
         ->where('student_id',$args['student_id'])
         ->first();
-        if($course_exist)
-        {
-            return $course_exist;
-        }
+        if($is_exist)
+         {
+                 return Error::createLocatedError("COURSESTUDENT-CREATE-RECORD_IS_EXIST");
+         }
         $CourseStudente = [
             'course_id' => $args['course_id'],
             'student_id' => $args['student_id'],

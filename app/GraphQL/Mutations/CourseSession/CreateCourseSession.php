@@ -42,7 +42,7 @@ final class CreateCourseSession
         
         if($is_exist)
          {
-                 return Error::createLocatedError("COURSE-CREATE-RECORD_IS_EXIST");
+                 return Error::createLocatedError("COURSESESSION-CREATE-RECORD_IS_EXIST");
          }
         $CourseSession_result = CourseSession::create($CourseSession_date);
         return $CourseSession_result;

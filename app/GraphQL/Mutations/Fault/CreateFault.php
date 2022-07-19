@@ -26,7 +26,7 @@ final class CreateFault
     {        
         $user_id=auth()->guard('api')->user()->id;
         $fault_date=[
-            //'user_id_creator' => $user_id,
+            'user_id_creator' => $user_id,
             "description" => $args['description'] 
         ];
         $is_exist= Fault::where($fault_date)       

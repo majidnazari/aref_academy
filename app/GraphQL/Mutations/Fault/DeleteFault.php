@@ -31,7 +31,7 @@ final class DeleteFault
         
         if(!$Fault)
         {
-            return Error::createLocatedError("FAULT-DELETE-RECORD_IS_EXIST");
+            return Error::createLocatedError("FAULT-DELETE-RECORD_NOT_FOUND");
         }
         $Fault_filled= $Fault->delete(); 
         return $Fault;

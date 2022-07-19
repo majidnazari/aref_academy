@@ -32,12 +32,7 @@ final class DeleteLesson
         if(!$Lesson)
         {
             return Error::createLocatedError('LESSON-DELETE-RECORD_NOT_FOUND');
-        }  
-        $is_used=Course::where('lesson_id','=',$args['id'])->first();
-        if($is_used)
-        {
-            return Error::createLocatedError("LESSON-DELETE-RECORD_IS_USED");
-        }
+        }         
        
         $Fault_filled= $Lesson->delete(); 
         return $Lesson;

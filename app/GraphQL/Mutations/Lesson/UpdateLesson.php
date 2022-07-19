@@ -30,7 +30,18 @@ final class UpdateLesson
         if(!$Lesson)
         {
             return Error::createLocatedError('LESSON-UPDATE-RECORD_NOT_FOUND');
-        }      
+        }   
+        $lesson_date=[
+            // 'user_id_creator' => $user_id,
+             'name' => $args['name'],
+             //'active' => $args['active']
+             
+         ];
+         $lesson=Lesson::where("name","=",$args['name'])->first();
+         if($lesson)
+         {
+             return Error::createLocatedError('LESSON-UPDATE-RECORD_IS_EXIST');
+         }   
         
         $year_filled= $Lesson->fill($args);
         $Lesson->save();       

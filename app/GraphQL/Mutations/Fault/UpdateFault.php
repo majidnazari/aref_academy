@@ -27,11 +27,22 @@ final class UpdateFault
         $user_id=auth()->guard('api')->user()->id;
         $args["user_id_creator"]=$user_id;
         $Fault=Fault::find($args['id']);
-        
         if(!$Fault)
+        {
+            return Error::createLocatedError("FAULT-UPDATE-RECORD_NOT_FOUND");
+        }
+        $fault_date=[
+            //'user_id_creator' => $user_id,
+            "description" => $args['description'] 
+        ];
+        $is_exist= Fault::where($fault_date)       
+        ->first();
+        
+        if($is_exist)
         {
             return Error::createLocatedError("FAULT-UPDATE-RECORD_IS_EXIST");
         }
+       
         $Fault_filled= $Fault->fill($args);
         $Fault->save(); 
         return $Fault;

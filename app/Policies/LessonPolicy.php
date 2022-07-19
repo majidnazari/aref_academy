@@ -2,13 +2,14 @@
 
 namespace App\Policies;
 
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class LessonPolicy
 {
     use HandlesAuthorization;
-    private $group_access_user=array("admin");
+    private $group_access_lesson=array("admin");
 
     /**
      * Determine whether the user can view any models.
@@ -18,9 +19,8 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_user))
+        if(in_array($user_role,$this->group_access_lesson))
             return true;
         return false;
     }
@@ -29,14 +29,13 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, User $model=null):bool
+    public function view(User $user, Lesson $lesson=null):bool
     {
-        return true;
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_user))
+        if(in_array($user_role,$this->group_access_lesson))
             return true;
         return false;
     }
@@ -49,9 +48,8 @@ class UserPolicy
      */
     public function create(User $user):bool
     {
-        return true;
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_user))
+        if(in_array($user_role,$this->group_access_lesson))
             return true;
         return false;
     }
@@ -60,14 +58,13 @@ class UserPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $model=null):bool
+    public function update(User $user, Lesson $lesson=null):bool
     {
-        return true;
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_user))
+        if(in_array($user_role,$this->group_access_lesson))
             return true;
         return false;
     }
@@ -76,14 +73,13 @@ class UserPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model=null):bool
+    public function delete(User $user, Lesson $lesson=null):bool
     {
-        return true;
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_user))
+        if(in_array($user_role,$this->group_access_lesson))
             return true;
         return false;
     }
@@ -92,23 +88,23 @@ class UserPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, User $model)
+    public function restore(User $user, Lesson $lesson)
     {
-        return false;
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, User $model)
+    public function forceDelete(User $user, Lesson $lesson)
     {
-        return false;
+        //
     }
 }

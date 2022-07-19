@@ -26,7 +26,7 @@ final class CreateLesson
     {        
         $user_id=auth()->guard('api')->user()->id;
         $lesson_date=[
-           // 'user_id_creator' => $user_id,
+            'user_id_creator' => $user_id,
             'name' => $args['name'],
             //'active' => $args['active']
             

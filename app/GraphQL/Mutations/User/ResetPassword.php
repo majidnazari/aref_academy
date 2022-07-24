@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
 
 final class ResetPassword
 {
@@ -23,7 +24,11 @@ final class ResetPassword
     }
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
+        $user_id_loged_in=auth()->guard('api')->user()->id;
         $user=User::where('email',$args['email'])->first();
+        if($user_id_loged_in!=$user->id){
+            return Error::createLocatedError('USER-AUTHORIZATION-FORBIDDEN');
+        }
         //$user = $context->user();
         if( $user)
         {

@@ -18,7 +18,8 @@ class CheckAuth
         "Year" =>array ("admin"),
         "CourseSession" =>array ("admin","manager"),
         "Course" => array("admin","manager"),
-        "CourseStudent" => array("admin")
+        "CourseStudent" => array("admin"),
+         "Users" => array("admin","manager"),       
        
     );
     

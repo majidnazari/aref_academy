@@ -22,7 +22,7 @@ final class GetCourseSessions
     }
     public function resolveCourseSession($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("CourseSession")){
             return CourseSession::where('deleted_at', null);//->orderBy('id','desc');
        }
        $CourseSession =CourseSession::where('deleted_at',null)

@@ -22,7 +22,7 @@ final class GetCourseStudents
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("CourseStudent")){
         //$CourseStudent= CourseStudent::where('deleted_at', null);//->orderBy('id','desc');
         $CourseStudent = CourseStudent::where('deleted_at', null)
             ->where(function ($query) use ($args) {

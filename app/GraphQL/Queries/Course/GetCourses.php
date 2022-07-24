@@ -24,7 +24,7 @@ final class GetCourses
 
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("Course")){
             return Course::where('deleted_at', null);//->orderBy('id','desc');
        }
        $Course =Course::where('deleted_at',null)

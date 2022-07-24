@@ -23,7 +23,7 @@ final class GetLessons
     
     function resolveLesson($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("Lesson")){
             return Lesson::where('deleted_at', null);//->orderBy('id','desc');
         }
         $Lesson =Lesson::where('deleted_at',null)

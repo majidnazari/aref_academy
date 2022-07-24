@@ -25,8 +25,9 @@ final class GetAbsencePresences
    
 
     function resolveAbsencePresence($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {       
-        if( AuthRole::CheckAccessibility()){
+    {      
+       // return AuthRole::CheckAccessibility(); 
+        if( AuthRole::CheckAccessibility("AbsencePresence")){
             $AbsencePresence= AbsencePresence::where('deleted_at', null)
             ->whereHas('user',function($query) use($args){
                        if(isset($args['user_id_creator'])){

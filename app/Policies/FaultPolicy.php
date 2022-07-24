@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class FaultPolicy
 {
     use HandlesAuthorization;
-    private $group_access_fault=array("admin");
+    private $group_access_fault=array("admin","manager");
 
     /**
      * Determine whether the user can view any models.

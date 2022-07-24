@@ -12,7 +12,8 @@ class CourseStudent extends Model
     use SoftDeletes;
     protected $fillable=[        
         "course_id",
-        "student_id",
+        "course_session_id",
+        "student_id",        
         "manager_status",
         "financial_status",
         "student_status",

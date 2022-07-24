@@ -2,14 +2,34 @@
 
 namespace App\AuthFacade;
 use App\Models\User;
+use Log;
 
 class CheckAuth
 {
-    private $group_access_absence_presence=array("admin");
-    public function CheckAccessibility(){
-        $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_absence_presence))
+    private $admin_group=array("admin");
+    private $manager_group=array("manager");
+    private $financial_group=array("financial");
+    private $acceptor_group=array("acceptor");
+    private $teacher_group=array("teacher");
+    private $group_access=array(
+        "AbsencePresence" => array( "admin","manager","acceptor"),
+        "Lesson" =>array ( "admin","manager"),
+        "Fault" => array("admin","manager"),
+        "Year" =>array ("admin"),
+        "CourseSession" =>array ("admin","manager"),
+        "Course" => array("admin","manager"),
+        "CourseStudent" => array("admin")
+       
+    );
+    
+    public function CheckAccessibility(string $actionName){
+        $user_role=auth()->guard('api')->user()->group->type;   
+        //Log::info("role is:".$user_role . "   class name is:" .$actionName );  
+        if(in_array( $user_role,$this->group_access[$actionName])){
+            //Log::info("role is:".$user_role . "   class name is:" .$actionName );
             return true;
+        }
+           
         return false;
     }
 

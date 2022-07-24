@@ -23,7 +23,7 @@ final class GetYears
     
     function resolveYear($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("Year")){
              return Year::where('deleted_at', null);//->orderBy('id','desc');
         }
         $Year =Year::where('deleted_at',null)

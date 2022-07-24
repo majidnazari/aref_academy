@@ -23,7 +23,7 @@ final class GetFaults
 
     function resolveFault($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("Fault")){
                 $Fault= Fault::where('deleted_at', null);//->orderBy('id','desc');
                 return $Fault;
             }

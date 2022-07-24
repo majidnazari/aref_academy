@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class AbsencePresencePolicy
 {
     use HandlesAuthorization;
-    private $group_access_absence_presence=array("admin");
+    private $group_access_absence_presence=array("admin","manager","acceptor");
     /**
      * Determine whether the user can view any models.
      *

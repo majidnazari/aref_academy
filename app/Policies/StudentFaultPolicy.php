@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class StudentFaultPolicy
 {
     use HandlesAuthorization;
-    private $group_access_student_fault=array("admin");
+    private $group_access_student_fault=array("admin","manager");
 
     /**
      * Determine whether the user can view any models.

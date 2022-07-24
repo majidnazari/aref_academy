@@ -3,7 +3,7 @@ scalar _Any
 scalar _FieldSet
 
 # a union of all types that use the @key directive
-union _Entity = Student | Course | User
+union _Entity = Course | User
 
 type _Service {
   sdl: String
@@ -71,23 +71,6 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       orderBy:[OrderByClause!] @orderBy
 
     ): [Year] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")
-  
-    # getStudent(id:ID!):Student  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
-    # getStudents(
-    #   first_name: String @like (template : "%{}%")
-    #   last_name: String @like (template : "%{}%")
-    #   phone: String @like (template : "%{}%")
-    #   level: String @like (template : "%{}%")
-    #   egucation_level: String @like (template : "%{}%")
-    #   parents_job_title: String @like (template : "%{}%")
-    #   home_phone: String @like (template : "%{}%")
-    #   father_phone: String @like (template : "%{}%")
-    #   mother_phone: String @like (template : "%{}%")
-    #   major: String @like (template : "%{}%")
-    #   description: String @like (template : "%{}%")
-      
-    #   orderBy:[OrderByClause!] @orderBy
-    # ): [Student] @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudents@resolveStudent") 
 
     getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses(
@@ -119,6 +102,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     getCourseStudents(
        student_id:Int @eq
        course_id:Int @eq
+       course_session_id:Int @eq
        user_id_creator:Int @eq
        user_id_manager:Int @eq
        user_id_financial:Int @eq
@@ -223,11 +207,11 @@ enum SortOrder {
     ASC
     DESC
 }
-type StudentContact{
-  id:ID
+type StudentContact @key(fields: "id") {
+  id:ID!
   user_id_creator:Int
   student_id:Int
-  student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")
+  # student:Student @provides(fields: "id")
   absence_presence_id:Int
   who_answered:String
   description:String
@@ -237,11 +221,11 @@ type StudentContact{
   deleted_at:DateTime
 }
 
-type StudentFault{
-  id:ID
+type StudentFault @key(fields: "id") {
+  id:ID!
   user_id_creator:Int
   student_id:Int
-  student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")
+  # student:Student @provides(fields: "id")
   fault_id:Int  
   created_at:DateTime
   updated_at:DateTime
@@ -284,14 +268,14 @@ type Fault{
     user: User @belongsTo
    
 }
-type AzmoonResult{
-    id:ID
+type AzmoonResult @key(fields: "id") {
+    id:ID!
     student_id:Int
     result_score:String 
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime
-    student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveStudentAttribute") 
+    # student:Student @provides(fields: "id") 
 }
 
 type Azmoon{
@@ -314,13 +298,13 @@ type Lesson{
   name:String
 }
 
-type AbsencePresence{
-    id:ID
+type AbsencePresence @key(fields: "id") {
+    id:ID!
     user_id_creator:Int
     course_session_id:Int
     teacher_id:Int
     student_id:Int
-    student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent")
+    # student:Student @provides(fields: "id")
     status:String
     created_at:DateTime
     updated_at:DateTime
@@ -332,8 +316,9 @@ type AbsencePresence{
 type CourseStudent @key(fields: "id"){   
         id:ID!
         course_id:Int
+        course_session_id:Int
+        absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
         student_id:Int
-        student:Student @field(resolver: "App\\GraphQL\\Queries\\Student\\GetStudent@resolveGetStudent") 
        
         user_id_creator:Int
         user_id_manager:Int  
@@ -392,74 +377,10 @@ type Course{
       branch:Branch @belongsTo
 
 }
-#   type Student @key(fields: "id")  {
-#         id:ID 
-#         phone:String 
-#         first_name:String 
-#         last_name:String 
-#         egucation_level:Int 
-#         level:String
-#         parents_job_title:String 
-#         father_phone:String 
-#         mother_phone:String 
-#         major:String 
-#         description:String 
-#         # level:Int @external        
-#         # home_phone:String @external        
-#         # school:String @external
-#         # average:Float @external        
-#         # introducing:String @external
-#         # student_phone:String @external
-#         # cities_id:Int @external
-#         # sources_id:Int @external
-#         # supporters_id:Int @external
-#         # archived:String @external
-# }
-  type Student @key(fields: "id")  @extends {
-         id:Int @external
-       
-}
- 
-# type Student{
-#   id:ID
-#   first_name:String
-#   last_name:String
-#   last_year_grade:String
-#   consultants_id:Int
-#   parents_job_title:String
-#   home_phone:String
-#   father_phone:String
-#   mother_phone:String
-#   phone:String
-#   level:Int
-#   school:String
-#   introducing:String
-#   student_phone:String
-#   sources_id:Int
-#   supporters_id:Int
-#   users_id:Int
-#   marketers_id:Int
-#   average:Float
-#   viewed:Int
-#   major:String
-#   egucation_level:Int
-#   provinces_id:Int
-#   is_from_site:Int
-#   description:String
-#   supporter_seen:Int
-#   saloon:String
-#   supporter_start_date:DateTime
-#   banned:Int
-#   cities_id:Int
-#   archived:Int
-#   outside_consultants:String
-#   own_purchases:Int
-#   other_purchases:Int
-#   today_purchases:Int
 
-#   created_at: DateTime
-#   updated_at: DateTime
-#   is_deleted:Int
+# type Student @key(fields: "id") @extends  {
+#   id:ID! @external 
+#   courses: [CourseStudent]      
 # }
 
   type User {
@@ -772,6 +693,7 @@ type Year {
     input CreateCourseStudentInput{ 
         
         course_id:Int!
+        course_session_id:Int!
         student_id:Int!
         manager_status:String
         financial_status:String
@@ -784,6 +706,7 @@ type Year {
     input UpdateCourseStudentInput{       
         id:ID!
         course_id:Int
+        course_session_id:Int
         student_id:Int
         manager_status:String
         financial_status:String
@@ -910,26 +833,6 @@ type Mutation {
     updateYear(input: UpdateYearInput! @spread): Year! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
     deleteYear(id:ID!):Year @guard(with:["api"]) @delete @can(ability: "delete")
   #end yaer
-  # # region Student
-  #   createStudent(input: CreateStudentInput! @spread): Student! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Student\\CreateStudent@resolver")
-  #   updateStudent(input: UpdateStudentInput! @spread): Student! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Student\\UpdateStudent@resolver")
-  #   deleteStudent(id:ID!):Student @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Student\\DeleteStudent@resolver")
-  # #end Student
-  
-  # #region azmoon
-  #   createAzmoon(input: CreateAzmoonInput! @spread): Azmoon! @create
-  #   updateAzmoon(
-  #         id:ID!
-  #         user_id:Int
-  #         course_id:Int
-  #         course_session_id:Int
-  #         isSMSsend:Int
-  #         score:Float
-  #   ): Azmoon! @update
-
-  #   deleteAzmoon(id:ID!):Azmoon @delete
-
-  # #end region
 
    # region Course
     createCourse(input: CreateCourseInput! @spread): Course! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")

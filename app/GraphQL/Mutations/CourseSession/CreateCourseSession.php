@@ -31,6 +31,7 @@ final class CreateCourseSession
             'user_id_creator' => $user_id,
             'branch_class_room_id' => $args['branch_class_room_id'],
             'course_id' => $args['course_id'],
+            
             'name' => $name,
             'price' => $price,
             'special' => $special,

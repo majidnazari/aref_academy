@@ -23,7 +23,7 @@ final class GetBranches
 
     function resolveBranchesAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-       if( AuthRole::CheckAccessibility()){
+       if( AuthRole::CheckAccessibility("Branches")){
             $Branch= Branch::where('deleted_at', null);
             return $Branch;
        }

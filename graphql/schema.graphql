@@ -112,6 +112,20 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
        student_status:String @like(template: "%{}%")      
        orderBy:[OrderByClause!] @orderBy
     ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
+     
+     getCourseStudentsWithAbsencePresence(
+       student_id:Int @eq
+       course_id:Int @eq
+       course_session_id:Int @eq
+       user_id_creator:Int @eq
+       user_id_manager:Int @eq
+       user_id_financial:Int @eq
+       user_id_student_status:Int @eq
+       manager_status:String @like(template: "%{}%")      
+       financial_status:String @like(template: "%{}%")      
+       student_status:String @like(template: "%{}%")      
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresence@resolveCourseStudent") 
     
 
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
@@ -312,6 +326,33 @@ type AbsencePresence @key(fields: "id") {
     user:User @belongsTo
     courseSession:CourseSession @belongsTo
     teacher:User @belongsTo
+}
+type CourseStudentWithAbsencePresence @key(fields: "id"){   
+        id:ID!
+        course_id:Int
+        # course_session_id:Int
+        absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
+        student_id:Int
+       
+        user_id_creator:Int
+        user_id_manager:Int  
+        user_id_financial:Int  
+        user_id_student_status:Int  
+        manager_status:String
+        financial_status:String
+        student_status:String   
+
+        created_at:DateTime
+        updated_at:DateTime
+        deleted_at:DateTime
+
+        user_creator:User @belongsTo
+        user_manager:User @belongsTo
+        user_financial:User @belongsTo
+        user_student_status:User @belongsTo
+        course:Course @belongsTo
+        absencepresence:AbsencePresence @belongsTo
+
 }
 type CourseStudent @key(fields: "id"){   
         id:ID!

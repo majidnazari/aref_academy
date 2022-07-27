@@ -693,7 +693,7 @@ type Year {
     input CreateCourseStudentInput{ 
         
         course_id:Int!
-        course_session_id:Int!
+        # course_session_id:Int!
         student_id:Int!
         manager_status:String
         financial_status:String
@@ -706,7 +706,7 @@ type Year {
     input UpdateCourseStudentInput{       
         id:ID!
         course_id:Int
-        course_session_id:Int
+        # course_session_id:Int
         student_id:Int
         manager_status:String
         financial_status:String

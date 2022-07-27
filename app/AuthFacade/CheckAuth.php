@@ -10,7 +10,7 @@ class CheckAuth
     private $manager_group=array("manager");
     private $financial_group=array("financial");
     private $acceptor_group=array("acceptor");
-    private $teacher_group=array("teacher");
+    private $teacher_group=array("teacher"); 
     private $group_access=array(
         "AbsencePresence" => array( "admin","manager","acceptor"),
         "Lesson" =>array ( "admin","manager"),
@@ -19,7 +19,10 @@ class CheckAuth
         "CourseSession" =>array ("admin","manager"),
         "Course" => array("admin","manager"),
         "CourseStudent" => array("admin"),
-         "Users" => array("admin","manager"),       
+        "Users" => array("admin","manager"), 
+        "BranchClassRooms" => array("admin","manager"), 
+        
+        
        
     );
     

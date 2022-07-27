@@ -22,7 +22,7 @@ final class GetBranchClassRooms
     }
     function resolveBranchClassRoomsAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("BranchClassRooms")){
         //$BranchClassRoom= BranchClassRoom::where('deleted_at', null);
             $BranchClassRoom=BranchClassRoom::where('deleted_at', null)
                             ->whereHas('branch',function($query) use($args){

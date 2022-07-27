@@ -15,7 +15,7 @@ class CheckAuth
         "AbsencePresence" => array( "admin","manager","acceptor"),
         "Lesson" =>array ( "admin","manager"),
         "Fault" => array("admin","manager"),
-        "Year" =>array ("admin"),
+        "Year" =>array ("admin","manager","financial","acceptor","teacher"),
         "CourseSession" =>array ("admin","manager"),
         "Course" => array("admin","manager"),
         "CourseStudent" => array("admin","manager"),

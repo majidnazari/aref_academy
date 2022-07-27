@@ -102,7 +102,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     getCourseStudents(
        student_id:Int @eq
        course_id:Int @eq
-       course_session_id:Int @eq
+      #  course_session_id:Int @eq
        user_id_creator:Int @eq
        user_id_manager:Int @eq
        user_id_financial:Int @eq
@@ -316,7 +316,7 @@ type AbsencePresence @key(fields: "id") {
 type CourseStudent @key(fields: "id"){   
         id:ID!
         course_id:Int
-        course_session_id:Int
+        # course_session_id:Int
         absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
         student_id:Int
        

@@ -33,7 +33,7 @@ final class CreateCourseStudent
          }
         $CourseStudente = [
             'course_id' => $args['course_id'],
-            'course_session_id' => $args['course_session_id'],
+            //'course_session_id' => $args['course_session_id'],
             'student_id' => $args['student_id'],
             'manager_status' => isset($args['status']) ? $args['status'] : 'pending',
             'financial_status' => isset($args['financial_status']) ? $args['financial_status'] : 'pending',

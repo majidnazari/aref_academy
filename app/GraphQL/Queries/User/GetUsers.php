@@ -33,7 +33,7 @@ final class GetUsers
             // if (! Gate::allows('GetAllUsers')) {
             //     abort(403);
             // }
-        if( AuthRole::CheckAccessibility()){
+        if( AuthRole::CheckAccessibility("Users")){
             $user=User::where('deleted_at', null)->whereHas('group',function ($query) use($args){
                 if(isset($args["group_id"]))
                     $query->where("groups.id",$args["group_id"]);

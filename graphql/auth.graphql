@@ -70,7 +70,7 @@ input ForgotPasswordInput {
 }
 
 input NewPasswordWithCodeInput {
-    email: String! @rules(apply: ["required", "email"])
+    email: String! @rules(apply: ["required", "size:11"])
     token: String! @rules(apply: ["required", "string"])
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
@@ -101,4 +101,8 @@ input UpdatePassword {
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
-
+input UpdateOtherUserPassword {
+    email:String! @rules(apply: ["required" , "size:11"])    
+    password: String! @rules(apply: ["required", "confirmed", "min:8"])
+    password_confirmation: String!
+}

@@ -23,6 +23,9 @@ class CheckAuth
         "BranchClassRooms" => array("admin","manager"), 
         "GetCourseStudentsWithAbsencePresence" => array("admin","manager"), 
         "Branches" =>array("admin","manager","financial"), 
+        "CourseStudent" =>array("admin","manager"), 
+        "StudentContact" =>array("admin","manager"), 
+        "StudentFault" =>array("admin","manager"), 
         
         
        

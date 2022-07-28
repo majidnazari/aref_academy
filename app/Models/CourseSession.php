@@ -35,5 +35,10 @@ class CourseSession extends Model
     public function classRoom()
     {
         return $this->belongsTo(BranchClassRoom::class,"branch_class_room_id");
-    }    
+    }   
+    public function absencePresences()
+    {
+        return $this->hasMany(AbsencePresence::class,"course_session_id");
+    }
+     
 }

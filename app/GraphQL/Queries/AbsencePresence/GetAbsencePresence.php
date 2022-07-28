@@ -8,6 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 use AuthRole;
+use Log;
 
 final class GetAbsencePresence
 {
@@ -31,7 +32,7 @@ final class GetAbsencePresence
         // $response = Http::get(env('REMOTE_SERVER').'getStudent/'.$rootValue['student_id']);
         // //$getPost= Post::find($args['id']);
         // return $response;
-
+        //Log::info("add course session id is:" . $rootValue['course_session_id'] . " and student id is:" . $rootValue['student_id']);
         $AbsencePresence= AbsencePresence::where('course_session_id',$rootValue['course_session_id'])
         ->where('student_id',$rootValue['student_id'])
         ->first();

@@ -114,17 +114,17 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
      
      getCourseStudentsWithAbsencePresence(
-       student_id:Int @eq
-       course_id:Int @eq
-       course_session_id:Int @eq
-       user_id_creator:Int @eq
-       user_id_manager:Int @eq
-       user_id_financial:Int @eq
-       user_id_student_status:Int @eq
-       manager_status:String @like(template: "%{}%")      
-       financial_status:String @like(template: "%{}%")      
-       student_status:String @like(template: "%{}%")      
-       orderBy:[OrderByClause!] @orderBy
+      #  student_id:Int @eq
+       course_id:Int! 
+       course_session_id:Int! 
+      #  user_id_creator:Int @eq
+      #  user_id_manager:Int @eq
+      #  user_id_financial:Int @eq
+      #  user_id_student_status:Int @eq
+      #  manager_status:String @like(template: "%{}%")      
+      #  financial_status:String @like(template: "%{}%")      
+      #  student_status:String @like(template: "%{}%")      
+      #  orderBy:[OrderByClause!] @orderBy
     ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresence@resolveCourseStudent") 
     
 
@@ -329,30 +329,29 @@ type AbsencePresence @key(fields: "id") {
 }
 type CourseStudentWithAbsencePresence @key(fields: "id"){   
         id:ID!
-        course_id:Int
-        # course_session_id:Int
-        absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
-        student_id:Int
        
-        user_id_creator:Int
-        user_id_manager:Int  
-        user_id_financial:Int  
-        user_id_student_status:Int  
-        manager_status:String
-        financial_status:String
-        student_status:String   
+      course_id:Int 
+            
+      ap_id:Int  
+      ap_status:String 
+      ap_attendance_status:String
+      ap_user_id_creator:Int
+      ap_course_session_id:Int
+      ap_teacher_id:Int
+      ap_student_id:Int
+      ap_created_at:DateTime
 
-        created_at:DateTime
-        updated_at:DateTime
-        deleted_at:DateTime
-
-        user_creator:User @belongsTo
-        user_manager:User @belongsTo
-        user_financial:User @belongsTo
-        user_student_status:User @belongsTo
-        course:Course @belongsTo
-        absencepresence:AbsencePresence @belongsTo
-
+      cs_user_id_creator:Int
+      student_id:Int
+      cs_course_id:Int
+      cs_manager_status:String
+      cs_financial_status:String
+      cs_student_status:String
+      cs_user_id_manager:Int
+      cs_user_id_financial:Int
+      cs_user_id_student_status:Int
+      cs_created_at:DateTime
+      
 }
 type CourseStudent @key(fields: "id"){   
         id:ID!
@@ -394,6 +393,7 @@ type CourseSession{
         user:User @belongsTo
         course: Course @belongsTo
         classRoom:BranchClassRoom @belongsTo
+        absence_presence:AbsencePresence @hasMany
 }
 
 type Course{
@@ -416,6 +416,7 @@ type Course{
       teacher:User @belongsTo
       lesson:Lesson @belongsTo
       branch:Branch @belongsTo
+      courseSession:CourseSession @hasMany
 
 }
 

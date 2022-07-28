@@ -58,6 +58,7 @@ final class GetCourseStudentsWithAbsencePresence
             ->where('AB.deleted_at',null);
         });
         }
+        return  DB::table('courses')->where('id',-1);
     //     if( AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresence")){
     //     //$CourseStudent= CourseStudent::where('deleted_at', null);//->orderBy('id','desc');
     //     $CourseStudent = CourseStudent::where('deleted_at', null)

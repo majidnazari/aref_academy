@@ -328,10 +328,9 @@ type AbsencePresence @key(fields: "id") {
     teacher:User @belongsTo
 }
 type CourseStudentWithAbsencePresence @key(fields: "id"){   
-        id:ID!
-       
+      id:ID!       
       course_id:Int 
-            
+
       ap_id:Int  
       ap_status:String 
       ap_attendance_status:String
@@ -351,13 +350,18 @@ type CourseStudentWithAbsencePresence @key(fields: "id"){
       cs_user_id_financial:Int
       cs_user_id_student_status:Int
       cs_created_at:DateTime
+
+      # user_creator:User @belongsTo
+      # user_manager:User @belongsTo
+      # user_financial:User @belongsTo
+      # user_student_status:User @belongsTo
       
 }
 type CourseStudent @key(fields: "id"){   
         id:ID!
         course_id:Int
         # course_session_id:Int
-        absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
+        # absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
         student_id:Int
        
         user_id_creator:Int

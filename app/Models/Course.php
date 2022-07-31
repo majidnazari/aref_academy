@@ -42,4 +42,8 @@ class Course extends Model
     {
         return $this->belongsTo(Branch::class,"branch_id");
     }
+    public function courseSession()
+    {
+        return $this->hasMany(CourseSession::class,"course_id");
+    }
 }

@@ -15,12 +15,17 @@ class CheckAuth
         "AbsencePresence" => array( "admin","manager","acceptor"),
         "Lesson" =>array ( "admin","manager"),
         "Fault" => array("admin","manager"),
-        "Year" =>array ("admin"),
+        "Year" =>array ("admin","manager","financial","acceptor","teacher"),
         "CourseSession" =>array ("admin","manager"),
         "Course" => array("admin","manager"),
-        "CourseStudent" => array("admin"),
+        "CourseStudent" => array("admin","manager"),
         "Users" => array("admin","manager"), 
         "BranchClassRooms" => array("admin","manager"), 
+        "GetCourseStudentsWithAbsencePresence" => array("admin","manager"), 
+        "Branches" =>array("admin","manager","financial"), 
+        "CourseStudent" =>array("admin","manager"), 
+        "StudentContact" =>array("admin","manager"), 
+        "StudentFault" =>array("admin","manager"), 
         
         
        

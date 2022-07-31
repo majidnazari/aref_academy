@@ -9,6 +9,7 @@ use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 use AuthRole;
 use GraphQL\Error\Error;
+use Log;
 
 final class GetCourseStudents
 {
@@ -22,9 +23,17 @@ final class GetCourseStudents
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        //Log::info("the status is: " .$args['manager_financial_not_equal']);
         if( AuthRole::CheckAccessibility("CourseStudent")){
         //$CourseStudent= CourseStudent::where('deleted_at', null);//->orderBy('id','desc');
         $CourseStudent = CourseStudent::where('deleted_at', null)
+            ->where(function ($query) use ($args) {
+                if (isset($args['manager_financial_not_equal'])) {
+                    $query->where('course_students.manager_status','!=', $args['manager_financial_not_equal'])
+                    ->orwhere('course_students.financial_status','!=', $args['manager_financial_not_equal']);
+                }
+                return true;
+            })
             ->where(function ($query) use ($args) {
                 if (isset($args['user_id_creator'])) {
                     $query->where('users.id', $args['user_id_creator']);

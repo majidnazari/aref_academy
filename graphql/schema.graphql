@@ -133,6 +133,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       #  orderBy:[OrderByClause!] @orderBy
     ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresence@resolveCourseStudent") 
     
+    # show_all_illegal_student(id:ID):[CourseStudentWithIllegalStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithIllegalStudent@resolveCourseStudent") 
 
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
     getAbsencePresences(
@@ -333,9 +334,13 @@ type AbsencePresence @key(fields: "id") {
     courseSession:CourseSession @belongsTo
     teacher:User @belongsTo
 }
+# type CourseStudentWithIllegalStudent @key(fields: "id"){
+
+# }
 type CourseStudentWithAbsencePresence @key(fields: "id"){   
       id:ID!       
       course_id:Int 
+     
 
       ap_id:Int  
       ap_status:String 

@@ -25,6 +25,8 @@ class CheckAuth
         "Branches" =>array("admin","manager","financial"),         
         "StudentContact" =>array("admin","manager"), 
         "StudentFault" =>array("admin","manager"), 
+        "GetCourseStudentsWithIllegalStudent" =>array("admin","manager"), 
+        
         
         
        

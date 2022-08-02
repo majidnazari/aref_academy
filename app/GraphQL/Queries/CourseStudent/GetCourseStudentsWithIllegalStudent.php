@@ -23,14 +23,39 @@ final class GetCourseStudentsWithIllegalStudent
         // TODO implement the resolver
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    { 
-        // if( AuthRole::CheckAccessibility("GetCourseStudentsWithIllegalStudent"))
-        // {      
-        //     return DB::table('course_students');
-       
-       
-        // }
-        // return  DB::table('course_students')->where('id',-1);
-    
+    {
+        if (AuthRole::CheckAccessibility("GetCourseStudentsWithIllegalStudent")) {
+            $qu = DB::table('course_students As CS')
+                ->select(
+                    'CS.id as id',
+                    'CS.financial_status as financial_status',
+                    'AB.status as status',
+                    'CS.student_id as student_id',
+                    'Cse.name',
+                    'Cse.course_id'
+                )
+                ->where('CS.financial_status', '!=', 'approved')
+                ->leftjoin('course_sessions AS Cse', function ($query) {
+                    $query->on('Cse.course_id', 'CS.course_id');
+                })
+                ->leftjoin('absence_presences AS AB', function ($query) use ($args) {
+                    $query->on('AB.student_id', 'CS.student_id')
+                        ->on('AB.course_session_id', 'Cse.id')
+                        ->where('AB.status', 'present');
+                });
+            $result = $qu->get();
+            $result = $result->where('status', '!=', null)->groupBy(['course_id', 'student_id']);
+            $output = collect([]);
+            foreach ($result as $courseDetails) {
+                foreach ($courseDetails as $details) {
+                    $detail = $details[0];
+                    $detail->session_count = count($details);
+                    $output[] = $detail;
+                }
+            }
+            $output = $output->where('session_count', '>=', 2);
+            return $output;
+        }
+        return  [];
     }
 }

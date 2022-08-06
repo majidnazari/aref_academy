@@ -821,7 +821,7 @@ type Year {
     }
    input  CreateStudentToListBeforeAbsencePresenceInput{
         course_session_id:Int
-        course_id:Int        
+        course_id:Int               
    }
     input UpdateAbsencePresenceInput{
 
@@ -832,6 +832,11 @@ type Year {
         created_at:DateTime
         updated_at:DateTime
         deleted_at:DateTime
+    }
+    input UpdateAbsencePresenceInputWithStudentIdCourseSessionId{
+       course_session_id:Int!
+       student_id:Int!
+       status:String= "present"
     }
 
     input CreateAzmoonInput{ 
@@ -954,6 +959,7 @@ type Mutation {
       createAbsencePresence(input: CreateAbsencePresenceInput! @spread): AbsencePresence!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\CreateAbsencePresence@resolver")
       createAllStudentToListBeforeAbsencePresence(input: CreateStudentToListBeforeAbsencePresenceInput! @spread): String   @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\CreateAbsencePresence@resolverAbsencePresenceAllSession")
       updateAbsencePresence(input: UpdateAbsencePresenceInput! @spread): AbsencePresence!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@resolver")
+      updateAbsencePresenceWithStudentIdCourseSessionId(input: UpdateAbsencePresenceInputWithStudentIdCourseSessionId! @spread): AbsencePresence!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\UpdateAbsencePresence@UpdateAbsencePresenceWithStudentIdCourseSessionId")
       deleteAbsencePresence(id:ID!):AbsencePresence  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\AbsencePresence\\DeleteAbsencePresence@resolver")
     #end AbsencePresence
 

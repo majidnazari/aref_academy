@@ -62,8 +62,8 @@ final class CreateAbsencePresence
                 $AbsencePresence=[
                     'user_id_creator' => $user_id,
                     "course_session_id" => $args['course_session_id'],
-                    "teacher_id" =>5, 
-                    "student_id" => $student->id,          
+                    "teacher_id" =>0, 
+                    "student_id" => $student->student_id,          
                     //'status' => "absent"           
                     
                 ];

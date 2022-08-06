@@ -17,6 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        
+
+    //     $sql = base_path('database/seeders/sql_function.sql');
+    //     DB::unprepared(file_get_contents($sql));
+    //    // DB::unprepared($sql); 
+
         $now=Carbon::now();
         //
        DB::table('users')->insert([

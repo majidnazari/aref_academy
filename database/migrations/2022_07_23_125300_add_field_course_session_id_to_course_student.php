@@ -25,8 +25,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('course_students', function (Blueprint $table) {
-            $table->dropColumn('course_session_id');
-        });
+        if (Schema::hasColumn('course_students', 'course_session_id'))
+        {
+            Schema::table('course_students', function (Blueprint $table) {
+                $table->dropColumn('course_session_id');
+            });
+        }
     }
 };

@@ -51,7 +51,11 @@ final class CreateAbsencePresence
     { 
         
         $user_id=auth()->guard('api')->user()->id;
-        $getAllcourseStudent=CourseStudent::where('course_id',$args['course_id'])->get();
+        $students=AbsencePresence::where('course_session_id',$args['course_session_id'])
+                ->pluck('student_id');
+        $getAllcourseStudent=CourseStudent::where('course_id',$args['course_id'])
+        ->whereNotIn('student_id',$students)
+        ->get();
         //Log::info("course is:" .json_encode($getAllcourseStudent));
         //return $getAllcourseStudent;
         // $course_session=CourseSession::where('id',$args['course_session_id'])->first();
@@ -62,21 +66,21 @@ final class CreateAbsencePresence
                 $AbsencePresence=[
                     'user_id_creator' => $user_id,
                     "course_session_id" => $args['course_session_id'],
-                    "teacher_id" =>0, 
+                    "teacher_id" =>5, 
                     "student_id" => $student->student_id,          
-                    //'status' => "absent"           
+                    'status' => "noAction"           
                     
                 ];
-                $is_exist=AbsencePresence::where('course_session_id',$args['course_session_id'])
-                ->where('student_id',$s_id)
-                ->first();
+                // $is_exist=AbsencePresence::where('course_session_id',$args['course_session_id'])
+                // ->where('student_id',$s_id)
+                // ->first();
                
-                if(!$is_exist)  
-                {
+                // if(!$is_exist)  
+                // {
                     $AbsencePresence=AbsencePresence::create($AbsencePresence);
                     //continue;
                     //return Error::createLocatedError("ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST");
-                }               
+                // }               
             }
         //}
        

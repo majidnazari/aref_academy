@@ -23,6 +23,8 @@ final class GetCourseStudents
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        // $CourseStudent = CourseStudent::where('deleted_at', null);
+        // return $CourseStudent;
         //Log::info("the status is: " .$args['manager_financial_not_equal']);
         if( AuthRole::CheckAccessibility("CourseStudent")){
         //$CourseStudent= CourseStudent::where('deleted_at', null);//->orderBy('id','desc');

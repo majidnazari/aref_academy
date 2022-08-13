@@ -14,6 +14,7 @@ class AbsencePresence extends Model
     protected $fillable=[
         "id",
         "user_id_creator",
+        "student_id",
         "course_session_id",
         "teacher_id",
         "status"        

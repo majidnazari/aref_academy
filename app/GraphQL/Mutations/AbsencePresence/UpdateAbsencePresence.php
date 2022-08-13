@@ -40,4 +40,25 @@ final class UpdateAbsencePresence
 
         
     }
+    public function UpdateAbsencePresenceWithStudentIdCourseSessionId($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    {  
+        $user_id=auth()->guard('api')->user()->id;
+        $args["user_id_creator"]=$user_id;
+        $AbsencePresence=AbsencePresence::where('course_session_id',$args['course_session_id'])
+        ->where('student_id',$args['student_id'])
+        ->first();
+        
+        if(!$AbsencePresence)
+        {
+            return Error::createLocatedError('ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND');
+        }
+       
+        $AbsencePresence_result= $AbsencePresence->fill($args);
+        $AbsencePresence->save();       
+       
+        return $AbsencePresence_result;
+
+        
+    }
+    
 }

@@ -117,8 +117,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
        manager_financial_not_equal:String
        
        orderBy:[OrderByClause!] @orderBy
-    ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent") 
-     
+    ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent")  
+    
      getCourseStudentsWithAbsencePresence(
       #  student_id:Int @eq
        course_id:Int! 

@@ -57,5 +57,16 @@ final class ResetOtherUserPassword
         
         return Error::createLocatedError('USER-AUTHORIZATION-FORBIDDEN');
     }
+    // function hasAccessToRegister(string $user_tobe_changed_role,string $user_role_loged_in )
+    // {
+    //     if( in_array($user_tobe_changed_role,$this->group_role_access[$user_role_loged_in]) )
+    //     {
+           
+    //         $user->password = Hash::make($args['password']);
+    //         $user->save();
+    //         $user=User::where('email',$args['email'])->first();
+    //         return $user;
+    //     }
+    // }
    
 }

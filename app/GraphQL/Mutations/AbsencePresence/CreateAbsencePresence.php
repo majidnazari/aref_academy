@@ -28,12 +28,14 @@ final class CreateAbsencePresence
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
         $user_id=auth()->guard('api')->user()->id;
-        $AbsencePresence=[
+        $AbsencePresence=[            
+
             'user_id_creator' => $user_id,
             "course_session_id" => $args['course_session_id'],
             "teacher_id" => $args['teacher_id'], 
             "student_id" => $args['student_id'] ,          
-            'status' => $args['status']           
+            'status' => $args['status'],           
+            'attendance_status' => $args['attendance_status']          
             
         ];
         $is_exist=AbsencePresence::where('course_session_id',$args['course_session_id'])

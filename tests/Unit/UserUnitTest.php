@@ -2,19 +2,24 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\AuthFacade\CheckAuth;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Repositories\UserRepository as UserRepo;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use App\GraphQL\Mutations\User\ResetOtherUserPassword;
+use App\Models\User;
+
 //use App\Repositories\Interfaces\UserRepositoryInterface as userInterface;
 
-class UserTest extends TestCase 
-{
+class UserUnitTest extends TestCase 
+{    
     //use RefreshDatabase;
     /**
      * A basic unit test example.
@@ -22,6 +27,36 @@ class UserTest extends TestCase
      * @return void
      */
      //private $repository;
+
+     public function test_registerNewPassword()
+     {
+        $now=Carbon::now();
+        $user= new User;
+        $user->email="09351212120";
+        $user->password=Hash::make("09351212120");
+        $user->first_name="admin";
+        $user->last_name="admin";
+        $user->group_id=1;
+        $user->created_at=$now;
+        $user->updated_at=$now;
+        //     "email" => ,
+        //     "password" => ,
+        //     "first_name" => "admin",
+        //     "last_name" => "admin",
+        //     "group_id" => 1,            
+        //     "created_at" => $now,
+        //     "updated_at" =>$now
+        // ];
+        $newPassword="15995123";
+        $email="09351212120";
+        $ROP= new ResetOtherUserPassword;
+        //$test=new CheckAuthth;
+        //return $ROP->registerNewPassword($user,$newPassword, $email);
+            $result= $ROP->registerNewPassword($user,$newPassword, $email);
+            //return Hash::check($newPassword,$result->password);
+       //$this->assertTrue(Hash::check("12345678",'$2a$12$wgKFkwHNtDQDUPQIaSwCweJZ4i7RrXH0aZkoBUgjZFcq5Cus3ZM5C'));
+       $this->assertTrue(Hash::check($newPassword,$result->password));
+     }
     
     // public function test_UserCreate()
     // {  

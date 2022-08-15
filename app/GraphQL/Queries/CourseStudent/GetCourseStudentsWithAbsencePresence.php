@@ -30,7 +30,7 @@ final class GetCourseStudentsWithAbsencePresence
         ->where('AB.deleted_at',null)
         ->where('courses.deleted_at',null)
         ->select('courses.id as course_id',
-        'CS.id as id',
+        'AB.id as id',
         'AB.status as ap_status',
         'AB.attendance_status as ap_attendance_status',
         'AB.user_id_creator as ap_user_id_creator',

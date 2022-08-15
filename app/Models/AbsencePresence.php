@@ -17,7 +17,8 @@ class AbsencePresence extends Model
         "student_id",
         "course_session_id",
         "teacher_id",
-        "status"        
+        "status"  ,
+        "attendance_status"      
     ];
     protected $table="absence_presences";
 

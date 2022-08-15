@@ -45,9 +45,11 @@
     "USER-DELETE-CANNOT_SUICIDE" : "نمیتوانید خودکشی کنید.",
     "USER-CREATE-RECORD_IS_EXIST" : "کاربر از قبل وجود دارد.", 
     "USER-AUTHORIZATION-FORBIDDEN" : "دسترسی غیر مجاز",
-    "USER-NOT-FOUND" : "کاربر مورد نظر وجود ندارد",
-    "USER-ROLE_NOT-FOUND" : "سطح دسترسی وارد شده وجود ندارد",
-
+    "USER-UPDATE-PASSWORD-OTHER_NOT_FOUND" : "کاربر مورد نظر وجود ندارد",
+    "USER-UPDATE-PASSWORD-OTHER_ROLE_NOT_FOUND" : "دسترسی برای کاربر مربوطه غیر مجاز است.",
+    "USER-UPDATE-PASSWORD-OTHERـAUTHORIZATIONـFORBIDDEN" : "دسترسی غیر مجاز برای تغییر پسورد",
+    "USER-UPDATE-PASSWORD-OTHER-ROLE_IS_NULL":"نقش کاربر مورد نظر تعریف نشده",
+    
     "COURSESESSION-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
     "COURSESESSION-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
     "COURSESESSION-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",

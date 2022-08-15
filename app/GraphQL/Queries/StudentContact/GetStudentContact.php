@@ -9,7 +9,7 @@ use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
 use Log;
 
-final class GetStudentContact
+final class GetStudentContact 
 {
     /**
      * @param  null  $_

@@ -811,12 +811,11 @@ type Year {
 
     input CreateAbsencePresenceInput{       
        
-        course_session_id:Int,
-        teacher_id:Int,
-        status:String,
-        created_at:DateTime
-        updated_at:DateTime
-        deleted_at:DateTime
+        courscourse_session_id:Int
+        student_id:Int
+        teacher_id:Int
+        status:String
+        attendance_status:String    
             
     }
    input  CreateStudentToListBeforeAbsencePresenceInput{
@@ -826,12 +825,12 @@ type Year {
     input UpdateAbsencePresenceInput{
 
         id:ID!        
-        course_session_id:Int,
-        teacher_id:Int,
-        status:String,
-        created_at:DateTime
-        updated_at:DateTime
-        deleted_at:DateTime
+        course_session_id:Int
+        student_id:Int
+        teacher_id:Int
+        status:String
+        attendance_status:String
+       
     }
     input UpdateAbsencePresenceInputWithStudentIdCourseSessionId{
        course_session_id:Int!
@@ -914,7 +913,7 @@ type Mutation {
     # verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     #updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
-    updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): String @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
+    updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): User @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
   # region user
   #  createUser(input: CreateUserInput! @spread): User! @create  
     createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")

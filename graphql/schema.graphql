@@ -811,7 +811,7 @@ type Year {
 
     input CreateAbsencePresenceInput{       
        
-        courscourse_session_id:Int
+        course_session_id:Int
         student_id:Int
         teacher_id:Int
         status:String

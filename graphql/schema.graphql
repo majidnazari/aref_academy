@@ -327,6 +327,7 @@ type AbsencePresence @key(fields: "id") {
     student_id:Int
     # student:Student @provides(fields: "id")
     status:String
+    attendance_status:String
     created_at:DateTime
     updated_at:DateTime
     deleted_at:DateTime

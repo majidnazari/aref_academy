@@ -11,7 +11,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
-
+use Log;
 final class ResetOtherUserPassword
 {
     private $group_role_access=array(
@@ -53,26 +53,30 @@ final class ResetOtherUserPassword
 
         return $this->hasAccessToRegister( $user_tobe_changed_role, $user_role_loged_in,$user,$args['password'],$args['email'] );
                
-        return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHERـAUTHORIZATIONـFORBIDDEN');
+        //return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHERـAUTHORIZATIONـFORBIDDEN');
     }
    public function hasAccessToRegister(string $user_tobe_changed_role,string $user_role_loged_in ,User $user,String $newPassword,String $email)
     {
         if(!in_array($user_tobe_changed_role,$this->group_role_access[$user_role_loged_in]))
         {
-            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER_ROLE_NOT_FOUND');  
+            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHERSـAUTHORIZATIONـFORBIDDEN');  
         }
         $result=$this->registerNewPassword($user,$newPassword,$email);
         return $result;
     }
     public function registerNewPassword(User $user,String $newPassword,String $email){
 
-        // $user=User::where('email',$email)->first();
-        // if(!$user){
-        //     return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER_NOT_FOUND');
-        // }
+        $user=User::where('email',$email)->first();
+        if(!$user){
+            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER_NOT_FOUND');
+        }
         $user->password = Hash::make($newPassword);
-        $user->save();       
+        $user->save();
+        //$result=User::updateOrCreate($user->toArray());        
+        //Log::info("user is:" .$user );
+
         return $user;
     }
+
    
 }

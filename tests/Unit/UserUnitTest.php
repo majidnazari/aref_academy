@@ -34,19 +34,24 @@ class UserUnitTest extends TestCase
         $user= new User;
         $user->email="09351212120";
         $user->password=Hash::make("09351212120");
-        $user->first_name="admin";
-        $user->last_name="admin";
+        $user->first_name="test";
+        $user->last_name="test";
         $user->group_id=1;
         $user->created_at=$now;
         $user->updated_at=$now;
-        //     "email" => ,
-        //     "password" => ,
-        //     "first_name" => "admin",
-        //     "last_name" => "admin",
+
+
+        // $user_tmp=[
+        //     "email" => "09351212120",
+        //     "password" => Hash::make("09351212120"),
+        //     "first_name" => "test",
+        //     "last_name" => "test",
         //     "group_id" => 1,            
         //     "created_at" => $now,
         //     "updated_at" =>$now
         // ];
+
+
         $newPassword="15995123";
         $email="09351212120";
         $ROP= new ResetOtherUserPassword;
@@ -56,6 +61,7 @@ class UserUnitTest extends TestCase
             //return Hash::check($newPassword,$result->password);
        //$this->assertTrue(Hash::check("12345678",'$2a$12$wgKFkwHNtDQDUPQIaSwCweJZ4i7RrXH0aZkoBUgjZFcq5Cus3ZM5C'));
        $this->assertTrue(Hash::check($newPassword,$result->password));
+       //$this->assertTrue($result->delete());
      }
     
     // public function test_UserCreate()

@@ -17,7 +17,7 @@ class CheckAuth
         "Fault" => array("admin","manager"),
         "Year" =>array ("admin","manager","financial","acceptor","teacher"),
         "CourseSession" =>array ("admin","manager","acceptor"),
-        "Course" => array("admin","manager","financial"),
+        "Course" => array("admin","manager","financial","acceptor"),
         "CourseStudent" => array("admin","manager","financial","acceptor"),
         "Users" => array("admin","manager"), 
         "BranchClassRooms" => array("admin","manager"), 

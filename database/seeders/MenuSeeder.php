@@ -25,7 +25,7 @@ class MenuSeeder extends Seeder
        [
         "slug" => "link",
         "name" => "داشبورد ادمین",
-        "icon" => "fas fa-tachometer-alt",
+        "icon" => "DashboardIcon",
         "href" => "/admin",
         "parent_id" => 0,        
         "created_at" => $now,
@@ -34,7 +34,7 @@ class MenuSeeder extends Seeder
        [ 
            "slug" => "link",
             "name" => "داشبورد مدیر آموزشگاه",
-            "icon" => "fas fa-tachometer-alt",
+            "icon" => "DashboardIcon",
             "href" => "/manager",
             "parent_id" => 0,        
             "created_at" => $now,
@@ -43,7 +43,7 @@ class MenuSeeder extends Seeder
        [ 
            "slug" => "link",
             "name" => "داشبورد مالی",
-            "icon" => "fas fa-tachometer-alt",
+            "icon" => "DashboardIcon",
             "href" => "/financial",
             "parent_id" => 0,        
             "created_at" => $now,
@@ -52,7 +52,7 @@ class MenuSeeder extends Seeder
        [ 
             "slug" => "link",
             "name" => "داشبورد دبیر",
-            "icon" => "fas fa-tachometer-alt",
+            "icon" => "DashboardIcon",
             "href" => "/teacher",
             "parent_id" => 0,        
             "created_at" => $now,
@@ -61,12 +61,101 @@ class MenuSeeder extends Seeder
        [ 
            "slug" => "link",
            "name" => "داشبورد پذیرنده",
-           "icon" => "fas fa-tachometer-alt",
+           "icon" => "DashboardIcon",
            "href" => "/acceptor",
            "parent_id" => 0,        
            "created_at" => $now,
            "updated_at" =>$now
-       ]
+       ],
+       [ 
+        "slug" => "link",
+        "name" => "مدیریت کاربران",
+        "icon" => "ShoppingCartIcon",
+        "href" => "/users",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "مدیریت کلاس‌ها",
+        "icon" => "ClassIcon",
+        "href" => "/courses",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+       [ 
+        "slug" => "link",
+        "name" => "سال تحصیلی فعال",
+        "icon" => "ReceiptLongIcon",
+        "href" => "/years",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "تعریف تخلفات",
+        "icon" => "NewReleasesIcon",
+        "href" => "/faults",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "فهرست دانش آموزان",
+        "icon" => "PeopleIcon",
+        "href" => "/students",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "مدیریت شعبه‌ها",
+        "icon" => "AddBusinessIcon",
+        "href" => "/branches",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "مدیریت دروس",
+        "icon" => "MenuBookIcon",
+        "href" => "/lessons",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "گزارش کلاسها",
+        "icon" => "BarChartIcon",
+        "href" => "/reports/courses",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
+       [ 
+        "slug" => "link",
+        "name" => "حضوروغیاب",
+        "icon" => "CoPresentIcon",
+        "href" => "/absence-presences",
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+
 
 
        ]);

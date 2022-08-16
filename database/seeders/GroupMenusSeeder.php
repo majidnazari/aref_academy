@@ -57,6 +57,175 @@ class GroupMenusSeeder extends Seeder
        "created_at" => $now,
        "updated_at" =>$now
        ],
+       [ 
+       "user_id_creator" => 0,
+       "group_id" => 1, //teacher
+       "menu_id" => 6,// test dashbord for teacher 
+       "user_id" => 1,
+       "created_at" => $now,
+       "updated_at" =>$now
+       ],      
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 7,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 8,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+       ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 9,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 10,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 11,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 12,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 13,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 14,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 2, 
+            "menu_id" => 10,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 2, 
+            "menu_id" => 7,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 2, 
+            "menu_id" => 12,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 2, 
+            "menu_id" => 9,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 2, 
+            "menu_id" => 13,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 2, 
+            "menu_id" => 14,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 3, 
+            "menu_id" => 7,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 3, 
+            "menu_id" => 10,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 3, 
+            "menu_id" => 13,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 4, 
+            "menu_id" => 13,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 4, 
+            "menu_id" => 10,
+            "user_id" => 2,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 4, 
+            "menu_id" => 14,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+
 
 
        ]);

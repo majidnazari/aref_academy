@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             GroupGateSeeder::class,
             BranchSeeder::class,
             BranchClassRoomSeeder::class,
-            SqlFileSeeder::class
+            SqlFileSeeder::class,
+            //Sql_menu_seeder_FileSeeder::class
         ]);
     }
 }

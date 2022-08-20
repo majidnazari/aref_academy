@@ -32,6 +32,7 @@ final class CreateCourse
             "year_id" => $args['year_id'],
             "teacher_id" => $args['teacher_id'],            
             'name' => $args['name'],
+            'gender' => $args['gender'],
             "lesson_id"=> $args["lesson_id"],
             "education_level"=> $args["education_level"],
             "financial_status" => isset($args["financial_status"]) ? $args["financial_status"] : 'pending' ,

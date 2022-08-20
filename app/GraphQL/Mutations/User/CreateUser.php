@@ -30,6 +30,7 @@ final class CreateUser
         $user_date=[
             'user_id_creator' => $user_id,
             'group_id' => $args['group_id'],
+            'branch_id' => $args['branch_id'],
             'email' => $args['email'],
             'password' => $args['password'],
             'first_name' => $args['first_name'],
@@ -48,6 +49,7 @@ final class CreateUser
                 'user_id_creator' => 1,
                 'user_id' => $user_resut->id,
                 'group_id' => $args['group_id'],
+
                 'key' =>''
                 
             ];

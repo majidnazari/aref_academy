@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Course extends Model
+class Course extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
@@ -16,6 +18,7 @@ class Course extends Model
         "year_id",
         "teacher_id",       
         "name",
+        "gender",
         "lesson_id",
         "type",
         "education_level",

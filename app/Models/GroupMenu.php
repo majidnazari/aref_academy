@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class GroupMenu  extends Pivot //extends Model
 {
+    use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use softDeletes;
     protected $fillable=

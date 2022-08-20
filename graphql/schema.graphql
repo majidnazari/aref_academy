@@ -45,6 +45,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       last_name: String @like(template : "%{}%")
       email: String @like(template : "%{}%")      
       group_id: Int  
+      branch_id: Int  @eq
       # group_id: Group  @belongsToMany(relation: "groups" ) 
       orderBy: [OrderByClause!] @orderBy
        ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
@@ -261,7 +262,8 @@ type Branch{
     updated_at:DateTime
     deleted_at:DateTime
     # User:[User] @belongsTo
-    user: User @belongsTo
+    user_creator: User @belongsTo
+   
    
 }
 type BranchClassRoom{
@@ -452,6 +454,7 @@ type Course{
       year_id:Int
       teacher_id:Int
       name:String
+      gender:String
       lesson_id:Int
       type:String
       education_level:String
@@ -478,6 +481,7 @@ type Course{
     id:ID    
     # userId:ID
     group_id:Int
+    branch_id:Int
     first_name: String
     last_name: String 
     #mobile: String!
@@ -489,6 +493,8 @@ type Course{
     updated_at: DateTime
     deleted_at: DateTime
     group: Group @belongsTo
+    branch: Branch @belongsTo
+    # user_creator: User @belongsTo
     # faults:[Fault] @belongsToMany
     faults: [Fault] @hasMany
    
@@ -598,12 +604,14 @@ type Year {
       first_name: String!
       last_name: String!
       group_id:Int!
+      branch_id:Int!
+       
       # branche_id:Int!
       # group_user:createGroupUserInput! @create
      # is_teacher: Int!  
     }
    input UpdateUserInput {
-       id:ID!
+      id:ID!
      # type: String
      # mobile: String 
       email:String  
@@ -611,6 +619,7 @@ type Year {
       first_name: String
       last_name: String
       group_id:Int 
+      branch_id:Int 
       # ): User! @update
    }
     # input createGroupUserInput {
@@ -665,6 +674,7 @@ type Year {
         # average:Float
         major:String
         description:String
+        nationality_code:String!
         # introducing:String
         # student_phone:String
         # cities_id:Int
@@ -685,7 +695,7 @@ type Year {
         mother_phone:String       
         major:String 
         description:String 
-
+        nationality_code:String!
         # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
         # first_name:String,
         # last_name:String,
@@ -710,6 +720,7 @@ type Year {
       year_id:Int!
       teacher_id:Int!
       name:String!
+      gender:String!
       lesson_id:Int!
       education_level:String!
       type:String!
@@ -736,6 +747,7 @@ type Year {
       year_id:Int
       teacher_id:Int
       name:String
+      gender:String
       lesson_id:Int
       education_level:String      
       type:String
@@ -913,8 +925,8 @@ type Mutation {
     # socialLogin(input: SocialLoginInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
     # verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     #updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
-    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
-    updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): User @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
+    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
+    updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): User  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
   # region user
   #  createUser(input: CreateUserInput! @spread): User! @create  
     createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
@@ -924,9 +936,9 @@ type Mutation {
   #end 
 
   # region teacher
-    createTeacher(input: CreateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\CreateTeacher@resolver")
-    updateTeacher(input: UpdateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\UpdateTeacher@resolver")
-    deleteTeacher(id:ID!):Teacher @guard(with:["api"]) @delete
+    # createTeacher(input: CreateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\CreateTeacher@resolver")
+    # updateTeacher(input: UpdateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\UpdateTeacher@resolver")
+    # deleteTeacher(id:ID!):Teacher @guard(with:["api"]) @delete
   #end region
 
    # region yaer

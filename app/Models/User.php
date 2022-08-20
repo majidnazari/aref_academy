@@ -20,9 +20,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable //implements JWTSubject //extends Authenticatable implements JWTSubject
+
+class User extends Authenticatable implements Auditable //implements JWTSubject //extends Authenticatable implements JWTSubject
 {
+    use \OwenIt\Auditing\Auditable;
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes,BuildsQueries;
 
     //public function getAuthIdentifierName();
@@ -41,6 +44,7 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
         "id",
         //'type',
         //'mobile',
+        'branch_id',
         'group_id',
         'email',
         'password',
@@ -120,6 +124,11 @@ class User extends Authenticatable //implements JWTSubject //extends Authenticat
     public function courses()
     {
         return $this->hasmany('Course');
+    }
+   
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class,"branch_id");
     }
     public function courseSessions()
     {

@@ -180,6 +180,8 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         \Nuwave\Lighthouse\Federation\FederationServiceProvider::class,
         \Nuwave\Lighthouse\CacheControl\CacheControlServiceProvider::class,
+
+        OwenIt\Auditing\AuditingServiceProvider::class,
         
     ],
 

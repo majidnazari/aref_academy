@@ -683,7 +683,7 @@ type Year {
         # archived:Int
     }
      input UpdateStudentInput{
-        id:Int!
+        id:ID!
         phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
         first_name:String! 
         last_name:String! 
@@ -871,7 +871,7 @@ type Year {
           result_score:String, 
     }
     input UpdateAzmoonResultInput{
-        id:ID
+        id:Int
         student_id:Int,
         result_score:String, 
     }

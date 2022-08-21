@@ -27,6 +27,7 @@ final class CreateUser
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {        
         $user_id=auth()->guard('api')->user()->id;        
+        $user_type=auth()->guard('api')->user()->group->type;        
         $user_date=[
             'user_id_creator' => $user_id,
             'group_id' => $args['group_id'],
@@ -37,16 +38,24 @@ final class CreateUser
             'last_name' => $args['last_name'],
         ];
         $exist_user=User::where('email',$args['email'])->first();
-        // if($exist_user){
-        //     return Error::createLocatedError("USER-CREATE-RECORD_IS_EXIST");
-        // }
-        $user_resut=User::create($user_date);
+        if($exist_user){
+            return Error::createLocatedError("USER-CREATE-RECORD_IS_EXIST");
+        }
+        if(in_array($user_type,["acceptor","manager","teacher"])){
+            // create just acceptor and manager and teacher
+        }
+        // if(//admin)
+        //     {
+        //         // create all 
+        //     }
+      
         //return $user_resut;
+        $user_resut= User::create($user_date);
 
         if($user_resut)
         {
             $group_gate_data=[
-                'user_id_creator' => 1,
+                'user_id_creator' => $user_id,
                 'user_id' => $user_resut->id,
                 'group_id' => $args['group_id'],
 
@@ -70,4 +79,9 @@ final class CreateUser
             
        
     }
+    // function createUser(User $user)
+    // {
+    //      return User::create($user_date);
+        
+    // }
 }

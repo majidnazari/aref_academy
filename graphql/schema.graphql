@@ -595,7 +595,7 @@ type Year {
           isSMSsend:Int!
           score:Float!
    }
-   input CreateUserInput {
+   input CreateUserInput @validator{
      # type: String!
      # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
      # email: String! @rules(apply: ["email","unique:users,email"])
@@ -610,7 +610,7 @@ type Year {
       # group_user:createGroupUserInput! @create
      # is_teacher: Int!  
     }
-   input UpdateUserInput {
+   input UpdateUserInput @validator{
       id:ID!
      # type: String
      # mobile: String 

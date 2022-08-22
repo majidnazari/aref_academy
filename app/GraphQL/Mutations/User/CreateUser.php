@@ -39,31 +39,32 @@ final class CreateUser
             'first_name' => $args['first_name'],
             'last_name' => $args['last_name'],
         ];
-        $exist_user=User::where('email',$args['email'])->first();
-        if($exist_user){
-            return Error::createLocatedError("USER-CREATE-RECORD_IS_EXIST");
-        }
-        if(in_array($args['group_id'],[1,3]) &&  $user_type=="manager") // manager add -> financial and admin user
-        {
-            return Error::createLocatedError("USER-CREATE-MANAGER_ILLEGAL_ACCESS"); 
-        }
-        if(in_array($args['group_id'],[2,4,5]) &&  $user_type=="manager") // manager add -> financial and admin user
-        {
-            
-            return  $this->createUser($user_date);
-           
-        }
-        // else
+        return User::create($user_date);
+        // $exist_user=User::where('email',$args['email'])->first();
+        // if($exist_user){
+        //     return Error::createLocatedError("USER-CREATE-RECORD_IS_EXIST");
+        // }
+        // if(in_array($args['group_id'],[1,3]) &&  $user_type=="manager") // manager add -> financial and admin user
         // {
         //     return Error::createLocatedError("USER-CREATE-MANAGER_ILLEGAL_ACCESS"); 
         // }
-        if(in_array($args['group_id'],[1,2,3,4,5]) &&  $user_type=="admin") // admin  add -> All users 
-        {
+        // if(in_array($args['group_id'],[2,4,5]) &&  $user_type=="manager") // manager add -> financial and admin user
+        // {
+            
+        //     return  $this->createUser($user_date);
            
-            return  $this->createUser($user_date);
+        // }
+        // // else
+        // // {
+        // //     return Error::createLocatedError("USER-CREATE-MANAGER_ILLEGAL_ACCESS"); 
+        // // }
+        // if(in_array($args['group_id'],[1,2,3,4,5]) &&  $user_type=="admin") // admin  add -> All users 
+        // {
            
-        }
-        return Error::createLocatedError("USER-CREATE-REQUEST_IS_NOT_ACCEPTABLE"); //because group id is out of range
+        //     return  $this->createUser($user_date);
+           
+        // }
+        // return Error::createLocatedError("USER-CREATE-REQUEST_IS_NOT_ACCEPTABLE"); //because group id is out of range
        
        
     }

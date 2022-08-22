@@ -25,8 +25,7 @@ final class UpdateUser
     }
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        $user_type=auth()->guard('api')->user()->group->type;  
-            
+        $user_type=auth()->guard('api')->user()->group->type;              
         // $user_date=[
         //     //'user_id_creator' => $user_id,
         //     'group_id' => $args['group_id'],
@@ -40,32 +39,9 @@ final class UpdateUser
         //$exist_user=User::where('email',$args['email'])->first();
         if(!$exist_user){
             return Error::createLocatedError("USER-UPDATE-RECORD_IS_NOT_FOUND");
-        }
-        if(isset($args['group_id']))
-        {
-            if(in_array($args['group_id'],[1,3]) &&  $user_type=="manager") // manager add -> financial and admin user
-            {
-                return Error::createLocatedError("USER-UPDATE-MANAGER_ILLEGAL_ACCESS");            
-            }
-            if(in_array($args['group_id'],[2,4,5]) &&  $user_type=="manager") // manager add -> financial and admin user
-            {            
-              return  $this->updateUser( $exist_user,$args);           
-            }
-            // else
-            // {
-            //     return Error::createLocatedError("USER-UPDATE-MANAGER_ILLEGAL_ACCESS"); 
-            // }
-            if(in_array($args['group_id'],[1,2,3,4,5]) &&  $user_type=="admin") // admin  add -> All users 
-            {
-               
-                return  $this->updateUser( $exist_user,$args);
-               
-            }
-            return Error::createLocatedError("USER-UPDATE-REQUEST_IS_NOT_ACCEPTABLE"); //because group id is out of range
-        }
+        }        
        
-        return  $this->updateUser( $exist_user,$args);
-       
+        return  $this->updateUser( $exist_user,$args);       
        
     }
     function updateUser($exist_user,$user_date)

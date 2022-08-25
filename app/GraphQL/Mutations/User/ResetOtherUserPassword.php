@@ -66,16 +66,17 @@ final class ResetOtherUserPassword
     }
     public function registerNewPassword(User $user,String $newPassword,String $email){
 
-        $user=User::where('email',$email)->first();
-        if(!$user){
+        $result_user=User::where('email',$email)->first();
+        if(!$result_user){
             return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER_NOT_FOUND');
         }
-        $user->password = Hash::make($newPassword);
-        $user->save();
+        $result_user->password = Hash::make($newPassword);
+        $result_user->first_name =$user->first_name;
+        $result_user->save();
         //$result=User::updateOrCreate($user->toArray());        
         //Log::info("user is:" .$user );
 
-        return $user;
+        return $result_user;
     }
 
    

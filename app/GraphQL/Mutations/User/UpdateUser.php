@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
+
 
 final class UpdateUser
 {
@@ -23,44 +25,33 @@ final class UpdateUser
     }
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        $user_id = auth()->guard('api')->user()->id;
-        $args["user_id_creator"] = $user_id;
-        $user = User::find($args['id']);
-        if (!$user) {
-            return [
-                'status'  => 'Error',
-                'message' => __('cannot update gate'),
-            ];
-        }
-        // if(isset($args['email']))
-        // {
-        //     $user->email=$args['email'];
-        // }
-        // if(isset($args['first_name']))
-        // {
-        //     $user->first_name=$args['first_name'];
-        // }
-        // if(isset($args['last_name']))
-        // {
-        //     $user->last_name=$args['last_name'];
-        // }
-        // if(isset($args['last_name']))
-        // {
-        //     $user->last_name=$args['last_name'];
-        // }
-        $user->fill($args);
-        $user->save();
-
-        if (isset($args['group_id'])) {
-            $groupUser = GroupGate::where('user_id', $user->id)->first();
-            if (!$groupUser) {
-                throw new ValidationException([
-                    'group_gate' => __('caanot find user group with this id.'),
-                ], 'New Exception');
-            }
-            $groupUser->group_id = $args['group_id'];
-            $groupUser->save();
-        }
-        return $user;
+        $user_type=auth()->guard('api')->user()->group->type;              
+        // $user_date=[
+        //     //'user_id_creator' => $user_id,
+        //     'group_id' => $args['group_id'],
+        //     'branch_id' => $args['branch_id'],
+        //     'email' => $args['email'],
+        //     //'password' => $args['password'],
+        //     'first_name' => $args['first_name'],
+        //     'last_name' => $args['last_name'],
+        // ];
+        $exist_user=User::where('id',$args['id'])->first();
+        //$exist_user=User::where('email',$args['email'])->first();
+        if(!$exist_user){
+            return Error::createLocatedError("USER-UPDATE-RECORD_IS_NOT_FOUND");
+        }        
+       
+        return  $this->updateUser( $exist_user,$args);       
+       
     }
+    function updateUser($exist_user,$user_date)
+    {  
+        $user_id=auth()->guard('api')->user()->id;        
+       // $exist_user["user_id_creator"]= $user_id;
+        $result= $exist_user->fill($user_date); 
+        $exist_user->save(); 
+        return $result;// User::create($user);
+        
+    }
+   
 }

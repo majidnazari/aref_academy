@@ -42,7 +42,7 @@ class User extends Authenticatable implements Auditable //implements JWTSubject 
      */
     protected $fillable = [
         "id",
-        //'type',
+        'user_id_creator',
         //'mobile',
         'branch_id',
         'group_id',

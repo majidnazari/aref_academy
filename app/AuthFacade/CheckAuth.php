@@ -22,12 +22,11 @@ class CheckAuth
         "Users" => array("admin","manager"), 
         "BranchClassRooms" => array("admin","manager"), 
         "GetCourseStudentsWithAbsencePresence" => array("admin","manager","acceptor"), 
+        "GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","acceptor"), 
         "Branches" =>array("admin","manager","financial"),         
         "StudentContact" =>array("admin","manager"), 
         "StudentFault" =>array("admin","manager"), 
-        "GetCourseStudentsWithIllegalStudent" =>array("admin","manager"), 
-        
-        
+        "GetCourseStudentsWithIllegalStudent" =>array("admin","manager"),    
         
        
     );

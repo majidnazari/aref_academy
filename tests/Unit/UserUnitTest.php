@@ -37,6 +37,7 @@ class UserUnitTest extends TestCase
         $user->first_name="test";
         $user->last_name="test";
         $user->group_id=1;
+        $user->branch_id=1;
         $user->created_at=$now;
         $user->updated_at=$now;
 

@@ -134,6 +134,11 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       #  orderBy:[OrderByClause!] @orderBy
     ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresence@resolveCourseStudent") 
     
+    getCourseStudentsWithAbsencePresenceList(     
+       course_id:Int!        
+     
+    ): [CourseStudentWithAbsencePresenceList] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresenceList@resolveCourseStudent") 
+    
     show_all_illegal_student(first: Int = 10, page: Int = 1, id:ID):[CourseStudentWithIllegalStudent] @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithIllegalStudent@resolveCourseStudent") 
 
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
@@ -262,7 +267,7 @@ type Branch{
     updated_at:DateTime
     deleted_at:DateTime
     # User:[User] @belongsTo
-    user_creator: User @belongsTo
+    user: User @belongsTo
    
    
 }
@@ -404,6 +409,33 @@ type CourseStudentWithAbsencePresence @key(fields: "id"){
       # user_student_status:User @belongsTo
       
 }
+type CourseStudentWithAbsencePresenceList @key(fields: "id"){   
+      id:ID!       
+      course_id:Int 
+     
+
+      ap_id:Int  
+      ap_status:String 
+      ap_attendance_status:String
+      ap_user_id_creator:Int
+      ap_course_session_id:Int
+      ap_teacher_id:Int
+      ap_student_id:Int
+      ap_created_at:DateTime
+
+      cs_user_id_creator:Int
+      student_id:Int
+      cs_course_id:Int
+      cs_manager_status:String
+      cs_financial_status:String
+      cs_student_status:String
+      cs_user_id_manager:Int
+      cs_user_id_financial:Int
+      cs_user_id_student_status:Int
+      cs_created_at:DateTime
+
+}
+
 type CourseStudent @key(fields: "id"){   
         id:ID!
         course_id:Int
@@ -595,7 +627,7 @@ type Year {
           isSMSsend:Int!
           score:Float!
    }
-   input CreateUserInput {
+   input CreateUserInput @validator{
      # type: String!
      # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
      # email: String! @rules(apply: ["email","unique:users,email"])
@@ -610,7 +642,7 @@ type Year {
       # group_user:createGroupUserInput! @create
      # is_teacher: Int!  
     }
-   input UpdateUserInput {
+   input UpdateUserInput @validator{
       id:ID!
      # type: String
      # mobile: String 

@@ -267,7 +267,7 @@ type Branch{
     updated_at:DateTime
     deleted_at:DateTime
     # User:[User] @belongsTo
-    user_creator: User @belongsTo
+    user: User @belongsTo
    
    
 }

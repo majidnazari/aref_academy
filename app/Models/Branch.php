@@ -17,7 +17,7 @@ class Branch extends Model implements Auditable
         "name"
     ];
 
-    public function user_creator()
+    public function user()
     {
         return $this->belongsTo(User::class,"user_id_creator");
     }

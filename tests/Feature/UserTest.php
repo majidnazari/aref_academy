@@ -48,7 +48,7 @@ class UserTest extends TestCase
     }
     public function test_createUser()
     {
-        $user_created = User::factory()
+        $user_created = User::factory()->withRole('admin')
             ->for(Branch::factory())
             ->create();
         $this->assertTrue(isset($user_created->branch->id));

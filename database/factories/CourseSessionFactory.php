@@ -32,9 +32,12 @@ class CourseSessionFactory extends Factory
         $end_time =Carbon::parse(now('+5 Hour'))->format('H:00:00');
        
         return  [
-                    "user_id"   => $user,
+                    "user_id_creator"   => $user,
+                    "branch_class_room_id" =>1,
                     "course_id" => $course->id,
                     "name"      => $name,
+                    "price" => 12,
+                    "special" => 1,
                     "start_date" =>$start_date,
                     "start_time" =>$start_time,
                     "end_time" =>$end_time,

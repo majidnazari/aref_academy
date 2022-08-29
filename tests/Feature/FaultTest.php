@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 //use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Fault;
@@ -19,53 +18,60 @@ class FaultTest extends TestCase
      *
      * @return void
      */
-    public function test_faultFetchAll()
-    {  
-        //$fault=self::faultData();
-        $fault=Fault::factory()->make();//faultData();
-        $response_create = $this->post(route('Fault.store'),$fault->toArray());         
-        $response_getAll = $this->get(route('Fault.index'));           
-       $response_getAll->assertSee($fault["description"]);
-       
-    }
-    public function test_faultStore()
-    {      
-        $fault=Fault::factory()->make();
-        $response = $this->post(route('Fault.store'), $fault->toArray() );            
-        $this->assertGreaterThan(0,Fault::all()->count());
-        $this->assertDatabaseHas('faults', [
-        'description' => $fault["description"],       
-        ]);
-        $fault_response = Fault::where('description', $fault["description"])->first();
-         $this->assertNotNull($fault_response);        
-    }
-    public function test_faultUpdate()
-    {           
-        //$newFault=self::faultData();
-        $fault=Fault::factory()->make();
-        $responseCreate = $this->post(route('Fault.store'), $fault->toArray() );
-        $anotherFault=self::faultData();      
-        $responseUpdate = $this->put(route('Fault.update', $responseCreate['id']),$anotherFault); 
-        $faultFounded = Fault::where('description', $anotherFault["description"])->first();
-       
-        $this->assertNotNull($faultFounded);       
-    }
-    public function test_faultDelete()
-    { 
-        //$fault=self::faultData(); 
-        $fault=Fault::factory()->make();
-        $response = $this->post(route('Fault.store'), $fault->toArray());          
-        $responseDelete = $this->delete(route('Fault.destroy', $response["id"]));        
-        $FaultFound= Fault::withTrashed()->find($response["id"]);       
-        $this->assertSoftDeleted($FaultFound);      
-    }
-    public  function  faultData()
-    {   
-        $description= $this->faker->name();     
+    public function test_getOneFault()
+    {       
+        $Fault_model = Fault::factory()->make()->toArray();
+        Fault::create($Fault_model);            
 
-        $fault=[
-            'description' => $description,                         
+        $this->assertDatabaseHas('faults', $Fault_model);
+        
+    }
+    public function test_getAllFaults()
+    {
+        $count=rand(1,10);
+        $Fault_created = Fault::factory($count)->create();
+      
+        $this->assertGreaterThanOrEqual($count,Fault::all()->count());
+
+    }
+    public function test_createFault()
+    {       
+        $Fault=Fault::factory()->make()->toArray();
+        Fault::create($Fault);
+        $this->assertDatabaseHas('faults',$Fault);             
+    }
+    public function test_updateFault()
+    {  
+        $Fault=Fault::factory()->make()->toArray();
+        Fault::create($Fault);
+        $new_Fault=Fault::factory()->make()->toArray();
+        $find_Fault=Fault::where($Fault)->update($new_Fault);
+        //dd($find_Fault->id);
+        
+        //$find_Fault->update($new_Fault);
+        $this->assertDatabaseHas('faults',$new_Fault);        
+    }
+    public function test_deleteFault()
+    { 
+        $Fault=Fault::factory()->make()->toArray();
+        $find_Fault= Fault::create($Fault);
+        Fault::where($Fault)->delete();
+        // if($find_Fault)
+        // {
+        //     $find_Fault->delete();
+        // }
+        $FaultFound= Fault::withTrashed()->find($find_Fault->id);
+        $this->assertSoftDeleted($FaultFound); 
+     
+    }
+    public  function  FaultData()
+    {        
+        $name= $this->faker->name();
+        $active=$this->faker->boolean();
+        $Fault=[
+            'user_id_creator' => $name,
+            'active' => $active,              
         ];
-        return $fault;
+        return $Fault;
     }
 }

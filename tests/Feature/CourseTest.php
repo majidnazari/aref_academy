@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 //use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\Course;
@@ -19,73 +18,53 @@ class CourseTest extends TestCase
      *
      * @return void
      */
-    public function test_courseFetchAll()
-    {  
-       // $course=self::courseData();
-        $course=Course::factory()->make();
-       
-        $response_create = $this->post(route('Course.store'),$course->toArray());         
-        $response_getAll = $this->get(route('Course.index'));        
-       $response_getAll->assertSee($course["name"]);
-       $response_getAll->assertSee($course["user_id"]);
-       $response_getAll->assertSee($course["year_id"]);
-       $response_getAll->assertSee($course["teacher_id"]);
-       $response_getAll->assertSee($course["lesson"]);
-       $response_getAll->assertSee($course["type"]);    
+    public function test_getOneCourse()
+    {       
+        $Course_model = Course::factory()->make()->toArray();
+        Course::create($Course_model);            
+
+        $this->assertDatabaseHas('courses', $Course_model);
+        
     }
-    public function test_courseStore()
+    public function test_getAllCourses()
     {
-        $course=Course::factory()->make();       
-        $response = $this->post(route('Course.store'), $course->toArray());              
-        $this->assertGreaterThan(0,Course::all()->count());       
-       
-       $this->assertDatabaseHas('courses', [
-        'name' => $course["name"],
-        'type' => $course["type"],
-        'lesson' => $course["lesson"],
-        'user_id' => $course["user_id"],
-        'year_id' => $course["year_id"],
-        'teacher_id' => $course["teacher_id"],
-        ]);
-        $course_response = Course::where('name', $course["name"])
-        ->where('type', $course["type"])
-        ->where('lesson', $course["lesson"])
-        ->where('year_id', $course["year_id"])
-        ->where('teacher_id', $course["teacher_id"])
-        ->where('user_id', $course["user_id"])
-        ->first();
-         $this->assertNotNull($course_response);        
-    }
-    public function test_courseUpdate()
-    {     
-        $course=Course::factory()->make();      
-        //$newCourse=self::courseData();
-        $responseCreate = $this->post(route('Course.store'), $course->toArray() );
-        $anotherCourse=self::courseData();
-     
-        $responseUpdate = $this->put(route('Course.update', $responseCreate['id']),$anotherCourse); 
-        $courseFounded = Course::where('name', $anotherCourse["name"])
-        ->where('type', $anotherCourse["type"])
-        ->where('lesson', $anotherCourse["lesson"])
-        ->where('year_id', $anotherCourse["year_id"])
-        ->where('teacher_id', $anotherCourse["teacher_id"])
-        ->where('user_id', $anotherCourse["user_id"])
-        ->first();
+        $count=rand(2,4);
+        $Course_created = Course::factory($count)->create();
       
-        $this->assertNotNull($courseFounded);
-       
+        $this->assertGreaterThanOrEqual($count,Course::all()->count());
+
     }
-    public function test_courseDelete()
+    public function test_createCourse()
+    {       
+        $Course=Course::factory()->make()->toArray();
+        Course::create($Course);
+        $this->assertDatabaseHas('courses',$Course);             
+    }
+    public function test_updateCourse()
+    {  
+        $Course=Course::factory()->make()->toArray();
+        Course::create($Course);
+        $new_Course=Course::factory()->make()->toArray();
+        $find_Course=Course::where($Course)->update($new_Course);
+        //dd($find_Course->id);
+        
+        //$find_Course->update($new_Course);
+        $this->assertDatabaseHas('courses',$new_Course);        
+    }
+    public function test_deleteCourse()
     { 
-        $course=Course::factory()->make();
-        //$course=self::courseData(); 
-        $response = $this->post(route('Course.store'), $course->toArray() );          
-        $responseDelete = $this->delete(route('Course.destroy', $response["id"]));        
-        $CourseFound= Course::withTrashed()->find($response["id"]);  
-      
-        $this->assertSoftDeleted($CourseFound);      
+        $Course=Course::factory()->make()->toArray();
+        $find_Course= Course::create($Course);
+        Course::where($Course)->delete();
+        // if($find_Course)
+        // {
+        //     $find_Course->delete();
+        // }
+        $CourseFound= Course::withTrashed()->find($find_Course->id);
+        $this->assertSoftDeleted($CourseFound); 
+     
     }
-    public  function  courseData()
+    public  function  CourseData()
     {        
         $name= $this->faker->name();
         $user_id= $this->faker->randomDigit;

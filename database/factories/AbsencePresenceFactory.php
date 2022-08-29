@@ -32,10 +32,11 @@ class AbsencePresenceFactory extends Factory
         $status=['dellay','absent','present'];
 
         return [           
-            'user_id' => $user,
-            'teacher_id' => $teacher_id,
+            'user_id_creator' => $user,
+            'teacher_id' => User::factory()->create(["group_id" => 5]),
             'course_session_id' => $course_session->id,
-            'status' =>$this->faker->randomElement(['dellay','absent','present'])// $status[rand(0,2)]       
+            'status' =>$this->faker->randomElement(['dellay15','absent','present','dellay30','dellay45','dellay60','noAction']),// $status[rand(0,2)]       
+            'attendance_status' => $this->faker->randomElement(['online_to_present','free_for_one','free_for_two','guest','normal']),
         ];
     }
 }

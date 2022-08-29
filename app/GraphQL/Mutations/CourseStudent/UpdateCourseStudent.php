@@ -45,8 +45,8 @@ final class UpdateCourseStudent
                 return Error::createLocatedError("COURSESTUDENT-UPDATE-RECORD_NOT_FOUND");
         }
         //$res=(in_array($args['student_status'],["refused_pending","fired_pending"]));
-        //Log::info("res are " .  $res);
-         if(($user_role=auth()->guard('api')->user()->group->type=="acceptor") && (!in_array($args['student_status'],["refused_pending","fired_pending"])))
+        //Log::info("student status is :" .  (in_array($args['student_status'],["refused_pending","fired_pending"])==false));
+         if((auth()->guard('api')->user()->group->type=="acceptor") && (in_array($args['student_status'],["refused_pending","fired_pending"])==false))
          {
             return Error::createLocatedError("COURSESTUDENT-UPDATE-ACTION_FORBIDEN");
          }

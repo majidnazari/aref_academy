@@ -29,7 +29,7 @@ final class UpdateUserInputValidator extends Validator
             ],           
             "email" =>[
                 "nullable",
-                "unique:users,email,id"                
+                "unique:users,email," . $this->arg('id')              
             ]
             
         ];

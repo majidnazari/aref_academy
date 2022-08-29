@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
+
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Sequence;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class YearFactory extends Factory
 {
@@ -15,8 +16,8 @@ class YearFactory extends Factory
     public function definition()
     {
         return [
-                    "name"    => $this->faker->randomElement(["1399","1400","1401"]),//$this->faker->name(),
-                    "active" => true,//$this->faker->boolean,
+                    "name"    => $this->faker->unique()->numberBetween(1400,1599),//$this->faker->name(),
+                    "active" => $this->faker->numberBetween(0,1), //true,//$this->faker->boolean,
         ];
     }
 }

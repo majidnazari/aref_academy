@@ -18,48 +18,73 @@ class YearTest extends TestCase
      *
      * @return void
      */
-    public function test_yearFetchAll()
-    {  
-      
-        $year=Year::factory()->make();       
-        $response_create = $this->post(route('Year.store'), $year->toArray() );         
-        $response_getAll = $this->get(route('Year.index')); 
-       
-       $response_getAll->assertSee($year["name"]);
-       $response_getAll->assertSee($year["active"]);
-    }
-    public function test_yearStore()
+    public function test_getOneYear()
     {       
-        $year=Year::factory()->make();
-        $response = $this->post(route('Year.store'), $year->toArray() );  
-             
-        $this->assertGreaterThan(0,Year::all()->count());        
-      
-       $this->assertDatabaseHas('years', [
-        'name' => $year["name"],
-        'active' => $year["active"]
-        ]);
-        $year_response = Year::where('name', $year["name"])->where('active', $year["active"])->first();
-         $this->assertNotNull($year_response);        
+        $year_model = Year::factory()->make()->toArray();
+        Year::create($year_model);
+        
+        // $findyear = year::where('id', $year_created->id)->first();
+        // $year_tmp = $findyear->toArray();        
+
+        $this->assertDatabaseHas('years', $year_model);
+        
     }
-    public function test_yearUpdate()
+    public function test_getAllYears()
+    {
+        $count=rand(2,5);
+        $year_created = year::factory($count)->create();
+        //dd(count($year_created));
+        //$this->ass
+        //$this->assertCount($count, $year_created);
+        $this->assertGreaterThanOrEqual($count,year::all()->count());
+
+    }
+    public function test_createYear()
+    {       
+        $year=Year::factory()->make()->toArray();
+        Year::create($year);
+        $this->assertDatabaseHas('years',$year);
+       
+        // $getAllYears->assertSee($year['active']);       
+        //$response = $this->post(route('Year.store'), $year->toArray() );               
+        //$this->assertGreaterThan(0,Year::all()->count());
+        //$this->assertNotNull($year_response);        
+    }
+    public function test_updateYear()
     {  
-        $year=Year::factory()->make();
-        $responseCreate = $this->post(route('Year.store'), $year->toArray() );
-        $anotherYear=self::yearData();
-      
-        $responseUpdate = $this->put(route('Year.update', $responseCreate['id']),$anotherYear); 
-        $yearFounded = Year::where('name', $anotherYear["name"])->where('active', $anotherYear["active"])->first();
+        $year=Year::factory()->make()->toArray();
+        Year::create($year);
+        $find_year=Year::where($year)->first();
+        //dd($find_year->id);
+        $new_year=Year::factory()->make()->toArray();
+        $find_year->update($new_year);
+        $this->assertDatabaseHas('years',$new_year);
+        //$responseCreate = $this->post(route('Year.store'), $year->toArray() );
+        //$anotherYear=self::yearData();
+        
+        // $responseUpdate = $this->put(route('Year.update', $responseCreate['id']),$anotherYear); 
+        // $yearFounded = Year::where('name', $anotherYear["name"])->where('active', $anotherYear["active"])->first();
      
-        $this->assertNotNull($yearFounded);       
+        // $this->assertNotNull($yearFounded);       
     }
-    public function test_yearDelete()
-    {         
-        $year=Year::factory()->make();
-        $response = $this->post(route('Year.store'), $year->toArray() );          
-        $responseDelete = $this->delete(route('Year.destroy', $response["id"]));        
-        $YearFound= Year::withTrashed()->find($response["id"]);
-        $this->assertSoftDeleted($YearFound);      
+    public function test_deleteYear()
+    { 
+        $year=Year::factory()->make()->toArray();
+        Year::create($year);
+        $find_year=Year::where($year)->first();
+        if($find_year)
+        {
+            $find_year->delete();
+        }
+        $YearFound= Year::withTrashed()->find($find_year->id);
+        $this->assertSoftDeleted($YearFound); 
+
+
+        // $year=Year::factory()->make();
+        // $response = $this->post(route('Year.store'), $year->toArray() );          
+        // $responseDelete = $this->delete(route('Year.destroy', $response["id"]));        
+        // $YearFound= Year::withTrashed()->find($response["id"]);
+        // $this->assertSoftDeleted($YearFound);      
     }
     public  function  yearData()
     {        
@@ -71,4 +96,6 @@ class YearTest extends TestCase
         ];
         return $year;
     }
+
+    
 }

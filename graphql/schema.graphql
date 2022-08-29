@@ -705,7 +705,7 @@ type Year {
         # school:String
         # average:Float
         major:String
-        description:String
+        # description:String
         nationality_code:String!
         # introducing:String
         # student_phone:String
@@ -726,7 +726,7 @@ type Year {
         father_phone:String 
         mother_phone:String       
         major:String 
-        description:String 
+        # description:String 
         nationality_code:String!
         # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
         # first_name:String,

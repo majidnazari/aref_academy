@@ -4,130 +4,86 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Database\Eloquent\Factories\Factory;
+//use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\AbsencePresence;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AbsencePresenceTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
-    protected static $token=null;  
-    public function  LoginUser()
-    {
-        // $baseUrl = Config::get('app.url') . '/api/login';
-        // $email = Config::get('api.apiEmail');
-        // $password = Config::get('api.apiPassword');
-
-        $baseUrl="localhost:8000/api/login";
-        $email="majidnazarister@gmail.com";
-        $password="12345";
-
-        $response = $this->post(route("login"), [
-            'email' => $email,
-            'password' => $password
-        ]);
-      if(!isset( $response["token"]))
-      {
-          return "please register at first.";
-      }
-      return $response["token"];
-       // self::$token=$response["token"];
-       // $this->assertNotNull($response["token"]);
-       
-    }
-    //use User;
-    //use Fault;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function test_absencePresenceFetchAll()
-    {  
-        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
-        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
+    public function test_getOneAbsencePresence()
+    {       
+        $AbsencePresence_model = AbsencePresence::factory()->make()->toArray();
+        AbsencePresence::create($AbsencePresence_model);            
 
-        //$data=self::AbsencePresenceData();   
-        $data= AbsencePresence::factory()->make();  
-       
-        $AbsencePresenceResultStore=$this->post(route('AbsencePresence.store'),$data->toArray());
-        $AbsencePresenceResultIndex=$this->get(route('AbsencePresence.index'));       
-         $AbsencePresenceResultIndex->assertSee(isset($data["user_id"]));     
+        $this->assertDatabaseHas('absencepresences', $AbsencePresence_model);
+        
     }
-    public function test_absencePresenceStore()
+    public function test_getAllAbsencePresences()
     {
-        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
-        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
-
-        $data= AbsencePresence::factory()->make();      
-         $response = $this->post(route('AbsencePresence.store'), $data->toArray() );
-         $this->assertGreaterThan(0,AbsencePresence::all()->count());        
-       // $this->assertDatabaseCount('years', 1);
-       $this->assertDatabaseHas('absence_presences', [
-        'user_id' => $data["user_id"],
-        'course_session_id' => $data["course_session_id"],
-        'teacher_id' => $data["teacher_id"],
-        'status' => $data["status"],
-        ]);
-        $absencePresence_response = AbsencePresence::where('user_id', $data["user_id"])
-        ->where('course_session_id', $data["course_session_id"])
-        ->where('teacher_id', $data["teacher_id"])
-        ->where('status', $data["status"])
-        ->first();
-         $this->assertNotNull($absencePresence_response);      
-     
-    }
-    public function test_absencePresenceUpdate()
-    {
-        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
-        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
-
-       // $newAbsencePresence=self::absencePresenceData();
-        $data= AbsencePresence::factory()->make(); 
-        $responseCreate = $this->post(route('AbsencePresence.store'), $data->toArray());
-        $anotherAbsencePresence=self::absencePresenceData();
+        $count=rand(2,4);
+        $AbsencePresence_created = AbsencePresence::factory($count)->create();
       
-        $responseUpdate = $this->put(route('AbsencePresence.update', $responseCreate['id']),$anotherAbsencePresence);
-        $absencepresenceFounded =AbsencePresence::where('user_id', $anotherAbsencePresence["user_id"])
-        ->where('status', $anotherAbsencePresence["status"])
-        ->where('course_session_id', $anotherAbsencePresence["course_session_id"])
-        ->where('teacher_id', $anotherAbsencePresence["teacher_id"])       
-        ->first();
-        
-        $this->assertNotNull($absencepresenceFounded);
-       
+        $this->assertGreaterThanOrEqual($count,AbsencePresence::all()->count());
+
     }
-    public function test_absencePresenceDelete()
-    {
-        self::$token=self::$token!==null ? self::$token : $this->LoginUser() ;          
-        $this->withHeader('Authorization', 'Bearer ' .self::$token);  
+    public function test_createAbsencePresence()
+    {       
+        $AbsencePresence=AbsencePresence::factory()->make()->toArray();
+        AbsencePresence::create($AbsencePresence);
+        $this->assertDatabaseHas('absencepresences',$AbsencePresence);             
+    }
+    public function test_updateAbsencePresence()
+    {  
+        $AbsencePresence=AbsencePresence::factory()->make()->toArray();
+        AbsencePresence::create($AbsencePresence);
+        $new_AbsencePresence=AbsencePresence::factory()->make()->toArray();
+        $find_AbsencePresence=AbsencePresence::where($AbsencePresence)->update($new_AbsencePresence);
+        //dd($find_AbsencePresence->id);
         
-        $data= AbsencePresence::factory()->make();
-        //$absencepresence=self::AbsencePresenceData();
-        $response = $this->post(route('AbsencePresence.store'), $data->toArray() );
-        $responseDelete = $this->delete(route('AbsencePresence.destroy', $response["id"]));
-        $AbsencePresenceFound= AbsencePresence::withTrashed()->find($response["id"]);
+        //$find_AbsencePresence->update($new_AbsencePresence);
+        $this->assertDatabaseHas('absencepresences',$new_AbsencePresence);        
+    }
+    public function test_deleteAbsencePresence()
+    { 
+        $AbsencePresence=AbsencePresence::factory()->make()->toArray();
+        $find_AbsencePresence= AbsencePresence::create($AbsencePresence);
+        AbsencePresence::where($AbsencePresence)->delete();
+        // if($find_AbsencePresence)
+        // {
+        //     $find_AbsencePresence->delete();
+        // }
+        $AbsencePresenceFound= AbsencePresence::withTrashed()->find($find_AbsencePresence->id);
+        $this->assertSoftDeleted($AbsencePresenceFound); 
      
-        $this->assertSoftDeleted($AbsencePresenceFound);
     }
-    public  function  absencePresenceData()
-    {
+    public  function  AbsencePresenceData()
+    {        
+        $name= $this->faker->name();
+        $user_id= $this->faker->randomDigit;
+        $years_id= $this->faker->randomDigit;
+        $teachers_id=$this->faker->randomDigit;
+       
+        $typeSample=['public','private'];        
+        $lessonSample= ['Mathematics','Physics','Biology'];
 
-        $user_id=$this->faker->randomDigit;//$this->faker->randomDigit;
-        $course_session_id= $this->faker->randomDigit;
-        $teacher_id=$this->faker->randomDigit;
-        $status=['dellay','absent','present'];
-
-        $absencepresence=[
+        $type=$typeSample[rand(0,1)];
+        $lesson= $lessonSample[rand(0,2)];
+        $AbsencePresence=[
             'user_id' => $user_id,
-            'teacher_id' => $teacher_id,
-            'course_session_id' => $course_session_id,
-            'status' => $status[rand(0,2)]
+            'teacher_id' => $teachers_id,
+            'year_id' => $years_id,
+            'type' => $type,              
+            'lesson' => $lesson,              
+            'name' => $name,              
         ];
-        return $absencepresence;
+        return $AbsencePresence;
     }
 }

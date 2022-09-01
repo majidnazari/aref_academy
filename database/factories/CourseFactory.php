@@ -26,14 +26,20 @@ class CourseFactory extends Factory
             $user=$user->id;
         }
         
-        $year=Year::factory()->create();
+        $year=$this->faker->randomElement(Year::pluck('id'));// User::factory()->create();
+        if($year===null)
+        {
+            $year= Year::factory()->create();
+            $year=$year->id;
+        }
+
         return [
             "user_id_creator" => $user,
             "branch_id" => Branch::factory(),
             "gender" => $this->faker->randomElement(["male", "female"]),
-            "year_id" => Year::factory(),
+            "year_id" => $year,
             "teacher_id" => User::factory()->create(["group_id" =>5]), // this is teacher
-            "name" => $this->faker->name(),
+            "name" => $this->faker->randomElement(["فیزیک","ریاضی","شیمی"]),
             "lesson_id" => Lesson::factory(),
             "education_level" => rand(1,14),
             "type" => $this->faker->randomElement(["public","private","semi-private","master"]),

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\BranchClassRoom;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\Course;
@@ -33,14 +34,14 @@ class CourseSessionFactory extends Factory
        
         return  [
                     "user_id_creator"   => $user,
-                    "branch_class_room_id" =>1,
-                    "course_id" => $course->id,
+                    "branch_class_room_id" => BranchClassRoom::factory(),
+                    "course_id" => Course::factory(),
                     "name"      => $name,
-                    "price" => 12,
-                    "special" => 1,
+                    "price" =>  rand(0, 12000),
+                    "special" => rand(0,1),
                     "start_date" =>$start_date,
                     "start_time" =>$start_time,
                     "end_time" =>$end_time,
-        ];
+                ];
     }
 }

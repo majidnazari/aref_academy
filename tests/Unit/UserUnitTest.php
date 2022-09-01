@@ -28,42 +28,42 @@ class UserUnitTest extends TestCase
      */
      //private $repository;
 
-     public function test_registerNewPassword()
-     {
-        $now=Carbon::now();
-        $user= new User;
-        $user->email="09351212120";
-        $user->password=Hash::make("09351212120");
-        $user->first_name="test";
-        $user->last_name="test";
-        $user->group_id=1;
-        $user->branch_id=1;
-        $user->created_at=$now;
-        $user->updated_at=$now;
+    //  public function test_registerNewPassword()
+    //  {
+    //     $now=Carbon::now();
+    //     $user= new User;
+    //     $user->email="09351212120";
+    //     $user->password=Hash::make("09351212120");
+    //     $user->first_name="test";
+    //     $user->last_name="test";
+    //     $user->group_id=1;
+    //     $user->branch_id=1;
+    //     $user->created_at=$now;
+    //     $user->updated_at=$now;
 
 
-        // $user_tmp=[
-        //     "email" => "09351212120",
-        //     "password" => Hash::make("09351212120"),
-        //     "first_name" => "test",
-        //     "last_name" => "test",
-        //     "group_id" => 1,            
-        //     "created_at" => $now,
-        //     "updated_at" =>$now
-        // ];
+    //     // $user_tmp=[
+    //     //     "email" => "09351212120",
+    //     //     "password" => Hash::make("09351212120"),
+    //     //     "first_name" => "test",
+    //     //     "last_name" => "test",
+    //     //     "group_id" => 1,            
+    //     //     "created_at" => $now,
+    //     //     "updated_at" =>$now
+    //     // ];
 
 
-        $newPassword="15995123";
-        $email="09351212120";
-        $ROP= new ResetOtherUserPassword;
-        //$test=new CheckAuthth;
-        //return $ROP->registerNewPassword($user,$newPassword, $email);
-            $result= $ROP->registerNewPassword($user,$newPassword, $email);
-            //return Hash::check($newPassword,$result->password);
-       //$this->assertTrue(Hash::check("12345678",'$2a$12$wgKFkwHNtDQDUPQIaSwCweJZ4i7RrXH0aZkoBUgjZFcq5Cus3ZM5C'));
-       $this->assertTrue(Hash::check($newPassword,$result->password));
-       //$this->assertTrue($result->delete());
-     }
+    //     $newPassword="15995123";
+    //     $email="09351212120";
+    //     $ROP= new ResetOtherUserPassword;
+    //     //$test=new CheckAuthth;
+    //     //return $ROP->registerNewPassword($user,$newPassword, $email);
+    //         $result= $ROP->registerNewPassword($user,$newPassword, $email);
+    //         //return Hash::check($newPassword,$result->password);
+    //    //$this->assertTrue(Hash::check("12345678",'$2a$12$wgKFkwHNtDQDUPQIaSwCweJZ4i7RrXH0aZkoBUgjZFcq5Cus3ZM5C'));
+    //    $this->assertTrue(Hash::check($newPassword,$result->password));
+    //    //$this->assertTrue($result->delete());
+    //  }
     
     // public function test_UserCreate()
     // {  

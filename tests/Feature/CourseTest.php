@@ -18,14 +18,14 @@ class CourseTest extends TestCase
      *
      * @return void
      */
-    public function test_getOneCourse()
-    {       
-        $Course_model = Course::factory()->make()->toArray();
-        Course::create($Course_model);            
+    // public function test_getOneCourse()
+    // {       
+    //     $Course_model = Course::factory()->make()->toArray();
+    //     Course::create($Course_model);            
 
-        $this->assertDatabaseHas('courses', $Course_model);
+    //     $this->assertDatabaseHas('courses', $Course_model);
         
-    }
+    // }
     public function test_getAllCourses()
     {
         $count=rand(2,4);

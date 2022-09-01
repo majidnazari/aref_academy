@@ -20,107 +20,106 @@ class CourseSessionTest extends TestCase
      *
      * @return void
      */
-    public function test_courseSessionFetchAll()
-    {  
-        //$coursesession=self::courseSessionData(); 
-        $coursesession=CourseSession::factory()->make();
-          
-        $response_create = $this->post(route('CourseSession.store'),$coursesession->toArray());               
-        $response_getAll = $this->get(route('CourseSession.index')); 
+    // public function test_getOneCourseSession()
+    // {  
+    //     $coursesession_new=CourseSession::factory()->make()->toArray();
+    //     $coursesession=CourseSession::create($coursesession_new);
+    //     $getone_courseSession=CourseSession::where($coursesession)->first();
+    //     $getone_courseSession->assertsess
+
+    //     $response_create = $this->post(route('CourseSession.store'),$coursesession->toArray());               
+    //     $response_getAll = $this->get(route('CourseSession.index')); 
       
        
-       $response_getAll->assertSee($coursesession["name"]);
-       $response_getAll->assertSee($coursesession["user_id"]);
-       $response_getAll->assertSee($coursesession["course_id"]);
-       $response_getAll->assertSee($coursesession["start_date"]);
-       $response_getAll->assertSee($coursesession["start_time"]);
-       $response_getAll->assertSee($coursesession["end_time"]);    
-    }
-    public function test_courseSessionStore()
+    //    $response_getAll->assertSee($coursesession["name"]);
+    //    $response_getAll->assertSee($coursesession["user_id"]);
+    //    $response_getAll->assertSee($coursesession["course_id"]);
+    //    $response_getAll->assertSee($coursesession["start_date"]);
+    //    $response_getAll->assertSee($coursesession["start_time"]);
+    //    $response_getAll->assertSee($coursesession["end_time"]);    
+    // }
+    public function test_getAllCourseSession()
     {
-        $coursesession=CourseSession::factory()->make();
-       
-        $response = $this->post(route('CourseSession.store'), $coursesession->toArray() ); 
-       
-        $this->assertGreaterThan(0,CourseSession::all()->count());       
-     
-       $this->assertDatabaseHas('course_sessions', [
-        'name' => $coursesession["name"],
-        'user_id' => $coursesession["user_id"],
-        'course_id' => $coursesession["course_id"],
-        'start_date' => $coursesession["start_date"],
-        'start_time' => $coursesession["start_time"],
-        'end_time' => $coursesession["end_time"],
-        ]);
+        $count=rand(1,10);
+        $coursesessions_new=CourseSession::factory($count)->create();
+
+        $this->assertGreaterThanOrEqual($count,CourseSession::all()->count());
+       // $coursesession=CourseSession::create($coursesession_new);
+
+    }
+    public function test_createCourseSession()
+    {
+        $coursesession=CourseSession::factory()->make()->toArray();
+        CourseSession::create($coursesession);
+
+        $this->assertDatabaseHas('course_sessions',$coursesession);
+        // [
+        // 'name' => $coursesession["name"],
+        // 'user_id' => $coursesession["user_id"],
+        // 'course_id' => $coursesession["course_id"],
+        // 'start_date' => $coursesession["start_date"],
+        // 'start_time' => $coursesession["start_time"],
+        // 'end_time' => $coursesession["end_time"],
+        // ]
                
     }
-    public function test_courseSessionUpdate()
+    public function test_updateCourseSession()
     {           
         //$newCourseSession=self::courseSessionData();
-        $coursesession=CourseSession::factory()->make();
-        $responseCreate = $this->post(route('CourseSession.store'), $coursesession->toArray());
-        $anotherCourseSession=self::courseSessionData();      
+        $coursesession_new=CourseSession::factory()->make()->toArray();
+        $coursesession=CourseSession::create($coursesession_new);
 
-        $responseUpdate = $this->put(route('CourseSession.update', $responseCreate['id']),$anotherCourseSession); 
-       
-        $coursesessionFounded = CourseSession::
-        where('name', $anotherCourseSession["name"])
-        ->where('course_id', $anotherCourseSession["course_id"])
-        ->where('start_date', $anotherCourseSession["start_date"])
-        ->where('start_time', $anotherCourseSession["start_time"])
-        ->where('end_time', $anotherCourseSession["end_time"])
-        ->where('user_id', $anotherCourseSession["user_id"])
-        ->first();
-      
-        $this->assertNotNull($coursesessionFounded);
+        $coursesession_update=CourseSession::factory()->make()->toArray();
+        $coursesession->update($coursesession_update);
+
+        $this->assertDatabaseHas('course_sessions',$coursesession_update);
        
     }
     public function test_courseSessionDelete()
     { 
         //$coursesession=self::courseSessionData();
-        $coursesession=CourseSession::factory()->make(); 
-        $response = $this->post(route('CourseSession.store'), $coursesession->toArray() );          
-        $responseDelete = $this->delete(route('CourseSession.destroy', $response["id"]));        
-        $CourseSessionFound= CourseSession::withTrashed()->find($response["id"]);  
+        $coursesession_new=CourseSession::factory()->make()->toArray();
+        $coursesession=CourseSession::create($coursesession_new);
+        $coursesession->delete();
       
-        $this->assertSoftDeleted($CourseSessionFound);      
+        $this->assertSoftDeleted($coursesession);      
     }
 
-    public function test_CourseSessionAddListOfDays()
-    {
-        $days=[
-            "Saturday",
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday"
-        ];
+    // public function test_CourseSessionAddListOfDays()
+    // {
+    //     $days=[
+    //         "Saturday",
+    //         "Sunday",
+    //         "Monday",
+    //         "Tuesday",
+    //         "Wednesday",
+    //         "Thursday",
+    //         "Friday"
+    //     ];
 
-        $data=[
-            'user_id' => $this->faker->randomDigit,
-			'course_id' => $this->faker->randomDigit,
-            'days' => [$days[rand(0,3)],$days[rand(4,6)]],
-			'name' => $this->faker->randomElement(["فیزیک","ریاضی","شیمی"]),//new sequence(["فیزیک","ریاضی","شیمی"]),
-			'from_date' => Carbon::parse(now())->format('Y-m-d') ,
-			'to_date' => Carbon::parse(now()->addMonths(1))->format('Y-m-d'),
-			'from_time' => Carbon::parse(now())->format('H:00:00'),			
-			'to_time' => Carbon::parse(now('+5 Hour'))->format('H:00:00'),
-			//'course' => $request->course,			
-		   ];
+    //     $data=[
+    //         'user_id' => $this->faker->randomDigit,
+	// 		'course_id' => $this->faker->randomDigit,
+    //         'days' => [$days[rand(0,3)],$days[rand(4,6)]],
+	// 		'name' => $this->faker->randomElement(["فیزیک","ریاضی","شیمی"]),//new sequence(["فیزیک","ریاضی","شیمی"]),
+	// 		'from_date' => Carbon::parse(now())->format('Y-m-d') ,
+	// 		'to_date' => Carbon::parse(now()->addMonths(1))->format('Y-m-d'),
+	// 		'from_time' => Carbon::parse(now())->format('H:00:00'),			
+	// 		'to_time' => Carbon::parse(now('+5 Hour'))->format('H:00:00'),
+	// 		//'course' => $request->course,			
+	// 	   ];
          
-           $response = $this->post(route('CourseSession.AddSessions'), $data ); 
+    //        $response = $this->post(route('CourseSession.AddSessions'), $data ); 
 
-          $this->assertDatabaseHas('course_sessions', [
-            'name' => $response["name"],
-            'user_id' => $response["user_id"],
-            'course_id' => $response["course_id"],
-            'start_date' => $response["start_date"],
-            'start_time' => $response["start_time"],
-            'end_time' => $response["end_time"],
-            ]);
-    }
+    //       $this->assertDatabaseHas('course_sessions', [
+    //         'name' => $response["name"],
+    //         'user_id' => $response["user_id"],
+    //         'course_id' => $response["course_id"],
+    //         'start_date' => $response["start_date"],
+    //         'start_time' => $response["start_time"],
+    //         'end_time' => $response["end_time"],
+    //         ]);
+    // }
 
     public  function  courseSessionData()
     {        

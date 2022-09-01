@@ -18,17 +18,17 @@ class YearTest extends TestCase
      *
      * @return void
      */
-    public function test_getOneYear()
-    {       
-        $year_model = Year::factory()->make()->toArray();
-        Year::create($year_model);
+    // public function test_getOneYear()
+    // {       
+    //     $year_model = Year::factory()->make()->toArray();
+    //     Year::create($year_model);
         
-        // $findyear = year::where('id', $year_created->id)->first();
-        // $year_tmp = $findyear->toArray();        
+    //     // $findyear = year::where('id', $year_created->id)->first();
+    //     // $year_tmp = $findyear->toArray();        
 
-        $this->assertDatabaseHas('years', $year_model);
+    //     $this->assertDatabaseHas('years', $year_model);
         
-    }
+    // }
     public function test_getAllYears()
     {
         $count=rand(2,5);

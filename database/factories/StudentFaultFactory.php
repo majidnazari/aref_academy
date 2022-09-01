@@ -29,9 +29,9 @@ class StudentFaultFactory extends Factory
         $fault_id=$this->faker->randomDigit;
             
         return  [
-            'user_id' => $user,			
+            'user_id_creator' => $user,	            
 			'student_id' => $student_id,			
-			'fault_id' => $fault_id,	
+			'fault_id' => Fault::factory(),	
         ];
     }
 }

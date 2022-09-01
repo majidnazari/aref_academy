@@ -16,14 +16,14 @@ class BranchTest extends TestCase
      *
      * @return void
      */
-    public function test_getOneBranch()
-    {
-        $branch=Branch::factory()->make()->toArray();
-        $branch_created=Branch::create($branch);
+    // public function test_getOneBranch()
+    // {
+    //     $branch=Branch::factory()->make()->toArray();
+    //     $branch_created=Branch::create($branch);
 
-        $findUser=Branch::where($branch)->first();
-        $this->assertNotNull($findUser);
-    }
+    //     $findUser=Branch::where($branch)->first();
+    //     $this->assertNotNull($findUser);
+    // }
     public function test_getAllBranche()
     {
         $count=rand(2,5);

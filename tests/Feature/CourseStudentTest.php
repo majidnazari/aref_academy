@@ -16,69 +16,41 @@ class CourseStudentTest extends TestCase
          *
          * @return void
          */
-        public function test_courseStudentFetchAll()
+        public function test_getAllCourseStudent()
         {  
             //$coursestudent=self::coursestudentData(); 
-            $coursestudent=CourseStudent::factory()->make();
-                
-            $response_create = $this->post(route('CourseStudent.store'),$coursestudent->toArray());
-                   
-            $response_getAll = $this->get(route('CourseStudent.index')); 
-           
-           $response_getAll->assertSee($coursestudent["course_id"]);
-           $response_getAll->assertSee($coursestudent["student_id"]);
-           $response_getAll->assertSee($coursestudent["status"]);
-           $response_getAll->assertSee($coursestudent["user_id_created"]);
-           $response_getAll->assertSee($coursestudent["user_id_approved"]);
+            $count=rand(1,5);
+            $coursesessions_new=CourseStudent::factory($count)->create();
+    
+            $this->assertGreaterThanOrEqual($count,CourseStudent::all()->count());
        
         }
-        public function test_courseStudentStore()
+        public function test_createCourseStudent()
         {
                  
-            $coursestudent=CourseStudent::factory()->make();          
-            $response = $this->post(route('CourseStudent.store'), $coursestudent->toArray());  
-                 
-            $this->assertGreaterThan(0,CourseStudent::all()->count());       
-           
-           $this->assertDatabaseHas('course_students', [            
-            'course_id' => $coursestudent["course_id"],
-            'student_id' => $coursestudent["student_id"],
-            'status' => $coursestudent["status"],              
-            'user_id_created' => $coursestudent["user_id_created"], 
-            'user_id_approved' => $coursestudent["user_id_approved"], 
-           
-            ]);           
+            $coursestudent=CourseStudent::factory()->make()->toArray();
+            CourseStudent::create($coursestudent);
+
+            $this->assertDatabaseHas('course_students',$coursestudent);         
         }
-        public function test_courseStudentUpdate()
+        public function test_updateCourseStudent()
         {           
            
-            $coursestudent=CourseStudent::factory()->make();
-            $responseCreate = $this->post(route('CourseStudent.store'), $coursestudent->toArray());
-                
-            $anotherCourseStudent=self::coursestudentData();
-           
-            $responseUpdate = $this->put(route('CourseStudent.update', $responseCreate['id']),$anotherCourseStudent); 
-          
-            $coursestudentFounded = CourseStudent::
-            where('student_id', $anotherCourseStudent["student_id"])
-            ->where('course_id', $anotherCourseStudent["course_id"])
-            ->where('status', $anotherCourseStudent["status"])
-            ->where('user_id_created', $anotherCourseStudent["user_id_created"])
-            ->where('user_id_approved', $anotherCourseStudent["user_id_approved"])
-            //->where('user_id', $anotherCourseStudent["user_id"])
-            ->first();
-           
-            $this->assertNotNull($coursestudentFounded);            
+            $coursestudent_new=CourseStudent::factory()->make()->toArray();
+            $coursestudent=CourseStudent::create($coursestudent_new);
+
+            $coursestudent_newone=CourseStudent::factory()->make()->toArray();
+            $coursestudent->update($coursestudent_newone);
+
+            $this->assertDatabaseHas('course_students',$coursestudent_newone);            
         }
-        public function test_courseStudentDelete()
+        public function test_deleteCourseStudent()
         { 
-            //$coursestudent=self::coursestudentData();
-            $coursestudent=CourseStudent::factory()->make(); 
-            $response = $this->post(route('CourseStudent.store'), $coursestudent->toArray() );          
-            $responseDelete = $this->delete(route('CourseStudent.destroy', $response["id"]));        
-            $CourseStudentFound= CourseStudent::withTrashed()->find($response["id"]);  
-         
-            $this->assertSoftDeleted($CourseStudentFound);      
+            $coursesession_new=CourseStudent::factory()->make()->toArray();
+            $coursesession=CourseStudent::create($coursesession_new);
+            $coursesession->delete();
+        
+            $this->assertSoftDeleted($coursesession);       
         }    
     
         public  function  coursestudentData()

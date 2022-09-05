@@ -947,11 +947,11 @@ type Year {
         name:String
     }
 
-   input  CreateCourseStudentRapiddlyInput{
+   input  CreateCourseStudentRapidlyInput @validator{
       
-       course_id:Int
-       course_session_id:Int
-       student_id:Int
+       course_id:Int!
+       course_session_id:Int!
+       student_id:Int!
     }
      
 
@@ -1007,7 +1007,7 @@ type Mutation {
     updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
     deleteCourseStudent(id:ID!):CourseStudent  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
     
-    createCourseStudentRapidlly(input: CreateCourseStudentRapiddlyInput! ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudentAndAbsencePresenceRapidlly@resolver") 
+    createCourseStudentRapidly(input: CreateCourseStudentRapidlyInput! ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudentAndAbsencePresenceRapidly@resolver") 
     #  CreateCourseStudentAndAbsencePresenceRapidlly    App\GraphQL\Mutations\CourseStudent
     #end Course_Student
 

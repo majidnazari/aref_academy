@@ -571,6 +571,7 @@ type Menu {
     icon: String
     href: String
     #type: String!
+    parent_id:Int
     parent_id: Int    
     created_at: DateTime
     updated_at: DateTime
@@ -1052,6 +1053,11 @@ type Mutation {
       updateLesson(input: UpdateLessonInput! @spread): Lesson! @guard(with:["api"])  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\UpdateLesson@resolver")
       deleteLesson(id:ID!):Lesson  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\DeleteLesson@resolver")
     #end Lesson
+
+    #region student_warning
+      # createStudentWarning(input: CreateStudentWarningInput)
+
+    #end student_warning
 
 
 }

@@ -576,7 +576,8 @@ type Menu {
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
-
+    # parent:[Menu]  @hasMany
+    subMenus: [Menu] @hasMany
     groups: [Group!] @belongsToMany
     pivot: MenuPivot
 }

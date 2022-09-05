@@ -29,6 +29,7 @@ final class GetCourseStudentsWithAbsencePresence
         ->where('CS.deleted_at',null)
         ->where('AB.deleted_at',null)
         ->where('courses.deleted_at',null)
+        ->whereNotNull('AB.id')
         ->select('courses.id as course_id',
         'AB.id as id',
         'AB.status as ap_status',
@@ -50,12 +51,13 @@ final class GetCourseStudentsWithAbsencePresence
         'CS.user_id_student_status as cs_user_id_student_status',  
         'CS.created_at as cs_created_at',  
           
-        )
+        )           
         ->leftjoin('course_students AS CS','CS.course_id','=','courses.id')
         ->leftjoin('absence_presences AS AB',function($query) use($args){
             $query->on('AB.student_id','CS.student_id')
             ->where('AB.course_session_id',$args['course_session_id'])
             ->where('AB.deleted_at',null);
+            
         });
         }
         return  DB::table('courses')->where('id',-1);

@@ -946,6 +946,13 @@ type Year {
            
         name:String
     }
+
+   input  CreateCourseStudentRapidlyInput @validator{
+      
+       course_id:Int!
+       course_session_id:Int!
+       student_id:Int!
+    }
      
 
 type Mutation {
@@ -999,6 +1006,9 @@ type Mutation {
     createCourseStudent(input: CreateCourseStudentInput! @spread): CourseStudent!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudent@resolver")
     updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
     deleteCourseStudent(id:ID!):CourseStudent  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
+    
+    createCourseStudentRapidly(input: CreateCourseStudentRapidlyInput! ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudentAndAbsencePresenceRapidly@resolver") 
+    #  CreateCourseStudentAndAbsencePresenceRapidlly    App\GraphQL\Mutations\CourseStudent
     #end Course_Student
 
     #region AbsencePresence
@@ -1042,5 +1052,7 @@ type Mutation {
       updateLesson(input: UpdateLessonInput! @spread): Lesson! @guard(with:["api"])  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\UpdateLesson@resolver")
       deleteLesson(id:ID!):Lesson  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\DeleteLesson@resolver")
     #end Lesson
+
+
 }
 

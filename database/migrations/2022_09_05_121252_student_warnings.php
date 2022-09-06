@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('student_id');
             $table->integer('course_id')->nullable();
             $table->string('comment');  
-            $table->integer('student_warning_id')->nullable();  
+            $table->integer('student_warning_history_id')->nullable();  
               
             $table->timestamps();  
             

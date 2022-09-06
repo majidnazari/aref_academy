@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('student_id');
             $table->integer('course_id')->nullable();
             $table->string('comment');  
+            $table->enum('response',["noAction","done"])->default("noAction");  
             //$table->integer('student_warning_id')->nullable(); 
             $table->timestamps();
             $table->softDeletes(); 

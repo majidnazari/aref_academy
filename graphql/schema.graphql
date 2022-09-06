@@ -382,7 +382,6 @@ type CourseStudentWithAbsencePresence @key(fields: "id"){
       id:ID!       
       course_id:Int 
      
-
       ap_id:Int  
       ap_status:String 
       ap_attendance_status:String
@@ -579,7 +578,7 @@ type Menu {
     # parent:[Menu]  @hasMany
     subMenus: [Menu] @hasMany
     groups: [Group!] @belongsToMany
-    pivot: MenuPivot
+    #  pivot: MenuPivot
 }
 
 type MenuPivot {
@@ -1056,7 +1055,7 @@ type Mutation {
     #end Lesson
 
     #region student_warning
-      # createStudentWarning(input: CreateStudentWarningInput)
+       createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning! @guard(with:["api"]) @can(ability: "create") @field(resolver: "")
 
     #end student_warning
 

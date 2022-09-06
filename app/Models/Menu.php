@@ -28,4 +28,12 @@ class Menu extends Model
     {
         return $this->belongsToMany(Group::class);
     }
+    // public function parent()
+    // {
+    //     return $this->belongsTo(Menu::class,'parent_id');
+    // }
+    public function subMenus()
+    {
+        return $this->hasMany('App\Models\Menu', 'parent_id');
+    }
 }

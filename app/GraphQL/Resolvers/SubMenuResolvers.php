@@ -20,7 +20,6 @@ class SubMenuResolvers
     {
 
         $group_menue_ids = GroupMenu::where('group_id', $rootValue['pivot']['group_id'])->pluck("menu_id");
-
         return Menu::where("parent_id", $rootValue['id'])->whereIn('id', $group_menue_ids)->get();
     }
 }

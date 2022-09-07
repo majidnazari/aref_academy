@@ -63,7 +63,7 @@ class Group extends Model
     
     public function menus()
     {
-        return $this->belongsToMany(Menu::class)->withPivot(
+        return $this->belongsToMany(Menu::class)->where('parent_id',0)->withPivot(
             "id",
             "user_id_creator",
             "group_id",

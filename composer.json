@@ -14,6 +14,7 @@
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.5",
+        "mll-lab/graphql-php-scalars": "^5.4",
         "mll-lab/laravel-graphql-playground": "^2.6",
         "nesbot/carbon": "^2.54",
         "nuwave/lighthouse": "^5.57",

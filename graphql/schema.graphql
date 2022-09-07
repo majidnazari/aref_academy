@@ -215,6 +215,10 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     ): [Lesson]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Lesson\\GetLessons@resolveLesson") 
      
 
+    #  menus(
+    #         where: _ @whereConditions(columns: ["parent_id"])
+    #       ): [menu] @field(resolver: "App\\GraphQL\\Handler\\SubMenuHandler@__invoke") 
+
      gettest(token:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
      testHeader(simpleparameter:String) : String @cacheControl(maxAge: 3600, scope: PUBLIC) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
 }
@@ -576,7 +580,8 @@ type Menu {
     updated_at: DateTime
     deleted_at: DateTime
     # parent:[Menu]  @hasMany
-    subMenus: [Menu] @hasMany
+    subMenus: [Menu] @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
+    # subMenus: [Menu] @hasMany
     groups: [Group!] @belongsToMany
     #  pivot: MenuPivot
 }
@@ -1055,7 +1060,7 @@ type Mutation {
     #end Lesson
 
     #region student_warning
-       createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning! @guard(with:["api"]) @can(ability: "create") @field(resolver: "")
+      #  createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning! @guard(with:["api"]) @can(ability: "create") @field(resolver: "")
 
     #end student_warning
 

@@ -182,7 +182,7 @@ return [
         \Nuwave\Lighthouse\CacheControl\CacheControlServiceProvider::class,
 
         OwenIt\Auditing\AuditingServiceProvider::class,
-        
+        \Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
     ],
 
     /*

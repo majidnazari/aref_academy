@@ -12,7 +12,7 @@ class StudentWarning extends Model implements Auditable
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
-    protected $table="Student_warnings";
+    protected $table="student_warnings";
 
     protected $fillable=[
         "user_id_creator",

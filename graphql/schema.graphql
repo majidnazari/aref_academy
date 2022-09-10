@@ -78,6 +78,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       name:String @like(template: "%{}%")
       gender: String @eq
       lesson_id: Int @eq     
+      lesson_name: String # @like(template: "%{}%")    
       orderBy:[OrderByClause!] @orderBy
     ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
@@ -211,10 +212,23 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
      
 
      getLesson(id:ID!):Lesson @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Lesson\\GetLesson@resolveLessonAttribute") 
-     getLessons(           
+     getLessons(  
+       name:String @like(template: "%{}%")         
        orderBy:[OrderByClause!] @orderBy
     ): [Lesson]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Lesson\\GetLessons@resolveLesson") 
      
+
+     getStudentWarning(id:ID!):StudentWarning @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarning\\GetStudentWarning@resolveStudentWarning") 
+     getStudentWarningHistory(id:ID!):StudentWarningHistory @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistory@resolveStudentWarningHistory") 
+     getStudentWarningHistories(
+      user_id_creator:Int @eq
+      user_id_updator:Int @eq
+      student_id:Int @eq
+      course_id:Int @eq
+      comment:String  @like (template: "%{}%")
+      response:String @like (template: "%{}%")
+      orderBy:[OrderByClause!] @orderBy
+      ):StudentWarningHistory @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistory") 
 
     #  menus(
     #         where: _ @whereConditions(columns: ["parent_id"])
@@ -638,6 +652,21 @@ type StudentWarning{
   updated_at:DateTime
   user_creator: User! @belongsTo
   update_creator: User! @belongsTo
+}
+type StudentWarningHistory{
+ 
+  id:ID!
+  user_id_creator:Int
+  user_id_updator:Int
+  student_id:Int
+  course_id:Int
+  comment:String  
+  response:String 
+  created_at:DateTime
+  updated_at:DateTime
+  user_creator: User! @belongsTo
+  update_creator: User! @belongsTo
+  course: Course @belongsTo
 }
 
 

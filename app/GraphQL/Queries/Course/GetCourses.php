@@ -25,19 +25,18 @@ final class GetCourses
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (AuthRole::CheckAccessibility("Course")) {
-            $getCourse= Course::where('deleted_at', null); //->orderBy('id','desc');            
-            // ->where(function ($query) use ($args) {
-            //     if (isset($args['lesson_id']))
-            //         $query->where('lessons.id', $args['lesson_id']);
-            //     else
-            //         return true;
-            // })
-            // ->with('lesson');
-            return $getCourse;
-            
+            return Course::where('deleted_at', null)//->orderBy('id','desc');            
+            ->whereHas('lesson',function ($query) use ($args) {
+                if (isset($args['lesson_name']))
+                    $query->where('lessons.name','LIKE','%'. $args['lesson_name'] . '%');
+                else
+                    return true;
+            })
+            ->with(['lesson' => function($query) use ($args){
+                $query->where('lessons.name','LIKE','%'. $args['lesson_name'] . '%');
+            }]);            
         }
-        $Course = Course::where('deleted_at', null)
+        return Course::where('deleted_at', null)
         ->where('id', -1);
-        return  $Course;
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\StudentWarning;
+use App\Models\StudentWarningHistory;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class StudentWarningPolicy
+class StudentWarningHistoryPolicy
 {
     use HandlesAuthorization;
     private $group_access_student_warning_history=array("admin","manager");
@@ -19,20 +19,19 @@ class StudentWarningPolicy
      */
     public function viewAny(User $user)
     {
-       return $this->get_accessibility();
+        return $this->get_accessibility();
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\StudentWarning  $studentWarning
+     * @param  \App\Models\StudentWarningHistory  $studentWarningHistory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, StudentWarning $studentWarning=null)
+    public function view(User $user, StudentWarningHistory $studentWarningHistory)
     {
-       return $this->get_accessibility();
-       
+        return $this->get_accessibility();
     }
 
     /**
@@ -43,44 +42,41 @@ class StudentWarningPolicy
      */
     public function create(User $user)
     {
-       return $this->get_accessibility();
-        
+        return $this->get_accessibility();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\StudentWarning  $studentWarning
+     * @param  \App\Models\StudentWarningHistory  $studentWarningHistory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, StudentWarning $studentWarning)
+    public function update(User $user, StudentWarningHistory $studentWarningHistory)
     {
         return $this->get_accessibility();
-       
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\StudentWarning  $studentWarning
+     * @param  \App\Models\StudentWarningHistory  $studentWarningHistory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, StudentWarning $studentWarning)
+    public function delete(User $user, StudentWarningHistory $studentWarningHistory)
     {
-       return $this->get_accessibility();
-        
+        return $this->get_accessibility();
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\StudentWarning  $studentWarning
+     * @param  \App\Models\StudentWarningHistory  $studentWarningHistory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, StudentWarning $studentWarning)
+    public function restore(User $user, StudentWarningHistory $studentWarningHistory)
     {
         //
     }
@@ -89,10 +85,10 @@ class StudentWarningPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\StudentWarning  $studentWarning
+     * @param  \App\Models\StudentWarningHistory  $studentWarningHistory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, StudentWarning $studentWarning)
+    public function forceDelete(User $user, StudentWarningHistory $studentWarningHistory)
     {
         //
     }

@@ -29,7 +29,7 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
         // TODO implement the resolver
         $user_id = auth()->guard('api')->user()->id;
         
-        $is_exist_course_student= $this->isExist("App\Models\CourseStudent",$params=[
+        $is_exist_course_student= $this->isExist("CourseStudent",$params=[
                 "course_id" => $args['input']['course_id'],
                 "student_id" => $args['input']['student_id']
             ]);
@@ -51,12 +51,12 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
                 'user_id_approved' => 0            
             
             ];
-            $this->createModel("App\Models\CourseStudent",$CourseStudente_params);
+            $this->createModel("CourseStudent",$CourseStudente_params);
               
                  //return Error::createLocatedError("COURSESTUDENT-CREATE-RECORD_IS_EXIST");
          }  
          //return null;  
-        $is_exist_absence_presence=$this->isExist("App\Models\AbsencePresence",$params=[
+        $is_exist_absence_presence=$this->isExist("AbsencePresence",$params=[
             "student_id" => $args['input']['student_id'],
             "status" => "present"
         ]);
@@ -72,7 +72,7 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
                 'attendance_status' => isset($args['input']['attendance_status']) ?  $args['input']['attendance_status'] : 'normal',         
                 
             ];
-            $this->createModel("App\Models\AbsencePresence",$AbsencePresence_param);
+            $this->createModel("AbsencePresence",$AbsencePresence_param);
             //$this->createCourseStudent($args,$user_id);
               
                  //return Error::createLocatedError("COURSESTUDENT-CREATE-RECORD_IS_EXIST");
@@ -82,7 +82,8 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
     }
 
     function isExist($class,$params)
-    {       
+    {  
+        $fullclassname='App\Models'.'\\'.$class;     
         //Log::info("the query model is:". $model_name);
        // $class= new ($model_name);
        //$res= $class::where('id','>=',1)->first();               
@@ -92,7 +93,7 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
             
          }
          $clause.=("->first();");
-        $result= eval("return $class::$clause ;");
+        $result= eval("return  $fullclassname::$clause ;");
         if($result)
         {
             return true;
@@ -103,8 +104,9 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
     }
     function createModel($class,$params)
     {
+        $fullclassname='App\Models'.'\\'.$class;
         //Log::info("the class exist is : " . class_exists($class));
-        if(class_exists($class))
+        if(class_exists($fullclassname))
         {
             $param_tmp="[ ";      
             foreach($params as $key=>$value)
@@ -116,7 +118,7 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
                 //Log::info(" key  : " . $key . " val is:  " . $value);
             }
             $param_tmp.=" ]";
-            $result=eval("return  $class::create($param_tmp);");
+            $result=eval("return  $fullclassname::create($param_tmp);");
             //Log::info("the create result item is : " . $result);
             if($result)
             {

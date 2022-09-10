@@ -10,16 +10,17 @@ use OwenIt\Auditing\Contracts\Auditable;
 class StudentWarningHistory extends Model implements Auditable
 {
     use HasFactory;
-    use \OwenIt\Auditing\Auditable;
+    use \OwenIt\Auditing\Auditable;    
 
-    protected $table="Student_warnings";
+    protected $table="student_warning_histories";
 
     protected $fillable=[
         "user_id_creator",
         "user_id_updator",
         "student_id",
         "course_id",
-        "comment",       
+        "comment", 
+        "response"      
 
     ];
 

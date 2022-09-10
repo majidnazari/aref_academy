@@ -76,7 +76,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses(
       name:String @like(template: "%{}%")
-      lesson: String @like(template: "%{}%")      
+      gender: String @eq
+      lesson_id: Int @eq     
       orderBy:[OrderByClause!] @orderBy
     ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
@@ -625,6 +626,20 @@ type Year {
   user: User! @belongsTo
 }
 
+type StudentWarning{
+  id:ID
+  user_id_creator:Int
+  user_id_updator:Int
+  student_id:Int
+  course_id:Int
+  comment:String
+  student_warning_history_id:Int
+  created_at:DateTime
+  updated_at:DateTime
+  user_creator: User! @belongsTo
+  update_creator: User! @belongsTo
+}
+
 
   
   input CreateAzmoonInput{
@@ -960,6 +975,14 @@ type Year {
        course_session_id:Int!
        student_id:Int!
     }
+    input CreateStudentWarningInput  {
+
+      comment:String!
+      student_id:Int!
+      course_id:Int
+      
+    }
+
      
 
 type Mutation {
@@ -1061,7 +1084,7 @@ type Mutation {
     #end Lesson
 
     #region student_warning
-      #  createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning! @guard(with:["api"]) @can(ability: "create") @field(resolver: "")
+        createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning @guard(with:["api"]) @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarning\\CreateStudentWarning@resolver")
 
     #end student_warning
 

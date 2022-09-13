@@ -98,7 +98,7 @@ final class CreateStudentWarning
             }
             $param_tmp .= " ]";
             $result = eval("return  $fullclassname::create($param_tmp);");
-            Log::info("the create result item of " . $fullclassname . " is : " . $result);
+           // Log::info("the create result item of " . $fullclassname . " is : " . $result);
             if ($result) {
                 return $result;
             }

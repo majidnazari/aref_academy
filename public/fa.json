@@ -62,6 +62,6 @@
     "FAULT-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
     "FAULT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
     "FAULT-UPDATE-RECORD_IS_EXIST":" رکورد مورد نظر وجود دارد. ",
-    "FAULT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "FAULT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد."
 
 }

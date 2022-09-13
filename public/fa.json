@@ -1,0 +1,67 @@
+{
+    "LESSON-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "LESSON-UPDATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "LESSON-UPDATE-RECORD_NOT_FOUND":" رکورد مورد نظر یافت نشد. ",
+    "LESSON-DELETE-RECORD_NOT_FOUND":" رکورد مورد نظر یافت نشد. ",
+    "LESSON-DELETE-RECORD_IS_USED" :"به دلیل استفاده از این درس نمیتوانید آنرا حذف کنید",
+
+    "YEAR-CREATE-RECORD_IS_EXIST":"سال تحصیلی تعریف شده از قبل وجود دارد.",
+    "YEAR-UPDATE-RECORD_IS_EXIST":"سال تحصیلی تعریف شده از قبل وجود دارد.",
+    "YEAR-UPDATE-RECORD_NOT_FOUND":"سال مورد نظر یافت نشد.",
+     
+   
+    "ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "ABSENCEPRESENCE-UPDATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND" :"رکورد مورد نظر یافت نشد.",
+    "ABSENCEPRESENCE-DELETE-RECORD_NOT_FOUND":"رکورد مورد نظر یافت نشد.",
+
+    "AZMOON-CREATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "AZMOON-UPDATE-RECORD_IS_EXIST":"رکورد مورد نظر وجود دارد",
+    "AZMOON-UPDATE-RECORD_NOT_FOUND":"رکورد مورد نظر یافت نشد.",
+    "AZMOON-DELETE-RECORD_NOT_FOUND" : "رکورد مورد نظر یافت نشد.",
+
+    "AZMOONRESULT-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر وجود دارد. ",
+    "AZMOONRESULT-UPDATE-RECORD_IS_EXIST" : " رکورد مورد نظر وجود دارد. ",
+    "AZMOONRESULT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "AZMOONRESULT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "BRANCH-CREATE-RECORD_IS_EXIST" : " رکورد مورد نظر وجود دارد. ",
+    "BRANCH-UPDATE-RECORD_IS_EXIST" : " رکورد مورد نظر وجود دارد. ",
+    "BRANCH-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "BRANCH-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "BRANCHCLASSROOM-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "BRANCHCLASSROOM-UPDATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "BRANCHCLASSROOM-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "BRANCHCLASSROOM-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "COURSE-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSE-UPDATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSE-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "COURSE-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+
+    "USER-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "USER-DELETE-CANNOT_SUICIDE" : "نمیتوانید خودکشی کنید.",
+    "USER-CREATE-RECORD_IS_EXIST" : "کاربر از قبل وجود دارد.", 
+    "USER-AUTHORIZATION-FORBIDDEN" : "دسترسی غیر مجاز",
+    "USER-UPDATE-PASSWORD-OTHER_NOT_FOUND" : "کاربر مورد نظر وجود ندارد",
+    "USER-UPDATE-PASSWORD-OTHER_ROLE_NOT_FOUND" : "دسترسی برای کاربر مربوطه غیر مجاز است.",
+    "USER-UPDATE-PASSWORD-OTHERSـAUTHORIZATIONـFORBIDDEN" : "دسترسی غیر مجاز برای تغییر پسورد",
+    "USER-UPDATE-PASSWORD-OTHER-ROLE_IS_NULL":"نقش کاربر مورد نظر تعریف نشده",
+    
+    "COURSESESSION-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSESESSION-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "COURSESESSION-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+
+    "COURSESTUDENT-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "COURSESTUDENT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "COURSESTUDENT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+    "FAULT-CREATE-RECORD_IS_EXIST": " رکورد مورد نظر وجود دارد. ",
+    "FAULT-UPDATE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+    "FAULT-UPDATE-RECORD_IS_EXIST":" رکورد مورد نظر وجود دارد. ",
+    "FAULT-DELETE-RECORD_NOT_FOUND" : " رکورد مورد نظر یافت نشد.",
+
+}

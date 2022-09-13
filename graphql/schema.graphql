@@ -236,6 +236,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
      gettest(token:String) : String @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestAttribute") 
      testHeader(simpleparameter:String) : String @cacheControl(maxAge: 3600, scope: PUBLIC) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
+
+    #  getTraslateFile: String @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolveShowTranslate")
 }
 
  enum LessonEnum{

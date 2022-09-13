@@ -95,7 +95,7 @@ class StudentWarningHistoryPolicy
     }
     public function get_accessibility($array_accessibility=null)
     {
-        if($array_accessibility!=null){
+        if($array_accessibility==null){
             $array_accessibility=$this->group_access_student_warning_history;
         }
         $user_role=auth()->guard('api')->user()->group->type;       

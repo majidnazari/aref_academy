@@ -66,7 +66,7 @@ final class CreateStudentWarning
         //     "id" => $student_warning_created->id,
         //     "student_warning_history_id" => $student_warning_history_created->id,
         // ]);
-        return  $student_warning_history_created;
+        return  $student_warning_created;
     }
 
     function isExist($class, $params)

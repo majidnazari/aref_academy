@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class StudentWarningPolicy
 {
     use HandlesAuthorization;
-    private $group_access_student_warning_history=array("admin","manager");
+    private $group_access_student_warning_history=array("admin","financial");
 
     /**
      * Determine whether the user can view any models.
@@ -29,7 +29,7 @@ class StudentWarningPolicy
      * @param  \App\Models\StudentWarning  $studentWarning
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, StudentWarning $studentWarning=null)
+    public function view(User $user, StudentWarning $studentWarning=null):bool
     {
        return $this->get_accessibility();
        
@@ -41,7 +41,7 @@ class StudentWarningPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user):bool
     {
        return $this->get_accessibility();
         
@@ -54,7 +54,7 @@ class StudentWarningPolicy
      * @param  \App\Models\StudentWarning  $studentWarning
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, StudentWarning $studentWarning)
+    public function update(User $user, StudentWarning $studentWarning=null):bool
     {
         return $this->get_accessibility();
        
@@ -67,7 +67,7 @@ class StudentWarningPolicy
      * @param  \App\Models\StudentWarning  $studentWarning
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, StudentWarning $studentWarning)
+    public function delete(User $user, StudentWarning $studentWarning=null):bool
     {
        return $this->get_accessibility();
         

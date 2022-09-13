@@ -228,7 +228,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       comment:String  @like (template: "%{}%")
       response:String @like (template: "%{}%")
       orderBy:[OrderByClause!] @orderBy
-      ):StudentWarningHistory @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistory") 
+      ):[StudentWarningHistory] @guard(with:["api"]) @can(ability: "view") @paginate(resolver: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistory") 
 
     #  menus(
     #         where: _ @whereConditions(columns: ["parent_id"])
@@ -640,8 +640,8 @@ type Year {
   user: User! @belongsTo
 }
 
-type StudentWarning{
-  id:ID
+type StudentWarning @key(fields: "id"){
+  id:ID!
   user_id_creator:Int
   user_id_updator:Int
   student_id:Int
@@ -653,7 +653,7 @@ type StudentWarning{
   user_creator: User! @belongsTo
   update_creator: User! @belongsTo
 }
-type StudentWarningHistory{
+type StudentWarningHistory @key(fields: "id"){
  
   id:ID!
   user_id_creator:Int
@@ -1011,6 +1011,12 @@ type StudentWarningHistory{
       course_id:Int
       
     }
+    input UpdateStudentWarningHistoryInput  @validator{
+
+      student_warning_student_id:Int!
+      course_id:Int
+      response:String!
+    }
 
      
 
@@ -1114,8 +1120,14 @@ type Mutation {
 
     #region student_warning
         createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning @guard(with:["api"]) @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarning\\CreateStudentWarning@resolver")
+        # deleteStudentWarning(input: DeleteStudentWarningInput @spread): StudentWarning @guard(with:["api"]) @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarning\\DeleteStudentWarning@resolver")
 
     #end student_warning
+
+     #region student_warning_history
+        updateStudentWarningHistory(input: UpdateStudentWarningHistoryInput @spread): StudentWarningHistory @guard(with:["api"]) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarningHistory\\UpdateStudentWarningHistory@resolver")
+
+    #end student_warning_history
 
 
 }

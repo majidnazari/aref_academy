@@ -19,7 +19,7 @@ class StudentWarningTest extends TestCase
     public function test_getAllStudentWarning()
     {
         $count=rand(1,3);
-        $Fault_created = StudentWarning::factory($count)->create();
+        $student_warning_model = StudentWarning::factory($count)->create();
       
         $this->assertGreaterThanOrEqual($count,StudentWarning::all()->count());
 

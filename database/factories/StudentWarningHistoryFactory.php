@@ -26,6 +26,14 @@ class StudentWarningHistoryFactory extends Factory
             $user= User::factory()->create();
             $user=$user->id;
         }
+
+        $user_editor=$this->faker->randomElement(User::where('group_id',4)->pluck('id'));// User::factory()->create();
+        if($user_editor===null)
+        {
+            $user_editor= User::factory()->create(['group_id' => 4]);
+            $user_editor=$user_editor->id;
+        }
+
         $course=$this->faker->randomElement(Course::pluck('id'));
         if($course===null)
         {
@@ -41,7 +49,7 @@ class StudentWarningHistoryFactory extends Factory
         
         return [
             "user_id_creator" =>$user,
-            "user_id_updator" => 0,
+            "user_id_updator" => $user_editor,
             "student_id" => $this->faker->randomDigit,
             "course_id" => $course,
             "comment" => $this->faker->text(),

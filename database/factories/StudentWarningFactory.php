@@ -40,7 +40,7 @@ class StudentWarningFactory extends Factory
         return [
             "user_id_creator" =>$user,
             "user_id_updator" => 0,
-            "student_id" => $this->faker->randomDigit,
+            "student_id" => rand(100,200),
             "course_id" => $course,
             "comment" => $this->faker->text(),
             "student_warning_history_id" => $student_warning_history,

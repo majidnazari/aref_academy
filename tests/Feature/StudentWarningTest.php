@@ -25,9 +25,10 @@ class StudentWarningTest extends TestCase
 
     }
 
-    public function test_createStudentWarning()
+    public function test_createStudentWarning1()
     {
         $student_warning_model=StudentWarning::factory()->make()->toArray();
+       // BasicModule
         StudentWarning::create($student_warning_model);
         $this->assertDatabaseHas('student_warnings',$student_warning_model);
     }

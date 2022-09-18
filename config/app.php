@@ -169,6 +169,7 @@ return [
          * Application Service Providers...
          */
         App\Providers\CheckAuthServiceProvider::class,
+        App\Providers\BasicModuleServiceProvider::class,
 
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -237,6 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'AuthRole' => App\AuthFacade\CheckAuthFacade::class,
+        'BasicModule' => App\BasicFacade\BasicModuleFacade::class,
 
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class

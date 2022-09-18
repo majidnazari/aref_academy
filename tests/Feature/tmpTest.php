@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use BasicModule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -9,9 +10,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\AbsencePresence;
 use App\Models\User;
+use App\Providers\BasicMethodServiceProvider;
 use Illuminate\Support\Facades\Hash;
+use Log;
 
-class tmp 
+class tmpTest  extends TestCase
 {
     // use WithFaker;
     // //use RefreshDatabase;
@@ -130,4 +133,12 @@ class tmp
     //     ];
     //     return $absencepresence;
     // }
+
+    // public function test_t1() 
+    // {
+    //     Log::info(BasicModule::test());
+    //     $value=2;
+    //     $this->assertTrue($value>1);
+    // }
+    
 }

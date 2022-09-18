@@ -77,7 +77,9 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     getCourses(
       name:String @like(template: "%{}%")
       gender: String @eq
-      lesson_id: Int @eq     
+      lesson_id: Int @eq  
+      teacher_id: Int @eq  
+         
       lesson_name: String # @like(template: "%{}%")    
       orderBy:[OrderByClause!] @orderBy
     ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 

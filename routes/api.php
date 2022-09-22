@@ -190,4 +190,4 @@ Route::delete('/student/{id}','StudentController@destroy')->name('Student.destro
 
 
 
-Route::get('/user_test/{id}','UserController@test');//->middleware('IsAdmin'); 
+Route::get('/user_group/{id}','UserController@getUserType');//->middleware('IsAdmin'); 

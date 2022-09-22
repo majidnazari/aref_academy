@@ -1018,7 +1018,7 @@ type StudentWarningHistory @key(fields: "id"){
       course_id:Int
       
     }
-    input UpdateStudentWarningHistoryInput  @validator{
+    input UpdateStudentWarningHistoryInput  @validator{ 
 
       student_warning_student_id:Int!
       course_id:Int

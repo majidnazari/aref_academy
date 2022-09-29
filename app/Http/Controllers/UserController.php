@@ -30,7 +30,7 @@ class UserController extends Controller
             "key" => isset($users->group->type) ? $users->group->type : 0
         ];
         return $result;
-
+        //extra comment
     //     $results = DB::table('users')
     //    ->join('groups', 'users.group_id', '=', 'groups.id')
     //    ->where('users.id',$id)

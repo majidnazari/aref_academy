@@ -29,11 +29,15 @@ final class CreateStudentWarning
             'user_id_creator' => $user_id,
             "user_id_updator" => 0,
             "student_id" => $args['student_id'],
-            "course_id" => $args['course_id'],
+            //"course_id" => isset($args['course_id']) ? $args['course_id'] : 'NULL',
             "comment" => $args['comment'],
             // "student_warning_history_id"=>0           
 
         ];
+        if(isset($args['course_id']))
+        {
+            $student_warning_params["course_id"]=$args['course_id'];
+        }  
         $is_exist_student_warning = $this->isExist("StudentWarning", $student_warning_params);
 
         if (!$is_exist_student_warning) {

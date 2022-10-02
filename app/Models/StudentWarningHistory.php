@@ -30,9 +30,9 @@ class StudentWarningHistory extends Model implements Auditable
     {
         return $this->belongsTo(User::class,'user_id_creator');
     }
-    public function user_updator()
+    public function user_updater()
     {
-        return $this->belongsTo(User::class,'user_id_updator');
+        return $this->belongsTo(User::class,'user_id_updater');
     }
     public function student()
     {

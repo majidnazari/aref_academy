@@ -28,10 +28,10 @@ class StudentWarning extends Model implements Auditable
     {
         return $this->belongsTo(User::class,'user_id_creator');
     }
-    public function user_updator()
-    {
-        return $this->belongsTo(User::class,'user_id_updator');
-    }
+    // public function user_updator()
+    // {
+    //     return $this->belongsTo(User::class,'user_id_updator');
+    // }
     public function student()
     {
         return $this->belongsTo(Student::class,"student_id");

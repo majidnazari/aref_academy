@@ -56,7 +56,7 @@ final class CreateStudentWarning
         $student_warning_params["student_warning_history_id"] = $student_warning_history->id; 
         $student_warning=StudentWarning::create( $student_warning_params); 
 
-        return $student_warning;
+        return $student_warning_history;
          
         // $warning_history=StudentWarningHistory::where($student_warning_params)->first();
         // if($warning_history)

@@ -224,7 +224,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
      getStudentWarningHistory(id:ID!):StudentWarningHistory @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistory@resolveStudentWarningHistory") 
      getStudentWarningHistories(
       user_id_creator:Int @eq
-      user_id_updator:Int @eq
+      user_id_updater:Int @eq
       student_id:Int @eq
       course_id:Int @eq
       comment:String  @like (template: "%{}%")
@@ -664,7 +664,7 @@ type StudentWarningHistory @key(fields: "id"){
  
   id:ID!
   user_id_creator:Int
-  user_id_updator:Int
+  user_id_updater:Int
   student_id:Int
   course_id:Int
   comment:String  
@@ -672,7 +672,7 @@ type StudentWarningHistory @key(fields: "id"){
   created_at:DateTime
   updated_at:DateTime
   user_creator: User! @belongsTo
-  update_creator: User! @belongsTo
+  user_updater: User! @belongsTo
   course: Course @belongsTo
 }
 

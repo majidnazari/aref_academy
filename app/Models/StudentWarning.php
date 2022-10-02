@@ -16,7 +16,7 @@ class StudentWarning extends Model implements Auditable
 
     protected $fillable=[
         "user_id_creator",
-        "user_id_updator",
+       // "user_id_updater",
         "student_id",
         "course_id",
         "comment",        

@@ -22,7 +22,7 @@ final class UpdateStudentWarningHistory
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {  
         $user_id=auth()->guard('api')->user()->id;
-        $args["user_id_updator"]=$user_id;
+        $args["user_id_updater"]=$user_id;
         $student_warning=StudentWarning::where('student_id',$args['student_warning_student_id'])->first();
        // Log::info("history is: " . $student_warning->student_warning_history_id);
         //return $student_warning;

@@ -1011,7 +1011,7 @@ type StudentWarningHistory @key(fields: "id"){
        course_session_id:Int!
        student_id:Int!
     }
-    input CreateStudentWarningInput  {
+    input CreateStudentWarningInput  @validator{
 
       comment:String!
       student_id:Int!

@@ -27,9 +27,9 @@ final class CreateStudentWarning
         $user_id = auth()->guard('api')->user()->id;
         $student_warning_params = [
             'user_id_creator' => $user_id,
-            "user_id_updator" => 0,
+            //"user_id_updator" => 0,
             "student_id" => $args['student_id'],
-            //"course_id" => isset($args['course_id']) ? $args['course_id'] : 'NULL',
+            //isset($args['course_id']) ? ("course_id" => $args['course_id']) : '',
             "comment" => $args['comment'],
             // "student_warning_history_id"=>0           
 
@@ -38,33 +38,42 @@ final class CreateStudentWarning
         {
             $student_warning_params["course_id"]=$args['course_id'];
         }  
-        $is_exist_student_warning = $this->isExist("StudentWarning", $student_warning_params);
+        $is_exist_student_warning=StudentWarning::where("student_id",$args['student_id'])->first();
+        //$is_exist_student_warning = $this->isExist("StudentWarning", $student_warning_params);
 
         if (!$is_exist_student_warning) {
             return $this->addStudentComment($student_warning_params);
-            //StudentWarning::create( $student_warning_params);       
+           //return  StudentWarning::create( $student_warning_params);       
 
         }
 
         return $is_exist_student_warning;
-        // $lesson=StudentWarningHistory::where("name","=",$args['name'])->first();
-        // if($lesson)
+        
+    }
+    function addStudentComment($student_warning_params)
+    {
+        $student_warning_history=StudentWarningHistory::create( $student_warning_params);
+        $student_warning_params["student_warning_history_id"] = $student_warning_history->id; 
+        $student_warning=StudentWarning::create( $student_warning_params); 
+
+        return $student_warning;
+         
+        // $warning_history=StudentWarningHistory::where($student_warning_params)->first();
+        // if($warning_history)
         // {
         //     return Error::createLocatedError('LESSON-CREATE-RECORD_IS_EXIST');
         // }
         // $lesson_resut=Lesson::create($lesson_date);
         // return $lesson_resut;
-    }
-    function addStudentComment($student_warning_params)
-    {
+        // return $student_warning_created;
+
+
+        // $student_warning_history_created = $this->createModel('StudentWarningHistory', $student_warning_params);
         
-        //return $student_warning_created;
-        $student_warning_history_created = $this->createModel('StudentWarningHistory', $student_warning_params);
-        
-        $student_warning_params["student_warning_history_id"] = $student_warning_history_created->id; 
+        // $student_warning_params["student_warning_history_id"] = $student_warning_history_created->id; 
         
 
-        $student_warning_created = $this->createModel('StudentWarning',  $student_warning_params);
+        // $student_warning_created = $this->createModel('StudentWarning',  $student_warning_params);
 
         // $student_warning_updated = $this->updateModel('StudentWarning', $params = [
         //     "id" => $student_warning_created->id,

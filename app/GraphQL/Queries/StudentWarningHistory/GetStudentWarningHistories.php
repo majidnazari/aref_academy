@@ -25,7 +25,33 @@ final class GetStudentWarningHistories
     {        
 
         if( AuthRole::CheckAccessibility("StudentWarningHistory")){
-            $student_warning_histories= StudentWarningHistory::where('deleted_at', null);//->orderBy('id','desc');
+            $student_warning_histories= StudentWarningHistory::where('deleted_at', null)
+            ->whereHas('user_id_creator',function($query) use($args){
+                if(isset($args['user_id_creator'])){
+                    $query->where('users.id',$args['user_id_creator']);
+                }  
+                // if(isset($args['teacher_id'])){
+
+                //     $query->where('users1.id',$args['teacher_id']);
+                    
+                // }
+                return true;  
+
+            })
+            ->with('user_creator')
+            ->whereHas('user_id_updater',function($query) use($args){
+                if(isset($args['user_id_updater'])){
+                    $query->where('users.id',$args['user_id_updater']);
+                }  
+                // if(isset($args['teacher_id'])){
+
+                //     $query->where('users1.id',$args['teacher_id']);
+                    
+                // }
+                return true;  
+
+            })
+            ->with('user_updater');//->orderBy('id','desc');
             return $student_warning_histories;
         }
         $student_warning_histories =StudentWarningHistory::where('deleted_at',null)

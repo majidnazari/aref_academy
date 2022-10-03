@@ -658,7 +658,7 @@ type StudentWarning @key(fields: "id"){
   created_at:DateTime
   updated_at:DateTime
   user_creator: User! @belongsTo
-  update_creator: User! @belongsTo
+  # update_creator: User! @belongsTo
 }
 type StudentWarningHistory @key(fields: "id"){
  
@@ -671,8 +671,8 @@ type StudentWarningHistory @key(fields: "id"){
   response:String 
   created_at:DateTime
   updated_at:DateTime
-  user_creator: User! @belongsTo
-  user_updater: User! @belongsTo
+  user_creator: User @belongsTo
+  user_updater: User @belongsTo
   course: Course @belongsTo
 }
 

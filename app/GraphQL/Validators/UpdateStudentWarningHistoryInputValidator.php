@@ -18,10 +18,10 @@ final class UpdateStudentWarningHistoryInputValidator extends Validator
         //Log::info("the args is : " . $this->arg );
         return [
             // TODO Add your validation rules
-            "student_warning_student_id" => [
+            "student_id" => [
                 "required",                
                 Rule::exists('student_warnings','student_id')->where(function ($query){
-                    $query->where('student_id',$this->arg('student_warning_student_id'));
+                    $query->where('student_id',$this->arg('student_id'));
                     //->where('id',$this->arg('course_session_id'));
                     
                 }),

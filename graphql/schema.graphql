@@ -1022,7 +1022,7 @@ type StudentWarningHistory @key(fields: "id"){
     }
     input UpdateStudentWarningHistoryInput  @validator{ 
 
-      student_warning_student_id:Int!
+      student_id:Int!
       course_id:Int
       response:String!
     }

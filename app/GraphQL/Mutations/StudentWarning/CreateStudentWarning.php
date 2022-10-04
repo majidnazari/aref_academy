@@ -41,13 +41,13 @@ final class CreateStudentWarning
         $is_exist_student_warning=StudentWarning::where("student_id",$args['student_id'])->first();
         //$is_exist_student_warning = $this->isExist("StudentWarning", $student_warning_params);
 
-        if (!$is_exist_student_warning) {
-            return $this->addStudentComment($student_warning_params);
+        if ($is_exist_student_warning) {
+            return Error::createLocatedError('STUDENT-WARNING-RECORD_IS_EXIST');
            //return  StudentWarning::create( $student_warning_params);       
 
         }
-
-        return $is_exist_student_warning;
+        return $this->addStudentComment($student_warning_params);
+        //return $is_exist_student_warning;
         
     }
     function addStudentComment($student_warning_params)

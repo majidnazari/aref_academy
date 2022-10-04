@@ -426,6 +426,8 @@ type CourseStudentWithAbsencePresence @key(fields: "id"){
       cs_created_at:DateTime
 
       student_warning_id:Int
+      student_warning_student_id:Int
+      student_warning_course_id:Int
       student_warning_comment:String
 
       # user_creator:User @belongsTo

@@ -52,6 +52,8 @@ final class GetCourseStudentsWithAbsencePresence
         'CS.created_at as cs_created_at',  
 
         'SW.id as student_warning_id',
+        'SW.student_id as student_warning_student_id',
+        'SW.course_id as student_warning_course_id',
         'SW.comment as student_warning_comment',
           
         )           
@@ -62,7 +64,11 @@ final class GetCourseStudentsWithAbsencePresence
             ->where('AB.deleted_at',null);
             
         })
-        ->leftjoin('student_warnings AS SW','SW.student_id','=','AB.student_id');
+        ->leftjoin('student_warnings AS SW',function($query) use($args){
+            $query->on('SW.student_id','AB.student_id')
+            ->where('SW.course_id',$args['course_id']);
+            //->where('AB.deleted_at',null)
+        });
         }
         return  DB::table('courses')->where('id',-1);
     //     if( AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresence")){

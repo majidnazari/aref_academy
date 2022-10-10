@@ -66,8 +66,10 @@ final class GetCourseStudentsWithAbsencePresence
                 })
                 ->leftjoin('student_warnings AS SW', function ($query) use ($args) {
                     $query->on('SW.student_id', 'AB.student_id')
-                        ->whereIn('SW.course_id', [$args['course_id'],null]);
-                        //->orWhere('SW.course_id',null);
+                        ->where(function ($q) use ($args) {
+                            $q->where('SW.course_id', $args['course_id'])
+                                ->orWhere('SW.course_id',null);    
+                        });
                         // ->orWhere('student_warnings AS SW', function ($query_with_null) {
                         //     $query_with_null->where('SW.student_id', 'AB.student_id')
                         //         ->where('SW.course_id', null);

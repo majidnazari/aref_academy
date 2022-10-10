@@ -68,7 +68,7 @@ final class GetCourseStudentsWithAbsencePresence
                     $query->on('SW.student_id', 'AB.student_id')
                         ->where(function ($q) use ($args) {
                             $q->where('SW.course_id', $args['course_id'])
-                                ->orWhere('SW.course_id',null);    
+                                ->orWhereNull('SW.course_id');    
                         });
                         // ->orWhere('student_warnings AS SW', function ($query_with_null) {
                         //     $query_with_null->where('SW.student_id', 'AB.student_id')

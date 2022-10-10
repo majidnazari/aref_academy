@@ -65,8 +65,8 @@ final class GetCourseStudentsWithAbsencePresence
                         ->where('AB.deleted_at', null);
                 })
                 ->leftjoin('student_warnings AS SW', function ($query) use ($args) {
-                    $query->on('SW.student_id', 'AB.student_id');
-                        //->where('SW.course_id', $args['course_id']);
+                    $query->on('SW.student_id', 'AB.student_id')
+                        ->whereIn('SW.course_id', [$args['course_id'],null]);
                         //->orWhere('SW.course_id',null);
                         // ->orWhere('student_warnings AS SW', function ($query_with_null) {
                         //     $query_with_null->where('SW.student_id', 'AB.student_id')

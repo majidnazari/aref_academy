@@ -29,10 +29,13 @@ final class CreateCourseStudentAndAbsencePresenceRapidly
         // TODO implement the resolver
         $user_id = auth()->guard('api')->user()->id;
         
-        $is_exist_course_student= $this->isExist("CourseStudent",$params=[
-                "course_id" => $args['input']['course_id'],
-                "student_id" => $args['input']['student_id']
-            ]);
+        $is_exist_course_student=CourseStudent::where('course_id',$args['input']['course_id'])
+        ->where('student_id',$args['input']['student_id'])
+        ->first();
+        //  $this->isExist("CourseStudent",$params=[
+        //         "course_id" => $args['input']['course_id'],
+        //         "student_id" => $args['input']['student_id']
+        //     ]);
        
         if(!$is_exist_course_student)
          {

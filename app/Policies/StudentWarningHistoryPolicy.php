@@ -54,7 +54,7 @@ class StudentWarningHistoryPolicy
      */
     public function update(User $user, StudentWarningHistory $studentWarningHistory=null):bool
     {
-         $group_access_student_warning_history=array("admin","acceptor");
+         $group_access_student_warning_history=array("admin","acceptor","manager","acceptor");
         return $this->get_accessibility($group_access_student_warning_history);
     }
 

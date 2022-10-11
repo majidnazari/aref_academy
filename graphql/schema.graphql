@@ -440,7 +440,6 @@ type CourseStudentWithAbsencePresenceList @key(fields: "id"){
       id:ID!       
       course_id:Int 
      
-
       ap_id:Int  
       ap_status:String 
       ap_attendance_status:String
@@ -916,7 +915,7 @@ type StudentWarningHistory @key(fields: "id"){
     }
 
 
-    input CreateAbsencePresenceInput{       
+    input CreateAbsencePresenceInput {       
        
         course_session_id:Int
         student_id:Int
@@ -925,7 +924,7 @@ type StudentWarningHistory @key(fields: "id"){
         attendance_status:String    
             
     }
-   input  CreateStudentToListBeforeAbsencePresenceInput{
+   input  CreateStudentToListBeforeAbsencePresenceInput @validator{
         course_session_id:Int
         course_id:Int               
    }

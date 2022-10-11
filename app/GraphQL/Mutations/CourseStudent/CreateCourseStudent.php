@@ -2,7 +2,10 @@
 
 namespace App\GraphQL\Mutations\CourseStudent;
 
+use App\Models\AbsencePresence;
+use App\Models\CourseSession;
 use App\Models\CourseStudent;
+use Carbon\Carbon;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -10,6 +13,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
+use Log;
 
 final class CreateCourseStudent
 {
@@ -46,6 +50,47 @@ final class CreateCourseStudent
             'user_id_approved' => 0            
         ];
         $CourseStudent_result = CourseStudent::create($CourseStudente);
+        $this->addNotRegisteredUser($args['course_id'], $user_id);
         return $CourseStudent_result;
+    }
+
+    public function addNotRegisteredUser($course_id, $user_id)
+    {
+        // $course_session_date=strtotime($get_course_session->start_date .' '. $get_course_session->end_time);
+        // $now=strtotime(date("Y-m-d H:i:s"));
+        $current_date=Carbon::now()->format('Y-m-d');
+        $current_time=Carbon::now()->format('H:i:s');
+        //Log::info("current date is: " . $current_date . " current time is" . $current_time);
+
+        $all_course_session_ids_of_this_course = CourseSession::where('course_id', $course_id)
+        ->where('start_date','<',$current_date )
+        ->orWhere(function($query) use($current_date,$current_time){
+            $query->where('start_date','=',$current_date)
+            ->where('end_time','<',$current_time);
+        })
+       
+        ->pluck('id');
+        $cout_session=0;
+        foreach ($all_course_session_ids_of_this_course as $course_session_id) {
+            $cout_session++;
+            $students = AbsencePresence::where('course_session_id', $course_session_id)
+                ->pluck('student_id');
+            $get_all_new_course_student = CourseStudent::where('course_id', $course_id)
+                ->whereNotIn('student_id', $students)
+                ->get();
+                foreach ($get_all_new_course_student as $student) {
+                    $s_id = $student->student_id;
+                    $AbsencePresence = [
+                        'user_id_creator' => $user_id,
+                        "course_session_id" => $course_session_id,
+                        "teacher_id" => 0,
+                        "student_id" => $student->student_id,
+                        'status' => "not_registered"
+        
+                    ];
+                    $AbsencePresence = AbsencePresence::create($AbsencePresence);
+                }
+        }
+
     }
 }

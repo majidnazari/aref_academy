@@ -4,9 +4,10 @@ namespace App\GraphQL\Validators;
 
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Validation\Validator;
+use App\Rules\CreateLimitationDateForAbsencePresence;
 
 
-final class CreateStudentWarningInputValidator extends Validator
+final class CreateStudentToListBeforeAbsencePresenceInputValidator extends Validator
 {
     /**
      * Return the validation rules.
@@ -16,7 +17,6 @@ final class CreateStudentWarningInputValidator extends Validator
     public function rules(): array
     {
         return [
-            // TODO Add your validation rules
             "course_id" => [
                 "required",
                 "exists:courses,id"
@@ -29,11 +29,10 @@ final class CreateStudentWarningInputValidator extends Validator
                     //->where('id',$this->arg('course_session_id'));
                     
                 }),
-               
-            ],
-            "course_id" => [
-                "required",
+                new CreateLimitationDateForAbsencePresence($this->arg('course_id'))
+
             ]
+           
         ];
     }
 }

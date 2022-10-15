@@ -36,6 +36,7 @@ final class GetCourseStudentsWithAbsencePresenceList
             $student_list = CourseStudent::where('course_id', $args['course_id'])->pluck('student_id');
             $get_all_student_sesions = AbsencePresence::whereIn('course_session_id', $session_id_list)
                 ->whereIn('student_id', $student_list)
+                ->with('courseSession')
                 ->orderBy('student_id', 'asc')
                 ->get();
             foreach ($student_list as $student_id) {
@@ -46,7 +47,10 @@ final class GetCourseStudentsWithAbsencePresenceList
                         $absence_presence_tmp =
                             [
                                 "status" => $absence_presence->status,
-                                "session_id" => $absence_presence->course_session_id
+                                "session_id" => $absence_presence->course_session_id,
+                                "start_date" =>$absence_presence->courseSession->start_date,
+                                "start_time" =>$absence_presence->courseSession->start_time,
+                                "end_time" =>$absence_presence->courseSession->end_time,
                             ];
 
                         $absence_presences_sessions[] = $absence_presence_tmp;

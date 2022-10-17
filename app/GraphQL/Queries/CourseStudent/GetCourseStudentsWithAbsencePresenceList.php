@@ -56,6 +56,11 @@ final class GetCourseStudentsWithAbsencePresenceList
                         $absence_presences_sessions[] = $absence_presence_tmp;
                     }
                 }
+                usort($absence_presences_sessions, function ($a, $b) {
+                    $sa = strtotime($a['start_date']);
+                    $sb = strtotime($b['start_date']);
+                    return $sa < $sb ? -1 : 1;
+                });
                 $students[] = [
                     "id" =>$absence_presence_id,
                     "student_id" => $student_id,
@@ -64,6 +69,7 @@ final class GetCourseStudentsWithAbsencePresenceList
                     ,
                 ];
             }
+
             // $data[]= $students;
             // $collection=new Collection([
             //     $students

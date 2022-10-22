@@ -27,8 +27,8 @@ class CheckAuth
         "StudentContact" =>array("admin","manager"), 
         "StudentFault" =>array("admin","manager"), 
         "GetCourseStudentsWithIllegalStudent" =>array("admin","manager"),
-        "StudentWarningHistory" => array("admin")    
-        
+        "StudentWarningHistory" => array("admin"),
+        "GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","financial") 
        
     );
     

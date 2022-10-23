@@ -62,20 +62,28 @@ final class CreateCourseStudent
         $current_time=Carbon::now()->format('H:i:s');
         //Log::info("current date is: " . $current_date . " current time is" . $current_time);
 
-        $all_course_session_ids_of_this_course = CourseSession::where('course_id', $course_id)
-        ->where('start_date','<',$current_date )
-        ->orWhere(function($query) use($current_date,$current_time){
-            $query->where('start_date','=',$current_date)
-            ->where('end_time','<',$current_time);
-        })
-       
+        $all_course_session_ids_of_this_course = CourseSession::
+        where('course_id', $course_id)
+        ->where(function ($q) use ($current_date, $current_time) {
+            $q->where('start_date','<',$current_date )
+            ->orWhere(function($query) use($current_date,$current_time){
+                $query->where('start_date','=',$current_date)
+                ->where('end_time','<',$current_time);
+            }) ;
+        })      
         ->pluck('id');
+        //Log::info($all_course_session_ids_of_this_course);
         $cout_session=0;
         foreach ($all_course_session_ids_of_this_course as $course_session_id) {
             $cout_session++;
             $students = AbsencePresence::where('course_session_id', $course_session_id)
                 ->pluck('student_id');
             $get_all_new_course_student = CourseStudent::where('course_id', $course_id)
+            // ->whereDate('created_at','>',$course_session_id->start_date)
+            // ->orWhere(function($query) use($course_session_id){
+            //     $query->where('start_date','=',$course_session_id->start_date)
+            //     ->where('end_time','<',$course_session_id->end_time);
+            // })
                 ->whereNotIn('student_id', $students)
                 ->get();
                 foreach ($get_all_new_course_student as $student) {

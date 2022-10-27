@@ -22,7 +22,15 @@ class CourseStudent extends Model implements Auditable
         "user_id_creator",
         "user_id_manager",
         "user_id_financial",
-        "user_id_student_status"
+        "user_id_student_status",
+        "total_not_registered",
+        "total_noAction",
+        "total_dellay60",
+        "total_dellay45",
+        "total_dellay30",
+        "total_dellay15",
+        "total_present",
+        "total_absent"
     ];
     public function user_creator()
     {

@@ -238,7 +238,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'AuthRole' => App\AuthFacade\CheckAuthFacade::class,
-        'BasicModule' => App\BasicFacade\BasicModuleFacade::class,
+        //'BasicModule' => App\BasicFacade\BasicModuleFacade::class,
+        'CourseStudentReportUpdator' => App\BasicFacade\UpdateCourseStudentReport::class,
 
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class

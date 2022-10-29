@@ -15,14 +15,17 @@ class UpdateCourseStudentStatistics
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $params;
+    public $old_params;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($params)
+    public function __construct($params,$old_params=null)
     {
-       return $this->params=$params;
+       //return 
+       $this->params=$params;
+       $this->old_params=$old_params;
         //Log::info("the event constructor  is running\n");
     }
 

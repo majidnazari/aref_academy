@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations\CourseStudent;
 
+use App\Events\UpdateCourseStudentStatistics;
 use App\Models\AbsencePresence;
 use App\Models\CourseSession;
 use App\Models\CourseStudent;
@@ -97,6 +98,26 @@ final class CreateCourseStudent
         
                     ];
                     $AbsencePresence = AbsencePresence::create($AbsencePresence);
+                    $params = [
+                        "course_id" => $course_id,
+                        "student_id" => $student->student_id,
+                        "total_not_registered" => 1,
+                        "total_noAction" => 0,
+                        "total_dellay60" =>0,
+                        "total_dellay45" =>0,
+                        "total_dellay30" =>0,
+                        "total_dellay15" =>0,
+                        "total_present" => 0,
+                        "total_absent" => 0
+                    ];
+                    //$UpdateCourseStudentReport=CourseStudentReportUpdator::updateTotalReport($params);
+                    //Log::info("event is fier\n" );       
+                    try {
+                        event(new  UpdateCourseStudentStatistics($params));
+                    } catch (\Exception $e) {
+                        //Log::info("ex is: " .$e);
+                        return Error::createLocatedError('CourseStudentTOTALREPORT-UPDATE-RECORD_NOT_FOUND1');
+                    }
                 }
         }
 

@@ -78,6 +78,7 @@ class ApplyingCourseStatistics
             $sum_absent += $courseStudent->total_absent;
         }
         $course = Course::where('id',$event->params['course_id'])->first();
+        Log::info("divition is: " . $sum_present / $numberofcoursesessionpassed);
         $course->avg_not_registered_session = $sum_not_registered / $numberofcoursesessionpassed;
         $course->avg_noAction_session = $sum_noAction / $numberofcoursesessionpassed;
         $course->avg_dellay60_session = $sum_dellay60 / $numberofcoursesessionpassed;

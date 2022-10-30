@@ -19,13 +19,13 @@ return new class extends Migration
             $table->integer('total_remain_session')->after('user_id_financial')->nullable();
 
             $table->float('avg_absent_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_present_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_dellay15_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_dellay30_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_dellay45_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_dellay60_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_noAction_session')->after('user_id_financial')->nullable();
-            $table->integer('avg_not_registered_session')->after('user_id_financial')->nullable();
+            $table->float('avg_present_session')->after('user_id_financial')->nullable();
+            $table->float('avg_dellay15_session')->after('user_id_financial')->nullable();
+            $table->float('avg_dellay30_session')->after('user_id_financial')->nullable();
+            $table->float('avg_dellay45_session')->after('user_id_financial')->nullable();
+            $table->float('avg_dellay60_session')->after('user_id_financial')->nullable();
+            $table->float('avg_noAction_session')->after('user_id_financial')->nullable();
+            $table->float('avg_not_registered_session')->after('user_id_financial')->nullable();
         });
     }
 

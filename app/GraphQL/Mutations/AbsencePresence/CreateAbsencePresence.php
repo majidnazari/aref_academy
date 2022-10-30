@@ -46,22 +46,22 @@ final class CreateAbsencePresence
             ->where('status', $args['status'])
             ->where('student_id', $args['student_id'])
             ->first();
-        if ($is_exist) {
-            return Error::createLocatedError("ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST");
-        }
-        $AbsencePresence = AbsencePresence::create($AbsencePresence);
+        // if ($is_exist) {
+        //     return Error::createLocatedError("ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST");
+        // }
+        //$AbsencePresence = AbsencePresence::create($AbsencePresence);
         $courseSession = CourseSession::where('id', $args['course_session_id'])->first();
         $params = [
             "course_id" => $courseSession['course_id'],
             "student_id" => $args['student_id'],
-            "total_not_registered" => ($args['status'] == "not_registered") ? 1 : 0,
-            "total_noAction" => ($args['status'] == "noAction") ? 1 : 0,
-            "total_dellay60" => ($args['status'] == "dellay60") ? 1 : 0,
-            "total_dellay45" => ($args['status'] == "dellay45") ? 1 : 0,
-            "total_dellay30" => ($args['status'] == "dellay30") ? 1 : 0,
-            "total_dellay15" => ($args['status'] == "dellay15") ? 1 : 0,
-            "total_present" => ($args['status'] == "present") ? 1 : 0,
-            "total_absent" => ($args['status'] == "absent") ? 1 : 0,
+            // "total_not_registered" => ($args['status'] == "not_registered") ? 1 : 0,
+            // "total_noAction" => ($args['status'] == "noAction") ? 1 : 0,
+            // "total_dellay60" => ($args['status'] == "dellay60") ? 1 : 0,
+            // "total_dellay45" => ($args['status'] == "dellay45") ? 1 : 0,
+            // "total_dellay30" => ($args['status'] == "dellay30") ? 1 : 0,
+            // "total_dellay15" => ($args['status'] == "dellay15") ? 1 : 0,
+            // "total_present" => ($args['status'] == "present") ? 1 : 0,
+            // "total_absent" => ($args['status'] == "absent") ? 1 : 0,
         ];
         //$UpdateCourseStudentReport=CourseStudentReportUpdator::updateTotalReport($params);
         //Log::info("event is fier\n" );       
@@ -69,7 +69,7 @@ final class CreateAbsencePresence
             event(new  UpdateCourseStudentStatistics($params));
         } catch (\Exception $e) {
             //Log::info("ex is: " .$e);
-            return Error::createLocatedError('CourseStudentTOTALREPORT-UPDATE-RECORD_NOT_FOUND1');
+            return Error::createLocatedError('COURSESTUDENTTOTALREPORT_EVENT_LISTENER_HAS_ERROR');
         }
         
         return $AbsencePresence;

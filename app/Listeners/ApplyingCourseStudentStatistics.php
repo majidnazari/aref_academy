@@ -30,24 +30,50 @@ class ApplyingCourseStudentStatistics
      */
     public function handle(UpdateCourseStudentStatistics $event)
     {
-        //Log::info("the listener handle is running and params is :\n" . json_encode($event->params));
+        $total_not_registered = 0;
+        $total_noAction = 0;
+        $total_dellay60 = 0;
+        $total_dellay45 = 0;
+        $total_dellay30 = 0;
+        $total_dellay15 = 0;
+        $total_present = 0;
+        $total_absent = 0;
+       // Log::info("the listener handle is running and params is :\n" . json_encode($event->params));
         $courseStudent=CourseStudent::where('course_id',$event->params['course_id'])
         ->where('student_id',$event->params['student_id'])->first();
         if(!$courseStudent)
         {
-            return Error::createLocatedError('1CourseStudentTOTALREPORT-UPDATE-RECORD_NOT_FOUND');
+            return false;// Error::createLocatedError('COURSESTUDENTTOTALREPORT-UPDATE-RECORD_NOT_FOUND');
         }
+        
+        $all_absencePresence_of_a_course_of_student=AbsencePresence::where('student_id',$event->params['student_id'])
+        ->with('courseSession.course',function($query) use($event){
+            $query->where('id',$event->params['course_id']);
+        })
+        ->get();
+        foreach($all_absencePresence_of_a_course_of_student  as $one_absence_presence)
+        {
+                //Log::info("the isds are:" . $one_absence_presence->status );
+                $total_not_registered += $one_absence_presence->status=="not_registered" ? 1:0 ;
+                $total_noAction += $one_absence_presence->status=="noAction" ? 1:0 ;
+                $total_dellay60 += $one_absence_presence->status=="dellay60" ? 1:0 ;
+                $total_dellay45 += $one_absence_presence->status=="dellay45" ? 1:0 ;
+                $total_dellay30 += $one_absence_presence->status=="dellay30" ? 1:0 ;
+                $total_dellay15 += $one_absence_presence->status=="dellay15" ? 1:0 ;
+                $total_present += $one_absence_presence->status=="present" ? 1:0 ;
+                $total_absent += $one_absence_presence->status=="absent" ? 1:0 ;
+        }       
 
         //Log::info("the course student is :\n" . $courseStudent['total_not_registered']);
 
-        $courseStudent['total_not_registered'] += $event->params['total_not_registered'];
-        $courseStudent['total_noAction']+=$event->params['total_noAction'];
-        $courseStudent['total_dellay60']+=$event->params['total_dellay60'];
-        $courseStudent['total_dellay45']+=$event->params['total_dellay45'];
-        $courseStudent['total_dellay30']+=$event->params['total_dellay30'];
-        $courseStudent['total_dellay15']+=$event->params['total_dellay15'];
-        $courseStudent['total_present']+=$event->params['total_present'];
-        $courseStudent['total_absent']+=$event->params['total_absent'];
+        $courseStudent['total_not_registered'] =$total_not_registered;
+        $courseStudent['total_noAction']=$total_noAction;
+        $courseStudent['total_dellay60']=$total_dellay60;
+        $courseStudent['total_dellay45']=$total_dellay45;
+        $courseStudent['total_dellay30']=$total_dellay30;
+        $courseStudent['total_dellay15']=$total_dellay15;
+        $courseStudent['total_present']=$total_present;
+        $courseStudent['total_absent']=$total_absent;
 
         $courseStudent->save();
 

@@ -23,6 +23,7 @@ class CourseStudent extends Model implements Auditable
         "user_id_manager",
         "user_id_financial",
         "user_id_student_status",
+        "description",
         "total_not_registered",
         "total_noAction",
         "total_dellay60",

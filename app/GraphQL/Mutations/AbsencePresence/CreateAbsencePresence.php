@@ -98,26 +98,26 @@ final class CreateAbsencePresence
                 'status' => "noAction"
 
             ];
-            $params = [
-                "course_id" => $args['course_id'],
-                "student_id" => $student->student_id,
-                // "total_not_registered" => 0,
-                // "total_noAction" => 1,
-                // "total_dellay60" =>0,
-                // "total_dellay45" =>0,
-                // "total_dellay30" =>0,
-                // "total_dellay15" =>0,
-                // "total_present" => 0,
-                // "total_absent" => 0
-            ];
+            // $params = [
+            //     "course_id" => $args['course_id'],
+            //     "student_id" => $student->student_id,
+            //     // "total_not_registered" => 0,
+            //     // "total_noAction" => 1,
+            //     // "total_dellay60" =>0,
+            //     // "total_dellay45" =>0,
+            //     // "total_dellay30" =>0,
+            //     // "total_dellay15" =>0,
+            //     // "total_present" => 0,
+            //     // "total_absent" => 0
+            // ];
             //$UpdateCourseStudentReport=CourseStudentReportUpdator::updateTotalReport($params);
             //Log::info("event is fier\n" );       
-            try {
-                event(new  UpdateCourseStudentStatistics($params));
-            } catch (\Exception $e) {
-                //Log::info("ex is: " .$e);
-                return Error::createLocatedError('COURSESTUDENTTOTALREPORT_EVENT_LISTENER_HAS_ERROR_CREATE_ALLSESSION');
-            }
+            // try {
+            //     event(new  UpdateCourseStudentStatistics($params));
+            // } catch (\Exception $e) {
+            //     //Log::info("ex is: " .$e);
+            //     return Error::createLocatedError('COURSESTUDENTTOTALREPORT_EVENT_LISTENER_HAS_ERROR_CREATE_ALLSESSION');
+            // }
            // $UpdateCourseStudentReport = UpdateCourseStudentReport::updateTotalReport($params);
             // $is_exist=AbsencePresence::where('course_session_id',$args['course_session_id'])
             // ->where('student_id',$s_id)

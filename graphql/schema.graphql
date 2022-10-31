@@ -489,7 +489,8 @@ type CourseStudent @key(fields: "id"){
         user_id_student_status:Int  
         manager_status:String
         financial_status:String
-        student_status:String   
+        student_status:String  
+        description:String 
 
         created_at:DateTime
         updated_at:DateTime
@@ -901,7 +902,7 @@ type StudentWarningHistory @key(fields: "id"){
             
     }
 
-    input CreateCourseStudentInput{ 
+    input CreateCourseStudentInput @validator{ 
         
         course_id:Int!
         # course_session_id:Int!
@@ -912,9 +913,10 @@ type StudentWarningHistory @key(fields: "id"){
         user_id_manager:Int
         user_id_financial:Int
         user_id_student_status:Int
+        description:String
         
     }
-    input UpdateCourseStudentInput{       
+    input UpdateCourseStudentInput @validator{       
         id:ID!
         course_id:Int
         # course_session_id:Int
@@ -925,6 +927,7 @@ type StudentWarningHistory @key(fields: "id"){
         user_id_manager:Int
         user_id_financial:Int
         user_id_student_status:Int
+        description:String
             
     }
 

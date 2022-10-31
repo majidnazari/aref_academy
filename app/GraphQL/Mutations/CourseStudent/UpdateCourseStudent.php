@@ -39,6 +39,7 @@ final class UpdateCourseStudent
 
         $args["user_id_creator"]=$user_id;
         $CourseStudente=CourseStudent::find($args['id']);
+        ///$args['course_id']=$CourseStudente->course_id;
         
         if(!$CourseStudente)
         {

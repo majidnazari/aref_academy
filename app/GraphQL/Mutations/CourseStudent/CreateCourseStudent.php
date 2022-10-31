@@ -32,10 +32,10 @@ final class CreateCourseStudent
         $is_exist= CourseStudent::where('course_id',$args['course_id'])
         ->where('student_id',$args['student_id'])
         ->first();
-        if($is_exist)
-         {
-                 return Error::createLocatedError("COURSESTUDENT-CREATE-RECORD_IS_EXIST");
-         }
+        // if($is_exist)
+        //  {
+        //          return Error::createLocatedError("COURSESTUDENT-CREATE-RECORD_IS_EXIST");
+        //  }
         $CourseStudente = [
             'course_id' => $args['course_id'],
             //'course_session_id' => $args['course_session_id'],
@@ -46,6 +46,7 @@ final class CreateCourseStudent
             'user_id_manager' => isset($args['user_id_manager']) ? $args['user_id_manager'] : 0,
             'user_id_financial' => isset($args['user_id_financial']) ? $args['user_id_financial'] : 0,
             'user_id_student_status' => isset($args['user_id_student_status']) ? $args['user_id_student_status'] :  $user_id,
+            'description' => isset($args['description']) ? $args['description'] : "",
             
             'user_id_creator' =>  $user_id,
             'user_id_approved' => 0            

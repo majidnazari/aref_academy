@@ -47,13 +47,14 @@ class ApplyingCourseStudentStatistics
         }
         
         $all_absencePresence_of_a_course_of_student=AbsencePresence::where('student_id',$event->params['student_id'])
-        ->with('courseSession.course',function($query) use($event){
+        ->whereHas('courseSession.course',function($query) use($event){
             $query->where('id',$event->params['course_id']);
         })
+        ->with('courseSession.course')
         ->get();
         foreach($all_absencePresence_of_a_course_of_student  as $one_absence_presence)
         {
-                //Log::info("the isds are:" . $one_absence_presence->status );
+                //Log::info("the isds are:" . $one_absence_presence->id );
                 $total_not_registered += $one_absence_presence->status=="not_registered" ? 1:0 ;
                 $total_noAction += $one_absence_presence->status=="noAction" ? 1:0 ;
                 $total_dellay60 += $one_absence_presence->status=="dellay60" ? 1:0 ;
@@ -62,7 +63,8 @@ class ApplyingCourseStudentStatistics
                 $total_dellay15 += $one_absence_presence->status=="dellay15" ? 1:0 ;
                 $total_present += $one_absence_presence->status=="present" ? 1:0 ;
                 $total_absent += $one_absence_presence->status=="absent" ? 1:0 ;
-        }       
+        } 
+        //return false;      
 
         //Log::info("the course student is :\n" . $courseStudent['total_not_registered']);
 

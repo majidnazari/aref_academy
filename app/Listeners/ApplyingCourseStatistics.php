@@ -47,7 +47,8 @@ class ApplyingCourseStatistics
                     });
             })
             ->count('id');
-
+            $totalSession=CourseSession::where('course_id', $event->params['course_id'])->count('id');
+        //Log::info("the count of passed session is:" .$numberofcoursesessionpassed );   
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_not_registered');
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_noAction');
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_dellay60');
@@ -66,6 +67,7 @@ class ApplyingCourseStatistics
         $sum_dellay15 = 0;
         $sum_present = 0;
         $sum_absent = 0;
+        $total_session=0;
 
         foreach ($courseStudents as $courseStudent) {
             $sum_not_registered += $courseStudent->total_not_registered;
@@ -78,7 +80,7 @@ class ApplyingCourseStatistics
             $sum_absent += $courseStudent->total_absent;
         }
         $course = Course::where('id',$event->params['course_id'])->first();
-        Log::info("divition is: " . $sum_present / $numberofcoursesessionpassed);
+        //Log::info("divition is: " . $sum_present / $numberofcoursesessionpassed);
         $course->avg_not_registered_session = $sum_not_registered / $numberofcoursesessionpassed;
         $course->avg_noAction_session = $sum_noAction / $numberofcoursesessionpassed;
         $course->avg_dellay60_session = $sum_dellay60 / $numberofcoursesessionpassed;
@@ -87,6 +89,9 @@ class ApplyingCourseStatistics
         $course->avg_dellay15_session = $sum_dellay15 / $numberofcoursesessionpassed;
         $course->avg_present_session = $sum_present / $numberofcoursesessionpassed;
         $course->avg_absent_session = $sum_absent / $numberofcoursesessionpassed;
+        $course->total_session=$totalSession;
+        $course->total_done_session=$numberofcoursesessionpassed;
+        $course->total_remain_session=$totalSession-$numberofcoursesessionpassed;
 
         $course->save();
         //->sum('total_not_registered');

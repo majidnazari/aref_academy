@@ -101,14 +101,14 @@ final class CreateCourseStudent
                     $params = [
                         "course_id" => $course_id,
                         "student_id" => $student->student_id,
-                        "total_not_registered" => 1,
-                        "total_noAction" => 0,
-                        "total_dellay60" =>0,
-                        "total_dellay45" =>0,
-                        "total_dellay30" =>0,
-                        "total_dellay15" =>0,
-                        "total_present" => 0,
-                        "total_absent" => 0
+                        // "total_not_registered" => 1,
+                        // "total_noAction" => 0,
+                        // "total_dellay60" =>0,
+                        // "total_dellay45" =>0,
+                        // "total_dellay30" =>0,
+                        // "total_dellay15" =>0,
+                        // "total_present" => 0,
+                        // "total_absent" => 0
                     ];
                     //$UpdateCourseStudentReport=CourseStudentReportUpdator::updateTotalReport($params);
                     //Log::info("event is fier\n" );       
@@ -116,7 +116,7 @@ final class CreateCourseStudent
                         event(new  UpdateCourseStudentStatistics($params));
                     } catch (\Exception $e) {
                         //Log::info("ex is: " .$e);
-                        return Error::createLocatedError('CourseStudentTOTALREPORT-UPDATE-RECORD_NOT_FOUND1');
+                        return Error::createLocatedError('COURSESTUDENTNOTREGISTERED-CREATE-RECORD_HAS_ERROR');
                     }
                 }
         }

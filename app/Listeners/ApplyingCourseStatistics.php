@@ -32,6 +32,15 @@ class ApplyingCourseStatistics
      */
     public function handle(UpdateCourseStudentStatistics $event)
     {
+        $sum_not_registered = 0;
+        $sum_noAction = 0;
+        $sum_dellay60 = 0;
+        $sum_dellay45 = 0;
+        $sum_dellay30 = 0;
+        $sum_dellay15 = 0;
+        $sum_present = 0;
+        $sum_absent = 0;
+        $totalSession = 0;
         //Log::info("new listener is:".$event->params['course_id']);
         //return false;
         $current_date = Carbon::now()->format('Y-m-d');
@@ -47,7 +56,7 @@ class ApplyingCourseStatistics
                     });
             })
             ->count('id');
-            $totalSession=CourseSession::where('course_id', $event->params['course_id'])->count('id');
+        $totalSession = CourseSession::where('course_id', $event->params['course_id'])->count('id');
         //Log::info("the count of passed session is:" .$numberofcoursesessionpassed );   
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_not_registered');
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_noAction');
@@ -58,16 +67,21 @@ class ApplyingCourseStatistics
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_present');
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_absent');
 
-        $courseStudents = CourseStudent::where('course_id', $event->params['course_id'])->get();
-        $sum_not_registered = 0;
-        $sum_noAction = 0;
-        $sum_dellay60 = 0;
-        $sum_dellay45 = 0;
-        $sum_dellay30 = 0;
-        $sum_dellay15 = 0;
-        $sum_present = 0;
-        $sum_absent = 0;
-        $total_session=0;
+        $courseStudents = CourseStudent::where('course_id', $event->params['course_id'])
+        //->where('student_id',$event->params['student_id'])
+        ->get();
+        if(!$courseStudents){
+            return false;
+        }
+        // $sum_not_registered += $courseStudent->total_not_registered;
+        // $sum_noAction = $courseStudent->total_noAction;
+        // $sum_dellay60 = $courseStudent->total_dellay60;
+        // $sum_dellay45 = $courseStudent->total_dellay45;
+        // $sum_dellay30 = $courseStudent->total_dellay30;
+        // $sum_dellay15 = $courseStudent->total_dellay15;
+        // $sum_present = $courseStudent->total_present;
+        // $sum_absent = $courseStudent->total_absent;
+
 
         foreach ($courseStudents as $courseStudent) {
             $sum_not_registered += $courseStudent->total_not_registered;
@@ -79,19 +93,19 @@ class ApplyingCourseStatistics
             $sum_present += $courseStudent->total_present;
             $sum_absent += $courseStudent->total_absent;
         }
-        $course = Course::where('id',$event->params['course_id'])->first();
+        $course = Course::where('id', $event->params['course_id'])->first();
         //Log::info("divition is: " . $sum_present / $numberofcoursesessionpassed);
-        $course->avg_not_registered_session = $sum_not_registered / $numberofcoursesessionpassed;
-        $course->avg_noAction_session = $sum_noAction / $numberofcoursesessionpassed;
-        $course->avg_dellay60_session = $sum_dellay60 / $numberofcoursesessionpassed;
-        $course->avg_dellay45_session = $sum_dellay45 / $numberofcoursesessionpassed;
-        $course->avg_dellay30_session = $sum_dellay30 / $numberofcoursesessionpassed;
-        $course->avg_dellay15_session = $sum_dellay15 / $numberofcoursesessionpassed;
-        $course->avg_present_session = $sum_present / $numberofcoursesessionpassed;
-        $course->avg_absent_session = $sum_absent / $numberofcoursesessionpassed;
-        $course->total_session=$totalSession;
-        $course->total_done_session=$numberofcoursesessionpassed;
-        $course->total_remain_session=$totalSession-$numberofcoursesessionpassed;
+        $course->sum_not_registered_session = $sum_not_registered ;// $numberofcoursesessionpassed;
+        $course->sum_noAction_session = $sum_noAction; // $numberofcoursesessionpassed;
+        $course->sum_dellay60_session = $sum_dellay60 ;// $numberofcoursesessionpassed;
+        $course->sum_dellay45_session = $sum_dellay45; // $numberofcoursesessionpassed;
+        $course->sum_dellay30_session = $sum_dellay30; // $numberofcoursesessionpassed;
+        $course->sum_dellay15_session = $sum_dellay15 ;// $numberofcoursesessionpassed;
+        $course->sum_present_session = $sum_present ;// $numberofcoursesessionpassed;
+        $course->sum_absent_session = $sum_absent; // $numberofcoursesessionpassed;
+        $course->total_session = $totalSession;
+        $course->total_done_session = $numberofcoursesessionpassed;
+        $course->total_remain_session = $totalSession - $numberofcoursesessionpassed;
 
         $course->save();
         //->sum('total_not_registered');

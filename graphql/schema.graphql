@@ -472,6 +472,7 @@ type AbsencePresenceBrief {
 type AbsencePresenceList @key(fields: "id") {   
       id:ID!
       student_id:Int
+      student_status:String
       sessions:[AbsencePresenceBrief]
 
 }

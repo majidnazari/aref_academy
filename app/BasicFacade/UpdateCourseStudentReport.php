@@ -28,6 +28,7 @@ class UpdateCourseStudentReport
         $courseStudent->total_dellay15 += $params->dellay15;
         $courseStudent->total_present += $params->present;
         $courseStudent->total_absent += $params->absent;
+        $courseStudent->sum_total_present = $courseStudent->total_dellay60+ $courseStudent->total_dellay45+ $courseStudent->total_dellay30 + $courseStudent->total_dellay15 +$courseStudent->total_present;
 
         $courseStudent->save();
 

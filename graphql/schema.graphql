@@ -492,6 +492,14 @@ type CourseStudent @key(fields: "id"){
         financial_status:String
         student_status:String  
         description:String 
+        total_not_registered:Int
+        total_noAction:Int
+        total_dellay60:Int
+        total_dellay45:Int
+        total_dellay30:Int
+        total_dellay15:Int
+        total_present:Int
+        total_absent:Int
 
         created_at:DateTime
         updated_at:DateTime

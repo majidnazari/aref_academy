@@ -24,6 +24,17 @@ class Course extends Model implements Auditable
         "education_level",
         "financial_status",
         "user_id_financial",
+        "sum_not_registered_session",
+        "sum_noAction_session",
+        "sum_dellay60_session",
+        "sum_dellay45_session",
+        "sum_dellay30_session",
+        "sum_dellay15_session",
+        "sum_present_session",
+        "sum_absent_session",
+        "total_remain_session",
+        "total_done_session",
+        "total_session"
     ];
     public function user()
     {

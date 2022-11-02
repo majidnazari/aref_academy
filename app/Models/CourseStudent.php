@@ -31,7 +31,7 @@ class CourseStudent extends Model implements Auditable
         "total_dellay30",
         "total_dellay15",
         "total_present",
-        "total_absent"
+        "total_absent",
     ];
     public function user_creator()
     {

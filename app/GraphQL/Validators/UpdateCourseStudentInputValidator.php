@@ -16,11 +16,11 @@ final class UpdateCourseStudentInputValidator extends Validator
         return [
             // TODO Add your validation rules
             "course_id"=>[ 
-                "required"
+                "nullable"
                 
             ],
             "student_id"=> [
-                "required",
+                "nullable",
                 'unique:course_students,student_id,NULL,id,course_id,' . $this->arg('course_id'),
             ]
               

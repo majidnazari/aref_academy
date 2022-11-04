@@ -60,4 +60,8 @@ class Course extends Model implements Auditable
     {
         return $this->hasMany(CourseSession::class,"course_id");
     }
+    public function courseStudent()
+    {
+        return $this->hasMany(courseStudent::class,"course_id");
+    }
 }

@@ -38,7 +38,7 @@ class CourseSession extends Model implements Auditable
     {
         return $this->belongsTo(BranchClassRoom::class,"branch_class_room_id");
     }   
-    public function absencePresences()
+    public function absencePresences() 
     {
         return $this->hasMany(AbsencePresence::class,"course_session_id");
     }

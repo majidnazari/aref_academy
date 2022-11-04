@@ -114,7 +114,6 @@ final class GetCourseStudentsWithAbsencePresenceList
             // })->orderBy('id','asc');
         }
         //return  DB::table('courses')->where('id',-1);
-
         return null;
     }
 }

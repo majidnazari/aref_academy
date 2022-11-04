@@ -144,6 +144,15 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
      
     ): [AbsencePresenceList]  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresenceList@resolveCourseStudent") 
     
+   getCourse2(
+    course_id:Int!
+    student_status:String        
+    financial_status:String        
+    manager_status:String
+    sum_total_present:Int @eq        
+     
+    ): [CourseWithDetailsReport]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse2") 
+       
     show_all_illegal_student(first: Int = 10, page: Int = 1, id:ID):[CourseStudentWithIllegalStudent] @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithIllegalStudent@resolveCourseStudent") 
 
     getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
@@ -477,6 +486,39 @@ type AbsencePresenceList @key(fields: "id") {
       sessions:[AbsencePresenceBrief]
 
 }
+type CourseWithDetailsReport @key(fields:"id"){
+      id:ID
+      user_id_creator:Int
+      branch_id:Int
+      year_id:Int
+      teacher_id:Int
+      teacher:Teacher
+      name:String
+      gender:String
+      lesson_id:Int
+      type:String
+      education_level:String
+      financial_status:String
+      user_id_financial:Int
+
+       sum_not_registered_session:Int
+       sum_noAction_session: Int
+       sum_dellay60_session:Int
+       sum_dellay45_session:Int
+       sum_dellay30_session:Int
+       sum_dellay15_session:Int
+       sum_present_session:Int
+       sum_total_present:Int 
+       sum_absent_session:Int
+       total_remain_session:Int
+       total_done_session:Int
+       total_session:Int
+
+       courseSession:[CourseSession]
+
+       courseStudent:[CourseStudent]
+      
+}
 
 type CourseStudent @key(fields: "id"){   
         id:ID!
@@ -501,7 +543,7 @@ type CourseStudent @key(fields: "id"){
         total_dellay15:Int
         total_present:Int
         total_absent:Int
-        sum_total_present:Int
+        sum_total_present:Int  #@field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
 
         created_at:DateTime
         updated_at:DateTime
@@ -528,7 +570,7 @@ type CourseSession{
         user:User @belongsTo
         course: Course @belongsTo
         classRoom:BranchClassRoom @belongsTo
-        absence_presence:AbsencePresence @hasMany
+        absencePresences:[AbsencePresence] @hasMany
 }
 
 type Course{
@@ -544,6 +586,20 @@ type Course{
       education_level:String
       financial_status:String
       user_id_financial:Int
+
+       sum_not_registered_session:Int
+       sum_noAction_session: Int
+       sum_dellay60_session:Int
+       sum_dellay45_session:Int
+       sum_dellay30_session:Int
+       sum_dellay15_session:Int
+       sum_present_session:Int
+       sum_total_present:Int 
+       sum_absent_session:Int
+       total_remain_session:Int
+       total_done_session:Int
+       total_session:Int
+
       created_at:DateTime
       updated_at:DateTime
       deleted_at:DateTime
@@ -552,7 +608,7 @@ type Course{
       teacher:User @belongsTo
       lesson:Lesson @belongsTo
       branch:Branch @belongsTo
-      courseSession:CourseSession @hasMany
+      courseSession:[CourseSession] @hasMany
 
 }
 

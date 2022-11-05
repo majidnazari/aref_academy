@@ -146,12 +146,12 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     
    getCourse2(
     course_id:Int!
-    student_status:String        
-    financial_status:String        
-    manager_status:String
-    sum_total_present:Int @eq        
+    # student_status:String        
+    # financial_status:String        
+    # manager_status:String
+    # sum_total_present:Int @eq        
      
-    ): [CourseWithDetailsReport]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse2") 
+    ): CourseWithDetailsReport  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse2") 
        
     show_all_illegal_student(first: Int = 10, page: Int = 1, id:ID):[CourseStudentWithIllegalStudent] @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithIllegalStudent@resolveCourseStudent") 
 
@@ -486,37 +486,49 @@ type AbsencePresenceList @key(fields: "id") {
       sessions:[AbsencePresenceBrief]
 
 }
-type CourseWithDetailsReport @key(fields:"id"){
-      id:ID
-      user_id_creator:Int
-      branch_id:Int
-      year_id:Int
-      teacher_id:Int
-      teacher:Teacher
-      name:String
-      gender:String
-      lesson_id:Int
-      type:String
-      education_level:String
-      financial_status:String
-      user_id_financial:Int
+type CourseWithDetailsReport{
+      
+      teacher_name:String
+      start_session:String
+      end_session:String
+      avg_absent:Float
+      avg_dellay:Float
+      total_students:Int
+      total_approved:Int
+      total_noMoney:Int
+      total_pending:Int
+      total_refused:Int
+      total_fired:Int
+      
+      # user_id_creator:Int
+      # branch_id:Int
+      # year_id:Int
+      # teacher_id:Int
+      # teacher:Teacher
+      # name:String
+      # gender:String
+      # lesson_id:Int
+      # type:String
+      # education_level:String
+      # financial_status:String
+      # user_id_financial:Int
 
-       sum_not_registered_session:Int
-       sum_noAction_session: Int
-       sum_dellay60_session:Int
-       sum_dellay45_session:Int
-       sum_dellay30_session:Int
-       sum_dellay15_session:Int
-       sum_present_session:Int
-       sum_total_present:Int 
-       sum_absent_session:Int
-       total_remain_session:Int
-       total_done_session:Int
-       total_session:Int
+      #  sum_not_registered_session:Int
+      #  sum_noAction_session: Int
+      #  sum_dellay60_session:Int
+      #  sum_dellay45_session:Int
+      #  sum_dellay30_session:Int
+      #  sum_dellay15_session:Int
+      #  sum_present_session:Int
+      #  sum_total_present:Int 
+      #  sum_absent_session:Int
+      #  total_remain_session:Int
+      #  total_done_session:Int
+      #  total_session:Int
 
-       courseSession:[CourseSession]
+      #  courseSession:[CourseSession]
 
-       courseStudent:[CourseStudent]
+      #  courseStudent:[CourseStudent]
       
 }
 

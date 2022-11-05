@@ -7,8 +7,11 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use App\Models\CourseSession;
+use App\Models\CourseStudent;
 use AuthRole;
 use GraphQL\Error\Error;
+use Log;
 
 
 final class GetCourses
@@ -51,74 +54,55 @@ final class GetCourses
             $data = [];
             $students = [];
             $absence_presence_id=0;
-            $course=Course::where('id', $args['course_id'])           
-            ->with('teacher')
-            ->with('courseSession')
-            ->with('courseSession.absencePresences')
-            ->whereHas('courseStudent',function($query) use($args){
-                if (isset($args['student_status']))
-                $query->where('student_status',$args['student_status']);
-                if (isset($args['financial_status']))
-                $query->where('financial_status',$args['financial_status']);
-                if (isset($args['manager_status']))
-                $query->where('manager_status',$args['manager_status']);
-                else
-                return true;
+            $start_session="";
+            $end_session="";
+            // $course=Course::where('id', $args['course_id'])           
+            // ->with('teacher')
+            // ->with('courseSession')
+            // ->with('courseSession.absencePresences')
+            // ->whereHas('courseStudent',function($query) use($args){
+            //     if (isset($args['student_status']))
+            //     $query->where('student_status',$args['student_status']);
+            //     if (isset($args['financial_status']))
+            //     $query->where('financial_status',$args['financial_status']);
+            //     if (isset($args['manager_status']))
+            //     $query->where('manager_status',$args['manager_status']);
+            //     else
+            //     return true;
                 
-            })
-            ->with(['courseStudent' => function($query) use($args){
-                if (isset($args['student_status']))
-                $query->where('student_status',$args['student_status']);
-                if (isset($args['financial_status']))
-                $query->where('financial_status',$args['financial_status']);
-                if (isset($args['manager_status']))
-                $query->where('manager_status',$args['manager_status']);
-                else
-                return true;
-            }]);
-            // $session_id_list = CourseSession::where('course_id', $args['course_id'])->pluck('id');
-            // $all_course_student_ids=CourseStudent::where('course_id', $args['course_id'])->pluck('student_id');
-            // $student_lists = CourseStudent::where('course_id', $args['course_id']);//->pluck('student_id');
-            // $get_all_student_sesions = AbsencePresence::whereIn('course_session_id', $session_id_list)
-            //     ->whereIn('student_id',$student_lists->pluck('student_id'))// $all_course_student_ids)
-            //     ->with('courseSession')
-            //     ->orderBy('student_id', 'asc')
-            //     ->get();
-            // foreach ($student_lists->get() as $student_list ) {
-            //     $absence_presences_sessions = [];
-            //     foreach ($get_all_student_sesions as $absence_presence) {
-            //         if ($absence_presence->student_id == $student_list->student_id) {
-            //             $absence_presence_id=$absence_presence->id;
-            //             $absence_presence_tmp =
-            //                 [
-            //                     "status" => $absence_presence->status,
-            //                     "session_id" => $absence_presence->course_session_id,
-            //                     "start_date" =>$absence_presence->courseSession->start_date,
-            //                     "start_time" =>$absence_presence->courseSession->start_time,
-            //                     "end_time" =>$absence_presence->courseSession->end_time,
-            //                 ];
+            // })
+            // ->with(['courseStudent' => function($query) use($args){
+            //     if (isset($args['student_status']))
+            //     $query->where('student_status',$args['student_status']);
+            //     if (isset($args['financial_status']))
+            //     $query->where('financial_status',$args['financial_status']);
+            //     if (isset($args['manager_status']))
+            //     $query->where('manager_status',$args['manager_status']);
+            //     else
+            //     return true;
+            // }]);
+            $course=Course::where('id', $args['course_id'])->with('teacher')->first();
+            $teache_name= $course->teacher->first_name . ' ' . $course->teacher->last_name;
+            $courseSession= CourseSession::where('course_id',$args['course_id'])->orderBy('start_date', 'asc');
+            $courseSession_last= CourseSession::where('course_id',$args['course_id'])->orderBy('start_date', 'desc');
+            // Log::info("the latest is :" . json_encode($courseSession->orderBy('start_date', 'desc')->latest()->get()));
+            $students=CourseStudent::where('course_id',$args['course_id']);
+            $data=[
+                
+                "teacher_name" => $teache_name, 
+                "start_session" => $courseSession->first()->start_date,
+                "end_session" => $courseSession_last->first()->start_date,
+                "avg_absent" => $course->sum_absent_session / $course->total_done_session,
+                "avg_dellay" => ($course->sum_dellay60_session + $course->sum_dellay45_session + $course->sum_dellay30_session + $course->sum_dellay30_session + $course->sum_dellay15_session ) / $course->total_done_session,
+                "total_students" => CourseStudent::where('course_id',$args['course_id'])->count('id'),
+                "total_approved" => CourseStudent::where('course_id',$args['course_id'])->where('manager_status','approved')->where('financial_status','approved')->count('id'),
+                "total_noMoney" => CourseStudent::where('course_id',$args['course_id'])->where('manager_status','approved')->where('financial_status','pending')->count('id'),
+                "total_pending" => CourseStudent::where('course_id',$args['course_id'])->where('manager_status','pending')->where('financial_status','pending')->count('id'),
+                "total_refused" => CourseStudent::where('course_id',$args['course_id'])->where('student_status','refused')->count('id'),
+                "total_fired" => CourseStudent::where('course_id',$args['course_id'])->where('student_status',"fired")->count(),
+            ];
 
-            //             $absence_presences_sessions[] = $absence_presence_tmp;
-            //         }
-            //     }
-            //     usort($absence_presences_sessions, function ($a, $b) {
-            //         $sa = strtotime($a['start_date']);
-            //         $sb = strtotime($b['start_date']);
-            //         return $sa < $sb ? -1 : 1;
-            //     });
-            //     $students[] = [
-            //         "id" =>$absence_presence_id,
-            //         "student_id" => $student_list->student_id,
-            //         "student_status" => $student_list->student_status,
-            //         "sessions" => 
-            //             $absence_presences_sessions
-            //         ,
-            //     ];
-            // }
-          
-            // return $students;
-
-            return $course;
+            return $data;
            
         }
         return Course::where('deleted_at', null)

@@ -62,6 +62,6 @@ class Course extends Model implements Auditable
     }
     public function courseStudent()
     {
-        return $this->hasMany(courseStudent::class,"course_id");
+        return $this->hasMany(CourseStudent::class,"course_id");
     }
 }

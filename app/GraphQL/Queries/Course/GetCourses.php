@@ -28,7 +28,7 @@ final class GetCourses
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (AuthRole::CheckAccessibility("Course")) {
-            $course= Course::where('deleted_at', null) //->orderBy('id','desc');            
+            $course = Course::where('deleted_at', null) //->orderBy('id','desc');            
                 ->whereHas('lesson', function ($query) use ($args) {
                     if (isset($args['lesson_name']))
                         $query->where('lessons.name', 'LIKE', '%' . $args['lesson_name'] . '%');
@@ -42,20 +42,21 @@ final class GetCourses
                         return true;
                 }]);
 
-                return $course;
+            return $course;
         }
         return Course::where('deleted_at', null)
-            ->where('id', -1); 
+            ->where('id', -1);
     }
-    function resolveCourse2($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    function resolveCourseTotalReport($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if (AuthRole::CheckAccessibility("GetCourses2")) {
-
+        if (AuthRole::CheckAccessibility("CourseTotalReport")) {
+            $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->with('teacher')->get() : Course::with('teacher')->orderBy('id', 'asc')->get();
+            //Log::info("the all courses are:" . json_encode($courses_tmp));
             $data = [];
-            $students = [];
-            $absence_presence_id=0;
-            $start_session="";
-            $end_session="";
+            $courses = [];
+            $absence_presence_id = 0;
+            $start_session = "";
+            $end_session = "";
             // $course=Course::where('id', $args['course_id'])           
             // ->with('teacher')
             // ->with('courseSession')
@@ -69,7 +70,7 @@ final class GetCourses
             //     $query->where('manager_status',$args['manager_status']);
             //     else
             //     return true;
-                
+
             // })
             // ->with(['courseStudent' => function($query) use($args){
             //     if (isset($args['student_status']))
@@ -81,32 +82,41 @@ final class GetCourses
             //     else
             //     return true;
             // }]);
-            $course=Course::where('id', $args['course_id'])->with('teacher')->first();
-            $teache_name= $course->teacher->first_name . ' ' . $course->teacher->last_name;
-            $courseSession= CourseSession::where('course_id',$args['course_id'])->orderBy('start_date', 'asc');
-            $courseSession_last= CourseSession::where('course_id',$args['course_id'])->orderBy('start_date', 'desc');
-            // Log::info("the latest is :" . json_encode($courseSession->orderBy('start_date', 'desc')->latest()->get()));
-            $students=CourseStudent::where('course_id',$args['course_id']);
-            $data=[
-                
-                "teacher_name" => $teache_name, 
-                "start_session" => $courseSession->first()->start_date,
-                "end_session" => $courseSession_last->first()->start_date,
-                "avg_absent" => $course->sum_absent_session / $course->total_done_session,
-                "avg_dellay" => ($course->sum_dellay60_session + $course->sum_dellay45_session + $course->sum_dellay30_session + $course->sum_dellay30_session + $course->sum_dellay15_session ) / $course->total_done_session,
-                "total_students" => CourseStudent::where('course_id',$args['course_id'])->count('id'),
-                "total_approved" => CourseStudent::where('course_id',$args['course_id'])->where('manager_status','approved')->where('financial_status','approved')->count('id'),
-                "total_noMoney" => CourseStudent::where('course_id',$args['course_id'])->where('manager_status','approved')->where('financial_status','pending')->count('id'),
-                "total_pending" => CourseStudent::where('course_id',$args['course_id'])->where('manager_status','pending')->where('financial_status','pending')->count('id'),
-                "total_refused" => CourseStudent::where('course_id',$args['course_id'])->where('student_status','refused')->count('id'),
-                "total_fired" => CourseStudent::where('course_id',$args['course_id'])->where('student_status',"fired")->count(),
-            ];
+            //$courses=Course::where('id', $args['course_id'])->with('teacher')->get();
+            foreach ($courses_tmp as $course) {
+                Log:info("the course id is: " . $course->id . "\n");
+                $teache_name = $course->teacher->first_name . ' ' . $course->teacher->last_name;
+                $courseSession = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'asc');
+                $courseSession_last = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'desc');
+                // Log::info("the latest is :" . json_encode($courseSession->orderBy('start_date', 'desc')->latest()->get()));
+                $students = CourseStudent::where('course_id', $course->id);
+                $all_sum=$course->sum_dellay60_session + $course->sum_dellay45_session + $course->sum_dellay30_session + $course->sum_dellay30_session + $course->sum_dellay15_session;
+                $courses = [
+                    "id" => $course->id,
+                    "teacher_name" => $teache_name,
+                    "start_session" => $courseSession->exists() ?  $courseSession->first()->start_date : "",
+                    "end_session" => $courseSession_last->exists() ? $courseSession_last->first()->start_date : "",
+                    "total_session" => $course->total_session,
+                    "total_done_session" => $course->total_done_session,
+
+                    "avg_absent" => (!empty($course->sum_absent_session )) ?($course->sum_absent_session / $course->total_done_session) : null,
+                    "avg_dellay" => (!empty($all_sum))? ($all_sum / $course->total_done_session) : null,
+                    "total_students" => CourseStudent::where('course_id', $course->id)->count('id'),
+                    "total_approved" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'approved')->where('financial_status', 'approved')->count('id'),
+                    "total_noMoney" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'approved')->where('financial_status', '!=', 'approved')->count('id'),
+                    "total_pending" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'pending')->where('financial_status', 'pending')->count('id'),
+                    "total_refused" => CourseStudent::where('course_id', $course->id)->where('student_status', 'refused')->count(),
+                    "total_fired" => CourseStudent::where('course_id', $course->id)->where('student_status', "fired")->count(),
+                ];
+                $data[]=$courses;
+
+            }
+
 
             return $data;
-           
         }
         return Course::where('deleted_at', null)
-        ->where('id', -1); 
+            ->where('id', -1);
         //return null;
     }
 }

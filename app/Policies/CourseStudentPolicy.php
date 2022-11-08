@@ -64,12 +64,15 @@ class CourseStudentPolicy
      * @param  \App\Models\CourseStudent  $courseStudent
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, CourseStudent $courseStudent=null ):bool
+    public function update(User $user, $request ):bool
     {
-        //Log::info("the all fields are:" . ($request) );
-        $group_access_course_student_financial_refused_status=array("financial");
-        $tmp= $this->get_accessibility($group_access_course_student_financial_refused_status);
-
+        $refused_status=isset($request['financial_refused_status']) ? $request['financial_refused_status'] : "" ;
+        //Log::info("the all fields are:" . $refused_status );
+        if($refused_status != ""){
+            $group_access_course_student_financial_refused_status=array("financial");
+           return  $this->get_accessibility($group_access_course_student_financial_refused_status);
+           
+        }
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_course_student))
             return true;

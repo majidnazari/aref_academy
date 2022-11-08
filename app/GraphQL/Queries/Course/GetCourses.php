@@ -51,7 +51,7 @@ final class GetCourses
     {
         if (AuthRole::CheckAccessibility("CourseTotalReport")) {
             $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->with('teacher')->get() : Course::with('teacher')->orderBy('id', 'asc')->get();
-            //Log::info("the all courses are:" . json_encode($courses_tmp));
+            //Log::info("the all courses are:" . $args['course_id']);
             $data = [];
             $courses = [];
             $absence_presence_id = 0;
@@ -84,7 +84,7 @@ final class GetCourses
             // }]);
             //$courses=Course::where('id', $args['course_id'])->with('teacher')->get();
             foreach ($courses_tmp as $course) {
-                Log:info("the course id is: " . $course->id . "\n");
+               // Log:info("the course id is: " . $course->id . "\n");
                 $teache_name = $course->teacher->first_name . ' ' . $course->teacher->last_name;
                 $courseSession = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'asc');
                 $courseSession_last = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'desc');

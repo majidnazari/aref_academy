@@ -19,6 +19,7 @@ class CourseStudent extends Model implements Auditable
         "manager_status",
         "financial_status",
         "student_status",
+        "financial_refused_status",
         "user_id_creator",
         "user_id_manager",
         "user_id_financial",

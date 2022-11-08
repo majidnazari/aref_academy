@@ -5,6 +5,9 @@ namespace App\Policies;
 use App\Models\CourseStudent;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Http\Request;
+
+use Log;
 
 class CourseStudentPolicy
 {
@@ -61,8 +64,12 @@ class CourseStudentPolicy
      * @param  \App\Models\CourseStudent  $courseStudent
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, CourseStudent $courseStudent=null):bool
+    public function update(User $user, CourseStudent $courseStudent=null ):bool
     {
+        //Log::info("the all fields are:" . ($request) );
+        $group_access_course_student_financial_refused_status=array("financial");
+        $tmp= $this->get_accessibility($group_access_course_student_financial_refused_status);
+
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_course_student))
             return true;
@@ -106,5 +113,15 @@ class CourseStudentPolicy
     public function forceDelete(User $user, CourseStudent $courseStudent)
     {
         //
+    }
+    public function get_accessibility($array_accessibility=null)
+    {
+        if($array_accessibility==null){
+            $array_accessibility=$this->group_access_course_student;
+        }
+        $user_role=auth()->guard('api')->user()->group->type;       
+        if(in_array($user_role,$array_accessibility))
+            return true;
+        return false;
     }
 }

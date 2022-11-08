@@ -1006,6 +1006,7 @@ type StudentWarningHistory @key(fields: "id"){
         manager_status:String
         financial_status:String
         student_status:String
+        financial_refused_status:String
         user_id_manager:Int
         user_id_financial:Int
         user_id_student_status:Int

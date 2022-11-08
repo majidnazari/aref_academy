@@ -103,7 +103,16 @@ final class GetCourses
                     "avg_dellay" => (!empty($all_sum))? ($all_sum / $course->total_done_session) : null,
                     "total_students" => CourseStudent::where('course_id', $course->id)->count('id'),
                     "total_approved" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'approved')->where('financial_status', 'approved')->count('id'),
-                    "total_noMoney" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'approved')->where('financial_status', '!=', 'approved')->count('id'),
+                    "total_noMoney" => CourseStudent::where('course_id', $course->id)
+                    ->where('student_status', 'ok')
+                    ->where('manager_status', 'approved')
+                    ->where('financial_status', 'pending')
+                    ->count('id'),
+                    "total_noMoney_semi_pending"  => CourseStudent::where('course_id', $course->id)
+                    ->where('student_status', 'ok')
+                    ->where('manager_status', 'approved')
+                    ->where('financial_status', 'semi_approved')
+                    ->count('id'),
                     "total_pending" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'pending')->where('financial_status', 'pending')->count('id'),
                     "total_refused" => CourseStudent::where('course_id', $course->id)->where('student_status', 'refused')->count(),
                     "total_fired" => CourseStudent::where('course_id', $course->id)->where('student_status', "fired")->count(),

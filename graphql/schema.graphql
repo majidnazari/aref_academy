@@ -499,6 +499,7 @@ type CourseWithDetailsReport{
       total_students:Int
       total_approved:Int
       total_noMoney:Int
+      total_noMoney_semi_pending:Int
       total_pending:Int
       total_refused:Int
       total_fired:Int

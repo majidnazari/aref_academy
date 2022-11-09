@@ -88,14 +88,14 @@ final class CreateAbsencePresence
         // $course_session=CourseSession::where('id',$args['course_session_id'])->first();
         // if($course_session){
 
-        foreach ($getAllcourseStudent as $student) {
-            $s_id = $student->student_id;
+        foreach ($getAllcourseStudent as $courseStudent) {
+            $s_id = $courseStudent->student_id;
             $AbsencePresence = [
                 'user_id_creator' => $user_id,
                 "course_session_id" => $args['course_session_id'],
                 "teacher_id" => 0,
-                "student_id" => $student->student_id,
-                'status' => "noAction"
+                "student_id" => $courseStudent->student_id,
+                'status' => $courseStudent->student_status=="refused" ? "refused" : "noAction" ,
 
             ];
             // $params = [

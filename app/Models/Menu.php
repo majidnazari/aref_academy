@@ -32,8 +32,18 @@ class Menu extends Model
     // {
     //     return $this->belongsTo(Menu::class,'parent_id');
     // }
-    public function subMenus()
+    public function groupMenu()
     {
+        return $this->hasMany(GroupMenu::class,"menu_id");
+    }
+    public function subMenus()
+    {        
+        // $groups=GroupMenu::where('menu_id',$this->id)->pluck("group_id");
+        // Log::info("the id is:" . $this->id . "\n");
+        // Log::info("groups:" . json_encode($groups));
+        // $menus=GroupMenu::whereIn('group_id',$groups)->pluck('menu_id');
+        // Log::info("menus:" . json_encode($menus));
+
         return $this->hasMany('App\Models\Menu', 'parent_id');
     }
 }

@@ -19,12 +19,12 @@ class GroupMenu  extends Pivot //extends Model
         "group_id",
         "user_id"        
     ];
-    // public function groups()
-    // {
-    //     return $this->hasMany(Group::class);
-    // }
-    // public function menus()
-    // {
-    //     return $this->hasMany(Menu::class);
-    // }
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
+    }
 }

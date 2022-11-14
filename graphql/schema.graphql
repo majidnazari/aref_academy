@@ -703,8 +703,8 @@ type Menu {
     updated_at: DateTime
     deleted_at: DateTime
     # parent:[Menu]  @hasMany
-    subMenus: [Menu] @hasMany
-    #  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
+    subMenus: [Menu] @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver")
+    # @hasMany  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
     # subMenus: [Menu] @hasMany
     groups: [Group!] @belongsToMany
     #  pivot: MenuPivot

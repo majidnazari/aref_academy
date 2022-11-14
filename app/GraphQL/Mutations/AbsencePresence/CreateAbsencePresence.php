@@ -80,9 +80,11 @@ final class CreateAbsencePresence
         $user_id = auth()->guard('api')->user()->id;
         $students = AbsencePresence::where('course_session_id', $args['course_session_id'])
             ->pluck('student_id');
+           // Log::info("the student id is:" . $students);
         $getAllcourseStudent = CourseStudent::where('course_id', $args['course_id'])
             ->whereNotIn('student_id', $students)
             ->get();
+           // Log::info("the course student id are :" . $getAllcourseStudent);
         //Log::info("course is:" .json_encode($getAllcourseStudent));
         //return $getAllcourseStudent;
         // $course_session=CourseSession::where('id',$args['course_session_id'])->first();

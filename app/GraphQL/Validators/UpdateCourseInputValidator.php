@@ -3,6 +3,8 @@
 namespace App\GraphQL\Validators;
 
 use Nuwave\Lighthouse\Validation\Validator;
+use Illuminate\Validation\Rule;
+
 
 final class UpdateCourseInputValidator extends Validator
 {
@@ -15,6 +17,8 @@ final class UpdateCourseInputValidator extends Validator
     {
         return [
             // TODO Add your validation rules
+           
+
         ];
     }
 }

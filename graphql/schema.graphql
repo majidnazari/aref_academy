@@ -563,6 +563,9 @@ type CourseStudent @key(fields: "id"){
         total_absent:Int
         sum_total_present:Int  #@field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
 
+        financial_refused_status:String
+        transferred_to_course_id:Int
+        financial_status_updated_at:DateTime
         created_at:DateTime
         updated_at:DateTime
         deleted_at:DateTime
@@ -1010,6 +1013,7 @@ type StudentWarningHistory @key(fields: "id"){
         financial_status:String
         student_status:String
         financial_refused_status:String
+        transferred_to_course_id:Int
         user_id_manager:Int
         user_id_financial:Int
         user_id_student_status:Int

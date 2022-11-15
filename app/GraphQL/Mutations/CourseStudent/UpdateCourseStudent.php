@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutations\CourseStudent;
 
 use App\Models\CourseStudent;
+use Carbon\Carbon;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -44,13 +45,16 @@ final class UpdateCourseStudent
         if(!$CourseStudente)
         {
                 return Error::createLocatedError("COURSESTUDENT-UPDATE-RECORD_NOT_FOUND");
-        }
+        }       
         //$res=(in_array($args['student_status'],["refused_pending","fired_pending"]));
         //Log::info("student status is :" .  (in_array($args['student_status'],["refused_pending","fired_pending"])==false));
          if((auth()->guard('api')->user()->group->type=="acceptor") && (in_array($args['student_status'],["refused_pending","fired_pending"])==false))
          {
             return Error::createLocatedError("COURSESTUDENT-UPDATE-ACTION_FORBIDEN");
          }
+         if(isset($args['financial_status']) ){ 
+            $CourseStudente['financial_status_updated_at']=Carbon::now();         
+        }
         $CourseStudente_result= $CourseStudente->fill($args);
         if(isset($args['student_status'])){
            
@@ -58,7 +62,7 @@ final class UpdateCourseStudent
         }
         if(isset($args['financial_status'])){
             
-            $CourseStudente['user_id_financial']=$user_id;            
+            $CourseStudente['user_id_financial']=$user_id;                     
         }
         if(isset($args['manager_status'])){
            

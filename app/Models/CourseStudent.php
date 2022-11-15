@@ -33,7 +33,10 @@ class CourseStudent extends Model implements Auditable
         "total_dellay15",
         "total_present",
         "total_absent",
-        "sum_total_present",
+        "sum_total_present",        
+        "financial_refused_status",
+        "transferred_to_course_id",
+        "financial_status_updated_at",
     ];
     public function user_creator()
     {

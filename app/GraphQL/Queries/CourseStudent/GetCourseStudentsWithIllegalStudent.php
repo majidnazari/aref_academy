@@ -24,7 +24,7 @@ final class GetCourseStudentsWithIllegalStudent
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        Log::info("the args is:" . json_encode($args) . "\r\n and  the root value:" .json_encode($rootValue) );
+        //Log::info("the args is:" . json_encode($args) . "\r\n and  the root value:" .json_encode($rootValue) );
         $current_page=(($args['page']-1) * $args['first']);
         $first_item=$args['first'];
          

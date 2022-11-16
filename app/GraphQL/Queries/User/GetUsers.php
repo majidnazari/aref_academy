@@ -28,13 +28,16 @@ final class GetUsers
     // }
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-    //    $user= User::where('deleted_at', null);//->orderBy('id','desc');
-    //    return $user;
+        $branch_id=auth()->guard('api')->user()->branch_id;
+        //$user= User::where('deleted_at', null);//->orderBy('id','desc');
+             //return $user;
             // if (! Gate::allows('GetAllUsers')) {
             //     abort(403);
             // }
         if( AuthRole::CheckAccessibility("Users")){
-            $user=User::where('deleted_at', null)->whereHas('group',function ($query) use($args){
+            $user=User::where('deleted_at', null)
+            ->where('branch_id',$branch_id)
+            ->whereHas('group',function ($query) use($args){
                 if(isset($args["group_id"]))
                     $query->where("groups.id",$args["group_id"]);
                 else

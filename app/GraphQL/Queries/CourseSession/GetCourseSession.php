@@ -20,7 +20,15 @@ final class GetCourseSession
     }
     function resolveCourseSessionAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $CourseSession= CourseSession::find($args['id']);
+        $branch_id = auth()->guard('api')->user()->branch_id;
+        $CourseSession= CourseSession::where('id',$args['id'])
+        ->whereHas('course', function ($query) use ($branch_id) {
+            if($branch_id!=""){
+                $query->where('branch_id', $branch_id);
+            }  
+             return true;
+        })->with('course')
+        ->first();
         return $CourseSession;
     }
 }

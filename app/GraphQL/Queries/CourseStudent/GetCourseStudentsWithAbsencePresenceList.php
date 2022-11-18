@@ -27,13 +27,21 @@ final class GetCourseStudentsWithAbsencePresenceList
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $branch_id = auth()->guard('api')->user()->branch_id;
         if (AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresenceList")) {
 
             $data = [];
             $students = [];
             $absence_presence_id=0;
             $session_id_list = CourseSession::where('course_id', $args['course_id'])->pluck('id');
-            $all_course_student_ids=CourseStudent::where('course_id', $args['course_id'])->pluck('student_id');
+            $all_course_student_ids=CourseStudent::where('course_id', $args['course_id'])
+            ->whereHas('course', function ($query) use ($branch_id) {
+                if($branch_id!=""){
+                    $query->where('branch_id', $branch_id);
+                }  
+                 return true;
+            })->with('course')
+            ->pluck('student_id');
             $student_lists = CourseStudent::where('course_id', $args['course_id']);//->pluck('student_id');
             $get_all_student_sesions = AbsencePresence::whereIn('course_session_id', $session_id_list)
                 ->whereIn('student_id',$student_lists->pluck('student_id'))// $all_course_student_ids)

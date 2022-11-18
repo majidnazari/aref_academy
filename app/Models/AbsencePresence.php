@@ -22,7 +22,7 @@ class AbsencePresence extends Model  implements Auditable
         "status"  ,
         "attendance_status"      
     ];
-    protected $table="absence_presences";
+    protected $table="absence_presences"; 
 
     public function user()
     {

@@ -25,10 +25,18 @@ final class GetAbsencePresences
    
 
     function resolveAbsencePresence($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {      
+    {   
+        $branch_id = auth()->guard('api')->user()->branch_id;
+
        // return AuthRole::CheckAccessibility(); 
         if( AuthRole::CheckAccessibility("AbsencePresence")){
             $AbsencePresence= AbsencePresence::where('deleted_at', null)
+            ->whereHas('courseSession.course', function ($query) use ($branch_id) {
+                if($branch_id!=""){
+                    $query->where('branch_id', $branch_id);
+                }  
+                 return true;
+            })->with('courseSession.course')
             ->whereHas('user',function($query) use($args){
                        if(isset($args['user_id_creator'])){
                            $query->where('users.id',$args['user_id_creator']);

@@ -20,7 +20,8 @@ final class GetCourse
     }
     function resolveCourseAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $course= Course::find($args['id']);
+        $branch_id = auth()->guard('api')->user()->branch_id;
+        $course= Course::where('id',$args['id'])->where('branch_id',$branch_id)->first();
         return $course;
     }
 }

@@ -22,12 +22,22 @@ final class GetAbsencePresence
     }
     function resolveAbsencePresenceAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
+        $branch_id = auth()->guard('api')->user()->branch_id;
         //return AuthRole::CheckAccessibility(); 
-        $AbsencePresence= AbsencePresence::find($args['id']);
+        $AbsencePresence= AbsencePresence::where('id',$args['id'])
+        ->whereHas('courseSession.course', function ($query) use ($branch_id) {
+            if($branch_id!=""){
+                $query->where('branch_id', $branch_id);
+            }  
+             return true;
+        })->with('courseSession.course')
+        ->first();
+        
         return $AbsencePresence;
     }
     public function resolveGetAbsencePresence($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $branch_id = auth()->guard('api')->user()->branch_id;
         // //Log::info(json_encode($context->request()));
         // $response = Http::get(env('REMOTE_SERVER').'getStudent/'.$rootValue['student_id']);
         // //$getPost= Post::find($args['id']);
@@ -35,6 +45,12 @@ final class GetAbsencePresence
         //Log::info("add course session id is:" . $rootValue['course_session_id'] . " and student id is:" . $rootValue['student_id']);
         $AbsencePresence= AbsencePresence::where('course_session_id',$rootValue['course_session_id'])
         ->where('student_id',$rootValue['student_id'])
+        ->whereHas('courseSession.course', function ($query) use ($branch_id) {
+            if($branch_id!=""){
+                $query->where('branch_id', $branch_id);
+            }  
+             return true;
+        })->with('courseSession.course')
         ->first();
         return $AbsencePresence;
     }

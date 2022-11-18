@@ -23,7 +23,7 @@ final class GetCourseStudents
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id = auth()->guard('api')->user()->branch_id;
+        $branch_id = auth()->guard('api')->user()->branch_id; 
         //Log::info("the branche id is" . $branch_id);
         // $CourseStudent = CourseStudent::where('deleted_at', null);
         // return $CourseStudent;

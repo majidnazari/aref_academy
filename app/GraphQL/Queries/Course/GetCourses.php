@@ -27,9 +27,16 @@ final class GetCourses
 
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $branch_id = auth()->guard('api')->user()->branch_id;
         if (AuthRole::CheckAccessibility("Course")) {
-            $course = Course::where('deleted_at', null) //->orderBy('id','desc');            
-                ->whereHas('lesson', function ($query) use ($args) {
+            $course = Course::where('deleted_at', null) //->orderBy('id','desc');   
+            ->whereHas('course', function ($query) use ($branch_id) {
+                if($branch_id!=""){
+                    $query->where('branch_id', $branch_id);
+                }  
+                 return true;
+            })->with('course')         
+            ->whereHas('lesson', function ($query) use ($args) {
                     if (isset($args['lesson_name']))
                         $query->where('lessons.name', 'LIKE', '%' . $args['lesson_name'] . '%');
                     else
@@ -49,8 +56,9 @@ final class GetCourses
     }
     function resolveCourseTotalReport($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $branch_id = auth()->guard('api')->user()->branch_id;
         if (AuthRole::CheckAccessibility("CourseTotalReport")) {
-            $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->with('teacher')->get() : Course::with('teacher')->orderBy('id', 'asc')->get();
+            $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->where('branch_id',$branch_id)->with('teacher')->get() : Course::where('branch_id',$branch_id)->with('teacher')->orderBy('id', 'asc')->get();
             //Log::info("the all courses are:" . $args['course_id']);
             $data = [];
             $courses = [];
@@ -86,7 +94,8 @@ final class GetCourses
             foreach ($courses_tmp as $course) {
                // Log:info("the course id is: " . $course->id . "\n");
                 $teache_name = $course->teacher->first_name . ' ' . $course->teacher->last_name;
-                $courseSession = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'asc');
+                $courseSession = CourseSession::where('course_id', $course->id)
+                ->orderBy('start_date', 'asc');
                 $courseSession_last = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'desc');
                 // Log::info("the latest is :" . json_encode($courseSession->orderBy('start_date', 'desc')->latest()->get()));
                 $students = CourseStudent::where('course_id', $course->id);

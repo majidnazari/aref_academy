@@ -22,8 +22,15 @@ final class GetCourseSessions
     }
     public function resolveCourseSession($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $branch_id = auth()->guard('api')->user()->branch_id;
         if( AuthRole::CheckAccessibility("CourseSession")){
-            return CourseSession::where('deleted_at', null);//->orderBy('id','desc');
+            return CourseSession::where('deleted_at', null)//;//->orderBy('id','desc');
+            ->whereHas('course', function ($query) use ($branch_id) {
+                if($branch_id!=""){
+                    $query->where('branch_id', $branch_id);
+                }  
+                 return true;
+            })->with('course');
        }
        $CourseSession =CourseSession::where('deleted_at',null)
        ->where('id',-1);       

@@ -137,7 +137,6 @@ final class GetCourses
 
             }
 
-
             return $data;
         }
         return Course::where('deleted_at', null)

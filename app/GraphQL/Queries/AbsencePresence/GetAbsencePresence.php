@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use App\Models\Branch;
 use AuthRole;
 use Log;
 
@@ -22,12 +23,16 @@ final class GetAbsencePresence
     }
     function resolveAbsencePresenceAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $branch_id = auth()->guard('api')->user()->branch_id;
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_ids));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+        
         //return AuthRole::CheckAccessibility(); 
         $AbsencePresence= AbsencePresence::where('id',$args['id'])
         ->whereHas('courseSession.course', function ($query) use ($branch_id) {
             if($branch_id!=""){
-                $query->where('branch_id', $branch_id);
+                $query->whereIn('branch_id', $branch_id);
             }  
              return true;
         })->with('courseSession.course')
@@ -37,7 +42,11 @@ final class GetAbsencePresence
     }
     public function resolveGetAbsencePresence($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id = auth()->guard('api')->user()->branch_id;
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_ids));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+
         // //Log::info(json_encode($context->request()));
         // $response = Http::get(env('REMOTE_SERVER').'getStudent/'.$rootValue['student_id']);
         // //$getPost= Post::find($args['id']);
@@ -47,7 +56,7 @@ final class GetAbsencePresence
         ->where('student_id',$rootValue['student_id'])
         ->whereHas('courseSession.course', function ($query) use ($branch_id) {
             if($branch_id!=""){
-                $query->where('branch_id', $branch_id);
+                $query->whereIn('branch_id', $branch_id);
             }  
              return true;
         })->with('courseSession.course')

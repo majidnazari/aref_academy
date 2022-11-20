@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use App\Models\Branch;
 use App\Models\CourseSession;
 use App\Models\CourseStudent;
 use AuthRole;
@@ -27,15 +28,14 @@ final class GetCourses
 
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id = auth()->guard('api')->user()->branch_id;
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_id));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+
         if (AuthRole::CheckAccessibility("Course")) {
             $course = Course::where('deleted_at', null) //->orderBy('id','desc');   
-            ->whereHas('course', function ($query) use ($branch_id) {
-                if($branch_id!=""){
-                    $query->where('branch_id', $branch_id);
-                }  
-                 return true;
-            })->with('course')         
+            ->whereIn('branch_id',$branch_id)       
             ->whereHas('lesson', function ($query) use ($args) {
                     if (isset($args['lesson_name']))
                         $query->where('lessons.name', 'LIKE', '%' . $args['lesson_name'] . '%');
@@ -56,9 +56,13 @@ final class GetCourses
     }
     function resolveCourseTotalReport($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id = auth()->guard('api')->user()->branch_id;
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_id));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+
         if (AuthRole::CheckAccessibility("CourseTotalReport")) {
-            $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->where('branch_id',$branch_id)->with('teacher')->get() : Course::where('branch_id',$branch_id)->with('teacher')->orderBy('id', 'asc')->get();
+            $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->whereIn('branch_id',$branch_id)->with('teacher')->get() : Course::whereIn('branch_id',$branch_id)->with('teacher')->orderBy('id', 'asc')->get();
             //Log::info("the all courses are:" . $args['course_id']);
             $data = [];
             $courses = [];
@@ -125,6 +129,9 @@ final class GetCourses
                     "total_pending" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'pending')->where('financial_status', 'pending')->count('id'),
                     "total_refused" => CourseStudent::where('course_id', $course->id)->where('student_status', 'refused')->count(),
                     "total_fired" => CourseStudent::where('course_id', $course->id)->where('student_status', "fired")->count(),
+                    "total_just_noMoney" => CourseStudent::where('course_id', $course->id)->where('financial_refused_status', "noMoney")->count(),
+                    "total_just_withMoney" => CourseStudent::where('course_id', $course->id)->where('financial_refused_status', "withMoney")->count(),
+                    "total_transferred" => CourseStudent::where('course_id', $course->id)->where('transferred_to_course_id','!=',null )->count(),
                 ];
                 $data[]=$courses;
 

@@ -34,7 +34,10 @@ class Course extends Model implements Auditable
         "sum_absent_session",
         "total_remain_session",
         "total_done_session",
-        "total_session"
+        "total_session",
+        "total_transferred",
+        "total_noMoney",
+        "total_withMoney"
     ];
     public function user()
     {

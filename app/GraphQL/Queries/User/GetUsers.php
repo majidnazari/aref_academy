@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Queries\User;
 
+use App\Models\Branch;
 use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -28,7 +29,10 @@ final class GetUsers
     // }
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id=auth()->guard('api')->user()->branch_id;
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_ids));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;  
         //$user= User::where('deleted_at', null);//->orderBy('id','desc');
              //return $user;
             // if (! Gate::allows('GetAllUsers')) {
@@ -36,7 +40,7 @@ final class GetUsers
             // }
         if( AuthRole::CheckAccessibility("Users")){
             $user=User::where('deleted_at', null)
-            ->where('branch_id',$branch_id)
+            ->whereIn('branch_id',$branch_id)
             ->whereHas('group',function ($query) use($args){
                 if(isset($args["group_id"]))
                     $query->where("groups.id",$args["group_id"]);

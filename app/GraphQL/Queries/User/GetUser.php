@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 use App\Exceptions\CustomException;
+use App\Models\Branch;
 use App\Models\Group;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
@@ -29,16 +30,24 @@ final class GetUser //implements ErrorHandler
        
     }
     function resolveUserId($id): User
-    {        
-        $user= User::find($id);
+    {  
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_ids));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;      
+        $user= User::where('id',$id)->whereIn('branch_id',$branch_id);
         return $user;
     }
     
     function resolveUserAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)//: Builder
     {
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_ids));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;   
         // $allow_user=array("admin");
         // return auth()->guard('api')->user()->group->type;
-        $user= User::find($args['id']);
+        $user= User::where('id',$args['id'])->whereIn('branch_id',$branch_id);
             return $user;
         // if(in_array($user_role,$allow_user))
         //     return true;

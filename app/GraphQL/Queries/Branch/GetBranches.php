@@ -23,8 +23,10 @@ final class GetBranches
 
     function resolveBranchesAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
+       $branch_id = auth()->guard('api')->user()->branch_id;
+
        if( AuthRole::CheckAccessibility("Branches")){
-            $Branch= Branch::where('deleted_at', null);
+            $Branch=( $branch_id != "" ) ? Branch::where('deleted_at', null)->where('id',$branch_id) : Branch::where('deleted_at', null);
             return $Branch;
        }
        $Branch =Branch::where('deleted_at',null)

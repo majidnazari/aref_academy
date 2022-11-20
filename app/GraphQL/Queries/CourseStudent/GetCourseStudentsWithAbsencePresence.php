@@ -24,13 +24,17 @@ final class GetCourseStudentsWithAbsencePresence
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id = auth()->guard('api')->user()->branch_id; 
+        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        //Log::info("the b are:" . json_encode($branch_ids));
+        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+
         if (AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresence")) {
             return DB::table('courses')->where('courses.id', $args['course_id'])
                 ->where('CS.deleted_at', null)
                 ->where('AB.deleted_at', null)
                 ->where('courses.deleted_at', null)
-                ->where('courses.branche_id',$branch_id)
+                ->whereIn('courses.branche_id',$branch_id)
                 ->whereNotNull('AB.id')
                 ->select(
                     'courses.id as course_id',

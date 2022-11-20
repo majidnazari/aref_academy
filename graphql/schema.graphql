@@ -505,6 +505,10 @@ type CourseWithDetailsReport{
       total_pending:Int
       total_refused:Int
       total_fired:Int
+
+      total_just_noMoney:Int
+      total_just_withMoney:Int
+      total_transferred:Int
       
       # user_id_creator:Int
       # branch_id:Int

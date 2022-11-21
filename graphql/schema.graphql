@@ -244,7 +244,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       comment:String  @like (template: "%{}%")
       response:String @like (template: "%{}%")
       orderBy:[OrderByClause!] @orderBy
-      ):[StudentWarningHistory] @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistoriesAttribute") 
+      ):[StudentWarningHistory] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistoriesAttribute") 
     # @can(ability: "view")
     #  menus(
     #         where: _ @whereConditions(columns: ["parent_id"])

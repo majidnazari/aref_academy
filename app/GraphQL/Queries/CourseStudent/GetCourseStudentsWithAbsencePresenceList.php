@@ -28,10 +28,12 @@ final class GetCourseStudentsWithAbsencePresenceList
     }
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
-        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
-        //Log::info("the b are:" . json_encode($branch_ids));
-        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+        // $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
+        // $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
+        // //Log::info("the b are:" . json_encode($branch_ids));
+        // $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
+
+        $branch_id = auth()->guard('api')->user()->branch_id;
         
         if (AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresenceList")) {
 
@@ -41,8 +43,8 @@ final class GetCourseStudentsWithAbsencePresenceList
             $session_id_list = CourseSession::where('course_id', $args['course_id'])->pluck('id');
             $all_course_student_ids=CourseStudent::where('course_id', $args['course_id'])
             ->whereHas('course', function ($query) use ($branch_id) {
-                if($branch_id!=""){
-                    $query->whereIn('branch_id', $branch_id);
+                if($branch_id){
+                    $query->where('branch_id', $branch_id);
                 }  
                  return true;
             })->with('course')

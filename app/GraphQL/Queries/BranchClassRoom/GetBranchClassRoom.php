@@ -20,7 +20,16 @@ final class GetBranchClassRoom
     }
     function resolveBranchClassRoomAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $BranchClassRoom= BranchClassRoom::find($args['id']);
+        $branch_id = auth()->guard('api')->user()->branch_id;
+
+        $BranchClassRoom= BranchClassRoom::where('id',$args['id'])
+        ->whereHas('branch', function ($query) use ($branch_id) {
+            if($branch_id){
+                $query->where('id', $branch_id);
+            }  
+             return true;
+        })->with('branch');
+        
         return $BranchClassRoom;
     }
 }

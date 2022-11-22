@@ -20,28 +20,28 @@ final class GetBranchClassRooms
     {
         // TODO implement the resolver
     }
-    function resolveBranchClassRoomsAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveBranchClassRoomsAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if( AuthRole::CheckAccessibility("BranchClassRooms")){
-        //$BranchClassRoom= BranchClassRoom::where('deleted_at', null);
-            $BranchClassRoom=BranchClassRoom::where('deleted_at', null)
-                            ->whereHas('branch',function($query) use($args){
-                                        if(isset($args['branch_id'])){
-                                            $query->where('branches.id',$args['branch_id']);
-                                        }  
-                                        // if(isset($args['teacher_id'])){
+        $branch_id = auth()->guard('api')->user()->branch_id;
+        if (AuthRole::CheckAccessibility("BranchClassRooms")) {
+            //$BranchClassRoom= BranchClassRoom::where('deleted_at', null);
+            $BranchClassRoom = BranchClassRoom::where('deleted_at', null)
+                ->whereHas('branch', function ($query) use ($args,$branch_id) {
+                    if (isset($args['branch_id'])) {
+                        $query->where('branches.id', $args['branch_id']);
+                    }
+                    if($branch_id){
 
-                                        //     $query->where('users1.id',$args['teacher_id']);
-                                            
-                                        // }
-                                        return true;  
+                        $query->where('id',$branch_id);
 
-                            })
-                            ->with('branch');
+                    }
+                    return true;
+                })
+                ->with('branch');
             return $BranchClassRoom;
-                        }
-                        $BranchClassRoom =BranchClassRoom::where('deleted_at',null)
-                        ->where('id',-1);       
-                        return  $BranchClassRoom;        
+        }
+        $BranchClassRoom = BranchClassRoom::where('deleted_at', null)
+            ->where('id', -1);
+        return  $BranchClassRoom;
     }
 }

@@ -57,6 +57,11 @@ class CourseStudent extends Model implements Auditable
     public function course()
     {
         return $this->belongsTo(Course::class,"course_id");
-    }    
+    } 
+    public function transferred_course()
+    {
+        return $this->belongsTo(Course::class,"transferred_to_course_id");
+    }  
+      
     
 }

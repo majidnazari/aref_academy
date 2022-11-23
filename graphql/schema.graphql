@@ -571,6 +571,7 @@ type CourseStudent @key(fields: "id"){
 
         financial_refused_status:String
         transferred_to_course_id:Int
+        transferred_course:Course @belongsTo
         financial_status_updated_at:DateTime
         created_at:DateTime
         updated_at:DateTime

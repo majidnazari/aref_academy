@@ -32,13 +32,13 @@ final class CreateLesson
             //'active' => $args['active']
             
         ];
-        $lesson= BasicModule::isExist('Lesson',$params=["name" => $args['name']]);
+        $lesson= Lesson::where('name',$args['name'])->first();
         //$lesson=Lesson::where("name","=",$args['name'])->first();
         if($lesson)
         {
             return Error::createLocatedError('LESSON-CREATE-RECORD_IS_EXIST');
         }
-        $lesson_resut= BasicModule::createModel('Lesson',$lesson_date);
+        $lesson_resut= Lesson::create($lesson_date);
         //$lesson_resut=Lesson::create($lesson_date);
         return $lesson_resut;
     }

@@ -27,6 +27,7 @@ final class UpdateCourseStudentInputValidator extends Validator
                 'unique:course_students,student_id,NULL,id,course_id,' . $this->arg('course_id'),
             ],
             'financial_refused_status' =>[
+                "nullable",
                 'in:withMoney,noMoney' //Rule::in(Status::all())
             ] ,
             "transferred_to_course_id"  => [

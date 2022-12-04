@@ -509,7 +509,8 @@ type CourseWithDetailsReport{
       total_fired:Int
 
       total_just_noMoney:Int
-      total_just_withMoney:Int
+      total_just_not_returned:Int
+      total_just_returned:Int
       total_transferred:Int
       
       # user_id_creator:Int

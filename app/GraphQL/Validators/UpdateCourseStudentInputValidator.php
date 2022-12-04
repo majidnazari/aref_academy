@@ -28,7 +28,7 @@ final class UpdateCourseStudentInputValidator extends Validator
             ],
             'financial_refused_status' =>[
                 "nullable",
-                'in:withMoney,noMoney' //Rule::in(Status::all())
+                'in:not_returned,returned,noMoney' //Rule::in(Status::all())
             ] ,
             "transferred_to_course_id"  => [
                 "nullable" ,

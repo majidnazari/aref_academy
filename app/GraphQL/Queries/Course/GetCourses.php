@@ -64,6 +64,7 @@ final class GetCourses
         if (AuthRole::CheckAccessibility("CourseTotalReport")) {
             $courses_tmp = (isset($args['course_id'])  && ($args['course_id'] !=-1) ) ? Course::where('id', $args['course_id'])->whereIn('branch_id',$branch_id)->with('teacher')->get() : Course::whereIn('branch_id',$branch_id)->with('teacher')->orderBy('id', 'asc')->get();
             //Log::info("the all courses are:" . $args['course_id']);
+            //Log::info(json_encode($courses_tmp));
             $data = [];
             $courses = [];
             $absence_presence_id = 0;
@@ -102,8 +103,8 @@ final class GetCourses
                 ->orderBy('start_date', 'asc');
                 $courseSession_last = CourseSession::where('course_id', $course->id)->orderBy('start_date', 'desc');
                 // Log::info("the latest is :" . json_encode($courseSession->orderBy('start_date', 'desc')->latest()->get()));
-                $students = CourseStudent::where('course_id', $course->id);
-                $all_sum=$course->sum_dellay60_session + $course->sum_dellay45_session + $course->sum_dellay30_session + $course->sum_dellay30_session + $course->sum_dellay15_session;
+                //$students = CourseStudent::where('course_id', $course->id);
+                $all_dellay_sum=$course->sum_dellay60_session + $course->sum_dellay45_session + $course->sum_dellay30_session + $course->sum_dellay30_session + $course->sum_dellay15_session;
                 $courses = [
                     "id" => $course->id,
                     "teacher_name" => $teache_name,
@@ -113,7 +114,7 @@ final class GetCourses
                     "total_done_session" => $course->total_done_session,
 
                     "avg_absent" => (!empty($course->sum_absent_session )) ?($course->sum_absent_session / $course->total_done_session) : null,
-                    "avg_dellay" => (!empty($all_sum))? ($all_sum / $course->total_done_session) : null,
+                    "avg_dellay" => (!empty($all_dellay_sum))? ($all_dellay_sum / $course->total_done_session) : null,
                     "total_students" => CourseStudent::where('course_id', $course->id)->count('id'),
                     "total_approved" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'approved')->where('financial_status', 'approved')->count('id'),
                     "total_noMoney" => CourseStudent::where('course_id', $course->id)
@@ -126,11 +127,26 @@ final class GetCourses
                     ->where('manager_status', 'approved')
                     ->where('financial_status', 'semi_approved')
                     ->count('id'),
-                    "total_pending" => CourseStudent::where('course_id', $course->id)->where('student_status', 'ok')->where('manager_status', 'pending')->where('financial_status', 'pending')->count('id'),
-                    "total_refused" => CourseStudent::where('course_id', $course->id)->where('student_status', 'refused')->count(),
-                    "total_fired" => CourseStudent::where('course_id', $course->id)->where('student_status', "fired")->count(),
-                    "total_just_noMoney" => CourseStudent::where('course_id', $course->id)->where('financial_refused_status', "noMoney")->count(),
-                    "total_just_withMoney" => CourseStudent::where('course_id', $course->id)->where('financial_refused_status', "withMoney")->count(),
+                    "total_pending" => CourseStudent::where('course_id', $course->id)
+                    ->where('student_status', 'ok')
+                    ->where('manager_status', 'pending')
+                    ->where('financial_status', 'pending')
+                    ->count('id'),
+                    "total_refused" => CourseStudent::where('course_id', $course->id)
+                    ->where('student_status', 'refused')
+                    ->count(),
+                    "total_fired" => CourseStudent::where('course_id', $course->id)
+                    ->where('student_status', "fired")
+                    ->count(),
+                    "total_just_noMoney" => CourseStudent::where('course_id', $course->id)
+                    ->where('financial_refused_status', "noMoney")
+                    ->count(),
+                    "total_just_returned" => CourseStudent::where('course_id', $course->id)
+                    ->where('financial_refused_status', "returned")
+                    ->count(),
+                    "total_just_not_returned" => CourseStudent::where('course_id', $course->id)
+                    ->where('financial_refused_status', "not_returned")
+                    ->count(),
                     "total_transferred" => CourseStudent::where('course_id', $course->id)->where('transferred_to_course_id','!=',null )->count(),
                 ];
                 $data[]=$courses;

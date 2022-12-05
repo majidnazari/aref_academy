@@ -13,7 +13,6 @@
         "laravel/framework": "^9.2",
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.14.1",
-        "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.5",
         "mll-lab/graphql-php-scalars": "^5.4",
         "mll-lab/laravel-graphql-playground": "^2.6",
@@ -24,14 +23,14 @@
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
         "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.9",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10"
-        
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "psr-4": {

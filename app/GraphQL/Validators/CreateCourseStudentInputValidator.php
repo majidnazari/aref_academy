@@ -23,7 +23,11 @@ final class CreateCourseStudentInputValidator extends Validator
             ],
             "student_id"=> [
                 "required",
-                'unique:course_students,student_id,NULL,id,course_id,' . $this->arg('course_id'),
+                Rule::unique('course_students','student_id')
+                ->where('deleted_at',null)
+                ->where('course_id',$this->arg('course_id'))
+                ->ignore($this->arg('id'), 'id')
+                //'unique:course_students,student_id,NULL,id,course_id,' . $this->arg('course_id'),
             ]
               
         ];

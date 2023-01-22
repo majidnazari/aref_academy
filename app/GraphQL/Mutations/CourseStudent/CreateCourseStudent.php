@@ -50,7 +50,7 @@ final class CreateCourseStudent
             
             'user_id_creator' =>  $user_id,
             'user_id_approved' => 0            
-        ];
+        ];        
         $CourseStudent_result = CourseStudent::create($CourseStudente);
         $this->addNotRegisteredUser($args['course_id'], $user_id);
         return $CourseStudent_result;

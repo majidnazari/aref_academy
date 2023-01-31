@@ -5,7 +5,7 @@ namespace App\GraphQL\Validators;
 use Nuwave\Lighthouse\Validation\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Course;
-
+use Illuminate\Validation\Rules\RequiredIf;
 
 final class UpdateCourseStudentInputValidator extends Validator
 {
@@ -34,6 +34,11 @@ final class UpdateCourseStudentInputValidator extends Validator
                 "nullable" ,
                 //Rule::requiredIf($this->arg('financial_refused_status')=="transferred"),
                 Rule::in(Course::pluck('id'))
+            ],
+            "description" => [
+                "nullable",
+                Rule::requiredIf($this->arg('student_status')=="refused"),
+                //new RequiredIf("student_status" == "refused")
             ]
         ];
     }

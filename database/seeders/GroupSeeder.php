@@ -60,7 +60,7 @@ class GroupSeeder extends Seeder
             "type" =>"teacher",            
             "created_at" => $now,
             "updated_at" => $now
-           ]
+           ]           
         ]);  
     }
 }

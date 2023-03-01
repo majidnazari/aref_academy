@@ -27,8 +27,10 @@ final class GetUsers
     //     $users= User::paginate(2);       
     //     return $users;
     // }
+    private $group_access_Not_showing_all_branches=array("admin");
     public function resolveUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $user_role=auth()->guard('api')->user()->group->type;
         $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
         $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
         //Log::info("the b are:" . json_encode($branch_ids));
@@ -39,9 +41,12 @@ final class GetUsers
             //     abort(403);
             // }
         if( AuthRole::CheckAccessibility("Users")){
-            $user=User::where('deleted_at', null)
-            ->whereIn('branch_id',$branch_id)
-            ->whereHas('group',function ($query) use($args){
+            $user=User::where('deleted_at', null);
+            if(!($isNotAmin=in_array($user_role,$this->group_access_Not_showing_all_branches))) //it means if it is not admin branch where executes.
+            {
+                $user->whereIn('branch_id',$branch_id);
+            } 
+            $user->whereHas('group',function ($query) use($args){
                 if(isset($args["group_id"]))
                     $query->where("groups.id",$args["group_id"]);
                 else

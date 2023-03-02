@@ -50,7 +50,7 @@ final class CreateAbsencePresence
             return Error::createLocatedError("ABSENCEPRESENCE-CREATE-RECORD_IS_EXIST");
         }
         $AbsencePresence = AbsencePresence::create($AbsencePresence);
-        $courseSession = CourseSession::where('id', $args['course_session_id'])->first();
+        $courseSession = CourseSession::where('id', $args['course_session_id'])->where('isCancel',false)->first();
         $params = [
             "course_id" => $courseSession['course_id'],
             "student_id" => $args['student_id'],

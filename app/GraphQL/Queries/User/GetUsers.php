@@ -40,7 +40,7 @@ final class GetUsers
             // if (! Gate::allows('GetAllUsers')) {
             //     abort(403);
             // }
-        if( AuthRole::CheckAccessibility("Users")){
+        if(AuthRole::CheckAccessibility("Users")){
             $user=User::where('deleted_at', null);
             if(!($isNotAmin=in_array($user_role,$this->group_access_Not_showing_all_branches))) //it means if it is not admin branch where executes.
             {
@@ -52,9 +52,7 @@ final class GetUsers
                 else
                   return true;
             })       
-            ->with('group');
-        
-            
+            ->with('group');  
             return $user;
         }
         $User =User::where('deleted_at',null)

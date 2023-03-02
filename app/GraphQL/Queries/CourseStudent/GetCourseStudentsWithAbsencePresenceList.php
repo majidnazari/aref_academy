@@ -40,7 +40,7 @@ final class GetCourseStudentsWithAbsencePresenceList
             $data = [];
             $students = [];
             $absence_presence_id=0;
-            $session_id_list = CourseSession::where('course_id', $args['course_id'])->pluck('id');
+            $session_id_list = CourseSession::where('course_id', $args['course_id'])->where('isCancel',false)->pluck('id');
             $all_course_student_ids=CourseStudent::where('course_id', $args['course_id'])
             ->whereHas('course', function ($query) use ($branch_id) {
                 if($branch_id){
@@ -52,6 +52,9 @@ final class GetCourseStudentsWithAbsencePresenceList
             $student_lists = CourseStudent::where('course_id', $args['course_id']);//->pluck('student_id');
             $get_all_student_sesions = AbsencePresence::whereIn('course_session_id', $session_id_list)
                 ->whereIn('student_id',$student_lists->pluck('student_id'))// $all_course_student_ids)
+                ->WhereHas('courseSession',function($q) {
+                    $q->where('isCancel',false );                    
+                })                
                 ->with('courseSession')
                 ->orderBy('student_id', 'asc')
                 ->get();

@@ -47,8 +47,8 @@ class CreateLimitationDateForAbsencePresence implements Rule
         // Log::info(strtotime(date("Y-m-d H:i:s")));
         $course_session_date=strtotime($get_course_session->start_date . ' ' . "23:59:59");//.' '. $get_course_session->end_time);
         $now=strtotime(date("Y-m-d H:i:s"));
-       //Log::info("course_session_date is:" . $course_session_date);
-      // Log::info("now is:".  $now);
+       //Log::info("course_session_date is:" . $get_course_session->start_date . ' ' . "23:59:59");
+       //Log::info("now is:".  date("Y-m-d H:i:s"));
         if($now>$course_session_date){
             $this->err="COURSE_SESSION_DATE_TIME_IS_PASSED";
             return false;

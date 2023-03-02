@@ -24,6 +24,7 @@ class CourseSession extends Model implements Auditable
         "start_date",
         "start_time",
         "end_time",
+        "isCancel",
         
     ];
     public function user()

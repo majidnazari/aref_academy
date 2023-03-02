@@ -52,6 +52,7 @@ class ApplyingCourseStatistics
         //Log::info("current date is: " . $current_date . " current time is" . $current_time);
 
         $numberofcoursesessionpassed = CourseSession::where('course_id', $event->params['course_id'])
+            ->where('isCancel',false)
             ->where(function ($q) use ($current_date, $current_time) {
                 $q->where('start_date', '<', $current_date)
                     ->orWhere(function ($query) use ($current_date, $current_time) {
@@ -60,7 +61,7 @@ class ApplyingCourseStatistics
                     });
             })
             ->count('id');
-        $totalSession = CourseSession::where('course_id', $event->params['course_id'])->count('id');
+        $totalSession = CourseSession::where('course_id', $event->params['course_id'])->where('isCancel',false)->count('id');
         //Log::info("the count of passed session is:" .$numberofcoursesessionpassed );   
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_not_registered');
         //   $sum_not_registerred= CourseStudent::where('course_id',$event->params['course_id'])->sum('total_noAction');
@@ -116,7 +117,6 @@ class ApplyingCourseStatistics
         // $course->total_transferred=$total_transferred;
         // $course->total_noMoney=$total_noMoney;
         // $course->total_withMoney=$total_withMoney;
-
 
         $course->save();
         //->sum('total_not_registered');

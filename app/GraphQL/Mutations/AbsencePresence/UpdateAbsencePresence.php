@@ -29,7 +29,10 @@ final class UpdateAbsencePresence
     {
         $user_id = auth()->guard('api')->user()->id;
         $args["user_id_creator"] = $user_id;
-        $AbsencePresence = AbsencePresence::where('id', $args['id'])->with('courseSession')->first();
+        $AbsencePresence = AbsencePresence::where('id', $args['id'])
+        ->with('courseSession')
+        ->where('isCancel',false)
+        ->first();
         $args['student_id']=$AbsencePresence->student_id;
         $args['course_session_id']=$AbsencePresence->course_session_id;
         //Log::info("the result is:" . ($AbsencePresence->student_id));

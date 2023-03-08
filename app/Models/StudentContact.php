@@ -14,8 +14,8 @@ class StudentContact extends Model implements Auditable
     use SoftDeletes;
     protected $table='student_contacts';
     protected $fillable=[
-        "user_id",
-        "student_id",
+        "user_id_creator",
+        "reason_absence",
         "absence_presence_id",
         "who_answered",
         "description",
@@ -26,13 +26,13 @@ class StudentContact extends Model implements Auditable
     {
         return $this->belongsTo(User::class,'user_id_creator');
     }
-    public function student()
-    {
-        return $this->belongsTo(Student::class,"student_id");
-    }
+    // public function student()
+    // {
+    //     return $this->belongsTo(Student::class,"student_id");
+    // }
     public function absencepresence()
     {
        // return $this->hasmany(AbsencePresence::class);
-        return $this->belongsTo(AbsencePresence::class,"student_id");
+        return $this->belongsTo(AbsencePresence::class,"absence_presence_id");
     }  
 }

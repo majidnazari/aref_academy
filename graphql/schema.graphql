@@ -1143,6 +1143,25 @@ type StudentWarningHistory @key(fields: "id"){
       response:String!
     }
 
+    input CreateStudentContactInput{
+      user_id_creator:Int!
+      reason_absence:String
+      absence_presence_id:Int!
+      who_answered:String
+      is_called_successfull:Boolean
+      description:String
+
+    }
+
+     input UpdateStudentContactInput{   
+      reason_absence:String
+      absence_presence_id:Int!
+      who_answered:String
+      is_called_successfull:Boolean
+      description:String
+
+    }
+
      
 
 type Mutation {
@@ -1253,6 +1272,14 @@ type Mutation {
         updateStudentWarningHistory(input: UpdateStudentWarningHistoryInput @spread): StudentWarningHistory @guard(with:["api"]) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarningHistory\\UpdateStudentWarningHistory@resolver")
 
     #end student_warning_history
+
+    #region student_contact
+
+      createStudentContact(input: CreateStudentContactInput! @spread): StudentContact! @guard(with:["api"]) @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\StudentContact\\CreateStudentContact@resolver")
+      updateStudentContact(input: UpdateStudentContactInput! @spread): StudentContact! @guard(with:["api"]) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\StudentContact\\UpdateStudentContact@resolver")
+      deleteStudentContact(id:ID!): StudentContact  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\StudentContact\\DeleteStudentContact@resolver")
+
+    #end student_contact
 
 
 }

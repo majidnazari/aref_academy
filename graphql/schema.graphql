@@ -1,4 +1,9 @@
 
+#import type.graphql
+#import course.graphql
+#import user.graphql
+
+
 scalar _Any
 scalar _FieldSet
 
@@ -39,16 +44,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     # azmoon(id: ID @eq):Azmoon @guard(with: ["api"]) @find
 
     # test1param(name:String="abdollah"): String
-    getUser(id:ID!):User @can(ability: "view")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
-    getUsers(
-      first_name: String @like(template : "%{}%") 
-      last_name: String @like(template : "%{}%")
-      email: String @like(template : "%{}%")      
-      group_id: Int  
-      branch_id: Int  @eq
-      # group_id: Group  @belongsToMany(relation: "groups" ) 
-      orderBy: [OrderByClause!] @orderBy
-       ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
+   
     getGroup(id:ID!):Group @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Group\\GetGroup@resolveGroupAttribute") 
     getGroups(
       name:String @like (template : "%{}%")
@@ -243,6 +239,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
       course_id:Int @eq
       comment:String  @like (template: "%{}%")
       response:String @like (template: "%{}%")
+      
       orderBy:[OrderByClause!] @orderBy
       ):[StudentWarningHistory] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistoriesAttribute") 
     # @can(ability: "view")
@@ -254,6 +251,24 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
      testHeader(simpleparameter:String) : String @cacheControl(maxAge: 3600, scope: PUBLIC) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolvetestHeaderAttribute") 
 
     #  getTraslateFile: String @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolveShowTranslate")
+
+
+    getCourseTotalReportAtSpecialTime(
+      id:Int @eq
+      user_id_creator:Int @eq
+      branch_id:Int @eq
+      gender:String @eq
+      name:String  @like (template: "%{}%")
+      education_level:String  @eq
+      type:String @eq
+      financial_status:String @eq
+
+      course_date_from:String 
+      course_date_to:String 
+      course_id:Int
+
+      orderBy:[OrderByClause!] @orderBy
+    ):[CourseReportAtSpecialTime] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourseReportAtSpecialTime")
 }
 
  enum LessonEnum{
@@ -271,522 +286,7 @@ enum SortOrder {
     ASC
     DESC
 }
-type StudentContact @key(fields: "id") {
-  id:ID!
-  user_id_creator:Int
-  student_id:Int
-  # student:Student @provides(fields: "id")
-  absence_presence_id:Int
-  who_answered:String
-  description:String
-  is_called_successfull:Boolean
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
-}
 
-type StudentFault @key(fields: "id") {
-  id:ID!
-  user_id_creator:Int
-  student_id:Int
-  # student:Student @provides(fields: "id")
-  fault_id:Int  
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
-}
-
-type Branch{
-    id:ID
-    user_id_creator:Int
-    name:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    # User:[User] @belongsTo
-    user: User @belongsTo
-   
-   
-}
-type BranchClassRoom{
-    id:ID
-    user_id_creator:Int
-    branch_id:Int
-    name:String
-    description:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    # User:[User] @belongsTo
-    user: User @belongsTo
-    branch:Branch @belongsTo
-   
-}
-type Fault{
-    id:ID
-    user_id_creator:Int
-    description:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    # User:[User] @belongsTo
-    user: User @belongsTo
-   
-}
-type AzmoonResult @key(fields: "id") {
-    id:ID!
-    student_id:Int
-    result_score:String 
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    # student:Student @provides(fields: "id") 
-}
-
-type Azmoon{
-    id:ID
-    user_id_creator:Int
-    course_id:Int
-    course_session_id:Int
-    isSMSsend:Int
-    score:Float
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    user:User @belongsTo
-    course:Course @belongsTo
-    courseSession:CourseSession @belongsTo
-    
-}
-type Lesson{
-  id:Int
-  name:String
-}
-
-type AbsencePresence @key(fields: "id") {
-    id:ID!
-    user_id_creator:Int
-    course_session_id:Int
-    teacher_id:Int
-    student_id:Int
-    # student:Student @provides(fields: "id")
-    status:String
-    attendance_status:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    user:User @belongsTo
-    courseSession:CourseSession @belongsTo
-    teacher:User @belongsTo
-}
-type CourseStudentWithIllegalStudent @key(fields: "id"){
-  
-   id:ID!
-  student_id:Int
-  financial_status:String
-  session_count: Int
-  name: String
-  course_id: String
-  paginatorInfo:paginatorInfo
-
-  #  data:[Data]
-  #  paginatorInfo:paginatorInfo
-
-}
-#   data:[Data]
-#   paginatorInfo:paginatorInfo
-# }
-type Data {
-
-  id:Int
-  student_id:Int
-  financial_status:String
-  session_count: Int
-  name: String
-  course_id: String
-}
-type paginatorInfo{
-      count:Int
-      currentPage:Int
-      firstItem:Int
-      hasMorePages:Boolean
-      lastItem:Int
-      lastPage:Int
-      perPage:Int
-      total:Int
-}
-type CourseStudentWithAbsencePresence @key(fields: "id"){   
-      id:ID!       
-      course_id:Int 
-     
-      ap_id:Int  
-      ap_status:String 
-      ap_attendance_status:String
-      ap_user_id_creator:Int
-      ap_course_session_id:Int
-      ap_teacher_id:Int
-      ap_student_id:Int
-      ap_created_at:DateTime
-
-      cs_user_id_creator:Int
-      student_id:Int
-      cs_course_id:Int
-      cs_manager_status:String
-      cs_financial_status:String
-      cs_student_status:String
-      cs_user_id_manager:Int
-      cs_user_id_financial:Int
-      cs_user_id_student_status:Int
-      cs_created_at:DateTime
-
-      student_warning_id:Int
-      student_warning_student_id:Int
-      student_warning_course_id:Int
-      student_warning_comment:String
-
-      # user_creator:User @belongsTo
-      # user_manager:User @belongsTo
-      # user_financial:User @belongsTo
-      # user_student_status:User @belongsTo
-      
-}
-type CourseStudentWithAbsencePresenceList @key(fields: "id"){   
-      id:ID!       
-      course_id:Int 
-     
-      ap_id:Int  
-      ap_status:String 
-      ap_attendance_status:String
-      ap_user_id_creator:Int
-      ap_course_session_id:Int
-      ap_teacher_id:Int
-      ap_student_id:Int
-      ap_created_at:DateTime
-
-      cs_user_id_creator:Int
-      student_id:Int
-      cs_course_id:Int
-      cs_manager_status:String
-      cs_financial_status:String
-      cs_student_status:String
-      cs_user_id_manager:Int
-      cs_user_id_financial:Int
-      cs_user_id_student_status:Int
-      cs_created_at:DateTime
-
-}
-type AbsencePresenceBrief {   
-     
-      session_id:Int
-      status:String
-      start_date:String
-      start_time:String
-      end_time:String
-}  
-type AbsencePresenceList @key(fields: "id") {   
-      id:ID!
-      student_id:Int
-      student_status:String
-      sessions:[AbsencePresenceBrief]
-
-}
-type CourseWithDetailsReport{
-
-      id:Int      
-      teacher_name:String
-      start_session:String
-      end_session:String
-      total_session:Int
-      total_done_session:Int
-      avg_absent:Float
-      avg_dellay:Float
-      total_students:Int
-      total_approved:Int
-      total_noMoney:Int
-      total_noMoney_semi_pending:Int
-      total_pending:Int
-      total_refused:Int
-      total_fired:Int
-
-      total_just_noMoney:Int
-      total_just_not_returned:Int
-      total_just_returned:Int
-      total_transferred:Int
-      
-      # user_id_creator:Int
-      # branch_id:Int
-      # year_id:Int
-      # teacher_id:Int
-      # teacher:Teacher
-      # name:String
-      # gender:String
-      # lesson_id:Int
-      # type:String
-      # education_level:String
-      # financial_status:String
-      # user_id_financial:Int
-
-      #  sum_not_registered_session:Int
-      #  sum_noAction_session: Int
-      #  sum_dellay60_session:Int
-      #  sum_dellay45_session:Int
-      #  sum_dellay30_session:Int
-      #  sum_dellay15_session:Int
-      #  sum_present_session:Int
-      #  sum_total_present:Int 
-      #  sum_absent_session:Int
-      #  total_remain_session:Int
-      #  total_done_session:Int
-      #  total_session:Int
-
-      #  courseSession:[CourseSession]
-
-      #  courseStudent:[CourseStudent]
-      
-}
-
-type CourseStudent @key(fields: "id"){   
-        id:ID!
-        course_id:Int
-        # course_session_id:Int
-        # absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
-        student_id:Int
-       
-        user_id_creator:Int
-        user_id_manager:Int  
-        user_id_financial:Int  
-        user_id_student_status:Int  
-        manager_status:String
-        financial_status:String
-        student_status:String  
-        description:String 
-        total_not_registered:Int
-        total_noAction:Int
-        total_dellay60:Int
-        total_dellay45:Int
-        total_dellay30:Int
-        total_dellay15:Int
-        total_present:Int
-        total_absent:Int
-        sum_total_present:Int  #@field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
-
-        financial_refused_status:String
-        transferred_to_course_id:Int
-        transferred_course:Course @belongsTo
-        financial_status_updated_at:DateTime
-        created_at:DateTime
-        updated_at:DateTime
-        deleted_at:DateTime
-
-        user_creator:User @belongsTo
-        user_manager:User @belongsTo
-        user_financial:User @belongsTo
-        user_student_status:User @belongsTo
-        course:Course @belongsTo
-
-}
-type CourseSession{   
-        id:ID
-        user_id_creator:Int
-        branch_class_room_id:Int
-        course_id:Int
-        name:String
-        price:Int
-        special:Boolean
-        start_date:Date
-        start_time:String
-        end_time:String
-        user:User @belongsTo
-        course: Course @belongsTo
-        classRoom:BranchClassRoom @belongsTo
-        absencePresences:[AbsencePresence] @hasMany
-}
-
-type Course{
-      id:ID
-      user_id_creator:Int
-      branch_id:Int
-      year_id:Int
-      teacher_id:Int
-      name:String
-      gender:String
-      lesson_id:Int
-      type:String
-      education_level:String
-      financial_status:String
-      user_id_financial:Int
-
-       sum_not_registered_session:Int
-       sum_noAction_session: Int
-       sum_dellay60_session:Int
-       sum_dellay45_session:Int
-       sum_dellay30_session:Int
-       sum_dellay15_session:Int
-       sum_present_session:Int
-       sum_total_present:Int 
-       sum_absent_session:Int
-       total_remain_session:Int
-       total_done_session:Int
-       total_session:Int
-
-      created_at:DateTime
-      updated_at:DateTime
-      deleted_at:DateTime
-      user:User @belongsTo
-      year:Year @belongsTo
-      teacher:User @belongsTo
-      lesson:Lesson @belongsTo
-      branch:Branch @belongsTo
-      courseSession:[CourseSession] @hasMany
-
-}
-
-# type Student @key(fields: "id") @extends  {
-#   id:ID! @external 
-#   courses: [CourseStudent]      
-# }
-
-  type User {
-    id:ID    
-    # userId:ID
-    group_id:Int
-    branch_id:Int
-    first_name: String
-    last_name: String 
-    #mobile: String!
-    email: String! 
-    #type: String!
-    #is_teacher: Int! 
-   
-    created_at: DateTime
-    updated_at: DateTime
-    deleted_at: DateTime
-    group: Group @belongsTo
-    branch: Branch @belongsTo
-    # user_creator: User @belongsTo
-    # faults:[Fault] @belongsToMany
-    faults: [Fault] @hasMany
-   
-}
-
-type Group{ 
-  id:ID
-  # groupId:ID
-  user_id_creator:Int
-  # key:String
-  name:String
-  persian_name:String
-  type:String
-  created_at: DateTime
-  updated_at: DateTime
-  deleted_at: DateTime
-  users: [User] @hasMany
-  # pivot: GroupUserPivot
-
-  menus: [Menu!] @belongsTo
-}
-# type GroupUserPivot { 
-#     id:ID   
-#     # groupUserId: ID
-#     user_id_creator:Int
-#     user_id: Int
-#     group_id: Int
-#     key: String
-#     created_at: DateTime
-#     updated_at: DateTime
-#     deleted_at: DateTime
-
-#     user: [User!] @hasMany
-#     group: [Group!] @hasMany
-# }
-
-type Menu {
-    id:ID
-    # menuId: Int
-    slug: String
-    name: String
-    icon: String
-    href: String
-    #type: String!
-    parent_id:Int
-    parent_id: Int    
-    created_at: DateTime
-    updated_at: DateTime
-    deleted_at: DateTime
-    # parent:[Menu]  @hasMany
-    subMenus: [Menu] @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver")
-    # @hasMany  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
-    # subMenus: [Menu] @hasMany
-    groups: [Group!] @belongsToMany
-    #  pivot: MenuPivot
-}
-
-type MenuPivot {
-    id:ID
-    # groupMenuId: Int
-    user_id_creator:Int
-    menu_id: Int
-    group_id: Int  
-    created_at: DateTime
-    updated_at: DateTime
-    deleted_at: DateTime
-
-    menu: [Menu!] @hasMany
-    group: [Group!] @hasMany
-}
-
-
-type Teacher {
-  id:ID!
-  user_id_creator:Int
-  first_name:String
-  last_name:String
-  mobile:String
-  address:String
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
-}
-
-type Year {
-  id:ID!
-  user_id_creator:Int  
-  name:String
-  active:Boolean  
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
-  user: User! @belongsTo
-}
-
-type StudentWarning @key(fields: "id"){
-  id:ID!
-  user_id_creator:Int
-  user_id_updator:Int
-  student_id:Int
-  course_id:Int
-  comment:String
-  student_warning_history_id:Int
-  created_at:DateTime
-  updated_at:DateTime
-  user_creator: User! @belongsTo
-  # update_creator: User! @belongsTo
-}
-type StudentWarningHistory @key(fields: "id"){
- 
-  id:ID!
-  user_id_creator:Int
-  user_id_updater:Int
-  student_id:Int
-  course_id:Int
-  comment:String  
-  response:String 
-  created_at:DateTime
-  updated_at:DateTime
-  user_creator: User @belongsTo
-  user_updater: User @belongsTo
-  course: Course @belongsTo
-}
 
 
   
@@ -1177,13 +677,7 @@ type Mutation {
     #updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
     updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): User  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
-  # region user
-  #  createUser(input: CreateUserInput! @spread): User! @create  
-    createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
-    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
-    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\User\\DeleteUser@resolve")
-
-  #end 
+  
 
   # region teacher
     # createTeacher(input: CreateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\CreateTeacher@resolver")
@@ -1283,4 +777,6 @@ type Mutation {
 
 
 }
+
+
 

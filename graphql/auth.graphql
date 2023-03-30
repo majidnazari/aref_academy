@@ -106,3 +106,4 @@ input UpdateOtherUserPassword {
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
+

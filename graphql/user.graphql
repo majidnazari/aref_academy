@@ -1,0 +1,139 @@
+ 
+ 
+
+ type Query @extends  { 
+     _entities(representations: [_Any!]!): [_Entity]! 
+     _service: _Service!  
+
+
+      getUser(id:ID!):User @can(ability: "view")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+      getUsers(
+            first_name: String @like(template : "%{}%") 
+            last_name: String @like(template : "%{}%")
+            email: String @like(template : "%{}%")      
+            group_id: Int  
+            branch_id: Int  @eq
+            # group_id: Group  @belongsToMany(relation: "groups" ) 
+            orderBy: [OrderByClause!] @orderBy
+      ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
+
+ }
+
+
+type Mutation {
+
+   # region user
+      # createUser(input: CreateUserInput! @spread): User! @create  
+    createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\User\\DeleteUser@resolve")
+
+   #end 
+
+}
+
+type User {
+    id:ID    
+    # userId:ID
+    group_id:Int
+    branch_id:Int
+    first_name: String
+    last_name: String 
+    #mobile: String!
+    email: String! 
+    #type: String!
+    #is_teacher: Int! 
+   
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    group: Group @belongsTo
+    branch: Branch @belongsTo
+    # user_creator: User @belongsTo
+    # faults:[Fault] @belongsToMany
+    faults: [Fault] @hasMany
+   
+}
+
+type Group{ 
+  id:ID
+  # groupId:ID
+  user_id_creator:Int
+  # key:String
+  name:String
+  persian_name:String
+  type:String
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  users: [User] @hasMany
+  # pivot: GroupUserPivot
+
+  menus: [Menu!] @belongsTo
+}
+
+type Menu {
+    id:ID
+    # menuId: Int
+    slug: String
+    name: String
+    icon: String
+    href: String
+    #type: String!
+    parent_id:Int
+    parent_id: Int    
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    # parent:[Menu]  @hasMany
+    subMenus: [Menu] @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver")
+    # @hasMany  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
+    # subMenus: [Menu] @hasMany
+    groups: [Group!] @belongsToMany
+    #  pivot: MenuPivot
+}
+
+type Data {
+
+  id:Int
+  student_id:Int
+  financial_status:String
+  session_count: Int
+  name: String
+  course_id: String
+}
+type paginatorInfo{
+      count:Int
+      currentPage:Int
+      firstItem:Int
+      hasMorePages:Boolean
+      lastItem:Int
+      lastPage:Int
+      perPage:Int
+      total:Int
+}
+
+type Branch{
+    id:ID
+    user_id_creator:Int
+    name:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+   
+   
+}
+
+type Fault{
+    id:ID
+    user_id_creator:Int
+    description:String
+    created_at:DateTime
+    updated_at:DateTime
+    deleted_at:DateTime
+    # User:[User] @belongsTo
+    user: User @belongsTo
+   
+}

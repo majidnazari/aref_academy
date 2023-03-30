@@ -29,7 +29,8 @@ class CheckAuth
         "GetCourseStudentsWithIllegalStudent" =>array("admin","manager"),
         "StudentWarningHistory" => array("admin","financial"),
         "GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","financial"),
-        "CourseTotalReport" => array("admin","manager","financial")
+        "CourseTotalReport" => array("admin","manager","financial"),
+        "CourseReportAtSpecialTime" => array("admin","manager")
        
     );
     

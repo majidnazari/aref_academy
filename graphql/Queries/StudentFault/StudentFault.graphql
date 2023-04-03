@@ -1,0 +1,5 @@
+getStudentFault(id:ID!):StudentFault @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFault@resolveStudentFaultAttribute") 
+     getStudentFaults(           
+       orderBy:[OrderByClause!] @orderBy
+    ): [StudentFault]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\StudentFault\\GetStudentFaults@resolveStudentFault") 
+     

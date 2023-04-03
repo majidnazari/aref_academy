@@ -1,0 +1,106 @@
+ 
+
+      getUser(id:ID!):User @can(ability: "view")  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\User\\GetUser@resolveUserAttribute") 
+      getUsers(
+            first_name: String @like(template : "%{}%") 
+            last_name: String @like(template : "%{}%")
+            email: String @like(template : "%{}%")      
+            group_id: Int  
+            branch_id: Int  @eq
+            # group_id: Group  @belongsToMany(relation: "groups" ) 
+            orderBy: [OrderByClause!] @orderBy
+      ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
+
+ 
+
+
+# type Mutation {
+
+   
+
+# }
+
+
+
+# type Group{ 
+#   id:ID
+#   # groupId:ID
+#   user_id_creator:Int
+#   # key:String
+#   name:String
+#   persian_name:String
+#   type:String
+#   created_at: DateTime
+#   updated_at: DateTime
+#   deleted_at: DateTime
+#   users: [User] @hasMany
+#   # pivot: GroupUserPivot
+
+#   menus: [Menu!] @belongsTo
+# }
+
+# type Menu {
+#     id:ID
+#     # menuId: Int
+#     slug: String
+#     name: String
+#     icon: String
+#     href: String
+#     #type: String!
+#     parent_id:Int
+#     parent_id: Int    
+#     created_at: DateTime
+#     updated_at: DateTime
+#     deleted_at: DateTime
+#     # parent:[Menu]  @hasMany
+#     subMenus: [Menu] @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver")
+#     # @hasMany  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
+#     # subMenus: [Menu] @hasMany
+#     groups: [Group!] @belongsToMany
+#     #  pivot: MenuPivot
+# }
+
+# type Data {
+
+#   id:Int
+#   student_id:Int
+#   financial_status:String
+#   session_count: Int
+#   name: String
+#   course_id: String
+# }
+# type paginatorInfo{
+#       count:Int
+#       currentPage:Int
+#       firstItem:Int
+#       hasMorePages:Boolean
+#       lastItem:Int
+#       lastPage:Int
+#       perPage:Int
+#       total:Int
+# }
+
+# type Branch{
+#     id:ID
+#     user_id_creator:Int
+#     name:String
+#     created_at:DateTime
+#     updated_at:DateTime
+#     deleted_at:DateTime
+#     # User:[User] @belongsTo
+#     user: User @belongsTo
+   
+   
+# }
+
+# type Fault{
+#     id:ID
+#     user_id_creator:Int
+#     description:String
+#     created_at:DateTime
+#     updated_at:DateTime
+#     deleted_at:DateTime
+#     # User:[User] @belongsTo
+#     user: User @belongsTo
+   
+# }

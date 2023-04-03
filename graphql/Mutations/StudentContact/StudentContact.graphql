@@ -1,0 +1,7 @@
+ #region student_contact
+
+      createStudentContact(input: CreateStudentContactInput! @spread): StudentContact! @guard(with:["api"]) @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\StudentContact\\CreateStudentContact@resolver")
+      updateStudentContact(input: UpdateStudentContactInput! @spread): StudentContact! @guard(with:["api"]) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\StudentContact\\UpdateStudentContact@resolver")
+      deleteStudentContact(id:ID!): StudentContact  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\StudentContact\\DeleteStudentContact@resolver")
+
+    #end student_contact

@@ -1,0 +1,40 @@
+getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
+    getCourses(
+      name:String @like(template: "%{}%")
+      gender: String @eq
+      lesson_id: Int @eq  
+      teacher_id: Int @eq  
+      id:Int @eq   
+      lesson_name: String # @like(template: "%{}%")    
+      orderBy:[OrderByClause!] @orderBy
+    ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
+
+
+getCourseTotalReport(
+    course_id:Int
+    # student_status:String        
+    # financial_status:String        
+    # manager_status:String
+    # sum_total_present:Int @eq        
+     
+    ): [CourseWithDetailsReport]  @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourseTotalReport") 
+
+
+     getCourseTotalReportAtSpecialTime(
+      id:Int @eq
+      user_id_creator:Int @eq
+      branch_id:Int @eq
+      gender:String @eq
+      name:String  @like (template: "%{}%")
+      education_level:String  @eq
+      type:String @eq
+      financial_status:String @eq
+
+      course_date_from:String 
+      course_date_to:String 
+      course_id:Int
+
+      orderBy:[OrderByClause!] @orderBy
+    ):[CourseReportAtSpecialTime] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourseReportAtSpecialTime")
+
+   

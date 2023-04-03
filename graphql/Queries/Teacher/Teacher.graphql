@@ -1,0 +1,3 @@
+
+getTeacher(id:ID!):Teacher @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\Teacher\\GetTeacher@resolveTeacherAttribute") 
+    getTeachers: [Teacher]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Teacher\\GetTeachers@resolveTeacher")

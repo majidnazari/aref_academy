@@ -1,0 +1,5 @@
+# region yaer
+    createYear(input: CreateYearInput! @spread): Year! @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Year\\CreateYear@resolver")
+    updateYear(input: UpdateYearInput! @spread): Year! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Year\\UpdateYear@resolver")
+    deleteYear(id:ID!):Year @guard(with:["api"]) @delete @can(ability: "delete")
+  #end yaer

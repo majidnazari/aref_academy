@@ -1,0 +1,5 @@
+getStudentContact(id:ID!):StudentContact @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContact@resolveStudentContactAttribute") 
+     getStudentContacts(           
+       orderBy:[OrderByClause!] @orderBy
+    ): [StudentContact] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\StudentContact\\GetStudentContacts@resolveStudentContact") 
+    

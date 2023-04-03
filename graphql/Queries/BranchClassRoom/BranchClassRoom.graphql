@@ -1,0 +1,8 @@
+getBranchClassRoom(id:ID!):BranchClassRoom  @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRoom@resolveBranchClassRoomAttribute") 
+    getBranchClassRooms(
+       branch_id:Int
+       name:String @like(template: "%{}%")
+       description:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [BranchClassRoom] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\BranchClassRoom\\GetBranchClassRooms@resolveBranchClassRoomsAttribute") 
+    

@@ -1,0 +1,6 @@
+getFault(id:ID!):Fault  @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Fault\\GetFault@resolveFaultAttribute") 
+    getFaults(
+       description:String @like(template: "%{}%")
+       orderBy:[OrderByClause!] @orderBy
+    ): [Fault] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Fault\\GetFaults@resolveFault") 
+    

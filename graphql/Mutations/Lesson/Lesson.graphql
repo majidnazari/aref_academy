@@ -1,0 +1,5 @@
+#region Lesson
+      createLesson(input: CreateLessonInput! @spread): Lesson! @guard(with:["api"])  @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\CreateLesson@resolver")
+      updateLesson(input: UpdateLessonInput! @spread): Lesson! @guard(with:["api"])  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\UpdateLesson@resolver")
+      deleteLesson(id:ID!):Lesson  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Lesson\\DeleteLesson@resolver")
+    #end Lesson

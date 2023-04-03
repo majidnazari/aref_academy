@@ -1,0 +1,43 @@
+ getCourseStudent(id:ID!):CourseStudent @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudent@resolveCourseStudentAttribute") 
+    getCourseStudents(
+       student_id:Int @eq
+       course_id:Int @eq
+      #  course_session_id:Int @eq
+       user_id_creator:Int @eq
+       user_id_manager:Int @eq
+       user_id_financial:Int @eq
+       user_id_student_status:Int @eq
+       manager_status:String @eq(template: "%{}%")      
+       manager_status_not_equal:String @neq(key: "manager_status")      
+       financial_status:String @eq(template: "%{}%")      
+       financial_status_not_equal:String @neq(key: "financial_status")      
+       student_status:String @eq(template: "%{}%")       
+       student_status_not_equal:String @neq(key: "student_status")       
+       financial_status_not_equal:String @neq(key: "financial_status")
+       manager_financial_not_equal:String
+       total_present:Int @where(operator: ">=", key: "sum_total_present") 
+       from_date:String @where(operator: ">=" , key: "financial_status_updated_at" )
+       to_date:String @where(operator: "<=" , key: "financial_status_updated_at" )
+        
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseStudent] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudents@resolveCourseStudent")  
+    
+     getCourseStudentsWithAbsencePresence(
+      #  student_id:Int @eq
+       course_id:Int! 
+       course_session_id:Int! 
+      #  user_id_creator:Int @eq
+      #  user_id_manager:Int @eq
+      #  user_id_financial:Int @eq
+      #  user_id_student_status:Int @eq
+      #  manager_status:String @like(template: "%{}%")      
+      #  financial_status:String @like(template: "%{}%")      
+      #  student_status:String @like(template: "%{}%")      
+      #  orderBy:[OrderByClause!] @orderBy
+    ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresence@resolveCourseStudent") 
+    
+    getCourseStudentsWithAbsencePresenceList(     
+       course_id:Int!        
+     
+    ): [AbsencePresenceList]  @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Queries\\CourseStudent\\GetCourseStudentsWithAbsencePresenceList@resolveCourseStudent") 
+    

@@ -1,0 +1,6 @@
+# region Course
+    createCourse(input: CreateCourseInput! @spread): Course! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolver")
+    # createCourseWithDate(input: CreateCourseWithDateInput! @spread): Course!  @field(resolver: "App\\GraphQL\\Mutations\\Course\\CreateCourse@resolverWithDate")
+    updateCourse(input: UpdateCourseInput! @spread): Course!  @can(ability: "update") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Course\\UpdateCourse@resolver")
+    deleteCourse(id:ID!):Course  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Course\\DeleteCourse@resolver")
+   #end Course

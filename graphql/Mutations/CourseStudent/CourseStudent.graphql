@@ -1,0 +1,8 @@
+#region Course_Student
+    createCourseStudent(input: CreateCourseStudentInput! @spread): CourseStudent!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudent@resolver")
+    updateCourseStudent(input: UpdateCourseStudentInput! @spread): CourseStudent!  @can(ability: "update" ,injectArgs:true ) @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\UpdateCourseStudent@resolver")
+    deleteCourseStudent(id:ID!):CourseStudent  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseStudent\\DeleteCourseStudent@resolver")
+    
+    createCourseStudentRapidly(input: CreateCourseStudentRapidlyInput! ): [CourseStudentWithAbsencePresence] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Mutations\\CourseStudent\\CreateCourseStudentAndAbsencePresenceRapidly@resolver") 
+    #  CreateCourseStudentAndAbsencePresenceRapidlly    App\GraphQL\Mutations\CourseStudent
+    #end Course_Student

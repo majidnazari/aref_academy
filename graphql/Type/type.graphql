@@ -1,5 +1,419 @@
+ enum LessonEnum{
+   Mathematics @enum(value: 0)
+   Physics @enum(value:1)
+   Biology @enum(value: 2)
+  
+ }
+input OrderByClause{
+    field: String!
+    order: SortOrder!
+}
+
+enum SortOrder {
+    ASC
+    DESC
+}
 
 
+
+  
+  input CreateAzmoonInput{
+          user_id:Int!
+          course_id:Int!
+          course_session_id:Int!
+          isSMSsend:Int!
+          score:Float!
+   }
+   input CreateUserInput @validator{
+     # type: String!
+     # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
+     # email: String! @rules(apply: ["email","unique:users,email"])
+      email: String! @rules(apply: ["size:11","unique:users,email"])
+      password: String! @hash @rules(apply: ["min:6"])
+      first_name: String!
+      last_name: String!
+      group_id:Int!
+      branch_id:Int!
+       
+      # branche_id:Int!
+      # group_user:createGroupUserInput! @create
+     # is_teacher: Int!  
+    }
+   input UpdateUserInput @validator{
+      id:ID!
+     # type: String
+     # mobile: String 
+      email:String  
+     # password: String!      
+      first_name: String
+      last_name: String
+      group_id:Int 
+      branch_id:Int 
+      # ): User! @update
+   }
+    # input createGroupUserInput {
+    #   user_id_creator:Int!
+    #   user_id:Int!
+    #   group_id:Int!
+    #   # created_at:DateTime
+    #   # updated_at:datetime
+    # }
+
+    input CreateTeacherInput{
+      first_name: String!
+      last_name: String!
+      mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+      address:String!
+    }
+    input UpdateTeacherInput{
+      id:ID!
+      first_name: String
+      last_name: String
+      mobile: String @rules(apply: ["size:11","unique:teachers,mobile"])
+      address:String
+    }
+
+    input CreateYearInput{
+      name: String!
+      active: Boolean!      
+    }
+    input UpdateYearInput{
+      id:ID!
+      name: String
+      active: Boolean   
+    }
+    
+    # input CreateStudentInput{
+    #   # first_name: String!
+    #   # last_name: String!
+    #   # mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+    #   # address:String!
+
+       
+    #     phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+    #     first_name:String!
+    #     last_name:String!
+    #     level:String
+    #     egucation_level:String!
+    #     parents_job_title:String
+    #     home_phone:String
+    #     father_phone:String
+    #     mother_phone:String
+    #     # school:String
+    #     # average:Float
+    #     major:String
+    #     # description:String
+    #     nationality_code:String!
+    #     # introducing:String
+    #     # student_phone:String
+    #     # cities_id:Int
+    #     # sources_id:Int
+    #     # supporters_id:Int
+    #     # archived:Int
+    # }
+    #  input UpdateStudentInput{
+    #     id:ID!
+    #     phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+    #     first_name:String! 
+    #     last_name:String! 
+    #     level:String
+    #     egucation_level:String! 
+    #     parents_job_title:String
+    #     home_phone:String
+    #     father_phone:String 
+    #     mother_phone:String       
+    #     major:String 
+    #     # description:String 
+    #     nationality_code:String!
+    #     # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
+    #     # first_name:String,
+    #     # last_name:String,
+    #     # level:Int,
+    #     # egucation_level:String,
+    #     # parents_job_title:String,
+    #     # home_phone:String,
+    #     # father_phone:String,
+    #     # mother_phone:String,
+    #     # school:String,
+    #     # average:Float,
+    #     # major:String!,
+    #     # introducing:String,
+    #     # student_phone:String,
+    #     # cities_id:Int,
+    #     # sources_id:Int,
+    #     # supporters_id:Int,
+    #     # archived:Int
+    # }
+
+
+    input CreateCourseInput{       
+      branch_id:Int!
+      year_id:Int!
+      teacher_id:Int!
+      name:String!
+      gender:String!
+      lesson_id:Int!
+      education_level:String!
+      type:String!
+      financial_status:String
+      user_id_financial:Int
+            
+    }
+    # input CreateCourseWithDateInput{       
+      
+    #   year_id:Int!
+    #   teacher_id:Int!
+    #   name:String!
+    #   lesson:String!
+    #   education_level:String!
+    #   type:String!
+    #   financial_status:String
+    #   user_id_financial:Int
+            
+    # }
+    
+     input UpdateCourseInput{       
+      id:ID!
+      branch_id:Int
+      year_id:Int
+      teacher_id:Int
+      name:String
+      gender:String
+      lesson_id:Int
+      education_level:String      
+      type:String
+      financial_status:String
+      user_id_financial:Int
+      
+    }
+    input CreateCourseSessionInput @validator{       
+      
+        course_id:Int!
+        branch_class_room_id:Int!
+        name:String
+        price:Int
+        special:Boolean
+        start_date:String!
+        start_time:String!
+        end_time:String!
+       
+            
+    }
+      input CreateCourseSessionByDuringDateInput @Validator{       
+      
+        course_id:Int!
+        branch_class_room_id:Int!
+        days:[String]
+        name:String
+        price:Int
+        special:Boolean
+        start_date:String!
+        end_date:String!
+        start_time:String!
+        end_time:String!      
+            
+    }
+    input UpdateCourseSessionInput{       
+        id:ID!
+        course_id:Int,
+        branch_class_room_id:Int,
+        name:String,
+        price:Int
+        special:Boolean
+        start_date:Date,
+        start_time:String,
+        end_time:String,
+        isCancel:Boolean
+            
+    }
+
+    input CreateCourseStudentInput @validator{ 
+        
+        course_id:Int!
+        # course_session_id:Int!
+        student_id:Int!
+        manager_status:String
+        financial_status:String
+        student_status:String
+        user_id_manager:Int
+        user_id_financial:Int
+        user_id_student_status:Int
+        description:String
+        
+    }
+    input UpdateCourseStudentInput @validator{       
+        id:ID!
+        course_id:Int
+        # course_session_id:Int
+        student_id:Int
+        manager_status:String
+        financial_status:String
+        student_status:String
+        financial_refused_status:String
+        transferred_to_course_id:Int
+        user_id_manager:Int
+        user_id_financial:Int
+        user_id_student_status:Int
+        description:String
+            
+    }
+
+
+    input CreateAbsencePresenceInput {       
+       
+        course_session_id:Int
+        student_id:Int
+        teacher_id:Int
+        status:String
+        attendance_status:String    
+            
+    }
+   input  CreateStudentToListBeforeAbsencePresenceInput @validator{
+        course_session_id:Int
+        course_id:Int               
+   }
+    input UpdateAbsencePresenceInput{
+
+        id:ID!        
+        course_session_id:Int
+        student_id:Int
+        teacher_id:Int
+        status:String
+        attendance_status:String
+       
+    }
+    input UpdateAbsencePresenceInputWithStudentIdCourseSessionId{
+       course_session_id:Int!
+       student_id:Int!
+       status:String= "present"
+    }
+
+    input CreateAzmoonInput{ 
+          course_id:Int
+          course_session_id:Int
+          isSMSsend:Int
+          score:Float
+    }
+    input UpdateAzmoonInput{
+          id:ID!          
+          course_id:Int
+          course_session_id:Int
+          isSMSsend:Int
+          score:Float
+    }
+
+    input CreateAzmoonResultInput{ 
+         
+          student_id:Int,
+          result_score:String, 
+    }
+    input UpdateAzmoonResultInput{
+        id:Int
+        student_id:Int,
+        result_score:String, 
+    }
+
+    input CreateFaultInput{         
+          description:String!         
+    }
+    input UpdateFaultInput{
+        id:Int
+        description:String
+    }    
+
+    input CreateBranchInput{         
+          name:String!         
+    }
+    input UpdateBranchInput{
+        id:Int
+        name:String
+    }
+    input CreateBranchClassRoomInput{ 
+          branch_id:Int
+          description:String        
+          name:String         
+    }
+    input UpdateBranchClassRoomInput{
+        id:Int
+        branch_id:Int
+        description:String        
+        name:String
+    }
+
+     input CreateLessonInput{ 
+              
+          name:String         
+    }
+    input UpdateLessonInput{
+        id:Int
+           
+        name:String
+    }
+
+   input  CreateCourseStudentRapidlyInput @validator{
+      
+       course_id:Int!
+       course_session_id:Int!
+       student_id:Int!
+    }
+    input CreateStudentWarningInput  @validator{
+
+      comment:String!
+      student_id:Int!
+      course_id:Int
+      
+    }
+    input UpdateStudentWarningHistoryInput  @validator{ 
+
+      student_id:Int!
+      course_id:Int
+      response:String!
+    }
+
+    input CreateStudentContactInput{
+      user_id_creator:Int!
+      reason_absence:String
+      absence_presence_id:Int!
+      who_answered:String
+      is_called_successfull:Boolean
+      description:String
+
+    }
+
+     input UpdateStudentContactInput{   
+      reason_absence:String
+      absence_presence_id:Int!
+      who_answered:String
+      is_called_successfull:Boolean
+      description:String
+
+    }
+
+     
+
+
+type User {
+    id:ID    
+    # userId:ID
+    group_id:Int
+    branch_id:Int
+    first_name: String
+    last_name: String 
+    #mobile: String!
+    email: String! 
+    #type: String!
+    #is_teacher: Int! 
+   
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    group: Group @belongsTo
+    branch: Branch @belongsTo
+    # user_creator: User @belongsTo
+    # faults:[Fault] @belongsToMany
+    faults: [Fault] @hasMany
+   
+}
 type StudentContact @key(fields: "id") {
   id:ID!
   user_id_creator:Int
@@ -496,8 +910,6 @@ type StudentWarningHistory @key(fields: "id"){
   user_updater: User @belongsTo
   course: Course @belongsTo
 }
-
-
 
 type CourseReportAtSpecialTime @key(fields: "id"){
       id:ID!

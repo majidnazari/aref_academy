@@ -1,0 +1,5 @@
+#region Branch
+      createBranch(input: CreateBranchInput! @spread): Branch!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\CreateBranch@resolver")
+      updateBranch(input: UpdateBranchInput! @spread): Branch!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\UpdateBranch@resolver")
+      deleteBranch(id:ID!):Branch  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Branch\\DeleteBranch@resolver")
+    #end Branch

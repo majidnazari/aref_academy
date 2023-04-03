@@ -1,0 +1,4 @@
+ #region student_warning_history
+        updateStudentWarningHistory(input: UpdateStudentWarningHistoryInput @spread): StudentWarningHistory @guard(with:["api"]) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarningHistory\\UpdateStudentWarningHistory@resolver")
+
+    #end student_warning_history

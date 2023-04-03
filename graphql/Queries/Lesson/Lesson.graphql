@@ -1,0 +1,6 @@
+getLesson(id:ID!):Lesson @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Lesson\\GetLesson@resolveLessonAttribute") 
+     getLessons(  
+       name:String @like(template: "%{}%")         
+       orderBy:[OrderByClause!] @orderBy
+    ): [Lesson]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\Lesson\\GetLessons@resolveLesson") 
+     

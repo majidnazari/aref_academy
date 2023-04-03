@@ -1,0 +1,3 @@
+getStudentWarning(id:ID!):StudentWarning @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarning\\GetStudentWarning@resolveStudentWarning") 
+     
+    

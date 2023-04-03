@@ -1,0 +1,18 @@
+
+ 
+ getStudentWarningHistory(id:ID!):StudentWarningHistory @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistory@resolveStudentWarningHistory") 
+    
+ getStudentWarningHistories(
+      user_id_creator:Int @eq
+      user_id_updater:Int @eq
+      student_id:Int @eq
+      course_id:Int @eq
+      comment:String  @like (template: "%{}%")
+      response:String @like (template: "%{}%")
+      
+      orderBy:[OrderByClause!] @orderBy
+      ):[StudentWarningHistory] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\StudentWarningHistory\\GetStudentWarningHistories@resolveStudentWarningHistoriesAttribute") 
+    # @can(ability: "view")
+    #  menus(
+    #         where: _ @whereConditions(columns: ["parent_id"])
+    #       ): [menu] @field(resolver: "App\\GraphQL\\Handler\\SubMenuHandler@__invoke") 

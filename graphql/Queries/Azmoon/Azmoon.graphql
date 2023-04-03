@@ -1,0 +1,8 @@
+getAzmoon(id:ID!):Azmoon @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoon@resolveAzmoonAttribute") 
+    getAzmoons(
+       isSMSsend:Boolean @eq 
+       score_gt:Float @where(operator: ">=", key: "score")     
+       score_lt:Float @where(operator: "<=", key: "score")     
+       orderBy:[OrderByClause!] @orderBy
+    ): [Azmoon] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Azmoon\\GetAzmoons@resolveAzmoon") 
+    

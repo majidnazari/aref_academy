@@ -1,0 +1,6 @@
+
+    #region Azmoon
+      createAzmoon(input: CreateAzmoonInput! @spread): Azmoon!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\CreateAzmoon@resolver")
+      updateAzmoon(input: UpdateAzmoonInput! @spread): Azmoon!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\UpdateAzmoon@resolver")
+      deleteAzmoon(id:ID!):Azmoon @guard(with:["api"])  @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\Azmoon\\DeleteAzmoon@resolver")
+    #end Azmoon

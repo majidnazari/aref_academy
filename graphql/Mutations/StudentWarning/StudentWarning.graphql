@@ -1,0 +1,5 @@
+#region student_warning
+        createStudentWarning(input: CreateStudentWarningInput @spread): StudentWarning @guard(with:["api"]) @can(ability: "create") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarning\\CreateStudentWarning@resolver")
+        # deleteStudentWarning(input: DeleteStudentWarningInput @spread): StudentWarning @guard(with:["api"]) @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\StudentWarning\\DeleteStudentWarning@resolver")
+
+    #end student_warning

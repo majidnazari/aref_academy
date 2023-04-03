@@ -1,0 +1,5 @@
+#region BranchClassRoom
+      createBranchClassRoom(input: CreateBranchClassRoomInput! @spread): BranchClassRoom!  @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\CreateBranchClassRoom@resolver")
+      updateBranchClassRoom(input: UpdateBranchClassRoomInput! @spread): BranchClassRoom!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\UpdateBranchClassRoom@resolver")
+      deleteBranchClassRoom(id:ID!):BranchClassRoom  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\BranchClassRoom\\DeleteBranchClassRoom@resolver")
+    #end BranchClassRoom

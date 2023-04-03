@@ -1,0 +1,7 @@
+getYear(id:ID!):Year @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\Year\\GetYear@resolveYearAttribute") 
+    getYears(
+      name: String @like (template : "%{}%")
+      active: Boolean @eq
+      orderBy:[OrderByClause!] @orderBy
+
+    ): [Year] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Year\\GetYears@resolveYear")

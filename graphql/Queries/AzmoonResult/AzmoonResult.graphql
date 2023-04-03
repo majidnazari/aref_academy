@@ -1,0 +1,8 @@
+getAzmoonResult(id:ID!):AzmoonResult @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResult@resolveAzmoonResultAttribute") 
+    getAzmoonResults(
+         result_score_gt:Float @where(operator: ">=" , key: "result_score")         
+         result_score_lt:Float @where(operator: "<=" , key: "result_score")         
+         orderBy:[OrderByClause!] @orderBy
+    ): [AzmoonResult] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\AzmoonResult\\GetAzmoonResults@resolveAzmoonResult") 
+    
+    

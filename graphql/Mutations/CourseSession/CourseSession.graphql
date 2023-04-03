@@ -1,0 +1,6 @@
+# region Course_Session
+    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession!  @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
+    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput!  @can(ability: "create") @guard(with:["api"]) @spread): [CourseSession]!  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
+    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession!  @can(ability: "update") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
+    deleteCourseSession(id:ID!):CourseSession  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
+    #end Course_session

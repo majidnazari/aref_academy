@@ -1,0 +1,16 @@
+getAbsencePresence(id:ID!):AbsencePresence @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveAbsencePresenceAttribute") 
+  getAbsencePresences(
+         status:String @like(template: "%{}%")
+         user_id_creator:Int
+         course_session_id:Int
+         course_session_date:Date
+         teacher_id:Int
+         student_id:Int @eq
+         
+
+         orderBy:[OrderByClause!] @orderBy
+    ): [AbsencePresence] 
+    @guard(with:["api"])
+   
+    @paginate(builder: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresences@resolveAbsencePresence") 
+    

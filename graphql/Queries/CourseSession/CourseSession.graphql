@@ -1,0 +1,17 @@
+getCourseSession(id:ID!):CourseSession  @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSession@resolveCourseSessionAttribute") 
+    getCourseSessions(
+       name:String @like(template: "%{}%")
+       course_id:Int @eq
+      #  start_date:String @where(operator: ">=")
+       date_after: Date @where(operator: ">=", key: "start_date")# @where(operator: ">=", clause: "orWhere", key: "created_at")
+       date_befor: Date @where(operator: "<=", key: "start_date")# @where(operator: "<=", clause: "orWhere", key: "created_at")
+       
+       start_time_after: String @where(operator: ">=", key: "start_time")
+       start_time_befor: Date @where(operator: "<=", key: "start_time")
+
+       end_time_after: String @where(operator: ">=", key: "end_time")
+       end_time_befor: String @where(operator: "<=", key: "end_time")
+
+       orderBy:[OrderByClause!] @orderBy
+    ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
+    

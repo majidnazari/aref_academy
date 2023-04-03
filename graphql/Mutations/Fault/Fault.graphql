@@ -1,0 +1,5 @@
+#region Fault
+      createFault(input: CreateFaultInput! @spread): Fault!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\CreateFault@resolver")
+      updateFault(input: UpdateFaultInput! @spread): Fault!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\UpdateFault@resolver")
+      deleteFault(id:ID!):Fault  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\Fault\\DeleteFault@resolver")
+    #end Fault

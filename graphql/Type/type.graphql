@@ -14,8 +14,20 @@ enum SortOrder {
     DESC
 }
 
-
-
+enum StudentStatus{
+  absent
+  present
+  no_action
+}
+enum DaysOfWeek{
+  SATURDAY
+  SUNDAY
+  MONDAY
+  THUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+}
   
   input CreateAzmoonInput{
           user_id:Int!
@@ -389,7 +401,18 @@ enum SortOrder {
 
     }
 
-     
+    input CreateConsultantDefinitionDetailInput {
+      
+      consultant_id:Int! 
+      branch_id:Int     
+      user_id:Int!
+      start_hour:String!
+      end_hour:String!
+      days:[DaysOfWeek]      
+
+    }
+
+
 
 
 type User {
@@ -931,4 +954,24 @@ type CourseReportAtSpecialTime @key(fields: "id"){
       courseSession:[CourseSession]  # @hasMany
       courseStudent:[CourseStudent]
 
+}
+
+type ConsultantDefinitionDetail @key(fields: "id"){
+
+      id:ID!
+      consultant_id:Int!
+      student_id:Int
+      branch_id:Int
+      consultant_test_id:Int
+      user_id:Int!
+      start_hour:String!
+      end_hour:String!
+      session_date:Date!
+      student_status:StudentStatus! 
+      absent_present_description:String
+      test_description:String
+      student_id:Int
+
+      consultant:User @belongsTo
+      user:User @belongsTo      
 }

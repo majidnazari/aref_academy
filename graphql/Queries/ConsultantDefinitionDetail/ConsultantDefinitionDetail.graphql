@@ -1,0 +1,25 @@
+getConsultantDefinitionDetail(id:ID!):ConsultantDefinitionDetail  @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetail@resolveConsultantDefinitionDetailAttribute") 
+  getConsultantDefinitionDetails(
+        #  status:String @like(template: "%{}%")
+         consultant_id:Int
+         consultant_test_id:Int
+         session_date_from:Date
+         session_date_to:Date
+         branch_id:Int
+         user_id:Int
+         start_hour_from:String
+         start_hour_to:String
+         end_hour_from:String
+         end_hour_to:String
+         session_date:Date
+         student_status:StudentStatus
+         student_id:Int @eq
+         absent_present_description:String
+         test_description:String
+         
+
+         orderBy:[OrderByClause!] @orderBy
+    ): [ConsultantDefinitionDetail] 
+    @guard(with:["api"])
+   
+    @paginate(builder: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetails@resolveConsultantDefinitionDetail") 

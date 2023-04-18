@@ -1,4 +1,4 @@
-getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
+    getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses(
       name:String @like(template: "%{}%")
       gender: String @eq

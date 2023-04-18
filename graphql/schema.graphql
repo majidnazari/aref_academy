@@ -74,6 +74,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     #import Queries/StudentFault/StudentFault.graphql
     #import Queries/StudentWarning/StudentWarning.graphql
     #import Queries/StudentWarningHistories/StudentWarningHistories.graphql
+    #import Queries/ConsultantDefinitionDetail/ConsultantDefinitionDetail.graphql
     
     
     
@@ -135,6 +136,9 @@ type Mutation {
     #import Mutations/StudentFault/StudentFault.graphql
     #import Mutations/StudentWarning/StudentWarning.graphql
     #import Mutations/StudentWarningHistories/StudentWarningHistories.graphql
+    #import Mutations/ConsultantDefinitionDetail/ConsultantDefinitionDetail.graphql
+
+    
     
 
 }

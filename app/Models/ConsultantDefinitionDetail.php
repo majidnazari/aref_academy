@@ -23,6 +23,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         "start_hour",
         "end_hour",
         "session_date",
+        "step",
         "student_status",
         "absent_present_description",
         "test_description"

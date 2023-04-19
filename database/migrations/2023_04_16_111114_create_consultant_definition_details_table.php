@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('start_hour');
             $table->string('end_hour');
+            $table->integer('step');
             $table->date('session_date');
             $table->enum('student_status',['absent','present','no_action'])->default('no_action');
             $table->string('absent_present_description')->nullable();

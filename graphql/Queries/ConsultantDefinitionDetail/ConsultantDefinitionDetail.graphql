@@ -1,4 +1,4 @@
-getConsultantDefinitionDetail(id:ID!):ConsultantDefinitionDetail  @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetail@resolveConsultantDefinitionDetailAttribute") 
+getConsultantDefinitionDetail(id:ID!):ConsultantDefinitionDetail @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetail@resolveConsultantDefinitionDetailAttribute") 
   getConsultantDefinitionDetails(
         #  status:String @like(template: "%{}%")
          consultant_id:Int

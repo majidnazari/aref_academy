@@ -20,13 +20,13 @@ enum StudentStatus{
   no_action
 }
 enum DaysOfWeek{
-  SATURDAY
-  SUNDAY
-  MONDAY
-  THUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
+  saturday
+  sunday
+  monday
+  thursday
+  wednesday
+  thursday
+  friday
 }
   
   input CreateAzmoonInput{
@@ -401,16 +401,32 @@ enum DaysOfWeek{
 
     }
 
-    input CreateConsultantDefinitionDetailInput {
+    input CreateConsultantDefinitionDetailInput  @validator{
       
       consultant_id:Int! 
       branch_id:Int     
       user_id:Int!
       start_hour:String!
       end_hour:String!
+      step:Int
       days:[DaysOfWeek]      
 
     }
+
+    input UpdateConsultantDefinitionDetailInput {
+     
+      id:ID!
+      consultant_id:Int! 
+      branch_id:Int     
+      user_id:Int!
+      start_hour:String!
+      end_hour:String!
+      step:Int
+      days:[DaysOfWeek]   
+         
+
+    }
+
 
 
 
@@ -971,6 +987,7 @@ type ConsultantDefinitionDetail @key(fields: "id"){
       absent_present_description:String
       test_description:String
       student_id:Int
+      step:Int
 
       consultant:User @belongsTo
       user:User @belongsTo      

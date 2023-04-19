@@ -5,6 +5,7 @@ namespace App\GraphQL\Mutations\ConsultantDefinitionDetail;
 use App\Models\ConsultantDefinitionDetail;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\GroupUser;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
@@ -26,36 +27,43 @@ final class CreateConsultantDefinitionDetail
 
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {  
-        Log::info("start hour is:" . $args['start_hour']);
-        Log::info("end_hour  is:" . $args['end_hour']);
-        Log::info("days  is:" .json_encode( $args['days']));
+        // Log::info("start hour is:" . $args['start_hour']);
+        // Log::info("end_hour  is:" . $args['end_hour']);
+        // Log::info("days  is:" .json_encode( $args['days']));
+        $now=Carbon::now();
+        $now=Carbon::parse('next saturday')->toDateString();
 
-       return null;
-        // $user_id=auth()->guard('api')->user()->id;
-        // $consultant_definition_detail_date=[
-        //     'consultant_id' => $args['branch_id'],
-        //     "branch_id" =>isset($args['branch_id']) ? $args['branch_id'] : null,
-        //     "user_id" => $user_id,
-        //     "teacher_id" => $args['teacher_id'],            
-        //     'name' => $args['name'],
-        //     'gender' => $args['gender'],
-        //     "lesson_id"=> $args["lesson_id"],
-        //     "education_level"=> $args["education_level"],
-        //     "financial_status" => isset($args["financial_status"]) ? $args["financial_status"] : 'pending' ,
-        //     "user_id_financial" => isset($args["user_id_financial"]) ? $args["user_id_financial"] : null ,            
-        //     "type" => $args["type"],
-           
+        foreach($args['days'] as $day)
+        {
             
-        // ];
-        // $is_exist= ConsultantDefinitionDetail::where($consultant_definition_detail_date)->first();
-        // // ->where('name',$args['name'])              
-        // // //->where('description',$args['description'])              
-        // // ->first();
-        // if($is_exist)
-        //  {
-        //          return Error::createLocatedError("COURSE-CREATE-RECORD_IS_EXIST");
-        //  }
-        // $course_result=ConsultantDefinitionDetail::create($course_date);
-        // return $course_result;
+        }
+      // return null;
+        $user_id=auth()->guard('api')->user()->id;
+        $consultant_definition_detail_date=[
+            'consultant_id' => $args['consultant_id'],
+            "branch_id" =>isset($args['branch_id']) ? $args['branch_id'] : null,
+            "user_id" => $user_id,
+            "start_hour" => $args['start_hour'],            
+            'end_hour' => $args['end_hour'],
+            'step' => $args['step'],
+            'session_date' => $now           
+            
+        ];
+        $is_exist= ConsultantDefinitionDetail::where($consultant_definition_detail_date)
+        // ->where('start_hour',$args['start_hour'])
+        // ->where('end_hour',$args['end_hour'])
+        // ->where('session_date',$now)
+        ->first();
+        // ->where('name',$args['name'])              
+        // //->where('description',$args['description'])              
+        // ->first();
+        //Log::info("record  is:" .json_encode($consultant_definition_detail_date));
+        //return $is_exist;
+        if($is_exist)
+        {
+                 return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-CREATE_RECORD-IS-EXIST");
+        }
+        $consultant_definition_detail_date_result=ConsultantDefinitionDetail::create($consultant_definition_detail_date);
+        return $consultant_definition_detail_date_result;
     }
 }

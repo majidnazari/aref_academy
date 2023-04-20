@@ -404,8 +404,7 @@ enum DaysOfWeek{
     input CreateConsultantDefinitionDetailInput  @validator{
       
       consultant_id:Int! 
-      branch_id:Int     
-      user_id:Int!
+      branch_id:Int 
       start_hour:String!
       end_hour:String!
       step:Int
@@ -414,16 +413,13 @@ enum DaysOfWeek{
     }
 
     input UpdateConsultantDefinitionDetailInput {
-     
       id:ID!
       consultant_id:Int! 
-      branch_id:Int     
-      user_id:Int!
+      branch_id:Int 
       start_hour:String!
       end_hour:String!
       step:Int
-      days:[DaysOfWeek]   
-         
+      days:[DaysOfWeek] 
 
     }
 

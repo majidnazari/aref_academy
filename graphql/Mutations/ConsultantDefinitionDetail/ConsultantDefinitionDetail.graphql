@@ -1,5 +1,5 @@
 #region ConsultantDefinitionDetail
-      createConsultantDefinitionDetail(input: CreateConsultantDefinitionDetailInput! @spread): ConsultantDefinitionDetail!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@resolver")
+      createConsultantDefinitionDetail(input: CreateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail]  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@resolver")
       # updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailInput! @spread): ConsultantDefinitionDetail!  @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
       # deleteConsultantDefinitionDetail(id:ID!): ConsultantDefinitionDetail  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\DeleteConsultantDefinitionDetail@resolver")
 #end ConsultantDefinitionDetail

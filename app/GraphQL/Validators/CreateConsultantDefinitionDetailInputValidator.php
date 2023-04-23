@@ -23,7 +23,7 @@ final class CreateConsultantDefinitionDetailInputValidator extends Validator
                 'required',
                 'string',
                 'max:255',
-                'in:saturday,sunday,monday,thursday,wednesday,thursday,friday'
+                'in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday'
 
             ] ,
             // 'name' =>

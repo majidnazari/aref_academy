@@ -83,7 +83,7 @@ final class CreateConsultantDefinitionDetail
         ConsultantDefinitionDetail::insert($data);
         // $result=ConsultantDefinitionDetail::where('consultant_id',$args['consultant_id'])->where('user_id' , $user_id)->get(); //
         $result=ConsultantDefinitionDetail::whereNotIn('id',$all_of_consultant_data->pluck('id'))->get();
-        Log::info($result);
+        //Log::info($result);
 
 
 

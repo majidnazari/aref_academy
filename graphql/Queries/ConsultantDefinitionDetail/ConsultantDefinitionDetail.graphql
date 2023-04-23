@@ -4,15 +4,17 @@ getConsultantDefinitionDetail(id:ID!):ConsultantDefinitionDetail @guard(with:["a
          consultant_id:Int
          consultant_test_id:Int
          session_date_from:Date
+         session_date_days:[DaysOfWeek]
          session_date_to:Date
          branch_id:Int
          user_id:Int
+         step:Int
          start_hour_from:String
          start_hour_to:String
          end_hour_from:String
          end_hour_to:String
-         session_date:Date
-         student_status:StudentStatus
+        #  session_date:Date
+         student_status:[StudentStatus]
          student_id:Int @eq
          absent_present_description:String
          test_description:String

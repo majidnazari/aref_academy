@@ -20,13 +20,13 @@ enum StudentStatus{
   no_action
 }
 enum DaysOfWeek{
-  saturday
-  sunday
-  monday
-  thursday
-  wednesday
-  thursday
-  friday
+  Saturday
+  Sunday
+  Monday
+  Tuesday  
+  Wednesday
+  Thursday
+  Friday
 }
   
   input CreateAzmoonInput{

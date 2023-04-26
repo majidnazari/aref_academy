@@ -2,14 +2,16 @@
 
 namespace App\Policies;
 
-use App\Models\ConsultantDefinitionDetail;
+use App\Models\ConsultantFinancial;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ConsultantDefinitionDetailPolicy
+class ConsultantFinancialPolicy
 {
     use HandlesAuthorization;
-    private $group_access_consultant_definition_detail=array("admin","manager");
+    
+    private $group_access_consultant_financial=array("admin","manager");
+
 
     /**
      * Determine whether the user can view any models.
@@ -20,7 +22,7 @@ class ConsultantDefinitionDetailPolicy
     public function viewAny(User $user)
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_consultant_definition_detail))
+        if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
         return false;
     }
@@ -29,13 +31,13 @@ class ConsultantDefinitionDetailPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ConsultantDefinitionDetail  $consultantDefinitionDetail
+     * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail)
+    public function view(User $user, ConsultantFinancial $consultantFinancial)
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_consultant_definition_detail))
+        if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
         return false;
     }
@@ -49,7 +51,7 @@ class ConsultantDefinitionDetailPolicy
     public function create(User $user)
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_consultant_definition_detail))
+        if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
         return false;
     }
@@ -58,13 +60,13 @@ class ConsultantDefinitionDetailPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ConsultantDefinitionDetail  $consultantDefinitionDetail
+     * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail)
+    public function update(User $user, ConsultantFinancial $consultantFinancial)
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_consultant_definition_detail))
+        if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
         return false;
     }
@@ -73,13 +75,13 @@ class ConsultantDefinitionDetailPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ConsultantDefinitionDetail  $consultantDefinitionDetail
+     * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail=null):bool
+    public function delete(User $user, ConsultantFinancial $consultantFinancial)
     {
         $user_role=auth()->guard('api')->user()->group->type;       
-        if(in_array($user_role,$this->group_access_consultant_definition_detail))
+        if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
         return false;
     }
@@ -88,10 +90,10 @@ class ConsultantDefinitionDetailPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ConsultantDefinitionDetail  $consultantDefinitionDetail
+     * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail)
+    public function restore(User $user, ConsultantFinancial $consultantFinancial)
     {
         //
     }
@@ -100,10 +102,10 @@ class ConsultantDefinitionDetailPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ConsultantDefinitionDetail  $consultantDefinitionDetail
+     * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail)
+    public function forceDelete(User $user, ConsultantFinancial $consultantFinancial)
     {
         //
     }

@@ -28,6 +28,16 @@ enum DaysOfWeek{
   Thursday
   Friday
 }
+enum ManagerStatus{
+  Approved
+  Pending
+}
+
+enum FinancialStatus{
+  Approved
+  Pending
+  SemiApproved
+}
   
   input CreateAzmoonInput{
           user_id:Int!
@@ -407,13 +417,13 @@ enum DaysOfWeek{
       branch_id:Int 
       start_hour:String!
       end_hour:String!
-      step:Int
+      step:Int!
       days:[DaysOfWeek]      
 
     }
 
-    input UpdateConsultantDefinitionDetailInput {
-      id:ID!
+    input UpdateConsultantDefinitionDetailInput @validator{
+      id:[ID]
       consultant_id:Int! 
       branch_id:Int 
       start_hour:String!
@@ -422,9 +432,6 @@ enum DaysOfWeek{
       days:[DaysOfWeek] 
 
     }
-
-
-
 
 
 type User {
@@ -970,16 +977,16 @@ type CourseReportAtSpecialTime @key(fields: "id"){
 
 type ConsultantDefinitionDetail @key(fields: "id"){
 
-      id:ID!
-      consultant_id:Int!
+      id:ID
+      consultant_id:Int
       student_id:Int
       branch_id:Int
       consultant_test_id:Int
-      user_id:Int!
-      start_hour:String!
-      end_hour:String!
-      session_date:Date!
-      student_status:StudentStatus! 
+      user_id:Int
+      start_hour:String
+      end_hour:String
+      session_date:Date
+      student_status:StudentStatus
       absent_present_description:String
       test_description:String
       student_id:Int
@@ -987,4 +994,26 @@ type ConsultantDefinitionDetail @key(fields: "id"){
 
       consultant:User @belongsTo
       user:User @belongsTo      
+}
+
+type ConsultantFinancial @key(fields: "id"){
+
+      id:ID
+      user_id_creator:Int
+      counsultant_id:Int
+      student_id:Int
+      manager_status:Int
+      financial_status:Int
+      student_status:String
+      financial_refused_status:String
+      user_id_manager:Date
+      user_id_financial:StudentStatus
+      user_id_student_status:String
+      description:String
+      financial_status_updated_at:Int
+      
+
+      consultant:User @belongsTo
+      user:User @belongsTo  
+
 }

@@ -29,14 +29,27 @@ enum DaysOfWeek{
   Friday
 }
 enum ManagerStatus{
-  Approved
-  Pending
+  approved
+  pending
 }
 
 enum FinancialStatus{
-  Approved
-  Pending
-  SemiApproved
+  approved
+  pending
+  semi_approved
+}
+enum StudentStatusConsultantFinancial{
+  ok
+  refused
+  fired
+  financial_pending
+
+}
+
+enum FinancialRefusedStatus{
+  not_returned
+  returned
+  noMoney
 }
   
   input CreateAzmoonInput{
@@ -432,6 +445,46 @@ enum FinancialStatus{
       days:[DaysOfWeek] 
 
     }
+
+    input CreateConsultantFinancialInput @validator{
+      
+      consultant_id:Int!
+      student_id:Int!
+      branch_id:Int
+      year_id:Int!
+      consultant_definition_detail_id:Int!
+      manager_status:ManagerStatus
+      financial_status:FinancialStatus
+      student_status:StudentStatusConsultantFinancial
+      financial_refused_status:FinancialRefusedStatus
+      description:String
+      # user_id_manager:Int
+      # user_id_financial:Int
+      # user_id_student_status:Int
+     
+      # financial_status_updated_at:DateTime
+
+    }
+    input UpdateConsultantFinancialInput @validator{
+
+      id:ID!      
+      consultant_id:Int!
+      student_id:Int!
+      branch_id:Int
+      year_id:Int
+      consultant_definition_detail_id:Int
+      manager_status:ManagerStatus
+      financial_status:FinancialStatus
+      student_status:StudentStatusConsultantFinancial
+      financial_refused_status:FinancialRefusedStatus
+      description:String
+      # user_id_manager:Int
+      # user_id_financial:Int
+      # user_id_student_status:Int      
+      # financial_status_updated_at:DateTime
+
+    }
+    
 
 
 type User {
@@ -1000,20 +1053,28 @@ type ConsultantFinancial @key(fields: "id"){
 
       id:ID
       user_id_creator:Int
-      counsultant_id:Int
+      consultant_id:Int
       student_id:Int
-      manager_status:Int
-      financial_status:Int
-      student_status:String
-      financial_refused_status:String
-      user_id_manager:Date
-      user_id_financial:StudentStatus
-      user_id_student_status:String
+      branch_id:Int
+      year_id:Int
+      consultant_definition_detail_id:Int
+      manager_status:ManagerStatus
+      financial_status:FinancialStatus
+      student_status:StudentStatusConsultantFinancial
+      financial_refused_status:FinancialRefusedStatus
+      user_id_manager:Int
+      user_id_financial:Int
+      user_id_student_status:Int
       description:String
-      financial_status_updated_at:Int
-      
+      financial_status_updated_at:DateTime     
 
       consultant:User @belongsTo
       user:User @belongsTo  
-
+      manager:User @belongsTo  
+      financial:User @belongsTo  
+      year:Year @belongsTo  
+      consultantDefinitionDetails:ConsultantDefinitionDetail @belongsTo  
+      branch:Branch @belongsTo  
+     
 }
+

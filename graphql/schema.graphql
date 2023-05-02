@@ -75,6 +75,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     #import Queries/StudentWarning/StudentWarning.graphql
     #import Queries/StudentWarningHistories/StudentWarningHistories.graphql
     #import Queries/ConsultantDefinitionDetail/ConsultantDefinitionDetail.graphql
+    #import Queries/ConsultantFinancial/ConsultantFinancial.graphql
+    
     
     
     
@@ -114,8 +116,7 @@ type Mutation {
     # updateTeacher(input: UpdateTeacherInput! @spread): Teacher! @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\Teacher\\UpdateTeacher@resolver")
     # deleteTeacher(id:ID!):Teacher @guard(with:["api"]) @delete
   #end region
-
-   
+  
     
     #import Mutations/User/User.graphql
     #import Mutations/Group/Group.graphql
@@ -137,9 +138,9 @@ type Mutation {
     #import Mutations/StudentWarning/StudentWarning.graphql
     #import Mutations/StudentWarningHistories/StudentWarningHistories.graphql
     #import Mutations/ConsultantDefinitionDetail/ConsultantDefinitionDetail.graphql
-
-    
-    
+    #import Mutations/ConsultantFinancial/ConsultantFinancial.graphql
+   
+   
 
 }
 

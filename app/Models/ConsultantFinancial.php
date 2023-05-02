@@ -16,8 +16,11 @@ class ConsultantFinancial extends Model implements Auditable
     protected $fillable=[
         "id",
         "user_id_creator",
-        "counsultant_id",
+        "consultant_id",
         "student_id",
+        "branch_id",
+        "year_id",
+        "consultant_definition_detail_id",
         "manager_status",
         "financial_status",
         "student_status",
@@ -34,9 +37,9 @@ class ConsultantFinancial extends Model implements Auditable
     {
         return $this->belongsTo(User::class,"user_id_creator");
     }
-    public function counsultant()
+    public function consultant()
     {
-        return $this->belongsTo(User::class,"counsultant_id");
+        return $this->belongsTo(User::class,"consultant_id");
     }
     public function manager()
     {
@@ -45,6 +48,18 @@ class ConsultantFinancial extends Model implements Auditable
     public function financial()
     {
         return $this->belongsTo(User::class,"user_id_financial");
+    }   
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class,"branch_id");
+    }   
+    public function year()
+    {
+        return $this->belongsTo(Year::class,"year_id");
+    } 
+    public function consultantDefinitionDetails()
+    {
+        return $this->belongsTo(ConsultantDefinitionDetail::class,"consultant_definition_detail_id");
     }   
 
 }

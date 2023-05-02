@@ -1,0 +1,22 @@
+getConsultantFinancial(id:ID!):ConsultantFinancial @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\ConsultantFinancial\\GetConsultantFinancial@resolveConsultantFinancialAttribute") 
+  getConsultantFinancials(
+      
+      user_id_creator:Int
+      consultant_id:Int
+      student_id:Int
+      branch_id:Int
+      manager_status:ManagerStatus
+      financial_status:FinancialStatus
+      student_status:StudentStatusConsultantFinancial
+      financial_refused_status:FinancialRefusedStatus
+      user_id_manager:Int
+      user_id_financial:StudentStatus
+      user_id_student_status:String
+      description:String      
+      orderBy:[OrderByClause!] @orderBy
+
+
+    ): [ConsultantFinancial] 
+    @guard(with:["api"])
+   
+    @paginate(builder: "App\\GraphQL\\Queries\\ConsultantFinancial\\GetConsultantFinancials@resolveConsultantFinancial") 

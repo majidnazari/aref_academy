@@ -31,8 +31,9 @@ class CheckAuth
         "GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","financial"),
         "CourseTotalReport" => array("admin","manager","financial"),
         "CourseReportAtSpecialTime" => array("admin","manager"),
-        "ConsultantDefinitionDetail" => array("admin","manager")
-        
+        "ConsultantDefinitionDetail" => array("admin","manager"),
+        "ConsultantFinancial" => array("admin"),
+      
        
     );
     

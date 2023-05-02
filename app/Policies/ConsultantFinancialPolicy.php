@@ -34,7 +34,7 @@ class ConsultantFinancialPolicy
      * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ConsultantFinancial $consultantFinancial)
+    public function view(User $user, ConsultantFinancial $consultantFinancial=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_financial))
@@ -63,7 +63,7 @@ class ConsultantFinancialPolicy
      * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ConsultantFinancial $consultantFinancial)
+    public function update(User $user, ConsultantFinancial $consultantFinancial=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_financial))
@@ -78,7 +78,7 @@ class ConsultantFinancialPolicy
      * @param  \App\Models\ConsultantFinancial  $consultantFinancial
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ConsultantFinancial $consultantFinancial)
+    public function delete(User $user, ConsultantFinancial $consultantFinancial=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_financial))

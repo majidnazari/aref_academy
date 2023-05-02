@@ -1,0 +1,5 @@
+#region ConsultantFinancial
+      createConsultantFinancial(input: CreateConsultantFinancialInput! @spread): ConsultantFinancial  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantFinancial\\CreateConsultantFinancial@resolver")
+      updateConsultantFinancial(input: UpdateConsultantFinancialInput! @spread): ConsultantFinancial! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantFinancial\\UpdateConsultantFinancial@resolver")
+      deleteConsultantFinancial(id:ID!): ConsultantFinancial  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantFinancial\\DeleteConsultantFinancial@resolver")
+#end ConsultantFinancial

@@ -47,7 +47,7 @@ final class GetUser //implements ErrorHandler
         $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;   
         // $allow_user=array("admin");
         // return auth()->guard('api')->user()->group->type;
-        $user= User::where('id',$args['id'])->whereIn('branch_id',$branch_id);
+        $user= User::where('id',$args['id'])->whereIn('branch_id',$branch_id)->first();
             return $user;
         // if(in_array($user_role,$allow_user))
         //     return true;

@@ -57,7 +57,7 @@ class ManagerRuleToUpdateUser implements Rule
         if(in_array($group->type,["manager","acceptor","teacher"]) &&  $user_type=="manager" && in_array($user_id_type->group->type,["manager","acceptor","teacher"]) ){
             return true;
         }
-        if(in_array($group->type,["admin","financial","manager","acceptor","teacher"]) &&  $user_type=="admin") // admin  add -> All users 
+        if(in_array($group->type,["admin","financial","manager","acceptor","consultant","teacher"]) &&  $user_type=="admin") // admin  add -> All users 
         {           
             return true;           
         }

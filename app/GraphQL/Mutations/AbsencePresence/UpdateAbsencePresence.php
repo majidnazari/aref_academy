@@ -31,7 +31,7 @@ final class UpdateAbsencePresence
         $args["user_id_creator"] = $user_id;
         $AbsencePresence = AbsencePresence::where('id', $args['id'])
         ->with('courseSession')
-        ->where('isCancel',false)
+        //->where('isCancel',false)
         ->first();
         $args['student_id']=$AbsencePresence->student_id;
         $args['course_session_id']=$AbsencePresence->course_session_id;

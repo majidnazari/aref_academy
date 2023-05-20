@@ -36,8 +36,12 @@ final class CreateConsultantDefinitionDetail
         $end_hour = $args['end_hour'];
         $data=[];
 
-        $all_of_consultant_data=ConsultantDefinitionDetail::where('consultant_id',$args['consultant_id'])->where('user_id' , $user_id)->get();
-        //Log::info(json_encode($all_of_consultant_data));
+        $all_of_consultant_data=ConsultantDefinitionDetail::where('consultant_id',$args['consultant_id'])
+        ->where('user_id' , $user_id)
+        // ->with('branchClassRoom')
+        ->get();
+        //Log::info(json_encode($args['week']));
+
         foreach ($args['days'] as $day) {
             $dayOfWeek = Carbon::parse('next ' . $day)->toDateString();
             $start_hour = $args['start_hour'];
@@ -47,7 +51,8 @@ final class CreateConsultantDefinitionDetail
 
                 $consultant_definition_detail_date = [
                     'consultant_id' => $args['consultant_id'],
-                    'branch_id' => isset($args['branch_id']) ? $args['branch_id'] : null,
+                    'branch_class_room_id' => isset($args['branch_class_room_id']) ? $args['branch_class_room_id'] : null,
+                    // 'branch_id' =>$all_of_consultant_data->branchClassRoom->branch_id,
                     'user_id' => $user_id,
                     'start_hour' => $start_hour,
                     'end_hour' => $next_time,
@@ -56,7 +61,7 @@ final class CreateConsultantDefinitionDetail
 
                 ];
                  $is_exist = $all_of_consultant_data->where('consultant_id',$args['consultant_id'])
-                 ->where('branch_id',$args['branch_id'])
+                 ->where('branch_class_room_id',$args['branch_class_room_id'])
                  ->where('user_id',$user_id)
                  ->where('start_hour',$start_hour)
                  ->where('end_hour',$next_time)

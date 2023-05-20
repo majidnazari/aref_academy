@@ -6,6 +6,7 @@ getConsultantDefinitionDetail(id:ID!):ConsultantDefinitionDetail @guard(with:["a
          session_date_from:Date
          session_date_days:[DaysOfWeek]
          session_date_to:Date
+         branch_class_room_id:Int
          branch_id:Int
          user_id:Int
          step:Int

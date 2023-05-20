@@ -23,15 +23,21 @@ final class GetConsultantDefinitionDetail
     }
     function resolveConsultantDefinitionDetailAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
-        $branch_id = auth()->guard('api')->user()->branch_id; 
-        $ConsultantDefinitionDetail=ConsultantDefinitionDetail::where('id',$args['id']);
-        
-        if($branch_id)
-        {
-            return  $ConsultantDefinitionDetail->where('branch_id',$branch_id)->first();
-        }
-        
-        return $ConsultantDefinitionDetail->first();
+
+        $branch_id = auth()->guard('api')->user()->branch_id;
+        $one_branch[]= $branch_id;        
+        $all_branches=Branch::pluck('id');
+        $all_branches[]=null;
+        $branches_id=($branch_id===null) ? $all_branches :  $one_branch;       
+        //Log::info(" the user branche is:". $branch_id ."all branches with nulluser are:" .  json_encode($branches_id));
+        $ConsultantDefinitionDetail=ConsultantDefinitionDetail::where('id',$args['id'])
+        ->whereHas('branchClassRoom.branch',function($query) use ($branches_id){
+            return $query->whereIn('id',$branches_id);
+        })        
+        ->with('branchClassRoom.branch')
+        ->first();
+
+        return  $ConsultantDefinitionDetail;      
     }
     
 }

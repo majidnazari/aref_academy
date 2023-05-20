@@ -3,6 +3,10 @@
 namespace App\GraphQL\Validators;
 
 use Nuwave\Lighthouse\Validation\Validator;
+use App\Rules\CheckDaysPassedOrNot;
+use Illuminate\Validation\Rule;
+
+
 
 final class CreateConsultantDefinitionDetailInputValidator extends Validator
 {    
@@ -26,6 +30,12 @@ final class CreateConsultantDefinitionDetailInputValidator extends Validator
                 'in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday'
 
             ] ,
+            'week' =>[
+                'required',
+                'in:Current,Next',
+                new CheckDaysPassedOrNot($this->arg('days'))
+
+            ] ,
             // 'name' =>
             // [
             //     'nullable',
@@ -46,15 +56,14 @@ final class CreateConsultantDefinitionDetailInputValidator extends Validator
                 'min:0',
                 'max:60'
             ],
-            // 'start_time' =>[
-            //     "required",
-            //     'date_format:"H:i"'
-            // ],
-            // 'end_time' =>[
-            //     "required",
-            //     'date_format:"H:i"',
-            //     'after:start_time'
-            // ]
+            'branch_class_room_id' =>[
+                "nullable",
+                Rule::exists('branch_class_rooms','id')->where(function ($query){
+                    $query->where('id',$this->arg('branch_class_room_id'));                  
+                    
+                })
+            ],
+           
         
         ];
     }

@@ -28,6 +28,10 @@ enum DaysOfWeek{
   Thursday
   Friday
 }
+enum Week{
+  Current
+  Next
+}
 enum ManagerStatus{
   approved
   pending
@@ -427,18 +431,19 @@ enum FinancialRefusedStatus{
     input CreateConsultantDefinitionDetailInput  @validator{
       
       consultant_id:Int! 
-      branch_id:Int 
+      branch_class_room_id:Int 
       start_hour:String!
       end_hour:String!
       step:Int!
       days:[DaysOfWeek]      
+      week:Week  
 
     }
 
     input UpdateConsultantDefinitionDetailInput @validator{
       id:[ID]
       consultant_id:Int! 
-      branch_id:Int 
+      branch_class_room_id:Int 
       start_hour:String!
       end_hour:String!
       step:Int
@@ -1033,6 +1038,7 @@ type ConsultantDefinitionDetail @key(fields: "id"){
       id:ID
       consultant_id:Int
       student_id:Int
+      branch_class_room_id:Int
       branch_id:Int
       consultant_test_id:Int
       user_id:Int
@@ -1046,7 +1052,8 @@ type ConsultantDefinitionDetail @key(fields: "id"){
       step:Int
 
       consultant:User @belongsTo
-      user:User @belongsTo      
+      user:User @belongsTo 
+      branchClassRoom: BranchClassRoom @belongsTo     
 }
 
 type ConsultantFinancial @key(fields: "id"){

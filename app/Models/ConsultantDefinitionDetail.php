@@ -16,7 +16,8 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     protected $fillable=
     [
         "consultant_id",
-        "student_id",
+        "student_id",       
+        "branch_class_room_id",
         "branch_id",
         "consultant_test_id",
         "user_id",
@@ -37,9 +38,13 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     {
         return $this->belongsTo(User::class,"user_id");
     }
-    public function branch()
+    // public function branch()
+    // {
+    //     return $this->belongsTo(Branch::class,"branch_id");
+    // }
+    public function branchClassRoom()
     {
-        return $this->belongsTo(Branch::class,"branch_id");
+        return $this->belongsTo(BranchClassRoom::class,"branch_class_room_id");
     }
     // public function consultantTest()
     // {

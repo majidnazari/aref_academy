@@ -57,7 +57,8 @@ final class CreateConsultantDefinitionDetail
                     'start_hour' => $start_hour,
                     'end_hour' => $next_time,
                     'step' => $args['step'],
-                    'session_date' => $dayOfWeek
+                    'session_date' => $dayOfWeek,
+                    'created_at' => $now,
 
                 ];
                  $is_exist = $all_of_consultant_data->where('consultant_id',$args['consultant_id'])
@@ -82,7 +83,7 @@ final class CreateConsultantDefinitionDetail
                 // $consultant_definition_detail_date_result = ConsultantDefinitionDetail::create($consultant_definition_detail_date);
                 $data[]=$consultant_definition_detail_date ;
                
-            } while (Carbon::parse($start_hour) < Carbon::parse($end_hour));
+            } while (Carbon::parse($start_hour)->addMinutes($args['step']) < Carbon::parse($end_hour));
         }
         
         ConsultantDefinitionDetail::insert($data);

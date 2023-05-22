@@ -24,6 +24,8 @@ final class GetConsultantDefinitionDetails
     }
     function resolveConsultantDefinitionDetail($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
     {
+        $data=[];
+        $tmp=[];
         
         $branch_id = auth()->guard('api')->user()->branch_id;
         $one_branch[]= $branch_id;        
@@ -77,7 +79,45 @@ final class GetConsultantDefinitionDetails
                 isset($args['step']) ? $ConsultantDefinitionDetail->where('step', $args['step']): '';
                 isset($args['session_date_days']) ? $ConsultantDefinitionDetail->whereIn('session_date',$daysin): '';
                
-                return $ConsultantDefinitionDetail;    
+                $ConsultantDefinitionDetail->orderBy('session_date','asc');
+                $ConsultantDefinitionDetail= $ConsultantDefinitionDetail->get();
+                //Log::warning("the all data are:". json_encode($ConsultantDefinitionDetail));
+
+                $index=1;
+                while(($args['session_date_from'] <= $args['session_date_to']) &&($index<8)){
+                    $args['session_date_from']= Carbon::create($args['session_date_from'])->addDays(1)->format("Y-m-d");
+                    $index++;
+                   
+
+                    foreach($ConsultantDefinitionDetail as $singlerecord){
+
+                        if($args['session_date_from']==$singlerecord->session_date){
+                            $tmp[]=[
+                                "student_id" =>$singlerecord->student_id
+                            ];
+                        }
+                    }
+                    $data[$args['session_date_from']]=$tmp;
+
+
+
+                }
+
+                foreach($ConsultantDefinitionDetail as $singlerecord){
+
+                   
+                    // $tmp[$singlerecord->session_date]=[
+                    //     "session_date" =>$singlerecord->session_date,
+                    //     "consultant_id"=>$singlerecord->consultant_id,
+                    //     "start_hour"=>$singlerecord->start_hour,
+                    //     "end_hour"=>$singlerecord->end_hour,
+                    //     "student_id"=>$singlerecord->student_id,
+                        
+                    // ]; 
+                }
+                Log::info("the data is:". json_encode($data));
+                return $data;
+                //return $ConsultantDefinitionDetail;    
 
             
         }

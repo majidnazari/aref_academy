@@ -5,124 +5,94 @@ namespace App\GraphQL\Queries\ConsultantDefinitionDetail;
 use App\Models\ConsultantDefinitionDetail;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
-use App\Models\Branch;
 use Carbon\Carbon;
 use AuthRole;
 use Log;
 
 final class GetConsultantDefinitionDetails
 {
-    /**
-     * @param  null  $_
-     * @param  array{}  $args
-     */
-    public function __invoke($_, array $args)
+    function resolveConsultantDefinitionDetail($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        // TODO implement the resolver
-    }
-    function resolveConsultantDefinitionDetail($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
-    {
-        $data=[];
-        $tmp=[];
-        
-        $branch_id = auth()->guard('api')->user()->branch_id;
-        $one_branch[]= $branch_id;        
-        $all_branches=Branch::pluck('id');
-        $all_branches[]=null;
-        $branches_id=($branch_id===null) ? $all_branches :  $one_branch;  
-
-        if (AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) 
-        {            
-            if( isset($args['session_date_days']))
-            {
-                    $daysin=[];
-                    $now = Carbon::now();            
-                    $firstofyear=$now->copy()->startOfYear();
-                    $endOfYear   = $now->copy()->endOfYear(); 
-                    foreach($args['session_date_days'] as $day){                  
-                    $days=Carbon::parse("first $day of January " . $now->year);                   
-                    $daysin[]=$days->toDateString();                 
-                    while( $endOfYear >  $days)
-                    {              
-                            $days->addDays('7');                     
-                            $daysin[]=$days->toDateString();
-
-                    }                  
-                    }             
-            }
-           
-                $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('deleted_at', null); //->orderBy('id','desc');   
-            
-                isset($args['consultant_id']) ? $ConsultantDefinitionDetail->where('consultant_id', $args['consultant_id']): '';
-            
-                isset($args['branch_class_room_id'])
-                 ? $ConsultantDefinitionDetail->where('branch_class_room_id', $args['branch_class_room_id'])
-                 : $ConsultantDefinitionDetail->whereHas('branchClassRoom.branch',function($query) use ($branches_id){
-                    return $query->whereIn('id',$branches_id);
-                })        
-                ->with('branchClassRoom.branch');      
-                //isset($args['branch_id']) ? $ConsultantDefinitionDetail->where('branch_id', $args['branch_id']): $ConsultantDefinitionDetail->whereIn('branch_id', $branch_id);       
-                isset($args['session_date_from']) ? $ConsultantDefinitionDetail->where('session_date','>=', $args['session_date_from']): '';
-                isset($args['session_date_to']) ? $ConsultantDefinitionDetail->where('session_date','<=', $args['session_date_to']): '';
-                isset($args['consultant_test_id']) ? $ConsultantDefinitionDetail->where('consultant_test_id', $args['consultant_test_id']): '';
-                isset($args['user_id']) ? $ConsultantDefinitionDetail->where('user_id', $args['user_id']): '';
-                isset($args['start_hour_from']) ? $ConsultantDefinitionDetail->where('start_hour','>=', $args['start_hour_from']): '';
-                isset($args['start_hour_to']) ? $ConsultantDefinitionDetail->where('start_hour','<=', $args['start_hour_to']): '';
-                isset($args['end_hour_from']) ? $ConsultantDefinitionDetail->where('end_hour','>=', $args['end_hour_from']): '';
-                isset($args['end_hour_to']) ? $ConsultantDefinitionDetail->where('end_hour','<=', $args['end_hour_to']): '';
-                isset($args['student_status']) ? $ConsultantDefinitionDetail->whereIn('student_status', $args['student_status'])  : '';
-                isset($args['student_id']) ? $ConsultantDefinitionDetail->where('student_id', $args['student_id']): '';
-                isset($args['absent_present_description']) ? $ConsultantDefinitionDetail->where('absent_present_description', $args['absent_present_description']): '';
-                isset($args['test_description']) ? $ConsultantDefinitionDetail->where('test_description', $args['test_description']): '';
-                isset($args['step']) ? $ConsultantDefinitionDetail->where('step', $args['step']): '';
-                isset($args['session_date_days']) ? $ConsultantDefinitionDetail->whereIn('session_date',$daysin): '';
-               
-                $ConsultantDefinitionDetail->orderBy('session_date','asc');
-                $ConsultantDefinitionDetail= $ConsultantDefinitionDetail->get();
-                //Log::warning("the all data are:". json_encode($ConsultantDefinitionDetail));
-
-                $index=1;
-                while(($args['session_date_from'] <= $args['session_date_to']) &&($index<8)){
-                    $args['session_date_from']= Carbon::create($args['session_date_from'])->addDays(1)->format("Y-m-d");
-                    $index++;
-                   
-
-                    foreach($ConsultantDefinitionDetail as $singlerecord){
-
-                        if($args['session_date_from']==$singlerecord->session_date){
-                            $tmp[]=[
-                                "student_id" =>$singlerecord->student_id
-                            ];
-                        }
-                    }
-                    $data[$args['session_date_from']]=$tmp;
-
-
-
-                }
-
-                foreach($ConsultantDefinitionDetail as $singlerecord){
-
-                   
-                    // $tmp[$singlerecord->session_date]=[
-                    //     "session_date" =>$singlerecord->session_date,
-                    //     "consultant_id"=>$singlerecord->consultant_id,
-                    //     "start_hour"=>$singlerecord->start_hour,
-                    //     "end_hour"=>$singlerecord->end_hour,
-                    //     "student_id"=>$singlerecord->student_id,
-                        
-                    // ]; 
-                }
-                Log::info("the data is:". json_encode($data));
-                return $data;
-                //return $ConsultantDefinitionDetail;    
-
-            
+        if (!AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) {
+            return [];
         }
-        return ConsultantDefinitionDetail::where('deleted_at', null)
-            ->where('id', -1);
+
+        $branch_id = auth()->guard('api')->user()->branch_id;
+        $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('deleted_at', null)
+            ->where(function ($query) use ($args, $branch_id)
+            {
+                if (isset($args['consultant_id'])) $query->where('consultant_id', $args['consultant_id']);
+                if (isset($args['branch_class_room_id'])) {
+                    $query->where('branch_class_room_id', $args['branch_class_room_id']);
+                } else {
+                    $query->whereHas('branchClassRoom.branch', function ($query) use ($branch_id) {
+                        if (isset($branch_id))
+                            return $query->whereIn('id', $branch_id);
+                    })
+                        ->with('branchClassRoom.branch');
+                }
+                if (isset($args['session_date_from'])) $query->where('session_date', '>=', $args['session_date_from']);
+                if (isset($args['session_date_to'])) $query->where('session_date', '<=', $args['session_date_to']);
+                if (isset($args['consultant_test_id'])) $query->where('consultant_test_id', $args['consultant_test_id']);
+                if (isset($args['user_id'])) $query->where('user_id', $args['user_id']);
+                if (isset($args['start_hour_from'])) $query->where('start_hour', '>=', $args['start_hour_from']);
+                if (isset($args['start_hour_to'])) $query->where('start_hour', '<=', $args['start_hour_to']);
+                if (isset($args['end_hour_from'])) $query->where('end_hour', '>=', $args['end_hour_from']);
+                if (isset($args['end_hour_to'])) $query->where('end_hour', '<=', $args['end_hour_to']);
+                if (isset($args['student_status'])) $query->whereIn('student_status', $args['student_status']);
+                if (isset($args['student_id'])) $query->where('student_id', $args['student_id']);
+                if (isset($args['absent_present_description'])) $query->where('absent_present_description', $args['absent_present_description']);
+                if (isset($args['test_description'])) $query->where('test_description', $args['test_description']);
+                if (isset($args['step'])) $query->where('step', $args['step']);
+            })->with(['user','consultant','branchClassRoom'])
+            ->orderBy('session_date', 'asc')->get();
+
+        $data = [];
+        $index = 0;
+        $tempDate = Carbon::create($args['session_date_from']);
+        $finishDate = Carbon::create($args['session_date_to']);
+        while (($tempDate <= $finishDate) && ($index < 7)) {
+            $data[] = [
+                "date" => $tempDate->copy(),
+                "details" => $this->getDateData($ConsultantDefinitionDetail, $tempDate)
+            ];
+            $tempDate=$tempDate->addDays(1);
+            $index++;
+        }
+        return $data;
     }
-    
+
+    function getDateData($consultantDefinitionDetail, Carbon $session_date_from)
+    {
+        //Log::info("single is:". json_encode($consultantDefinitionDetail));
+        return $consultantDefinitionDetail
+            ->where('session_date', $session_date_from->format('Y-m-d'))
+            ->sortBy('start_hour')
+            ->map(function (ConsultantDefinitionDetail $singlerecord) {
+                return [
+                    "id" => $singlerecord->id,
+                    "consultant_id" => $singlerecord->consultant_id,
+                    "student_id" => $singlerecord->student_id,
+                    "branch_class_room_id" => $singlerecord->branch_class_room_id,
+                    "consultant_test_id" => $singlerecord->consultant_test_id,
+                    "user_id" => $singlerecord->user_id,
+                    "user_first_name" => $singlerecord->user->first_name,
+                    "user_last_name" => $singlerecord->user->last_name,
+                    "user_email" => $singlerecord->user->email,
+                    "start_hour" => $singlerecord->start_hour,
+                    "end_hour" => $singlerecord->end_hour,
+                    "session_date" => $singlerecord->session_date,
+                    "student_status" => $singlerecord->student_status,
+                    "absent_present_description" => $singlerecord->absent_present_description,
+                    "test_description" => $singlerecord->test_description,
+                    "step" => $singlerecord->step,
+                    "consultant" => $singlerecord->consultant,
+                    "consultant_first_name" => $singlerecord->consultant->first_name,
+                    "consultant_last_name" => $singlerecord->consultant->last_name,
+                    "consultant_email" => $singlerecord->consultant->email,
+                    "branchClassRoom_id" => $singlerecord->branch_class_room_id,
+                    "branchClassRoom_name" => $singlerecord->branchClassRoom->name,
+                ];
+            });
+    }
 }

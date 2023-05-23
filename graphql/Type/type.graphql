@@ -1039,7 +1039,7 @@ type ConsultantDefinitionDetail @key(fields: "id"){
       consultant_id:Int
       student_id:Int
       branch_class_room_id:Int
-      branch_id:Int
+      # branch_id:Int
       consultant_test_id:Int
       user_id:Int
       start_hour:String
@@ -1048,12 +1048,41 @@ type ConsultantDefinitionDetail @key(fields: "id"){
       student_status:StudentStatus
       absent_present_description:String
       test_description:String
-      student_id:Int
+      # student_id:Int
       step:Int
 
       consultant:User @belongsTo
       user:User @belongsTo 
       branchClassRoom: BranchClassRoom @belongsTo     
+}
+type ConsultantDefinitionDetailFlatModel @key(fields: "id"){
+
+      id:ID
+      consultant_id:Int      
+      consultant_first_name:String
+      consultant_last_name:String
+      consultant_email:String
+      student_id:Int
+      branch_class_room_id:Int      
+      consultant_test_id:Int
+      user_id:Int
+      user_first_name:String
+      user_last_name:String
+      user_email:String
+      start_hour:String
+      end_hour:String
+      session_date:Date
+      student_status:StudentStatus
+      absent_present_description:String
+      test_description:String      
+      step:Int
+      branchClassRoom_id:Int
+      branchClassRoom_name:String
+         
+}
+type ConsultantDefinitionDetailOrderByDate { 
+   date:Date,
+   details:[ConsultantDefinitionDetailFlatModel]
 }
 
 type ConsultantFinancial @key(fields: "id"){

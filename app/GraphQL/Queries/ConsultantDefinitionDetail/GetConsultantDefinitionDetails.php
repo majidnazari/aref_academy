@@ -11,7 +11,7 @@ use Log;
 
 final class GetConsultantDefinitionDetails
 {
-    function resolveConsultantDefinitionDetail($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    function resolveConsultantDefinitionDetailFlatModel($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (!AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) {
             return [];

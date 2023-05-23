@@ -25,4 +25,4 @@ getConsultantDefinitionDetails(
     ): [ConsultantDefinitionDetailOrderByDate]
     @guard(with:["api"])
    
-    @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetails@resolveConsultantDefinitionDetail") 
+    @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetails@resolveConsultantDefinitionDetailFlatModel") 

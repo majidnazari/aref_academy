@@ -28,31 +28,31 @@ class CourseCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
-            "teacher_id" => ["required","int"],
-            "year_id" => ["required","int"],
-            "name" => ["required","string"],
-            "lesson" =>[
+            "user_id" => ["required", "int"],
+            "teacher_id" => ["required", "int"],
+            "year_id" => ["required", "int"],
+            "name" => ["required", "string"],
+            "lesson" => [
                 "required",
-                Rule::in(['Mathematics','Physics','Biology'])  
-            ],   
+                Rule::in(['Mathematics', 'Physics', 'Biology'])
+            ],
             "type" =>
             [
                 "required",
-                Rule::in(["private","public"])
+                Rule::in(["private", "public"])
             ]
-            //"year" => ["nullable","size:4"]           
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

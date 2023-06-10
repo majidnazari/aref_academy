@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\Teacher;
 use App\Models\Teacher;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetTeachers
 {

@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\Lesson;
 use App\Models\Lesson;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetLesson
 {
@@ -18,9 +16,9 @@ final class GetLesson
     {
         // TODO implement the resolver
     }
-    function resolveLessonAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveLessonAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $lesson= Lesson::find($args['id']);
+        $lesson = Lesson::find($args['id']);
         return $lesson;
     }
 }

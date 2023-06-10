@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\Fault;
 use App\Models\Fault;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetFault
 {
@@ -18,9 +16,9 @@ final class GetFault
     {
         // TODO implement the resolver
     }
-    function resolveFaultAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveFaultAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $Fault= Fault::find($args['id']);
+        $Fault = Fault::find($args['id']);
         return $Fault;
     }
 }

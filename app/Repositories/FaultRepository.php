@@ -2,8 +2,7 @@
 use App\Http\Requests\FaultCreateRequest;
 use App\Http\Requests\FaultEditRequest;
 use App\Http\Resources\FaultResource;
-use App\Http\Resources\FaultErrorResource;
- 
+use App\Http\Resources\FaultErrorResource; 
 use App\Models\Fault;
 use App\Repositories\Interfaces\FaultRepositoryInterface as FaultRepositoryInter;
  
@@ -21,8 +20,7 @@ class FaultRepository implements FaultRepositoryInter
 		else 
         {           
             return new FaultErrorResource("not found to fetch.");
-        }
-		
+        }		
 	}
 
 	public function addFault(FaultCreateRequest $request){
@@ -49,12 +47,7 @@ class FaultRepository implements FaultRepositoryInter
            return new FaultErrorResource("not found to delete.");   // not found to delete it is soft delete or id is not found
         }
 		return new FaultResource($fault);		
-	}
-	// public function RestoreFault(Fault $fault){
-	// 	//return Fault::create($fault->all());
-	// 	return $fault->restore();
-	// }
-	// more 
+	}	
 	public function faultData($request)
     {
         $data=[
@@ -64,5 +57,3 @@ class FaultRepository implements FaultRepositoryInter
     }
  
 }
-
-?>

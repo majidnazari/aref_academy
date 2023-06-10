@@ -4,11 +4,6 @@ namespace App\GraphQL\Mutations\ConsultantFinancial;
 
 use App\Models\ConsultantFinancial;
 use GraphQL\Type\Definition\ResolveInfo;
-use App\Models\GroupUser;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
-use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
 use Log;
@@ -40,8 +35,7 @@ final class UpdateConsultantFinancial
            
 
         ];
-        $exist_before=ConsultantFinancial::where($data)->exists();
-        //Log::info("update is:". json_encode($exist_before));
+        $exist_before=ConsultantFinancial::where($data)->exists();        
         if($exist_before)
         {
             return Error::createLocatedError("CONSULTANTFINANCIAL-UPDATE-RECORD_EXIST_BEFORE");

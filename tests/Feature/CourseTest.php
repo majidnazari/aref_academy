@@ -45,10 +45,7 @@ class CourseTest extends TestCase
         $Course=Course::factory()->make()->toArray();
         Course::create($Course);
         $new_Course=Course::factory()->make()->toArray();
-        $find_Course=Course::where($Course)->update($new_Course);
-        //dd($find_Course->id);
-        
-        //$find_Course->update($new_Course);
+        $find_Course=Course::where($Course)->update($new_Course);       
         $this->assertDatabaseHas('courses',$new_Course);        
     }
     public function test_deleteCourse()

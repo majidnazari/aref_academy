@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\BasicFacade\BasicModule;
 use App\BasicFacade\UpdateCourseStudentReport;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
-use Log;
 
 class BasicModuleServiceProvider extends ServiceProvider
 {
@@ -17,16 +15,7 @@ class BasicModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // App::bind('BasicModule', function()
-        // {
-        //     //Log::info("the service provider basicmodule  is run.");
-        //     //return new App\BasicFacade\BasicMethod;
-        //     return new BasicModule;
-        // });
-        App::bind('UpdateCourseStudentReport', function()
-        {
-            //Log::info("the service provider basicmodule  is run.");
-            //return new App\BasicFacade\BasicMethod;
+        App::bind('UpdateCourseStudentReport', function () {
             return new UpdateCourseStudentReport;
         });
     }

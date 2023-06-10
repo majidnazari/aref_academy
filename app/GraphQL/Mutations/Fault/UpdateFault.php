@@ -4,11 +4,6 @@ namespace App\GraphQL\Mutations\Fault;
 
 use App\Models\Fault;
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
-use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
 

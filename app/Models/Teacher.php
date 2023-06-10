@@ -10,7 +10,7 @@ class Teacher extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=
+    protected $fillable =
     [
         "id",
         "first_name",
@@ -18,7 +18,7 @@ class Teacher extends Model
         "mobile",
         "address",
         "user_id_creator"
-       
+
     ];
     public function user()
     {

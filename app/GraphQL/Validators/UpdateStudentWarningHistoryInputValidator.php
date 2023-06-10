@@ -4,7 +4,6 @@ namespace App\GraphQL\Validators;
 
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Validation\Validator;
-use Log;
 
 final class UpdateStudentWarningHistoryInputValidator extends Validator
 {
@@ -15,24 +14,20 @@ final class UpdateStudentWarningHistoryInputValidator extends Validator
      */
     public function rules(): array
     {
-        //Log::info("the args is : " . $this->arg );
         return [
-            // TODO Add your validation rules
             "student_id" => [
-                "required",                
-                Rule::exists('student_warnings','student_id')->where(function ($query){
-                    $query->where('student_id',$this->arg('student_id'));
-                    //->where('id',$this->arg('course_session_id'));
-                    
+                "required",
+                Rule::exists('student_warnings', 'student_id')->where(function ($query) {
+                    $query->where('student_id', $this->arg('student_id'));
                 }),
 
             ],
             "course_id" => [
-                "nullable",                
-                
+                "nullable",
+
             ],
             "response" => [
-                "required",                
+                "required",
                 "in:done,noAction"
             ]
         ];

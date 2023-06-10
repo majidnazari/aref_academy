@@ -4,11 +4,6 @@ namespace App\GraphQL\Mutations\AzmoonResult;
 
 use App\Models\AzmoonResult;
 use GraphQL\Type\Definition\ResolveInfo;
-use App\Models\GroupUser;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
-use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
 
@@ -31,13 +26,9 @@ final class DeleteAzmoonResult
         if(!$AzmoonResult)
         {
             return Error::createLocatedError("AZMOONRESULT-DELETE-RECORD_NOT_FOUND");
-        }
-        
+        }        
         $AzmoonResult_filled= $AzmoonResult->delete();
-        $AzmoonResult->save();       
-       
-        return $AzmoonResult;
-
-        
+        $AzmoonResult->save(); 
+        return $AzmoonResult;        
     }
 }

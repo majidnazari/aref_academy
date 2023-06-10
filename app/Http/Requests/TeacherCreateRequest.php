@@ -27,27 +27,28 @@ class TeacherCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "first_name" => ["required","string"], 
-            "last_name" => ["required","string"],
-            "mobile" =>[
+            "first_name" => ["required", "string"],
+            "last_name" => ["required", "string"],
+            "mobile" => [
                 "required",
                 "size:11",
                 Rule::unique('teachers')->ignore('id')
             ],
             "address" => ["required"],
-            "user_id" =>["required" ,"int" ]
+            "user_id" => ["required", "int"]
         ];
     }
-    
+
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
-    
 }

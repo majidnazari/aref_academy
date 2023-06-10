@@ -28,9 +28,9 @@ class CourseSessionCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
-            "course_id" => ["required","int"],            
-            "name" => ["required","string"],
+            "user_id" => ["required", "int"],
+            "course_id" => ["required", "int"],
+            "name" => ["required", "string"],
             "start_date" => [
                 "required",
                 "date_format:Y-m-d"
@@ -38,23 +38,24 @@ class CourseSessionCreateRequest extends FormRequest
             "start_time" => [
                 "required",
                 "date_format:H:i:s"
-                ],
+            ],
             "end_time" => [
                 "required",
                 "date_format:H:i:s"
             ],
-                     
+
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

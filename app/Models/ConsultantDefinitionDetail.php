@@ -13,10 +13,10 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable=
+    protected $fillable =
     [
         "consultant_id",
-        "student_id",       
+        "student_id",
         "branch_class_room_id",
         "branch_id",
         "consultant_test_id",
@@ -32,23 +32,15 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
     public function consultant()
     {
-        return $this->belongsTo(User::class,"consultant_id");
+        return $this->belongsTo(User::class, "consultant_id");
     }
     public function user()
     {
-        return $this->belongsTo(User::class,"user_id");
+        return $this->belongsTo(User::class, "user_id");
     }
-    // public function branch()
-    // {
-    //     return $this->belongsTo(Branch::class,"branch_id");
-    // }
+
     public function branchClassRoom()
     {
-        return $this->belongsTo(BranchClassRoom::class,"branch_class_room_id");
+        return $this->belongsTo(BranchClassRoom::class, "branch_class_room_id");
     }
-    // public function consultantTest()
-    // {
-    //     return $this->belongsTo(User::class,"user_id");
-    // }
-
 }

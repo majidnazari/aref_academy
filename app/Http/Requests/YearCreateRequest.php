@@ -27,20 +27,21 @@ class YearCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ["required","string"],
-            "active" => ["required","bool"]
+            "name" => ["required", "string"],
+            "active" => ["required", "bool"]
             //"year" => ["nullable","size:4"]           
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

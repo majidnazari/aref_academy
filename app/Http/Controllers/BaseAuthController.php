@@ -1,14 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-//use Illuminate\Contracts\Validation\Validator;
 
 use App\Http\Utils\AutheticationUtility;
 use Validator;
 use Illuminate\Http\Request;
 use JWTAuth;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Throwable;
 
 class BaseAuthController extends Controller
@@ -21,8 +18,7 @@ class BaseAuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
-    {        
-        //return response()->json("h1",200);
+    {
         $rules = [
             'email' => 'required|email',
             'password' => 'required',
@@ -31,38 +27,23 @@ class BaseAuthController extends Controller
         $validator = Validator::make($input, $rules);
 
         if ($validator->fails()) {
-            //return response()->json("g",200);
             $error = $validator->messages()->toJson();
             return response()->json(['success' => false, 'error' => $error]);
         }
-        //return response()->json("g1",200);
         $credentials = [
             'email' => $request->email,
             'password' => $request->password
         ];
-        // $user=User::Where([
-        //     'email' => $request->email,
-        //     //'password' => md5($request->password)
-        // ])->first();
+
         $authUtil = new AutheticationUtility();
-        
-        //return response()->json($user,200);            
         try {
             $user = $authUtil->getUser($request->email, $request->password);
-           
-            // $checkPass=Hash::check($request->password, $user->password);
-            //return response()->json($checkPass,200);
-            // return response()->json(JWTAuth::attempt($credentials),200);
-            // attempt to verify the credentials and create a token for the user
-            //if (!$token = JWTAuth::attempt($credentials)) {
-            //if ($checkPass) {
             if (!$token = JWTAuth::attempt($credentials)) {
-                //return response()->json("g",200);   
+
                 return response()->json(['success' => false, 'error' => 'Wrong email or password.'], 401);
             }
-            //}
         } catch (Throwable $e) {
-            //return response()->json("g",200);
+
             return response()->json(['success' => false, 'error' => 'could_not_create_token'], 500);
         }
 

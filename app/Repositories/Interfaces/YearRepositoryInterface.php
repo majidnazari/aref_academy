@@ -10,10 +10,7 @@ use App\Models\Year;
 	public function getYear($id);
 	public function addYear(YearCreateRequest $request);
 	public function updateYear(YearEditRequest $request,Year $year);
-	public function deleteYear(Year $year);
-	//public function RestoreYear(Year $user);
- 
-	// more
+	public function deleteYear(Year $year);	
 }
 
 ?>

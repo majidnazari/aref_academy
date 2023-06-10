@@ -10,10 +10,5 @@ use App\Models\Gate;
 	public function getGate($id);
 	public function addGate(GateCreateRequest $request);
 	public function updateGate(GateEditRequest $request,Gate $gate);
-	public function deleteGate(Gate $gate);
-	//public function RestoreGate(Gate $user);
- 
-	// more
+	public function deleteGate(Gate $gate);	
 }
-
-?>

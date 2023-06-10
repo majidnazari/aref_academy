@@ -12,19 +12,13 @@ class Branch extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+    protected $fillable = [
         "user_id_creator",
         "name"
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class,"user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator");
     }
-
-    // public function user_branch()
-    // {
-    //     return $this->hasmany(User::class);
-    // }
-    
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class GroupGateCreateRequest extends FormRequest
 {
@@ -24,19 +26,21 @@ class GroupGateCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
-            "group_id" => ["required","int"],
-            "gate_id" => ["required","int"]
+            "user_id" => ["required", "int"],
+            "group_id" => ["required", "int"],
+            "gate_id" => ["required", "int"]
         ];
     }
-    public function errorValidation(Validation $validator)
+    public function errorValidation(Validator $validator)
     {
-        throw new HttpResponseExection(response()->json(
+        throw new HttpResponseException(response()->json(
             [
-                "success" => false,
+                'success'   => false,
                 'message'   => 'Validation errors',
-                "details"  =>$validator->errors(),
-                'code'      =>400
-            ]));
+                'details'   => $validator->errors(),
+                'code'      => 400
+            ],
+            400
+        ));
     }
 }

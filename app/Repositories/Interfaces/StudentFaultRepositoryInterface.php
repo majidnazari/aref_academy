@@ -11,11 +11,7 @@ use App\Models\StudentFault;
 	public function getStudentFault($id);
 	public function addStudentFault(StudentFaultCreateRequest $request);
 	public function updateStudentFault(StudentFaultEditRequest $request,StudentFault $StudentFault);
-	public function deleteStudentFault(StudentFault $StudentFault);
-	//public function addListOfDays(StudentFaultAddListOfDaysRequest $request);
-	//public function RestoreCourse(Course $user);
- 
-	// more
+	public function deleteStudentFault(StudentFault $StudentFault);	
 }
 
 ?>

@@ -26,26 +26,27 @@ class CourseStudentCreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [           
-            "course_id" => ["required","int"],
-            "student_id" => ["required","int"],
+        return [
+            "course_id" => ["required", "int"],
+            "student_id" => ["required", "int"],
             "status" => [
                 "required",
-                Rule::in(["approved","pending"]),
+                Rule::in(["approved", "pending"]),
             ],
-            "user_id_created" => ["required","int"],
-            "user_id_approved" => ["required","int"],                     
+            "user_id_created" => ["required", "int"],
+            "user_id_approved" => ["required", "int"],
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'   => $validator->errors(),
-            'code'      => 400
-        ], 400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'   => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

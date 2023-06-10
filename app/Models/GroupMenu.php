@@ -12,12 +12,12 @@ class GroupMenu  extends Pivot //extends Model
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use softDeletes;
-    protected $fillable=
+    protected $fillable =
     [
         "user_id_creator",
         "menu_id",
         "group_id",
-        "user_id"        
+        "user_id"
     ];
     public function groups()
     {

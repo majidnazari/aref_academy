@@ -11,9 +11,5 @@ use App\Models\Azmoon;
 	public function addAzmoon(AzmoonCreateRequest $request);
 	public function updateAzmoon(AzmoonEditRequest $request,Azmoon $azmoon);
 	public function deleteAzmoon(Azmoon $azmoon);
-	//public function RestoreAzmoon(Azmoon $user);
- 
-	// more
+	
 }
-
-?>

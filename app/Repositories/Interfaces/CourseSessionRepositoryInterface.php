@@ -13,9 +13,5 @@ use App\Models\CourseSession;
 	public function updateCourseSession(CourseSessionEditRequest $request,CourseSession $CourseSession);
 	public function deleteCourseSession(CourseSession $CourseSession);
 	public function addListOfDays(CourseSessionAddListOfDaysRequest $request);
-	//public function RestoreCourse(Course $user);
- 
-	// more
+	
 }
-
-?>

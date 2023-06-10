@@ -11,35 +11,35 @@ use OwenIt\Auditing\Contracts\Auditable;
 class StudentWarningHistory extends Model implements Auditable
 {
     use HasFactory;
-    use \OwenIt\Auditing\Auditable;  
-    use SoftDeletes;  
+    use \OwenIt\Auditing\Auditable;
+    use SoftDeletes;
 
-    protected $table="student_warning_histories";
+    protected $table = "student_warning_histories";
 
-    protected $fillable=[
+    protected $fillable = [
         "user_id_creator",
         "user_id_updater",
         "student_id",
         "course_id",
-        "comment", 
-        "response"      
+        "comment",
+        "response"
 
     ];
 
     public function user_creator()
     {
-        return $this->belongsTo(User::class,'user_id_creator');
+        return $this->belongsTo(User::class, 'user_id_creator');
     }
     public function user_updater()
     {
-        return $this->belongsTo(User::class,'user_id_updater');
+        return $this->belongsTo(User::class, 'user_id_updater');
     }
     public function student()
     {
-        return $this->belongsTo(Student::class,"student_id");
+        return $this->belongsTo(Student::class, "student_id");
     }
     public function course()
     {
-        return $this->belongsTo(Course::class,"course_id");
+        return $this->belongsTo(Course::class, "course_id");
     }
 }

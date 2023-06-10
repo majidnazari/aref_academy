@@ -3,15 +3,9 @@ namespace App\GraphQL\Mutations\ConsultantFinancial;
 
 use App\Models\ConsultantFinancial;
 use GraphQL\Type\Definition\ResolveInfo;
-use App\Models\GroupUser;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
-use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
-use Log;
 
 final class CreateConsultantFinancial
 {
@@ -38,10 +32,7 @@ final class CreateConsultantFinancial
             "manager_status" => isset($args['manager_status']) ? $args['manager_status'] : "pending",
             "financial_status" => isset($args['financial_status']) ? $args['financial_status'] : "approved",
             "student_status" => isset($args['student_status']) ? $args['student_status'] : "ok",
-            "financial_refused_status" => isset($args['financial_refused_status']) ? $args['financial_refused_status'] : 'noMoney',
-            // "user_id_manager" => isset($args['branch_id']) ? $args['branch_id'] : null,
-            // "user_id_financial" => isset($args['financial_status']) ? $args['financial_status'] : "approved",
-            // "user_id_student_status" => isset($args['branch_id']) ? $args['branch_id'] : null,
+            "financial_refused_status" => isset($args['financial_refused_status']) ? $args['financial_refused_status'] : 'noMoney',            
             "description" => isset($args['description']) ? $args['description'] : null,
             "financial_status_updated_at" => isset($args['financial_status']) ?  $now : null,
 

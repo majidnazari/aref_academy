@@ -10,10 +10,7 @@ use App\Models\User;
 	public function getUser($id);
 	public function addUser(UserCreateRequest $request);
 	public function updateUser(UserEditRequest $request,User $user);
-	public function deleteUser(User $user);
-	//public function RestoreUser(User $user);
- 
-	// more
+	public function deleteUser(User $user);	
 }
 
 ?>

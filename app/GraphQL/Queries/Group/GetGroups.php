@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\Group;
 use App\Models\Group;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetGroups
 {
@@ -20,6 +18,6 @@ final class GetGroups
     }
     public function resolveGroup($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return Group::where('deleted_at', null);//->orderBy('id','desc');
+        return Group::where('deleted_at', null); //->orderBy('id','desc');
     }
 }

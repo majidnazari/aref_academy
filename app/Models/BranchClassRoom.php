@@ -12,7 +12,7 @@ class BranchClassRoom extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+    protected $fillable = [
         "user_id_creator",
         "branch_id",
         "name",
@@ -21,10 +21,10 @@ class BranchClassRoom extends Model implements Auditable
 
     public function user()
     {
-        return $this->belongsTo(User::class,"user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator");
     }
     public function branch()
     {
-        return $this->belongsTo(Branch::class,"branch_id");
+        return $this->belongsTo(Branch::class, "branch_id");
     }
 }

@@ -10,10 +10,5 @@ use App\Models\Fault;
 	public function getFault($id);
 	public function addFault(FaultCreateRequest $request);
 	public function updateFault(FaultEditRequest $request,Fault $fault);
-	public function deleteFault(Fault $fault);
-	//public function RestoreFault(Fault $fault);
- 
-	// more
+	public function deleteFault(Fault $fault);	
 }
-
-?>

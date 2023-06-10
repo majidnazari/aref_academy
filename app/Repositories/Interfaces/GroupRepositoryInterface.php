@@ -11,11 +11,7 @@ use App\Models\Group;
 	public function getGroup($id);
 	public function addGroup(GroupCreateRequest $request);
 	public function updateGroup(GroupEditRequest $request,Group $Group);
-	public function deleteGroup(Group $Group);
-	//public function addListOfDays(GroupAddListOfDaysRequest $request);
-	//public function RestoreCourse(Course $user);
- 
-	// more
+	public function deleteGroup(Group $Group);	
 }
 
 ?>

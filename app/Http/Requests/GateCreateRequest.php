@@ -24,23 +24,25 @@ class GateCreateRequest extends FormRequest
      *
      * @return array
      */
-    
+
     public function rules()
     {
         return [
             "user_id" =>  "required|int",
-            "name" => ["required","string"],
+            "name" => ["required", "string"],
             "description" =>  "required|min:3|unique:gates,description",
         ];
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

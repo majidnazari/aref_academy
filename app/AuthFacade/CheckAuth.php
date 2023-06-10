@@ -38,29 +38,10 @@ class CheckAuth
     );
     
     public function CheckAccessibility(string $actionName){
-        $user_role=auth()->guard('api')->user()->group->type;   
-        //Log::info("role is:".$user_role . "   class name is:" .$actionName );  
-        if(in_array( $user_role,$this->group_access[$actionName])){
-            //Log::info("role is:".$user_role . "   class name is:" .$actionName );
+        $user_role=auth()->guard('api')->user()->group->type; 
+        if(in_array( $user_role,$this->group_access[$actionName])){            
             return true;
-        }
-           
+        }           
         return false;
-    }
-
-   
-    // public function GetRole(int $user_id){
-    //     $user_group=User::where('deleted_at',null)
-    //     ->whereHas('group', function($query) use($user_id) {
-    //        // $q->where('group_id','=',1)
-    //         $query->where('user_id',$user_id); 
-    //     }) 
-    //     ->first();
-    //     if($user_group)
-    //     {
-    //         return $user_group->group->type;
-    //     }
-    //     return "there is no type for this user";
-
-    // }
+    }   
 } 

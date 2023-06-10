@@ -26,26 +26,27 @@ class CourseStudentEditRequest extends FormRequest
      */
     public function rules()
     {
-        return [           
-            "course_id" => ["nullable","int"],
-            "student_id" => ["nullable","int"],
+        return [
+            "course_id" => ["nullable", "int"],
+            "student_id" => ["nullable", "int"],
             "status" => [
-                
-                Rule::in(["approved","pending"]),
+
+                Rule::in(["approved", "pending"]),
             ],
-            "user_id_created" => ["nullable","int"],
-            "user_id_approved" => ["nullable","int"],                     
+            "user_id_created" => ["nullable", "int"],
+            "user_id_approved" => ["nullable", "int"],
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

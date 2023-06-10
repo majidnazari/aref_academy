@@ -7,8 +7,7 @@ use Log;
 class BasicModule
 {
     public function test()
-    {
-        //Log::info("the create test model is run.");
+    {        
         return "this is create basic method";
     }
     public  function isExist($class, $params)
@@ -23,13 +22,11 @@ class BasicModule
         if ($result) {
             return $result;
         }
-        return false;
-        // Log::info("the class name is:" .  $result);
+        return false;       
     }
     public function createModel($class, $params)
     {
-        $fullclassname = 'App\Models' . '\\' . $class;
-        //Log::info("the class $fullclassname exist is : " . class_exists($fullclassname));
+        $fullclassname = 'App\Models' . '\\' . $class;       
         if (class_exists($fullclassname)) {
             $param_tmp = "[ ";
             foreach ($params as $key => $value) {
@@ -39,14 +36,12 @@ class BasicModule
                 $param_tmp .= " , ";
             }
             $param_tmp .= " ]";
-            $result = eval("return  $fullclassname::create($param_tmp);");
-            // Log::info("the create result item of " . $fullclassname . " is : " . $result);
+            $result = eval("return  $fullclassname::create($param_tmp);");           
             if ($result) {
                 return $result;
             }
             return false;
-        }
-        //Log::info("the  " . $class ." DOESNOT EXIST!!." );             
+        }                 
         return false;
     }
     public function updateModel($class, $params)

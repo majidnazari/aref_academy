@@ -9,8 +9,7 @@ use App\Http\Requests\StudentEditRequest;
 	public function getStudent($id);
 	public function addStudent(StudentCreateRequest $request);
 	public function updateStudent(StudentEditRequest $request,int $id);
-	public function deleteStudent(int $id);
-	
+	public function deleteStudent(int $id);	
 }
 
 ?>

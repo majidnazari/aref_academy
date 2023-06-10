@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\AzmoonResult;
 use App\Models\AzmoonResult;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetAzmoonResult
 {
@@ -18,9 +16,9 @@ final class GetAzmoonResult
     {
         // TODO implement the resolver
     }
-    function resolveAzmoonResultAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveAzmoonResultAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $AzmoonResult= AzmoonResult::find($args['id']);
+        $AzmoonResult = AzmoonResult::find($args['id']);
         return $AzmoonResult;
     }
 }

@@ -7,7 +7,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Carbon\Carbon;
 use AuthRole;
-use Log;
 
 final class GetConsultantDefinitionDetails
 {
@@ -63,8 +62,7 @@ final class GetConsultantDefinitionDetails
     }
 
     function getDateData($consultantDefinitionDetail, Carbon $session_date_from)
-    {
-        //Log::info("single is:". json_encode($consultantDefinitionDetail));
+    {        
         return $consultantDefinitionDetail
             ->where('session_date', $session_date_from->format('Y-m-d'))
             ->sortBy('start_hour')

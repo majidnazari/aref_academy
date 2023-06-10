@@ -5,10 +5,8 @@ namespace App\GraphQL\Queries\StudentContact;
 use App\Models\StudentContact;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\File;
-use Log;
+
 
 final class GetStudentContact 
 {
@@ -30,13 +28,11 @@ final class GetStudentContact
         return $args['token'];
     }
     function resolvetestHeaderAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
-    {
-        //Log::info($context->request()->header("Authorization"));       
+    {         
         return $context->request()->header("Authorization");
     }
     function resolveShowTranslate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
-    {
-        //return public_path();
+    {       
        return File::get(public_path() . '/fa.json');
     }
 }

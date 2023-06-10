@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\Teacher;
 use App\Models\Teacher;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetTeacher
 {
@@ -18,9 +16,9 @@ final class GetTeacher
     {
         // TODO implement the resolver
     }
-    function resolveTeacherAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveTeacherAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $group= Teacher::find($args['id']);
+        $group = Teacher::find($args['id']);
         return $group;
     }
 }

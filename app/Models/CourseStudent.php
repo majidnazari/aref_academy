@@ -12,13 +12,13 @@ class CourseStudent extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[        
+    protected $fillable = [
         "course_id",
         "course_session_id",
-        "student_id",        
+        "student_id",
         "manager_status",
         "financial_status",
-        "student_status",        
+        "student_status",
         "user_id_creator",
         "user_id_manager",
         "user_id_financial",
@@ -32,35 +32,33 @@ class CourseStudent extends Model implements Auditable
         "total_dellay15",
         "total_present",
         "total_absent",
-        "sum_total_present",        
+        "sum_total_present",
         "financial_refused_status",
         "transferred_to_course_id",
         "financial_status_updated_at",
     ];
     public function user_creator()
     {
-        return $this->belongsTo(User::class,"user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator");
     }
     public function user_manager()
     {
-        return $this->belongsTo(User::class,"user_id_manager");
+        return $this->belongsTo(User::class, "user_id_manager");
     }
     public function user_financial()
     {
-        return $this->belongsTo(User::class,"user_id_financial");
+        return $this->belongsTo(User::class, "user_id_financial");
     }
     public function user_student_status()
     {
-        return $this->belongsTo(User::class,"user_id_student_status");
+        return $this->belongsTo(User::class, "user_id_student_status");
     }
     public function course()
     {
-        return $this->belongsTo(Course::class,"course_id");
-    } 
+        return $this->belongsTo(Course::class, "course_id");
+    }
     public function transferred_course()
     {
-        return $this->belongsTo(Course::class,"transferred_to_course_id");
-    }  
-      
-    
+        return $this->belongsTo(Course::class, "transferred_to_course_id");
+    }
 }

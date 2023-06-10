@@ -11,11 +11,7 @@ use App\Models\StudentContact;
 	public function getStudentContact($id);
 	public function addStudentContact(StudentContactCreateRequest $request);
 	public function updateStudentContact(StudentContactEditRequest $request,StudentContact $StudentContact);
-	public function deleteStudentContact(StudentContact $StudentContact);
-	//public function addListOfDays(StudentContactAddListOfDaysRequest $request);
-	//public function RestoreCourse(Course $user);
- 
-	// more
+	public function deleteStudentContact(StudentContact $StudentContact);	
 }
 
 ?>

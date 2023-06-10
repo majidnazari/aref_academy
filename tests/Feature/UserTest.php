@@ -39,10 +39,7 @@ class UserTest extends TestCase
         $count=rand(1,5);
         $user_created = User::factory($count)
         ->for(Branch::factory())
-        ->create();
-        //dd(count($user_created));
-        //$this->ass
-        //$this->assertCount($count, $user_created);
+        ->create();       
         $this->assertGreaterThanOrEqual($count,User::all()->count());
 
     }
@@ -52,11 +49,7 @@ class UserTest extends TestCase
             ->for(Branch::factory())
             ->create(["group_id" => 1]);
         $this->assertTrue(isset($user_created->branch->id));
-        $this->assertTrue($user_created->branch instanceof Branch);
-       
-        
-        // $this->assertGreaterThan(0,User::all()->count()); 
-        // $this->assertNotNull($user_response); 
+        $this->assertTrue($user_created->branch instanceof Branch);       
     }
 
     public function test_updateUser()
@@ -74,17 +67,11 @@ class UserTest extends TestCase
     {
         $user_created = User::factory()
             ->for(Branch::factory())
-            ->create();
-        //$user=self::userData();
-
-        //$response = $this->post(route('User.store'), $user);  
-
-        //$responseDelete = $this->delete(route('User.destroy', $response["id"]));
+            ->create();        
         User::where('id', $user_created->id)->delete();
         $UserFound = User::withTrashed()->find($user_created->id);
 
-        $this->assertSoftDeleted($UserFound);
-        //$this->notSeeInDatabase('instrument', ['deleted_at' => null, 'id' => 20]);     
+        $this->assertSoftDeleted($UserFound);           
     }
     public  function  userData()
     {
@@ -98,10 +85,7 @@ class UserTest extends TestCase
             'email' => $email,
             'password' => Hash::make('12345678'),
             'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            // 'mobile' =>  $mobile,
-            // 'type' => $arrayValues[rand(0,3)],
-
+            'last_name' => $this->faker->lastName,        
 
         ];
         return $user;

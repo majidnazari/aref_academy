@@ -28,19 +28,21 @@ class StudentFaultCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
-            "student_id" => ["required","int"],
-            "fault_id" => ["required","int"]
+            "user_id" => ["required", "int"],
+            "student_id" => ["required", "int"],
+            "fault_id" => ["required", "int"]
         ];
     }
-    public function errorValidation(Validation $validator)
+    public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseExection(response()->json(
+        throw new HttpResponseException(response()->json(
             [
-                "success" => false,
+                'success'   => false,
                 'message'   => 'Validation errors',
-                "details"  =>$validator->errors(),
-                'code'      =>400
-            ]));
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
+        ));
     }
 }

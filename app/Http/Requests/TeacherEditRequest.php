@@ -27,11 +27,11 @@ class TeacherEditRequest extends FormRequest
     public function rules()
     {
         return [
-            "first_name" => ["nullable","string"],
-            "last_name" => ["nullable","string"],
-            "mobile" => ["nullable","size:11",Rule::unique('teachers')->ignore('id')],
-            "address" => ["nullable","string"],
-            "user_id" => ["nullable","int"]
+            "first_name" => ["nullable", "string"],
+            "last_name" => ["nullable", "string"],
+            "mobile" => ["nullable", "size:11", Rule::unique('teachers')->ignore('id')],
+            "address" => ["nullable", "string"],
+            "user_id" => ["nullable", "int"]
         ];
     }
     public function failedValidation(Validator $validator)
@@ -40,8 +40,7 @@ class TeacherEditRequest extends FormRequest
             'success'   => false,
             'message'   => 'Validation errors',
             'details'      => $validator->errors(),
-            'code'      =>400
-        ],400));
-        
+            'code'      => 400
+        ], 400));
     }
 }

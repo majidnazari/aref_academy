@@ -10,10 +10,5 @@ use App\Models\CourseStudent;
 	public function getCourseStudent($id);
 	public function addCourseStudent(CourseStudentCreateRequest $request);
 	public function updateCourseStudent(CourseStudentEditRequest $request,CourseStudent $coursestudent);
-	public function deleteCourseStudent(CourseStudent $coursestudent);
-	//public function RestoreCourseStudent(CourseStudent $user);
- 
-	// more
+	public function deleteCourseStudent(CourseStudent $coursestudent);	
 }
-
-?>

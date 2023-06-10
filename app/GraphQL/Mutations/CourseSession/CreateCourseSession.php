@@ -4,10 +4,6 @@ namespace App\GraphQL\Mutations\CourseSession;
 
 use App\Models\CourseSession;
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
-use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
 
@@ -77,18 +73,6 @@ final class CreateCourseSession
         }
 
         return $courseSession;
-
-        // $user_id = auth()->guard('api')->user()->id;
-        // $CourseSession_date = [
-        //     'user_id_creator' => $user_id,
-        //     'course_id' => $args['course_id'],
-        //     'name' => $args['name'],
-        //     'start_date' => $args['start_date'],
-        //     'start_time' => $args['start_time'],
-        //     'end_time' => $args['end_time'],
-        // ];
-        // $CourseSession_result = CourseSession::create($CourseSession_date);
-        // return $CourseSession_result;
     }
     public function getNameOfTheDate($date)
     {

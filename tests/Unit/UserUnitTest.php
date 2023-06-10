@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Hash;
 use App\GraphQL\Mutations\User\ResetOtherUserPassword;
 use App\Models\User;
 
-//use App\Repositories\Interfaces\UserRepositoryInterface as userInterface;
 
 class UserUnitTest extends TestCase 
 {    

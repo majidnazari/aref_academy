@@ -26,8 +26,7 @@ final class GetCourseStudentsWithAbsencePresence
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $all_branch_id=Branch::where('deleted_at', null )->pluck('id');
-        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');
-       // Log::info("the b are:" . $branch_id);
+        $branch_id=Branch::where('deleted_at', null )->where('id',auth()->guard('api')->user()->branch_id)->pluck('id');       
         $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id ;
 
         if (AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresence")) {
@@ -76,55 +75,9 @@ final class GetCourseStudentsWithAbsencePresence
                         ->where(function ($q) use ($args) {
                             $q->where('SW.course_id', $args['course_id'])
                                 ->orWhereNull('SW.course_id');    
-                        });
-                        // ->orWhere('student_warnings AS SW', function ($query_with_null) {
-                        //     $query_with_null->where('SW.student_id', 'AB.student_id')
-                        //         ->where('SW.course_id', null);
-                        // });
-                    //->where('AB.deleted_at',null)
+                        });                        
                 });
         }
-        return  DB::table('courses')->where('id', -1);
-        //     if( AuthRole::CheckAccessibility("GetCourseStudentsWithAbsencePresence")){
-        //     //$CourseStudent= CourseStudent::where('deleted_at', null);//->orderBy('id','desc');
-        //     $CourseStudent = CourseStudent::where('deleted_at', null)
-        //         ->where(function ($query) use ($args) {
-        //             if (isset($args['user_id_creator'])) {
-        //                 $query->where('users.id', $args['user_id_creator']);
-        //             }
-        //             return true;
-        //         })
-        //         ->with('user_creator')
-        //         ->where(function ($query) use ($args) {
-        //             if (isset($args['user_id_manager']))
-        //                 $query->where('users.id', $args['user_id_manager']);
-        //             else
-        //                 return true;
-        //         })
-        //         ->with('user_manager')
-        //         ->where(function ($query) use ($args) {
-        //             if (isset($args['user_id_financial']))
-        //                 $query->where('users.id', $args['user_id_financial']);
-        //             else
-        //                 return true;
-        //         })
-        //         ->with('user_financial')
-        //         ->where(function ($query) use ($args) {
-        //             if (isset($args['user_id_student_status']))
-        //                 $query->where('users.id', $args['user_id_student_status']);
-        //             else
-        //                 return true;
-        //         })
-        //         ->with('user_student_status')
-        //         ->with('course.courseSession.absencePresences');
-
-        //         Log::info("result:" . json_encode($CourseStudent)); 
-        //     return $CourseStudent;
-        // }
-        // $CourseStudent =CourseStudent::where('deleted_at',null)
-        // ->where('id',-1); 
-        // //Log::info("result:" . json_encode($CourseStudent)); 
-
-        // return  $CourseStudent;
+        return  DB::table('courses')->where('id', -1);      
     }
 }

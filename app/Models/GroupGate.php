@@ -11,12 +11,12 @@ class GroupGate  extends Pivot //extends Model
 {
     use HasFactory;
     use softDeletes;
-    protected $fillable=
+    protected $fillable =
     [
         "user_id_creator",
         "user_id",
         "group_id",
-        "key"        
+        "key"
     ];
     public function groups()
     {

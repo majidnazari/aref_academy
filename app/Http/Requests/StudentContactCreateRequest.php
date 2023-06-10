@@ -27,27 +27,28 @@ class StudentContactCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
-            "student_id" => ["required","int"],
-            "absence_presence_id" => ["required","int"],
+            "user_id" => ["required", "int"],
+            "student_id" => ["required", "int"],
+            "absence_presence_id" => ["required", "int"],
             "who_answered" => [
                 "required",
-                Rule::in(["father","mother","other"])
+                Rule::in(["father", "mother", "other"])
             ],
-            "description" => ["required","string"], 
-            "is_called_successfull" => ["required","bool"], 
-                                
+            "description" => ["required", "string"],
+            "is_called_successfull" => ["required", "bool"],
+
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

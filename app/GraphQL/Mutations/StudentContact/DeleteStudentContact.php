@@ -3,7 +3,6 @@
 namespace App\GraphQL\Mutations\StudentContact;
 
 use App\Models\StudentContact;
-use App\Models\StudentWarningHistory;
 use GraphQL\Error\Error;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -21,14 +20,13 @@ final class DeleteStudentContact
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $user_id = auth()->guard('api')->user()->id;
-        $StudentContact=StudentContact::find($args['id']);
+        $StudentContact = StudentContact::find($args['id']);
 
-        if(!$StudentContact)
-        {
-                return Error::createLocatedError("STUDENTCONTACT-DELETE-RECORD_NOT_FOUND");
+        if (!$StudentContact) {
+            return Error::createLocatedError("STUDENTCONTACT-DELETE-RECORD_NOT_FOUND");
         }
-        $StudentContact_result= $StudentContact->delete();        
-       
-        return $StudentContact;       
+        $StudentContact_result = $StudentContact->delete();
+
+        return $StudentContact;
     }
 }

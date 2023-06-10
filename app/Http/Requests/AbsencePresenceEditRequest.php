@@ -28,24 +28,25 @@ class AbsencePresenceEditRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => ["required","int"],
-            "course_session_id" => ["required","int"],
-            "teacher_id" => ["required","int"],            
-            "status" =>[
+            "user_id" => ["required", "int"],
+            "course_session_id" => ["required", "int"],
+            "teacher_id" => ["required", "int"],
+            "status" => [
                 "required",
-                Rule::in(['dellay','absent','present'])
-                 ]         
+                Rule::in(['dellay', 'absent', 'present'])
+            ]
         ];
-        
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

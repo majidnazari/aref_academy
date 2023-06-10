@@ -45,21 +45,14 @@ class FaultTest extends TestCase
         $Fault=Fault::factory()->make()->toArray();
         Fault::create($Fault);
         $new_Fault=Fault::factory()->make()->toArray();
-        $find_Fault=Fault::where($Fault)->update($new_Fault);
-        //dd($find_Fault->id);
-        
-        //$find_Fault->update($new_Fault);
+        $find_Fault=Fault::where($Fault)->update($new_Fault);        
         $this->assertDatabaseHas('faults',$new_Fault);        
     }
     public function test_deleteFault()
     { 
         $Fault=Fault::factory()->make()->toArray();
         $find_Fault= Fault::create($Fault);
-        Fault::where($Fault)->delete();
-        // if($find_Fault)
-        // {
-        //     $find_Fault->delete();
-        // }
+        Fault::where($Fault)->delete();       
         $FaultFound= Fault::withTrashed()->find($find_Fault->id);
         $this->assertSoftDeleted($FaultFound); 
      

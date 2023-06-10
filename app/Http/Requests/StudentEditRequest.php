@@ -23,21 +23,23 @@ class StudentEditRequest extends FormRequest
     public function rules()
     {
         return [
-            "first_name" =>["nullable"],
-            "last_name" => ["nullable"],            
-            "phone" => ["nullable","size:11"],          
+            "first_name" => ["nullable"],
+            "last_name" => ["nullable"],
+            "phone" => ["nullable", "size:11"],
             "major" => ["nullable", Rule::in(['mathematics', 'experimental', 'humanities', 'art', 'other'])],
-            "egucation_level" => ["nullable",Rule::in(['6', '7', '8', '9', '10', '11', '12', '13', '14'])]            
-           ];
+            "egucation_level" => ["nullable", Rule::in(['6', '7', '8', '9', '10', '11', '12', '13', '14'])]
+        ];
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

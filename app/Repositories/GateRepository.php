@@ -50,11 +50,7 @@ class GateRepository implements GateRepositoryInter
         }
 		return new GateResource($gate);		
 	}
-	// public function RestoreGate(Gate $gate){
-	// 	//return Gate::create($gate->all());
-	// 	return $gate->restore();
-	// }
-	// more 
+	
 	public function gateData($request)
     {
         $data=[
@@ -66,5 +62,3 @@ class GateRepository implements GateRepositoryInter
     }
  
 }
-
-?>

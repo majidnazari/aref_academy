@@ -9,12 +9,10 @@ use Log;
 class UpdateCourseStudentReport
 {
     public function test()
-    {
-        //Log::info("the create test model is run.");
+    {        
         return "this is create basic method";
     }
-    public function updateTotalReport($params){
-        //Log::info("the params are: " . $params );
+    public function updateTotalReport($params){      
         $courseStudent=CourseStudent::find($params->id);
         if(!$courseStudent)
         {

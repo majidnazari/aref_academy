@@ -12,9 +12,9 @@ class CourseSession extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use SoftDeletes;
-    protected $table='course_sessions';
-    protected $fillable=[
-        
+    protected $table = 'course_sessions';
+    protected $fillable = [
+
         "user_id_creator",
         "branch_class_room_id",
         "course_id",
@@ -25,23 +25,22 @@ class CourseSession extends Model implements Auditable
         "start_time",
         "end_time",
         "isCancel",
-        
+
     ];
     public function user()
     {
-        return $this->belongsTo(User::class,"user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator");
     }
     public function course()
     {
-        return $this->belongsTo(Course::class,"course_id");
-    }    
+        return $this->belongsTo(Course::class, "course_id");
+    }
     public function classRoom()
     {
-        return $this->belongsTo(BranchClassRoom::class,"branch_class_room_id");
-    }   
-    public function absencePresences() 
-    {
-        return $this->hasMany(AbsencePresence::class,"course_session_id");
+        return $this->belongsTo(BranchClassRoom::class, "branch_class_room_id");
     }
-     
+    public function absencePresences()
+    {
+        return $this->hasMany(AbsencePresence::class, "course_session_id");
+    }
 }

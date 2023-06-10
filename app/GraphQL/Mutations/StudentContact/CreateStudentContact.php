@@ -3,7 +3,6 @@
 namespace App\GraphQL\Mutations\StudentContact;
 
 use App\Models\StudentContact;
-use App\Models\StudentWarningHistory;
 use GraphQL\Error\Error;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -22,19 +21,19 @@ final class CreateStudentContact
     {
         $user_id = auth()->guard('api')->user()->id;
         $student_contact_params = [
-            'user_id_creator' => $user_id,           
+            'user_id_creator' => $user_id,
             "reason_absence" => isset($args['reason_absence']) ? $args['reason_absence'] : "",
             "absence_presence_id" => $args['absence_presence_id'],
-            "who_answered" => isset($args['who_answered']) ? $args['who_answered'] : "",             
-            "description" => isset($args['description']) ? $args['description'] : "",            
-            "is_called_successfull" => isset($args['is_called_successfull']) ? $args['is_called_successfull'] : "", 
-        ];     
+            "who_answered" => isset($args['who_answered']) ? $args['who_answered'] : "",
+            "description" => isset($args['description']) ? $args['description'] : "",
+            "is_called_successfull" => isset($args['is_called_successfull']) ? $args['is_called_successfull'] : "",
+        ];
 
-        $is_exist_student_contact=StudentContact::where("absence_presence_id",$args['absence_presence_id'])->first();
+        $is_exist_student_contact = StudentContact::where("absence_presence_id", $args['absence_presence_id'])->first();
         if ($is_exist_student_contact) {
             return Error::createLocatedError('STUDENT-CONTACT-RECORD_IS_EXIST');
         }
-        $result=StudentContact::create($student_contact_params);
-        return $result;        
+        $result = StudentContact::create($student_contact_params);
+        return $result;
     }
 }

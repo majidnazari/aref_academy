@@ -20,13 +20,12 @@ final class CreateCourseStudentRapidlyInputValidator extends Validator
                 "required",
                 "exists:courses,id"
             ],
-            "course_session_id" =>[
+            "course_session_id" => [
                 "required",
-               // "exists:course_sessions,id",
-                Rule::exists('course_sessions','id')->where(function ($query){
-                    $query->where('course_id',$this->arg('course_id'));
+                Rule::exists('course_sessions', 'id')->where(function ($query) {
+                    $query->where('course_id', $this->arg('course_id'));
                     //->where('id',$this->arg('course_session_id'));
-                    
+
                 }),
             ],
             "student_id" => [

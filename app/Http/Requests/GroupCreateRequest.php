@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class GroupCreateRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class GroupCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" =>["required","int"],
-            "name" =>["required","string"],
+            "user_id" => ["required", "int"],
+            "name" => ["required", "string"],
         ];
     }
     public function errorValidation(Validator $validator)

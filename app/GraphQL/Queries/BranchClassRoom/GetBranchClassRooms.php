@@ -5,10 +5,7 @@ namespace App\GraphQL\Queries\BranchClassRoom;
 use App\Models\BranchClassRoom;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 use AuthRole;
-use GraphQL\Error\Error;
 
 final class GetBranchClassRooms
 {
@@ -26,14 +23,13 @@ final class GetBranchClassRooms
         if (AuthRole::CheckAccessibility("BranchClassRooms")) {
             //$BranchClassRoom= BranchClassRoom::where('deleted_at', null);
             $BranchClassRoom = BranchClassRoom::where('deleted_at', null)
-                ->whereHas('branch', function ($query) use ($args,$branch_id) {
+                ->whereHas('branch', function ($query) use ($args, $branch_id) {
                     if (isset($args['branch_id'])) {
                         $query->where('branches.id', $args['branch_id']);
                     }
-                    if($branch_id){
+                    if ($branch_id) {
 
-                        $query->where('id',$branch_id);
-
+                        $query->where('id', $branch_id);
                     }
                     return true;
                 })

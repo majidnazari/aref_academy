@@ -4,10 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-//use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 use App\Models\AbsencePresence;
-use Illuminate\Support\Facades\Hash;
 
 class AbsencePresenceTest extends TestCase
 {
@@ -45,13 +43,7 @@ class AbsencePresenceTest extends TestCase
         $AbsencePresence_new=AbsencePresence::factory()->make()->toArray();
         $AbsencePresence=AbsencePresence::create($AbsencePresence_new);
         $AbsencePresence_newone=AbsencePresence::factory()->make(["status" => "noAction"])->toArray();
-
-        $AbsencePresence->update($AbsencePresence_newone);
-        
-        //$find_AbsencePresence=AbsencePresence::where($AbsencePresence)->update($new_AbsencePresence);
-        //dd($find_AbsencePresence->id);
-        
-        //$find_AbsencePresence->update($new_AbsencePresence);
+        $AbsencePresence->update($AbsencePresence_newone); 
         $this->assertDatabaseHas('absence_presences',$AbsencePresence_newone);        
     }
     public function test_deleteAbsencePresence()
@@ -59,11 +51,6 @@ class AbsencePresenceTest extends TestCase
         $AbsencePresence=AbsencePresence::factory()->make()->toArray();
         $created_AbsencePresence= AbsencePresence::create($AbsencePresence);
         $created_AbsencePresence->delete();
-        // if($find_AbsencePresence)
-        // {
-        //     $find_AbsencePresence->delete();
-        // }
-        //$AbsencePresenceFound= AbsencePresence::withTrashed()->find($find_AbsencePresence->id);
         $this->assertSoftDeleted($created_AbsencePresence); 
      
     }

@@ -10,10 +10,5 @@ use App\Models\Course;
 	public function getCourse($id);
 	public function addCourse(CourseCreateRequest $request);
 	public function updateCourse(CourseEditRequest $request,Course $course);
-	public function deleteCourse(Course $course);
-	//public function RestoreCourse(Course $user);
- 
-	// more
+	public function deleteCourse(Course $course);	
 }
-
-?>

@@ -2,29 +2,25 @@
 
 namespace App\Rules;
 
-use App\Models\CourseSession;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
-
-
 
 class CheckDaysPassedOrNot implements Rule
-{   
+{
     protected $days;
     protected $start_hour;
-    
+
     private $err;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($days,$start_hour)
-    {       
-        $this->days=$days;
-        $this->start_hour=$start_hour;
+    public function __construct($days, $start_hour)
+    {
+        $this->days = $days;
+        $this->start_hour = $start_hour;
     }
 
     /**
@@ -37,48 +33,38 @@ class CheckDaysPassedOrNot implements Rule
     public function passes($attribute, $value)
     {
         return $this->CheckDaysInWeek($value);
-    }   
-   
+    }
+
     public function CheckDaysInWeek($week_given)
-    { 
-        $days_given=$this->days;
-        $start_hour=$this->start_hour;
-        $hoursMinutes=explode(":",$start_hour);             
-        $current_time =Carbon::now()->format("Y-m-d H:i"); 
+    {
+        $days_given = $this->days;
+        $start_hour = $this->start_hour;
+        $hoursMinutes = explode(":", $start_hour);
+        $current_time = Carbon::now()->format("Y-m-d H:i");
         $fa = CarbonImmutable::now()->locale('fa');
-        $now=Carbon::now();
-        //echo $fa->startOfWeek()->format('Y-m-d H:i') .PHP_EOL;
+        $now = Carbon::now();
 
-        foreach($days_given as $day){
-            
-            $day_number= $this->getEnum($day);          
-            if($week_given==="Current")
-            {  
-                //$startOfThisWeek=$fa->startOfWeek()->format('Y-m-d H:i');
-               // $endOfThisWeek=$fa->endOfWeek()->format('Y-m-d H:i'); 
-                $givenDay=$now->startOfWeek()->addDays(-2)->addDays($day_number)->addHours( $hoursMinutes[0])->addMinutes( $hoursMinutes[1])->format('Y-m-d H:i'); 
-               
-                //echo("the current is:".$current_time." start of current week is:".$startOfThisWeek . " and end is:". $endOfThisWeek. " and given day is:".$givenDay);          
-                           
-                    if($current_time > $givenDay){
-                        $this->err="THE_GIVEN_DAY_OR_TIME_IS_PASSED";
-                            return false;
-                    }
-            }  
-            if($week_given==="Next")
-            {   
-                $startOfNextWeek=$fa->startOfWeek()->addDays(7)->addDays($day_number)->format('Y-m-d H:i');
-                $endOfNextWeek=$fa->endOfWeek()->addDays(7)->format('Y-m-d H:i');  
-                $givenDay=$now->startOfWeek()->addDays(-2)->addDays(7)->addDays($day_number)->addHours( $hoursMinutes[0])->addMinutes( $hoursMinutes[1])->format('Y-m-d H:i'); 
-                //  Log::info("start of next week is:".$startOfNextWeek . " and end is:". $endOfNextWeek. " and given day is:".$givenDay);          
-                if(($startOfNextWeek > $givenDay) && ($endOfNextWeek< $givenDay)){
-                    $this->err="THE_GIVEN_DAY_OR_TIME_IS_INVALID";
-                        return false;
+        foreach ($days_given as $day) {
+
+            $day_number = $this->getEnum($day);
+            if ($week_given === "Current") {
+                $givenDay = $now->startOfWeek()->addDays(-2)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
+
+                if ($current_time > $givenDay) {
+                    $this->err = "THE_GIVEN_DAY_OR_TIME_IS_PASSED";
+                    return false;
                 }
-            }  
-                  
-
-        }    
+            }
+            if ($week_given === "Next") {
+                $startOfNextWeek = $fa->startOfWeek()->addDays(7)->addDays($day_number)->format('Y-m-d H:i');
+                $endOfNextWeek = $fa->endOfWeek()->addDays(7)->format('Y-m-d H:i');
+                $givenDay = $now->startOfWeek()->addDays(-2)->addDays(7)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
+                if (($startOfNextWeek > $givenDay) && ($endOfNextWeek < $givenDay)) {
+                    $this->err = "THE_GIVEN_DAY_OR_TIME_IS_INVALID";
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -91,18 +77,18 @@ class CheckDaysPassedOrNot implements Rule
     {
         return $this->err;
     }
-    
-    public function getEnum(string $day){
-        
-       
-        switch($day)
-        {
+
+    public function getEnum(string $day)
+    {
+
+
+        switch ($day) {
             case "Saturday":
                 return 0;
                 //return Carbon::SATURDAY;
             case "Sunday":
                 return 1;
-               // return Carbon::SUNDAY;
+                // return Carbon::SUNDAY;
             case "Monday":
                 return 2;
                 //return Carbon::MONDAY;
@@ -114,11 +100,11 @@ class CheckDaysPassedOrNot implements Rule
                 //return Carbon::WEDNESDAY;
             case "Thursday":
                 return 5;
-               // return Carbon::THURSDAY;
+                // return Carbon::THURSDAY;
             case "Friday":
                 return 6;
                 //return Carbon::FRIDAY;
-                
+
         }
     }
 }

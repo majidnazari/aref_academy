@@ -10,10 +10,5 @@ use App\Models\AbsencePresence;
 	public function getAbsencePresence($id);
 	public function addAbsencePresence(AbsencePresenceCreateRequest $request);
 	public function updateAbsencePresence(AbsencePresenceEditRequest $request,AbsencePresence $absencepresence);
-	public function deleteAbsencePresence(AbsencePresence $absencepresence);
-	//public function RestoreAbsencePresence(AbsencePresence $user);
- 
-	// more
+	public function deleteAbsencePresence(AbsencePresence $absencepresence);	
 }
-
-?>

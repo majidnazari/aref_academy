@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\StudentFault;
 use App\Models\StudentFault;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetStudentFault
 {

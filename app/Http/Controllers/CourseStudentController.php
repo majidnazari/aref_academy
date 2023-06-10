@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -19,51 +20,38 @@ class CourseStudentController extends Controller
     }
     public function index()
     {
-        $data=$this->repository->getAll();
-        return response()->json($data,200);        
+        $data = $this->repository->getAll();
+        return response()->json($data, 200);
     }
     public function show($id)
     {
-        $data=$this->repository->getCourseStudent($id);
-        return response()->json($data,200);
-        
+        $data = $this->repository->getCourseStudent($id);
+        return response()->json($data, 200);
     }
     public function store(CourseStudentCreateRequest $request)
-    {                 
-         $data= $this->repository->addCourseStudent($request);
-              return response()->json($data,200); 
-    }
-    public function update(CourseStudentEditRequest $request,$id)
     {
-        $coursestudent=CourseStudent::find($id);
-        if($coursestudent===null)
-        {
+        $data = $this->repository->addCourseStudent($request);
+        return response()->json($data, 200);
+    }
+    public function update(CourseStudentEditRequest $request, $id)
+    {
+        $coursestudent = CourseStudent::find($id);
+        if ($coursestudent === null) {
             return new CourseStudentErrorResource("not found to update.");
+        } else {
+            $data = $this->repository->updateCourseStudent($request, $coursestudent);
+            return response()->json($data, 200);
         }
-        else
-        {
-            //return response()->json($request->all(),200);public
-            $data= $this->repository->updateCourseStudent($request,$coursestudent);
-            return response()->json($data,200);      
-        }
-     
     }
 
     public function destroy($id)
-    { 
-       // $user=$this->repository->GetCourseStudents($id);   
-        $coursestudent=CourseStudent::find($id);
+    {
+        $coursestudent = CourseStudent::find($id);
 
-       // return $user; 
-        if(isset($coursestudent))
-        {   
-            //return $user;
-            $data= $this->repository->deleteCourseStudent($coursestudent);
-            return response()->json($data,200);          
-          
-        }
-        else
-            return response()->json(new CourseStudentErrorResource("not found to delete"),404);         
-    }  
-    
+        if (isset($coursestudent)) {
+            $data = $this->repository->deleteCourseStudent($coursestudent);
+            return response()->json($data, 200);
+        } else
+            return response()->json(new CourseStudentErrorResource("not found to delete"), 404);
+    }
 }

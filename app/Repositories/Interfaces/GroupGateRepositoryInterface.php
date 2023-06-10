@@ -11,11 +11,5 @@ use App\Models\GroupGate;
 	public function getGroupGate($id);
 	public function addGroupGate(GroupGateCreateRequest $request);
 	public function updateGroupGate(GroupGateEditRequest $request,GroupGate $GroupGate);
-	public function deleteGroupGate(GroupGate $GroupGate);
-	//public function addListOfDays(GroupGateAddListOfDaysRequest $request);
-	//public function RestoreCourse(Course $user);
- 
-	// more
+	public function deleteGroupGate(GroupGate $GroupGate);	
 }
-
-?>

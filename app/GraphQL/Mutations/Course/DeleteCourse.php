@@ -25,7 +25,7 @@ final class DeleteCourse
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {  
         $user_id=auth()->guard('api')->user()->id;
-        //$args["user_id_creator"]=$user_id;
+        
         $course=Course::find($args['id']);
         
         if(!$course)

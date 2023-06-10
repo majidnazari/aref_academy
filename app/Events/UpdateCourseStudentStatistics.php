@@ -35,8 +35,7 @@ class UpdateCourseStudentStatistics
      * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
-    {
-        //Log::info("the event channel  is running\n");
+    {       
         return new PrivateChannel('channel-name');
     }
 }

@@ -28,18 +28,20 @@ class GateEditRequest extends FormRequest
     {
         return [
             "user_id" =>  "nullable|int",
-            "name" => ["nullable","string"],
+            "name" => ["nullable", "string"],
             "description" =>  "nullable|min:3|unique:gates,description",
         ];
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'details'      => $validator->errors(),
-            'code'      =>400
-        ],400
+        throw new HttpResponseException(response()->json(
+            [
+                'success'   => false,
+                'message'   => 'Validation errors',
+                'details'      => $validator->errors(),
+                'code'      => 400
+            ],
+            400
         ));
     }
 }

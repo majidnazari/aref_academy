@@ -5,8 +5,6 @@ namespace App\GraphQL\Queries\Group;
 use App\Models\Group;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Execution\ErrorHandler;
-use App\Exceptions\CustomException;
 
 final class GetGroup
 {
@@ -18,9 +16,9 @@ final class GetGroup
     {
         // TODO implement the resolver
     }
-    function resolveGroupAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) 
+    function resolveGroupAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $group= Group::select('groups.id as groupId','groups.*')->find($args['id']);
+        $group = Group::select('groups.id as groupId', 'groups.*')->find($args['id']);
         return $group;
     }
 }

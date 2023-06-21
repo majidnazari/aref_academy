@@ -10,7 +10,7 @@
     ): [Course] @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\Course\\GetCourses@resolveCourse") 
 
 
-getCourseTotalReport(
+    getCourseTotalReport(
     course_id:Int
     # student_status:String        
     # financial_status:String        

@@ -1,10 +1,9 @@
- enum LessonEnum{
-   Mathematics @enum(value: 0)
-   Physics @enum(value:1)
-   Biology @enum(value: 2)
-  
- }
-input OrderByClause{
+enum LessonEnum {
+    Mathematics @enum(value: 0)
+    Physics @enum(value: 1)
+    Biology @enum(value: 2)
+}
+input OrderByClause {
     field: String!
     order: SortOrder!
 }
@@ -14,496 +13,460 @@ enum SortOrder {
     DESC
 }
 
-enum StudentStatus{
-  absent
-  present
-  no_action
+enum StudentStatus {
+    absent
+    present
+    no_action
 }
-enum DaysOfWeek{
-  Saturday
-  Sunday
-  Monday
-  Tuesday  
-  Wednesday
-  Thursday
-  Friday
+enum DaysOfWeek {
+    Saturday
+    Sunday
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
 }
-enum Week{
-  Current
-  Next
+enum Week {
+    Current
+    Next
 }
-enum ManagerStatus{
-  approved
-  pending
-}
-
-enum FinancialStatus{
-  approved
-  pending
-  semi_approved
-}
-enum StudentStatusConsultantFinancial{
-  ok
-  refused
-  fired
-  financial_pending
-
+enum ManagerStatus {
+    approved
+    pending
 }
 
-enum FinancialRefusedStatus{
-  not_returned
-  returned
-  noMoney
+enum FinancialStatus {
+    approved
+    pending
+    semi_approved
 }
-  
-  input CreateAzmoonInput{
-          user_id:Int!
-          course_id:Int!
-          course_session_id:Int!
-          isSMSsend:Int!
-          score:Float!
-   }
-   input CreateUserInput @validator{
-     # type: String!
-     # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
-     # email: String! @rules(apply: ["email","unique:users,email"])
-      email: String! @rules(apply: ["size:11","unique:users,email"])
-      password: String! @hash @rules(apply: ["min:6"])
-      first_name: String!
-      last_name: String!
-      group_id:Int!
-      branch_id:Int!
-       
-      # branche_id:Int!
-      # group_user:createGroupUserInput! @create
-     # is_teacher: Int!  
-    }
-   input UpdateUserInput @validator{
-      id:ID!
-     # type: String
-     # mobile: String 
-      email:String  
-     # password: String!      
-      first_name: String
-      last_name: String
-      group_id:Int 
-      branch_id:Int 
-      # ): User! @update
-   }
-    # input createGroupUserInput {
-    #   user_id_creator:Int!
-    #   user_id:Int!
-    #   group_id:Int!
-    #   # created_at:DateTime
-    #   # updated_at:datetime
-    # }
+enum StudentStatusConsultantFinancial {
+    ok
+    refused
+    fired
+    financial_pending
+}
 
-    input CreateTeacherInput{
-      first_name: String!
-      last_name: String!
-      mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
-      address:String!
-    }
-    input UpdateTeacherInput{
-      id:ID!
-      first_name: String
-      last_name: String
-      mobile: String @rules(apply: ["size:11","unique:teachers,mobile"])
-      address:String
-    }
+enum FinancialRefusedStatus {
+    not_returned
+    returned
+    noMoney
+}
 
-    input CreateYearInput{
-      name: String!
-      active: Boolean!      
-    }
-    input UpdateYearInput{
-      id:ID!
-      name: String
-      active: Boolean   
-    }
-    
-    # input CreateStudentInput{
-    #   # first_name: String!
-    #   # last_name: String!
-    #   # mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
-    #   # address:String!
+input CreateAzmoonInput {
+    user_id: Int!
+    course_id: Int!
+    course_session_id: Int!
+    isSMSsend: Int!
+    score: Float!
+}
+input CreateUserInput @validator {
+    # type: String!
+    # mobile: String!  @rules(apply:["size:11","unique:users,mobile"])
+    # email: String! @rules(apply: ["email","unique:users,email"])
+    email: String! @rules(apply: ["size:11", "unique:users,email"])
+    password: String! @hash @rules(apply: ["min:6"])
+    first_name: String!
+    last_name: String!
+    group_id: Int!
+    branch_id: Int!
 
-       
-    #     phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
-    #     first_name:String!
-    #     last_name:String!
-    #     level:String
-    #     egucation_level:String!
-    #     parents_job_title:String
-    #     home_phone:String
-    #     father_phone:String
-    #     mother_phone:String
-    #     # school:String
-    #     # average:Float
-    #     major:String
-    #     # description:String
-    #     nationality_code:String!
-    #     # introducing:String
-    #     # student_phone:String
-    #     # cities_id:Int
-    #     # sources_id:Int
-    #     # supporters_id:Int
-    #     # archived:Int
-    # }
-    #  input UpdateStudentInput{
-    #     id:ID!
-    #     phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
-    #     first_name:String! 
-    #     last_name:String! 
-    #     level:String
-    #     egucation_level:String! 
-    #     parents_job_title:String
-    #     home_phone:String
-    #     father_phone:String 
-    #     mother_phone:String       
-    #     major:String 
-    #     # description:String 
-    #     nationality_code:String!
-    #     # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
-    #     # first_name:String,
-    #     # last_name:String,
-    #     # level:Int,
-    #     # egucation_level:String,
-    #     # parents_job_title:String,
-    #     # home_phone:String,
-    #     # father_phone:String,
-    #     # mother_phone:String,
-    #     # school:String,
-    #     # average:Float,
-    #     # major:String!,
-    #     # introducing:String,
-    #     # student_phone:String,
-    #     # cities_id:Int,
-    #     # sources_id:Int,
-    #     # supporters_id:Int,
-    #     # archived:Int
-    # }
+    # branche_id:Int!
+    # group_user:createGroupUserInput! @create
+    # is_teacher: Int!
+}
+input UpdateUserInput @validator {
+    id: ID!
+    # type: String
+    # mobile: String
+    email: String
+    # password: String!
+    first_name: String
+    last_name: String
+    group_id: Int
+    branch_id: Int
+    # ): User! @update
+}
+# input createGroupUserInput {
+#   user_id_creator:Int!
+#   user_id:Int!
+#   group_id:Int!
+#   # created_at:DateTime
+#   # updated_at:datetime
+# }
 
+input CreateTeacherInput {
+    first_name: String!
+    last_name: String!
+    mobile: String! @rules(apply: ["size:11", "unique:teachers,mobile"])
+    address: String!
+}
+input UpdateTeacherInput {
+    id: ID!
+    first_name: String
+    last_name: String
+    mobile: String @rules(apply: ["size:11", "unique:teachers,mobile"])
+    address: String
+}
 
-    input CreateCourseInput{       
-      branch_id:Int!
-      year_id:Int!
-      teacher_id:Int!
-      name:String!
-      gender:String!
-      lesson_id:Int!
-      education_level:String!
-      type:String!
-      financial_status:String
-      user_id_financial:Int
-            
-    }
-    # input CreateCourseWithDateInput{       
-      
-    #   year_id:Int!
-    #   teacher_id:Int!
-    #   name:String!
-    #   lesson:String!
-    #   education_level:String!
-    #   type:String!
-    #   financial_status:String
-    #   user_id_financial:Int
-            
-    # }
-    
-     input UpdateCourseInput{       
-      id:ID!
-      branch_id:Int
-      year_id:Int
-      teacher_id:Int
-      name:String
-      gender:String
-      lesson_id:Int
-      education_level:String      
-      type:String
-      financial_status:String
-      user_id_financial:Int
-      
-    }
-    input CreateCourseSessionInput @validator{       
-      
-        course_id:Int!
-        branch_class_room_id:Int!
-        name:String
-        price:Int
-        special:Boolean
-        start_date:String!
-        start_time:String!
-        end_time:String!
-       
-            
-    }
-      input CreateCourseSessionByDuringDateInput @Validator{       
-      
-        course_id:Int!
-        branch_class_room_id:Int!
-        days:[String]
-        name:String
-        price:Int
-        special:Boolean
-        start_date:String!
-        end_date:String!
-        start_time:String!
-        end_time:String!      
-            
-    }
-    input UpdateCourseSessionInput{       
-        id:ID!
-        course_id:Int,
-        branch_class_room_id:Int,
-        name:String,
-        price:Int
-        special:Boolean
-        start_date:Date,
-        start_time:String,
-        end_time:String,
-        isCancel:Boolean
-            
-    }
+input CreateYearInput {
+    name: String!
+    active: Boolean!
+}
+input UpdateYearInput {
+    id: ID!
+    name: String
+    active: Boolean
+}
 
-    input CreateCourseStudentInput @validator{ 
-        
-        course_id:Int!
-        # course_session_id:Int!
-        student_id:Int!
-        manager_status:String
-        financial_status:String
-        student_status:String
-        user_id_manager:Int
-        user_id_financial:Int
-        user_id_student_status:Int
-        description:String
-        
-    }
-    input UpdateCourseStudentInput @validator{       
-        id:ID!
-        course_id:Int
-        # course_session_id:Int
-        student_id:Int
-        manager_status:String
-        financial_status:String
-        student_status:String
-        financial_refused_status:String
-        transferred_to_course_id:Int
-        user_id_manager:Int
-        user_id_financial:Int
-        user_id_student_status:Int
-        description:String
-            
-    }
+# input CreateStudentInput{
+#   # first_name: String!
+#   # last_name: String!
+#   # mobile: String! @rules(apply: ["size:11","unique:teachers,mobile"])
+#   # address:String!
 
+#     phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+#     first_name:String!
+#     last_name:String!
+#     level:String
+#     egucation_level:String!
+#     parents_job_title:String
+#     home_phone:String
+#     father_phone:String
+#     mother_phone:String
+#     # school:String
+#     # average:Float
+#     major:String
+#     # description:String
+#     nationality_code:String!
+#     # introducing:String
+#     # student_phone:String
+#     # cities_id:Int
+#     # sources_id:Int
+#     # supporters_id:Int
+#     # archived:Int
+# }
+#  input UpdateStudentInput{
+#     id:ID!
+#     phone:String! # @rules(apply: ["size:11","unique:students,phone"]),
+#     first_name:String!
+#     last_name:String!
+#     level:String
+#     egucation_level:String!
+#     parents_job_title:String
+#     home_phone:String
+#     father_phone:String
+#     mother_phone:String
+#     major:String
+#     # description:String
+#     nationality_code:String!
+#     # phone:String,# @rules(apply: ["size:11","unique:students,phone"]),
+#     # first_name:String,
+#     # last_name:String,
+#     # level:Int,
+#     # egucation_level:String,
+#     # parents_job_title:String,
+#     # home_phone:String,
+#     # father_phone:String,
+#     # mother_phone:String,
+#     # school:String,
+#     # average:Float,
+#     # major:String!,
+#     # introducing:String,
+#     # student_phone:String,
+#     # cities_id:Int,
+#     # sources_id:Int,
+#     # supporters_id:Int,
+#     # archived:Int
+# }
 
-    input CreateAbsencePresenceInput {       
-       
-        course_session_id:Int
-        student_id:Int
-        teacher_id:Int
-        status:String
-        attendance_status:String    
-            
-    }
-   input  CreateStudentToListBeforeAbsencePresenceInput @validator{
-        course_session_id:Int
-        course_id:Int               
-   }
-    input UpdateAbsencePresenceInput{
+input CreateCourseInput {
+    branch_id: Int!
+    year_id: Int!
+    teacher_id: Int!
+    name: String!
+    gender: String!
+    lesson_id: Int!
+    education_level: String!
+    type: String!
+    financial_status: String
+    user_id_financial: Int
+}
+# input CreateCourseWithDateInput{
 
-        id:ID!        
-        course_session_id:Int
-        student_id:Int
-        teacher_id:Int
-        status:String
-        attendance_status:String
-       
-    }
-    input UpdateAbsencePresenceInputWithStudentIdCourseSessionId{
-       course_session_id:Int!
-       student_id:Int!
-       status:String= "present"
-    }
+#   year_id:Int!
+#   teacher_id:Int!
+#   name:String!
+#   lesson:String!
+#   education_level:String!
+#   type:String!
+#   financial_status:String
+#   user_id_financial:Int
 
-    input CreateAzmoonInput{ 
-          course_id:Int
-          course_session_id:Int
-          isSMSsend:Int
-          score:Float
-    }
-    input UpdateAzmoonInput{
-          id:ID!          
-          course_id:Int
-          course_session_id:Int
-          isSMSsend:Int
-          score:Float
-    }
+# }
 
-    input CreateAzmoonResultInput{ 
-         
-          student_id:Int,
-          result_score:String, 
-    }
-    input UpdateAzmoonResultInput{
-        id:Int
-        student_id:Int,
-        result_score:String, 
-    }
+input UpdateCourseInput {
+    id: ID!
+    branch_id: Int
+    year_id: Int
+    teacher_id: Int
+    name: String
+    gender: String
+    lesson_id: Int
+    education_level: String
+    type: String
+    financial_status: String
+    user_id_financial: Int
+}
+input CreateCourseSessionInput @validator {
+    course_id: Int!
+    branch_class_room_id: Int!
+    name: String
+    price: Int
+    special: Boolean
+    start_date: String!
+    start_time: String!
+    end_time: String!
+}
+input CreateCourseSessionByDuringDateInput @Validator {
+    course_id: Int!
+    branch_class_room_id: Int!
+    days: [String]
+    name: String
+    price: Int
+    special: Boolean
+    start_date: String!
+    end_date: String!
+    start_time: String!
+    end_time: String!
+}
+input UpdateCourseSessionInput {
+    id: ID!
+    course_id: Int
+    branch_class_room_id: Int
+    name: String
+    price: Int
+    special: Boolean
+    start_date: Date
+    start_time: String
+    end_time: String
+    isCancel: Boolean
+}
 
-    input CreateFaultInput{         
-          description:String!         
-    }
-    input UpdateFaultInput{
-        id:Int
-        description:String
-    }    
+input CreateCourseStudentInput @validator {
+    course_id: Int!
+    # course_session_id:Int!
+    student_id: Int!
+    manager_status: String
+    financial_status: String
+    student_status: String
+    user_id_manager: Int
+    user_id_financial: Int
+    user_id_student_status: Int
+    description: String
+}
+input UpdateCourseStudentInput @validator {
+    id: ID!
+    course_id: Int
+    # course_session_id:Int
+    student_id: Int
+    manager_status: String
+    financial_status: String
+    student_status: String
+    financial_refused_status: String
+    transferred_to_course_id: Int
+    user_id_manager: Int
+    user_id_financial: Int
+    user_id_student_status: Int
+    description: String
+}
 
-    input CreateBranchInput{         
-          name:String!         
-    }
-    input UpdateBranchInput{
-        id:Int
-        name:String
-    }
-    input CreateBranchClassRoomInput{ 
-          branch_id:Int
-          description:String        
-          name:String         
-    }
-    input UpdateBranchClassRoomInput{
-        id:Int
-        branch_id:Int
-        description:String        
-        name:String
-    }
+input CreateAbsencePresenceInput {
+    course_session_id: Int
+    student_id: Int
+    teacher_id: Int
+    status: String
+    attendance_status: String
+}
+input CreateStudentToListBeforeAbsencePresenceInput @validator {
+    course_session_id: Int
+    course_id: Int
+}
+input UpdateAbsencePresenceInput {
+    id: ID!
+    course_session_id: Int
+    student_id: Int
+    teacher_id: Int
+    status: String
+    attendance_status: String
+}
+input UpdateAbsencePresenceInputWithStudentIdCourseSessionId {
+    course_session_id: Int!
+    student_id: Int!
+    status: String = "present"
+}
 
-     input CreateLessonInput{ 
-              
-          name:String         
-    }
-    input UpdateLessonInput{
-        id:Int
-           
-        name:String
-    }
+input CreateAzmoonInput {
+    course_id: Int
+    course_session_id: Int
+    isSMSsend: Int
+    score: Float
+}
+input UpdateAzmoonInput {
+    id: ID!
+    course_id: Int
+    course_session_id: Int
+    isSMSsend: Int
+    score: Float
+}
 
-   input  CreateCourseStudentRapidlyInput @validator{
-      
-       course_id:Int!
-       course_session_id:Int!
-       student_id:Int!
-    }
-    input CreateStudentWarningInput  @validator{
+input CreateAzmoonResultInput {
+    student_id: Int
+    result_score: String
+}
+input UpdateAzmoonResultInput {
+    id: Int
+    student_id: Int
+    result_score: String
+}
 
-      comment:String!
-      student_id:Int!
-      course_id:Int
-      
-    }
-    input UpdateStudentWarningHistoryInput  @validator{ 
+input CreateFaultInput {
+    description: String!
+}
+input UpdateFaultInput {
+    id: Int
+    description: String
+}
 
-      student_id:Int!
-      course_id:Int
-      response:String!
-    }
+input CreateBranchInput {
+    name: String!
+}
+input UpdateBranchInput {
+    id: Int
+    name: String
+}
+input CreateBranchClassRoomInput {
+    branch_id: Int
+    description: String
+    name: String
+}
+input UpdateBranchClassRoomInput {
+    id: Int
+    branch_id: Int
+    description: String
+    name: String
+}
 
-    input CreateStudentContactInput{
-      user_id_creator:Int!
-      reason_absence:String
-      absence_presence_id:Int!
-      who_answered:String
-      is_called_successfull:Boolean
-      description:String
+input CreateLessonInput {
+    name: String
+}
+input UpdateLessonInput {
+    id: Int
 
-    }
+    name: String
+}
 
-     input UpdateStudentContactInput{   
-      reason_absence:String
-      absence_presence_id:Int!
-      who_answered:String
-      is_called_successfull:Boolean
-      description:String
+input CreateCourseStudentRapidlyInput @validator {
+    course_id: Int!
+    course_session_id: Int!
+    student_id: Int!
+}
+input CreateStudentWarningInput @validator {
+    comment: String!
+    student_id: Int!
+    course_id: Int
+}
+input UpdateStudentWarningHistoryInput @validator {
+    student_id: Int!
+    course_id: Int
+    response: String!
+}
 
-    }
+input CreateStudentContactInput {
+    user_id_creator: Int!
+    reason_absence: String
+    absence_presence_id: Int!
+    who_answered: String
+    is_called_successfull: Boolean
+    description: String
+}
 
-    input CreateConsultantDefinitionDetailInput  @validator{
-      
-      consultant_id:Int! 
-      branch_class_room_id:Int 
-      start_hour:String!
-      end_hour:String!
-      step:Int!
-      days:[DaysOfWeek]      
-      week:Week  
+input UpdateStudentContactInput {
+    reason_absence: String
+    absence_presence_id: Int!
+    who_answered: String
+    is_called_successfull: Boolean
+    description: String
+}
 
-    }
+input CreateConsultantDefinitionDetailInput @validator {
+    consultant_id: Int!
+    branch_class_room_id: Int
+    start_hour: String!
+    end_hour: String!
+    step: Int!
+    days: [DaysOfWeek]
+    week: Week
+}
 
-    input UpdateConsultantDefinitionDetailInput @validator{
-      id:[ID]
-      consultant_id:Int! 
-      branch_class_room_id:Int 
-      start_hour:String!
-      end_hour:String!
-      step:Int
-      days:[DaysOfWeek] 
+input UpdateConsultantDefinitionDetailInput @validator {
+    id: [ID]
+    consultant_id: Int!
+    branch_class_room_id: Int
+    start_hour: String!
+    end_hour: String!
+    step: Int
+    days: [DaysOfWeek]
+}
 
-    }
+input CreateConsultantFinancialInput @validator {
+    consultant_id: Int!
+    student_id: Int!
+    branch_id: Int
+    year_id: Int!
+    consultant_definition_detail_id: Int!
+    manager_status: ManagerStatus
+    financial_status: FinancialStatus
+    student_status: StudentStatusConsultantFinancial
+    financial_refused_status: FinancialRefusedStatus
+    description: String
+    # user_id_manager:Int
+    # user_id_financial:Int
+    # user_id_student_status:Int
 
-    input CreateConsultantFinancialInput @validator{
-      
-      consultant_id:Int!
-      student_id:Int!
-      branch_id:Int
-      year_id:Int!
-      consultant_definition_detail_id:Int!
-      manager_status:ManagerStatus
-      financial_status:FinancialStatus
-      student_status:StudentStatusConsultantFinancial
-      financial_refused_status:FinancialRefusedStatus
-      description:String
-      # user_id_manager:Int
-      # user_id_financial:Int
-      # user_id_student_status:Int
-     
-      # financial_status_updated_at:DateTime
-
-    }
-    input UpdateConsultantFinancialInput @validator{
-
-      id:ID!      
-      consultant_id:Int!
-      student_id:Int!
-      branch_id:Int
-      year_id:Int
-      consultant_definition_detail_id:Int
-      manager_status:ManagerStatus
-      financial_status:FinancialStatus
-      student_status:StudentStatusConsultantFinancial
-      financial_refused_status:FinancialRefusedStatus
-      description:String
-      # user_id_manager:Int
-      # user_id_financial:Int
-      # user_id_student_status:Int      
-      # financial_status_updated_at:DateTime
-
-    }
-    
-
+    # financial_status_updated_at:DateTime
+}
+input UpdateConsultantFinancialInput @validator {
+    id: ID!
+    consultant_id: Int!
+    student_id: Int!
+    branch_id: Int
+    year_id: Int
+    consultant_definition_detail_id: Int
+    manager_status: ManagerStatus
+    financial_status: FinancialStatus
+    student_status: StudentStatusConsultantFinancial
+    financial_refused_status: FinancialRefusedStatus
+    description: String
+    # user_id_manager:Int
+    # user_id_financial:Int
+    # user_id_student_status:Int
+    # financial_status_updated_at:DateTime
+}
 
 type User {
-    id:ID    
+    id: ID
     # userId:ID
-    group_id:Int
-    branch_id:Int
+    group_id: Int
+    branch_id: Int
     first_name: String
-    last_name: String 
+    last_name: String
     #mobile: String!
-    email: String! 
+    email: String!
     #type: String!
-    #is_teacher: Int! 
-   
+    #is_teacher: Int!
+
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
@@ -512,404 +475,383 @@ type User {
     # user_creator: User @belongsTo
     # faults:[Fault] @belongsToMany
     faults: [Fault] @hasMany
-   
 }
 type StudentContact @key(fields: "id") {
-  id:ID!
-  user_id_creator:Int
-  student_id:Int
-  # student:Student @provides(fields: "id")
-  absence_presence_id:Int
-  who_answered:String
-  description:String
-  is_called_successfull:Boolean
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
+    id: ID!
+    user_id_creator: Int
+    student_id: Int
+    # student:Student @provides(fields: "id")
+    absence_presence_id: Int
+    who_answered: String
+    description: String
+    is_called_successfull: Boolean
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
 }
 
 type StudentFault @key(fields: "id") {
-  id:ID!
-  user_id_creator:Int
-  student_id:Int
-  # student:Student @provides(fields: "id")
-  fault_id:Int  
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
+    id: ID!
+    user_id_creator: Int
+    student_id: Int
+    # student:Student @provides(fields: "id")
+    fault_id: Int
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
 }
 
-type Branch{
-    id:ID
-    user_id_creator:Int
-    name:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
+type Branch {
+    id: ID
+    user_id_creator: Int
+    name: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
     # User:[User] @belongsTo
     user: User @belongsTo
-   
-   
 }
-type BranchClassRoom{
-    id:ID
-    user_id_creator:Int
-    branch_id:Int
-    name:String
-    description:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
+type BranchClassRoom {
+    id: ID
+    user_id_creator: Int
+    branch_id: Int
+    name: String
+    description: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
     # User:[User] @belongsTo
     user: User @belongsTo
-    branch:Branch @belongsTo
-   
+    branch: Branch @belongsTo
 }
-type Fault{
-    id:ID
-    user_id_creator:Int
-    description:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
+type Fault {
+    id: ID
+    user_id_creator: Int
+    description: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
     # User:[User] @belongsTo
     user: User @belongsTo
-   
 }
 type AzmoonResult @key(fields: "id") {
-    id:ID!
-    student_id:Int
-    result_score:String 
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    # student:Student @provides(fields: "id") 
+    id: ID!
+    student_id: Int
+    result_score: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    # student:Student @provides(fields: "id")
 }
 
-type Azmoon{
-    id:ID
-    user_id_creator:Int
-    course_id:Int
-    course_session_id:Int
-    isSMSsend:Int
-    score:Float
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    user:User @belongsTo
-    course:Course @belongsTo
-    courseSession:CourseSession @belongsTo
-    
+type Azmoon {
+    id: ID
+    user_id_creator: Int
+    course_id: Int
+    course_session_id: Int
+    isSMSsend: Int
+    score: Float
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    user: User @belongsTo
+    course: Course @belongsTo
+    courseSession: CourseSession @belongsTo
 }
-type Lesson{
-  id:Int
-  name:String
+type Lesson {
+    id: Int
+    name: String
 }
 
 type AbsencePresence @key(fields: "id") {
-    id:ID!
-    user_id_creator:Int
-    course_session_id:Int
-    teacher_id:Int
-    student_id:Int
+    id: ID!
+    user_id_creator: Int
+    course_session_id: Int
+    teacher_id: Int
+    student_id: Int
     # student:Student @provides(fields: "id")
-    status:String
-    attendance_status:String
-    created_at:DateTime
-    updated_at:DateTime
-    deleted_at:DateTime
-    user:User @belongsTo
-    courseSession:CourseSession @belongsTo
-    teacher:User @belongsTo
+    status: String
+    attendance_status: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    user: User @belongsTo
+    courseSession: CourseSession @belongsTo
+    teacher: User @belongsTo
 }
-type CourseStudentWithIllegalStudent @key(fields: "id"){
-  
-   id:ID!
-  student_id:Int
-  financial_status:String
-  session_count: Int
-  name: String
-  course_id: String
-  paginatorInfo:paginatorInfo
+type CourseStudentWithIllegalStudent @key(fields: "id") {
+    id: ID!
+    student_id: Int
+    financial_status: String
+    session_count: Int
+    name: String
+    course_id: String
+    paginatorInfo: paginatorInfo
 
-  #  data:[Data]
-  #  paginatorInfo:paginatorInfo
-
+    #  data:[Data]
+    #  paginatorInfo:paginatorInfo
 }
 #   data:[Data]
 #   paginatorInfo:paginatorInfo
 # }
 type Data {
-
-  id:Int
-  student_id:Int
-  financial_status:String
-  session_count: Int
-  name: String
-  course_id: String
+    id: Int
+    student_id: Int
+    financial_status: String
+    session_count: Int
+    name: String
+    course_id: String
 }
-type paginatorInfo{
-      count:Int
-      currentPage:Int
-      firstItem:Int
-      hasMorePages:Boolean
-      lastItem:Int
-      lastPage:Int
-      perPage:Int
-      total:Int
+type paginatorInfo {
+    count: Int
+    currentPage: Int
+    firstItem: Int
+    hasMorePages: Boolean
+    lastItem: Int
+    lastPage: Int
+    perPage: Int
+    total: Int
 }
-type CourseStudentWithAbsencePresence @key(fields: "id"){   
-      id:ID!       
-      course_id:Int 
-     
-      ap_id:Int  
-      ap_status:String 
-      ap_attendance_status:String
-      ap_user_id_creator:Int
-      ap_course_session_id:Int
-      ap_teacher_id:Int
-      ap_student_id:Int
-      ap_created_at:DateTime
+type CourseStudentWithAbsencePresence @key(fields: "id") {
+    id: ID!
+    course_id: Int
 
-      cs_user_id_creator:Int
-      student_id:Int
-      cs_course_id:Int
-      cs_manager_status:String
-      cs_financial_status:String
-      cs_student_status:String
-      cs_user_id_manager:Int
-      cs_user_id_financial:Int
-      cs_user_id_student_status:Int
-      cs_created_at:DateTime
+    ap_id: Int
+    ap_status: String
+    ap_attendance_status: String
+    ap_user_id_creator: Int
+    ap_course_session_id: Int
+    ap_teacher_id: Int
+    ap_student_id: Int
+    ap_created_at: DateTime
 
-      student_warning_id:Int
-      student_warning_student_id:Int
-      student_warning_course_id:Int
-      student_warning_comment:String
+    cs_user_id_creator: Int
+    student_id: Int
+    cs_course_id: Int
+    cs_manager_status: String
+    cs_financial_status: String
+    cs_student_status: String
+    cs_user_id_manager: Int
+    cs_user_id_financial: Int
+    cs_user_id_student_status: Int
+    cs_created_at: DateTime
 
-      # user_creator:User @belongsTo
-      # user_manager:User @belongsTo
-      # user_financial:User @belongsTo
-      # user_student_status:User @belongsTo
-      
+    student_warning_id: Int
+    student_warning_student_id: Int
+    student_warning_course_id: Int
+    student_warning_comment: String
+
+    # user_creator:User @belongsTo
+    # user_manager:User @belongsTo
+    # user_financial:User @belongsTo
+    # user_student_status:User @belongsTo
 }
-type CourseStudentWithAbsencePresenceList @key(fields: "id"){   
-      id:ID!       
-      course_id:Int 
-     
-      ap_id:Int  
-      ap_status:String 
-      ap_attendance_status:String
-      ap_user_id_creator:Int
-      ap_course_session_id:Int
-      ap_teacher_id:Int
-      ap_student_id:Int
-      ap_created_at:DateTime
+type CourseStudentWithAbsencePresenceList @key(fields: "id") {
+    id: ID!
+    course_id: Int
 
-      cs_user_id_creator:Int
-      student_id:Int
-      cs_course_id:Int
-      cs_manager_status:String
-      cs_financial_status:String
-      cs_student_status:String
-      cs_user_id_manager:Int
-      cs_user_id_financial:Int
-      cs_user_id_student_status:Int
-      cs_created_at:DateTime
+    ap_id: Int
+    ap_status: String
+    ap_attendance_status: String
+    ap_user_id_creator: Int
+    ap_course_session_id: Int
+    ap_teacher_id: Int
+    ap_student_id: Int
+    ap_created_at: DateTime
 
+    cs_user_id_creator: Int
+    student_id: Int
+    cs_course_id: Int
+    cs_manager_status: String
+    cs_financial_status: String
+    cs_student_status: String
+    cs_user_id_manager: Int
+    cs_user_id_financial: Int
+    cs_user_id_student_status: Int
+    cs_created_at: DateTime
 }
-type AbsencePresenceBrief {   
-     
-      session_id:Int
-      status:String
-      start_date:String
-      start_time:String
-      end_time:String
-}  
-type AbsencePresenceList @key(fields: "id") {   
-      id:ID!
-      student_id:Int
-      student_status:String
-      sessions:[AbsencePresenceBrief]
-
+type AbsencePresenceBrief {
+    session_id: Int
+    status: String
+    start_date: String
+    start_time: String
+    end_time: String
 }
-type CourseWithDetailsReport{
+type AbsencePresenceList @key(fields: "id") {
+    id: ID!
+    student_id: Int
+    student_status: String
+    sessions: [AbsencePresenceBrief]
+}
+type CourseWithDetailsReport {
+    id: Int
+    teacher_name: String
+    start_session: String
+    end_session: String
+    total_session: Int
+    total_done_session: Int
+    avg_absent: Float
+    avg_dellay: Float
+    total_students: Int
+    total_approved: Int
+    total_noMoney: Int
+    total_noMoney_semi_pending: Int
+    total_pending: Int
+    total_refused: Int
+    total_fired: Int
 
-      id:Int      
-      teacher_name:String
-      start_session:String
-      end_session:String
-      total_session:Int
-      total_done_session:Int
-      avg_absent:Float
-      avg_dellay:Float
-      total_students:Int
-      total_approved:Int
-      total_noMoney:Int
-      total_noMoney_semi_pending:Int
-      total_pending:Int
-      total_refused:Int
-      total_fired:Int
+    total_just_noMoney: Int
+    total_just_not_returned: Int
+    total_just_returned: Int
+    total_transferred: Int
 
-      total_just_noMoney:Int
-      total_just_not_returned:Int
-      total_just_returned:Int
-      total_transferred:Int
-      
-      # user_id_creator:Int
-      # branch_id:Int
-      # year_id:Int
-      # teacher_id:Int
-      # teacher:Teacher
-      # name:String
-      # gender:String
-      # lesson_id:Int
-      # type:String
-      # education_level:String
-      # financial_status:String
-      # user_id_financial:Int
+    # user_id_creator:Int
+    # branch_id:Int
+    # year_id:Int
+    # teacher_id:Int
+    # teacher:Teacher
+    # name:String
+    # gender:String
+    # lesson_id:Int
+    # type:String
+    # education_level:String
+    # financial_status:String
+    # user_id_financial:Int
 
-      #  sum_not_registered_session:Int
-      #  sum_noAction_session: Int
-      #  sum_dellay60_session:Int
-      #  sum_dellay45_session:Int
-      #  sum_dellay30_session:Int
-      #  sum_dellay15_session:Int
-      #  sum_present_session:Int
-      #  sum_total_present:Int 
-      #  sum_absent_session:Int
-      #  total_remain_session:Int
-      #  total_done_session:Int
-      #  total_session:Int
+    #  sum_not_registered_session:Int
+    #  sum_noAction_session: Int
+    #  sum_dellay60_session:Int
+    #  sum_dellay45_session:Int
+    #  sum_dellay30_session:Int
+    #  sum_dellay15_session:Int
+    #  sum_present_session:Int
+    #  sum_total_present:Int
+    #  sum_absent_session:Int
+    #  total_remain_session:Int
+    #  total_done_session:Int
+    #  total_session:Int
 
-      #  courseSession:[CourseSession]
+    #  courseSession:[CourseSession]
 
-      #  courseStudent:[CourseStudent]
-      
+    #  courseStudent:[CourseStudent]
 }
 
+type CourseStudent @key(fields: "id") {
+    id: ID!
+    course_id: Int
+    # course_session_id:Int
+    # absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
+    student_id: Int
 
-type CourseStudent @key(fields: "id"){   
-        id:ID!
-        course_id:Int
-        # course_session_id:Int
-        # absence_presence:AbsencePresence @field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
-        student_id:Int
-       
-        user_id_creator:Int
-        user_id_manager:Int  
-        user_id_financial:Int  
-        user_id_student_status:Int  
-        manager_status:String
-        financial_status:String
-        student_status:String  
-        description:String 
-        total_not_registered:Int
-        total_noAction:Int
-        total_dellay60:Int
-        total_dellay45:Int
-        total_dellay30:Int
-        total_dellay15:Int
-        total_present:Int
-        total_absent:Int
-        sum_total_present:Int  #@field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
+    user_id_creator: Int
+    user_id_manager: Int
+    user_id_financial: Int
+    user_id_student_status: Int
+    manager_status: String
+    financial_status: String
+    student_status: String
+    description: String
+    total_not_registered: Int
+    total_noAction: Int
+    total_dellay60: Int
+    total_dellay45: Int
+    total_dellay30: Int
+    total_dellay15: Int
+    total_present: Int
+    total_absent: Int
+    sum_total_present: Int #@field(resolver: "App\\GraphQL\\Queries\\AbsencePresence\\GetAbsencePresence@resolveGetAbsencePresence")
+    financial_refused_status: String
+    transferred_to_course_id: Int
+    transferred_course: Course @belongsTo
+    financial_status_updated_at: DateTime
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
 
-        financial_refused_status:String
-        transferred_to_course_id:Int
-        transferred_course:Course @belongsTo
-        financial_status_updated_at:DateTime
-        created_at:DateTime
-        updated_at:DateTime
-        deleted_at:DateTime
-
-        user_creator:User @belongsTo
-        user_manager:User @belongsTo
-        user_financial:User @belongsTo
-        user_student_status:User @belongsTo
-        course:Course @belongsTo
-
+    user_creator: User @belongsTo
+    user_manager: User @belongsTo
+    user_financial: User @belongsTo
+    user_student_status: User @belongsTo
+    course: Course @belongsTo
 }
-type CourseSession{   
-        id:ID
-        user_id_creator:Int
-        branch_class_room_id:Int
-        course_id:Int
-        name:String
-        price:Int
-        special:Boolean
-        start_date:Date
-        start_time:String
-        end_time:String
-        user:User @belongsTo
-        course: Course @belongsTo
-        classRoom:BranchClassRoom @belongsTo
-        absencePresences:[AbsencePresence] @hasMany
+type CourseSession {
+    id: ID
+    user_id_creator: Int
+    branch_class_room_id: Int
+    course_id: Int
+    name: String
+    price: Int
+    special: Boolean
+    start_date: Date
+    start_time: String
+    end_time: String
+    user: User @belongsTo
+    course: Course @belongsTo
+    classRoom: BranchClassRoom @belongsTo
+    absencePresences: [AbsencePresence] @hasMany
 }
 
-type Course{
-      id:ID
-      user_id_creator:Int
-      branch_id:Int
-      year_id:Int
-      teacher_id:Int
-      name:String
-      gender:String
-      lesson_id:Int
-      type:String
-      education_level:String
-      financial_status:String
-      user_id_financial:Int
+type Course {
+    id: ID
+    user_id_creator: Int
+    branch_id: Int
+    year_id: Int
+    teacher_id: Int
+    name: String
+    gender: String
+    lesson_id: Int
+    type: String
+    education_level: String
+    financial_status: String
+    user_id_financial: Int
 
-       sum_not_registered_session:Int
-       sum_noAction_session: Int
-       sum_dellay60_session:Int
-       sum_dellay45_session:Int
-       sum_dellay30_session:Int
-       sum_dellay15_session:Int
-       sum_present_session:Int
-       sum_total_present:Int 
-       sum_absent_session:Int
-       total_remain_session:Int
-       total_done_session:Int
-       total_session:Int
+    sum_not_registered_session: Int
+    sum_noAction_session: Int
+    sum_dellay60_session: Int
+    sum_dellay45_session: Int
+    sum_dellay30_session: Int
+    sum_dellay15_session: Int
+    sum_present_session: Int
+    sum_total_present: Int
+    sum_absent_session: Int
+    total_remain_session: Int
+    total_done_session: Int
+    total_session: Int
 
-      created_at:DateTime
-      updated_at:DateTime
-      deleted_at:DateTime
-      user:User @belongsTo
-      year:Year @belongsTo
-      teacher:User @belongsTo
-      lesson:Lesson @belongsTo
-      branch:Branch @belongsTo
-      courseSession:[CourseSession] @hasMany
-
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    user: User @belongsTo
+    year: Year @belongsTo
+    teacher: User @belongsTo
+    lesson: Lesson @belongsTo
+    branch: Branch @belongsTo
+    courseSession: [CourseSession] @hasMany
 }
 
 # type Student @key(fields: "id") @extends  {
-#   id:ID! @external 
-#   courses: [CourseStudent]      
+#   id:ID! @external
+#   courses: [CourseStudent]
 # }
 
- 
+type Group {
+    id: ID
+    # groupId:ID
+    user_id_creator: Int
+    # key:String
+    name: String
+    persian_name: String
+    type: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    users: [User] @hasMany
+    # pivot: GroupUserPivot
 
-type Group{ 
-  id:ID
-  # groupId:ID
-  user_id_creator:Int
-  # key:String
-  name:String
-  persian_name:String
-  type:String
-  created_at: DateTime
-  updated_at: DateTime
-  deleted_at: DateTime
-  users: [User] @hasMany
-  # pivot: GroupUserPivot
-
-  menus: [Menu!] @belongsTo
+    menus: [Menu!] @belongsTo
 }
-# type GroupUserPivot { 
-#     id:ID   
+# type GroupUserPivot {
+#     id:ID
 #     # groupUserId: ID
 #     user_id_creator:Int
 #     user_id: Int
@@ -924,32 +866,35 @@ type Group{
 # }
 
 type Menu {
-    id:ID
+    id: ID
     # menuId: Int
     slug: String
     name: String
     icon: String
     href: String
     #type: String!
-    parent_id:Int
-    parent_id: Int    
+    parent_id: Int
+    parent_id: Int
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
     # parent:[Menu]  @hasMany
-    subMenus: [Menu] @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver")
-    # @hasMany  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver") 
+    subMenus: [Menu]
+        @field(
+            resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver"
+        )
+    # @hasMany  @field(resolver: "App\\GraphQL\\Resolvers\\SubMenuResolvers@subMenuResolver")
     # subMenus: [Menu] @hasMany
     groups: [Group!] @belongsToMany
     #  pivot: MenuPivot
 }
 
 type MenuPivot {
-    id:ID
+    id: ID
     # groupMenuId: Int
-    user_id_creator:Int
+    user_id_creator: Int
     menu_id: Int
-    group_id: Int  
+    group_id: Int
     created_at: DateTime
     updated_at: DateTime
     deleted_at: DateTime
@@ -958,159 +903,168 @@ type MenuPivot {
     group: [Group!] @hasMany
 }
 
-
 type Teacher {
-  id:ID!
-  user_id_creator:Int
-  first_name:String
-  last_name:String
-  mobile:String
-  address:String
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
+    id: ID!
+    user_id_creator: Int
+    first_name: String
+    last_name: String
+    mobile: String
+    address: String
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
 }
 
 type Year {
-  id:ID!
-  user_id_creator:Int  
-  name:String
-  active:Boolean  
-  created_at:DateTime
-  updated_at:DateTime
-  deleted_at:DateTime
-  user: User! @belongsTo
+    id: ID!
+    user_id_creator: Int
+    name: String
+    active: Boolean
+    created_at: DateTime
+    updated_at: DateTime
+    deleted_at: DateTime
+    user: User! @belongsTo
 }
 
-type StudentWarning @key(fields: "id"){
-  id:ID!
-  user_id_creator:Int
-  user_id_updator:Int
-  student_id:Int
-  course_id:Int
-  comment:String
-  student_warning_history_id:Int
-  created_at:DateTime
-  updated_at:DateTime
-  user_creator: User! @belongsTo
-  # update_creator: User! @belongsTo
+type StudentWarning @key(fields: "id") {
+    id: ID!
+    user_id_creator: Int
+    user_id_updator: Int
+    student_id: Int
+    course_id: Int
+    comment: String
+    student_warning_history_id: Int
+    created_at: DateTime
+    updated_at: DateTime
+    user_creator: User! @belongsTo
+    # update_creator: User! @belongsTo
 }
-type StudentWarningHistory @key(fields: "id"){
- 
-  id:ID!
-  user_id_creator:Int
-  user_id_updater:Int
-  student_id:Int
-  course_id:Int
-  comment:String  
-  response:String 
-  created_at:DateTime
-  updated_at:DateTime
-  user_creator: User @belongsTo
-  user_updater: User @belongsTo
-  course: Course @belongsTo
-}
-
-type CourseReportAtSpecialTime @key(fields: "id"){
-      id:ID!
-      user_id_creator:Int
-      branch_id:Int
-      gender:String
-      year_id:Int
-      teacher_id:Int
-      name:String
-      lesson_id:Int
-      education_level:String
-      type:String
-      financial_status:String
-      student_id:Int
-
-      branch:Branch @belongsTo
-      teacher:User @belongsTo
-      lesson:Lesson @belongsTo
-      courseSession:[CourseSession]  # @hasMany
-      courseStudent:[CourseStudent]
-
+type StudentWarningHistory @key(fields: "id") {
+    id: ID!
+    user_id_creator: Int
+    user_id_updater: Int
+    student_id: Int
+    course_id: Int
+    comment: String
+    response: String
+    created_at: DateTime
+    updated_at: DateTime
+    user_creator: User @belongsTo
+    user_updater: User @belongsTo
+    course: Course @belongsTo
 }
 
-type ConsultantDefinitionDetail @key(fields: "id"){
+type CourseReportAtSpecialTime @key(fields: "id") {
+    id: ID!
+    user_id_creator: Int
+    branch_id: Int
+    gender: String
+    year_id: Int
+    teacher_id: Int
+    name: String
+    lesson_id: Int
+    education_level: String
+    type: String
+    financial_status: String
+    student_id: Int
 
-      id:ID
-      consultant_id:Int
-      student_id:Int
-      branch_class_room_id:Int
-      # branch_id:Int
-      consultant_test_id:Int
-      user_id:Int
-      start_hour:String
-      end_hour:String
-      session_date:Date
-      student_status:StudentStatus
-      absent_present_description:String
-      test_description:String
-      # student_id:Int
-      step:Int
-
-      consultant:User @belongsTo
-      user:User @belongsTo 
-      branchClassRoom: BranchClassRoom @belongsTo     
-}
-type ConsultantDefinitionDetailFlatModel @key(fields: "id"){
-
-      id:ID
-      consultant_id:Int      
-      consultant_first_name:String
-      consultant_last_name:String
-      consultant_email:String
-      student_id:Int
-      branch_class_room_id:Int      
-      consultant_test_id:Int
-      user_id:Int
-      user_first_name:String
-      user_last_name:String
-      user_email:String
-      start_hour:String
-      end_hour:String
-      session_date:Date
-      student_status:StudentStatus
-      absent_present_description:String
-      test_description:String      
-      step:Int
-      branchClassRoom_id:Int
-      branchClassRoom_name:String
-         
-}
-type ConsultantDefinitionDetailOrderByDate { 
-   date:Date,
-   details:[ConsultantDefinitionDetailFlatModel]
+    branch: Branch @belongsTo
+    teacher: User @belongsTo
+    lesson: Lesson @belongsTo
+    courseSession: [CourseSession] # @hasMany
+    courseStudent: [CourseStudent]
 }
 
-type ConsultantFinancial @key(fields: "id"){
+type ConsultantDefinitionDetail @key(fields: "id") {
+    id: ID
+    consultant_id: Int
+    student_id: Int
+    branch_class_room_id: Int
+    # branch_id:Int
+    consultant_test_id: Int
+    user_id: Int
+    start_hour: String
+    end_hour: String
+    session_date: Date
+    student_status: StudentStatus
+    absent_present_description: String
+    test_description: String
+    # student_id:Int
+    step: Int
 
-      id:ID
-      user_id_creator:Int
-      consultant_id:Int
-      student_id:Int
-      branch_id:Int
-      year_id:Int
-      consultant_definition_detail_id:Int
-      manager_status:ManagerStatus
-      financial_status:FinancialStatus
-      student_status:StudentStatusConsultantFinancial
-      financial_refused_status:FinancialRefusedStatus
-      user_id_manager:Int
-      user_id_financial:Int
-      user_id_student_status:Int
-      description:String
-      financial_status_updated_at:DateTime     
-
-      consultant:User @belongsTo
-      user:User @belongsTo  
-      manager:User @belongsTo  
-      financial:User @belongsTo  
-      year:Year @belongsTo  
-      consultantDefinitionDetails:ConsultantDefinitionDetail @belongsTo  
-      branch:Branch @belongsTo  
-     
+    consultant: User @belongsTo
+    user: User @belongsTo
+    branchClassRoom: BranchClassRoom @belongsTo
+}
+type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
+    id: ID
+    consultant_id: Int
+    consultant_first_name: String
+    consultant_last_name: String
+    consultant_email: String
+    student_id: Int
+    branch_class_room_id: Int
+    consultant_test_id: Int
+    user_id: Int
+    user_first_name: String
+    user_last_name: String
+    user_email: String
+    start_hour: String
+    end_hour: String
+    session_date: Date
+    student_status: StudentStatus
+    absent_present_description: String
+    test_description: String
+    step: Int
+    branchClassRoom_id: Int
+    branchClassRoom_name: String
+}
+type ConsultantDefinitionDetailOrderByDate {
+    date: Date
+    details: [ConsultantDefinitionDetailFlatModel]
 }
 
+type ConsultantFinancial @key(fields: "id") {
+    id: ID
+    user_id_creator: Int
+    consultant_id: Int
+    student_id: Int
+    branch_id: Int
+    year_id: Int
+    consultant_definition_detail_id: Int
+    manager_status: ManagerStatus
+    financial_status: FinancialStatus
+    student_status: StudentStatusConsultantFinancial
+    financial_refused_status: FinancialRefusedStatus
+    user_id_manager: Int
+    user_id_financial: Int
+    user_id_student_status: Int
+    description: String
+    financial_status_updated_at: DateTime
+
+    consultant: User @belongsTo
+    user: User @belongsTo
+    manager: User @belongsTo
+    financial: User @belongsTo
+    year: Year @belongsTo
+    consultantDefinitionDetails: ConsultantDefinitionDetail @belongsTo
+    branch: Branch @belongsTo
+}
+type CourseSessionFlatMode @key(fields: "id") {
+    id: ID
+    branch_class_room_id: Int
+    course_id:Int
+    name: String
+    price: Int
+    start_date:String
+    start_time:String
+    end_time:String
+    isCancel:Boolean    
+
+    course:Course @belongsTo
+}
+
+type CourseReportAtSpecialTimeOrderByDate @key(fields: "id") {
+    date: Date
+    details: [CourseSessionFlatMode]
+}

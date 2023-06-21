@@ -151,5 +151,5 @@ final class GetCourses
         }
         return Course::where('deleted_at', null)
             ->where('id', -1);
-    }
+    }    
 }

@@ -15,3 +15,7 @@ getCourseSession(id:ID!):CourseSession  @guard(with:["api"]) @can(ability: "view
        orderBy:[OrderByClause!] @orderBy
     ): [CourseSession]  @guard(with:["api"]) @paginate(builder: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseSession") 
     
+    getCourseSessionOrderbyDate(
+      session_date_from:String 
+      session_date_to:String 
+    ):[CourseReportAtSpecialTimeOrderByDate] @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseReportAtSpecialTimeSortedByDate")

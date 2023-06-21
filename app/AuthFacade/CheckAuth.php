@@ -33,6 +33,7 @@ class CheckAuth
         "CourseReportAtSpecialTime" => array("admin","manager"),
         "ConsultantDefinitionDetail" => array("admin","manager"),
         "ConsultantFinancial" => array("admin"),
+        "CourseReportAtSpecialTimeSortedByDate" =>array("admin","manager"),
       
        
     );

@@ -1051,17 +1051,17 @@ type ConsultantFinancial @key(fields: "id") {
     branch: Branch @belongsTo
 }
 type CourseSessionFlatMode @key(fields: "id") {
-    id: ID
-    branch_class_room_id: Int
+    id: ID    
     course_id:Int
-    name: String
-    price: Int
     start_date:String
     start_time:String
-    end_time:String
-    isCancel:Boolean    
+    end_time:String  
+    name:String     
+    course_name:String     
+    lesson_name:String     
+    teacher_name:String     
 
-    course:Course @belongsTo
+    
 }
 
 type CourseReportAtSpecialTimeOrderByDate @key(fields: "id") {

@@ -48,8 +48,9 @@ final class GetCourseSessions
         $branch_id = auth()->guard('api')->user()->branch_id;
         $courseSession = CourseSession::where('start_date','>=',$args['session_date_from'])
         ->where('start_date','<=',$args['session_date_to'])
-        ->with('course')
+        ->with(['course',"course.lesson","course.teacher"])
         ->orderBy('start_date', 'asc')
+        ->get();
         // ->whereHas('courseSession',function($queryWhere) use($args){
         //     $queryWhere->where('start_date','>',$args['session_date_from']);
         //     //->where('start_date','<=',$args['session_date_to']);
@@ -59,7 +60,7 @@ final class GetCourseSessions
         //     ->where('start_date','<=',$args['session_date_to'])
         //     ->orderBy('start_date', 'asc');
         // }])
-        ->get();
+        
         //return $courseSessions;
            
                 $data = [];
@@ -91,7 +92,10 @@ final class GetCourseSessions
                     "start_time" => $singlerecord->start_time,
                     "end_time" => $singlerecord->end_time, 
                     
-                    "course" =>   $courseSessions->course,                 
+                    "course_id" =>   $singlerecord->course_id,                 
+                    "course_name" => $singlerecord->course->name,
+                    "lesson_name" => $singlerecord->course->lesson->name,             
+                    "teacher_name" => $singlerecord->course->teacher->first_name  . " " .  $singlerecord->course->teacher->last_name           
                 ];
             });
     }

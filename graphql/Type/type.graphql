@@ -1064,7 +1064,7 @@ type CourseSessionFlatMode @key(fields: "id") {
     
 }
 
-type CourseReportAtSpecialTimeOrderByDate @key(fields: "id") {
+type CourseReportAtSpecialTimeOrderByDate  {
     date: Date
     details: [CourseSessionFlatMode]
 }

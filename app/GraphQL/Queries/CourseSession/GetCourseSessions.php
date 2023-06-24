@@ -39,30 +39,23 @@ final class GetCourseSessions
 
     function resolveCourseReportAtSpecialTimeSortedByDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $startOfWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        $endOfWeek = Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+
+        $args['session_date_from']=Carbon::parse($startOfWeek)->format("Y-m-d");
+        $args['session_date_to']=Carbon::parse($endOfWeek)->format("Y-m-d");
        
         if (!AuthRole::CheckAccessibility("CourseReportAtSpecialTimeSortedByDate")) {
             return [];
         }
-
-       // Log::info("start date is:".$args['session_date_from'] . " and end date is:". $args['session_date_to']);
+       
         $branch_id = auth()->guard('api')->user()->branch_id;
         $courseSession = CourseSession::where('start_date','>=',$args['session_date_from'])
         ->where('start_date','<=',$args['session_date_to'])
         ->with(['course',"course.lesson","course.teacher"])
         ->orderBy('start_date', 'asc')
         ->get();
-        // ->whereHas('courseSession',function($queryWhere) use($args){
-        //     $queryWhere->where('start_date','>',$args['session_date_from']);
-        //     //->where('start_date','<=',$args['session_date_to']);
-        // })
-        // ->with(['courseSession' => function($queryWith) use($args){
-        //     $queryWith->where('start_date','>=',$args['session_date_from'])
-        //     ->where('start_date','<=',$args['session_date_to'])
-        //     ->orderBy('start_date', 'asc');
-        // }])
         
-        //return $courseSessions;
-           
                 $data = [];
                 $index = 0;
                 $tempDate = Carbon::create($args['session_date_from']);
@@ -76,7 +69,6 @@ final class GetCourseSessions
                     $index++;
                 }
                 return $data; 
-
    
     }
 
@@ -84,7 +76,7 @@ final class GetCourseSessions
     {        
         return $courseSessions
             ->where('start_date', $session_date_from->format('Y-m-d'))
-            //->sortBy('start_time')
+            ->sortBy('start_time')
             ->map(function (CourseSession $singlerecord) {
                 return [
                     "id" => $singlerecord->id,

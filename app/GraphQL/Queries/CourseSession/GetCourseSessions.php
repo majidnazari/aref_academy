@@ -52,7 +52,7 @@ final class GetCourseSessions
         $branch_id = auth()->guard('api')->user()->branch_id;
         $courseSession = CourseSession::where('start_date','>=',$args['session_date_from'])
         ->where('start_date','<=',$args['session_date_to'])
-        ->with(['course',"course.lesson","course.teacher","classRoom"])
+        ->with(['course',"course.lesson","course.teacher","classRoom","course.branch"])
         ->orderBy('start_date', 'asc')
         ->get();
         
@@ -86,6 +86,8 @@ final class GetCourseSessions
                     
                     "course_id" =>   $singlerecord->course_id,                 
                     "course_name" => $singlerecord->course->name,
+                    "course_type" => $singlerecord->course->type,
+                    "branch_name" => $singlerecord->course->branch_name,
                     "lesson_name" => $singlerecord->course->lesson->name,             
                     "teacher_name" => $singlerecord->course->teacher->first_name  . " " .  $singlerecord->course->teacher->last_name ,
                     "class_rome_name" =>  $singlerecord->classRoom->name ,        

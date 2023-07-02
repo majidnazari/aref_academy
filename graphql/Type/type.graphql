@@ -1064,12 +1064,15 @@ type CourseSessionFlatMode @key(fields: "id") {
     gender:String    
     education_level:String    
     course_type:String    
-    branche_name:String    
+    branche_name:String  
 
-    
 }
 
 type CourseReportAtSpecialTimeOrderByDate  {
     date: Date
     details: [CourseSessionFlatMode]
+}
+type CourseReportAtSpecialTimeOrderByDateWithToday  {
+    today: String
+    data: [CourseReportAtSpecialTimeOrderByDate]
 }

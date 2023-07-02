@@ -19,4 +19,4 @@ getCourseSession(id:ID!):CourseSession  @guard(with:["api"]) @can(ability: "view
       session_date_from:String 
       session_date_to:String 
       next_week:Boolean=false
-    ):[CourseReportAtSpecialTimeOrderByDate] @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseReportAtSpecialTimeSortedByDate")
+    ):CourseReportAtSpecialTimeOrderByDateWithToday @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Queries\\CourseSession\\GetCourseSessions@resolveCourseReportAtSpecialTimeSortedByDate")

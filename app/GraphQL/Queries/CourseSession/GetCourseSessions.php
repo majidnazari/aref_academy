@@ -44,6 +44,8 @@ final class GetCourseSessions
 
         $args['session_date_from']=Carbon::parse($startOfWeek)->format("Y-m-d");
         $args['session_date_to']=Carbon::parse($endOfWeek)->format("Y-m-d");
+
+        $now=Carbon::now()->format("Y-m-d");
        
         if (!AuthRole::CheckAccessibility("CourseReportAtSpecialTimeSortedByDate")) {
             return [];
@@ -56,7 +58,7 @@ final class GetCourseSessions
         ->orderBy('start_date', 'asc')
         ->get();
         
-                $data = [];
+                $data = [];                
                 $index = 0;
                 $tempDate = Carbon::create($args['session_date_from']);
                 $finishDate = Carbon::create($args['session_date_to']);
@@ -68,7 +70,12 @@ final class GetCourseSessions
                     $tempDate=$tempDate->addDays(1);
                     $index++;
                 }
-                return $data; 
+                $result=
+                [
+                    "today" =>$now,
+                    "data" =>$data
+                ];
+                return $result; 
    
     }
 

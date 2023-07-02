@@ -39,8 +39,8 @@ final class GetCourseSessions
 
     function resolveCourseReportAtSpecialTimeSortedByDate($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $startOfWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        $endOfWeek = Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+        $startOfWeek =($args['next_week']) ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d"): Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        $endOfWeek =($args['next_week']) ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d"): Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
 
         $args['session_date_from']=Carbon::parse($startOfWeek)->format("Y-m-d");
         $args['session_date_to']=Carbon::parse($endOfWeek)->format("Y-m-d");

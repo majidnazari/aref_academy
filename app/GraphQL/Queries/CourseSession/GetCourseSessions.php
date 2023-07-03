@@ -94,7 +94,7 @@ final class GetCourseSessions
                     "course_id" =>   $singlerecord->course_id,                 
                     "course_name" => isset($singlerecord->course->name) ? $singlerecord->course->name : "" ,
                     "course_type" => isset($singlerecord->course->type) ? $singlerecord->course->type : "",
-                    "branch_name" => isset($singlerecord->course->branch_name) ? $singlerecord->course->branch_name : "",
+                    "branch_name" => isset($singlerecord->course->branch->name) ? $singlerecord->course->branch->name : "",
                     "lesson_name" => isset($singlerecord->course->lesson->name) ? $singlerecord->course->lesson->name : "",             
                     "teacher_name" => $singlerecord->course->teacher->first_name  . " " .  $singlerecord->course->teacher->last_name ,
                     "class_rome_name" =>  isset($singlerecord->classRoom->name) ? $singlerecord->classRoom->name : "",        

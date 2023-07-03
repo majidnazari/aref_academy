@@ -92,12 +92,12 @@ final class GetCourseSessions
                     "end_time" => $singlerecord->end_time, 
                     
                     "course_id" =>   $singlerecord->course_id,                 
-                    "course_name" => $singlerecord->course->name,
-                    "course_type" => $singlerecord->course->type,
-                    "branch_name" => $singlerecord->course->branch_name,
-                    "lesson_name" => $singlerecord->course->lesson->name,             
+                    "course_name" => isset($singlerecord->course->name) ? $singlerecord->course->name : "" ,
+                    "course_type" => isset($singlerecord->course->type) ? $singlerecord->course->type : "",
+                    "branch_name" => isset($singlerecord->course->branch_name) ? $singlerecord->course->branch_name : "",
+                    "lesson_name" => isset($singlerecord->course->lesson->name) ? $singlerecord->course->lesson->name : "",             
                     "teacher_name" => $singlerecord->course->teacher->first_name  . " " .  $singlerecord->course->teacher->last_name ,
-                    "class_rome_name" =>  $singlerecord->classRoom->name ,        
+                    "class_rome_name" =>  isset($singlerecord->classRoom->name) ? $singlerecord->classRoom->name : "",        
                     "gender" => $singlerecord->course->gender,
                     "education_level" =>$singlerecord->course->education_level,
                 ];

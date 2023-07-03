@@ -1055,8 +1055,7 @@ type CourseSessionFlatMode @key(fields: "id") {
     course_id:Int
     start_date:String
     start_time:String
-    end_time:String  
-    name:String     
+    end_time:String           
     course_name:String     
     lesson_name:String     
     teacher_name:String 

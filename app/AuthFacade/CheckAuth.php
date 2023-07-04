@@ -19,7 +19,7 @@ class CheckAuth
         "CourseSession" =>array ("admin","manager","acceptor"),
         "Course" => array("admin","manager","financial","acceptor"),
         "CourseStudent" => array("admin","manager","financial","acceptor"),
-        "Users" => array("admin","manager"), 
+        "Users" => array("admin","manager","acceptor"), 
         "BranchClassRooms" => array("admin","manager"), 
         "GetCourseStudentsWithAbsencePresence" => array("admin","manager","acceptor"), 
         //"GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","acceptor"), 

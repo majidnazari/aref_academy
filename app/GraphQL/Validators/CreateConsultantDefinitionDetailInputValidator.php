@@ -59,7 +59,8 @@ final class CreateConsultantDefinitionDetailInputValidator extends Validator
             'branch_class_room_id' => [
                 "nullable",
                 Rule::exists('branch_class_rooms', 'id')->where(function ($query) {
-                    $query->where('id', $this->arg('branch_class_room_id'));
+                    $query->where('id', $this->arg('branch_class_room_id'))
+                    ->where("deleted_at" ,null);
                 })
             ],
 

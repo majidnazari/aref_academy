@@ -41,14 +41,20 @@ class CheckDaysPassedOrNot implements Rule
         $start_hour = $this->start_hour;
         $hoursMinutes = explode(":", $start_hour);
         $current_time = Carbon::now()->format("Y-m-d H:i");
-        $fa = CarbonImmutable::now()->locale('fa');
+       // $fa = CarbonImmutable::now()->locale('fa');
         $now = Carbon::now();
+
+         $startOfWeek =($week_given==="Next") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d"): Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+         $endOfWeek =($week_given==="Next") ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d"): Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+
 
         foreach ($days_given as $day) {
 
             $day_number = $this->getEnum($day);
             if ($week_given === "Current") {
-                $givenDay = $now->startOfWeek()->addDays(-2)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
+                //$givenDay = $now->startOfWeek()->addDays(-2)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
+        
+                $givenDay = Carbon::parse($startOfWeek)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
 
                 if ($current_time > $givenDay) {
                     $this->err = "THE_GIVEN_DAY_OR_TIME_IS_PASSED";
@@ -56,9 +62,12 @@ class CheckDaysPassedOrNot implements Rule
                 }
             }
             if ($week_given === "Next") {
-                $startOfNextWeek = $fa->startOfWeek()->addDays(7)->addDays($day_number)->format('Y-m-d H:i');
-                $endOfNextWeek = $fa->endOfWeek()->addDays(7)->format('Y-m-d H:i');
-                $givenDay = $now->startOfWeek()->addDays(-2)->addDays(7)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
+                $startOfNextWeek = $startOfWeek; //$fa->startOfWeek()->addDays(7)->addDays($day_number)->format('Y-m-d H:i');
+                $endOfNextWeek =  $endOfWeek;//$fa->endOfWeek()->addDays(7)->format('Y-m-d H:i');
+
+                $givenDay = Carbon::parse($startOfWeek)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
+
+                //$givenDay = $now->startOfWeek()->addDays(-2)->addDays(7)->addDays($day_number)->addHours($hoursMinutes[0])->addMinutes($hoursMinutes[1])->format('Y-m-d H:i');
                 if (($startOfNextWeek > $givenDay) && ($endOfNextWeek < $givenDay)) {
                     $this->err = "THE_GIVEN_DAY_OR_TIME_IS_INVALID";
                     return false;

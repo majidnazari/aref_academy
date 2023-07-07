@@ -32,8 +32,12 @@ final class CreateConsultantDefinitionDetail
         // ->with('branchClassRoom')
         ->get();        
 
+        $startOfWeek =($args['week']==="Next") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d"): Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        $endOfWeek =($args['week']==="Next") ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d"): Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+
         foreach ($args['days'] as $day) {
-            $dayOfWeek = Carbon::parse('next ' . $day)->toDateString();
+           // $dayOfWeek = Carbon::parse('next ' . $day)->toDateString();
+            $dayOfWeek = Carbon::parse($startOfWeek)->addDays($this->getEnum($day))->toDateString();
             $start_hour = $args['start_hour'];
             $end_hour = $args['end_hour'];
             do {
@@ -73,5 +77,35 @@ final class CreateConsultantDefinitionDetail
         ConsultantDefinitionDetail::insert($data);       
         $result=ConsultantDefinitionDetail::whereNotIn('id',$all_of_consultant_data->pluck('id'))->get();        
         return $result;
+    }
+
+    public function getEnum(string $day)
+    {
+
+
+        switch ($day) {
+            case "Saturday":
+                return 0;
+                //return Carbon::SATURDAY;
+            case "Sunday":
+                return 1;
+                // return Carbon::SUNDAY;
+            case "Monday":
+                return 2;
+                //return Carbon::MONDAY;
+            case "Tuesday":
+                return 3;
+                //return Carbon::TUESDAY;
+            case "Wednesday":
+                return 4;
+                //return Carbon::WEDNESDAY;
+            case "Thursday":
+                return 5;
+                // return Carbon::THURSDAY;
+            case "Friday":
+                return 6;
+                //return Carbon::FRIDAY;
+
+        }
     }
 }

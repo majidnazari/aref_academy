@@ -71,7 +71,7 @@ final class CreateConsultantDefinitionDetail
                 }               
                 $data[]=$consultant_definition_detail_date ;
                
-            } while (Carbon::parse($start_hour)->addMinutes($args['step']) < Carbon::parse($end_hour));
+            } while (Carbon::parse($start_hour)->addMinutes($args['step']) <= Carbon::parse($end_hour));
         }
         
         ConsultantDefinitionDetail::insert($data);       

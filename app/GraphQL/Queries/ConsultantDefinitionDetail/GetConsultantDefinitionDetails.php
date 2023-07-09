@@ -10,6 +10,7 @@ use AuthRole;
 
 final class GetConsultantDefinitionDetails
 {
+    
     function resolveConsultantDefinitionDetailFlatModel($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if (!AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) {
@@ -48,9 +49,9 @@ final class GetConsultantDefinitionDetails
 
         $data = [];
         $index = 0;
-        $tempDate = Carbon::create($args['session_date_from']);
-        $finishDate = Carbon::create($args['session_date_to']);
-        while (($tempDate <= $finishDate) && ($index < 7)) {
+        $tempDate =isset($args['session_date_from']) ?  Carbon::create($args['session_date_from']) : Carbon::now();
+        $finishDate = isset($args['session_date_from']) ?  Carbon::create($args['session_date_to']) : Carbon::now()->addDays(7);
+        while (($tempDate <= $finishDate) && ($index <= 6)) {
             $data[] = [
                 "date" => $tempDate->copy(),
                 "details" => $this->getDateData($ConsultantDefinitionDetail, $tempDate)
@@ -71,6 +72,7 @@ final class GetConsultantDefinitionDetails
                     "id" => $singlerecord->id,
                     "consultant_id" => $singlerecord->consultant_id,
                     "student_id" => $singlerecord->student_id,
+                    
                     "branch_class_room_id" => $singlerecord->branch_class_room_id,
                     "consultant_test_id" => $singlerecord->consultant_test_id,
                     "user_id" => $singlerecord->user_id,

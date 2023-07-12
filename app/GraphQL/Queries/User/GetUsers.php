@@ -30,7 +30,7 @@ final class GetUsers
             $user = User::where('deleted_at', null);
             if (!($isNotAmin = in_array($user_role, $this->group_access_Not_showing_all_branches))) //it means if it is not admin branch where executes.
             {
-                $user->whereIn('branch_id', $branch_id);
+                  $user->whereIn('branch_id', $branch_id);
             }
             $user->whereHas('group', function ($query) use ($args) {
                 if (isset($args["group_id"]))

@@ -19,7 +19,7 @@ getConsultantDefinitionDetails(
          student_id:Int @eq
          absent_present_description:String
          test_description:String
-         
+         next_week:Boolean=false
 
          orderBy:[OrderByClause!] @orderBy
     ): [ConsultantDefinitionDetailOrderByDate]

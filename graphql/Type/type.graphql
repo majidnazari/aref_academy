@@ -229,7 +229,7 @@ input CreateCourseSessionInput @validator {
     start_time: String!
     end_time: String!
 }
-input CreateCourseSessionByDuringDateInput @Validator {
+input CreateCourseSessionByDuringDateInput @validator {
     course_id: Int!
     branch_class_room_id: Int!
     days: [String]

@@ -14,12 +14,24 @@ final class CreateCourseSessionInputValidator extends Validator
      */
     public function rules(): array
     {
+        $branch_id=auth()->user()->branch_id;
         return [
             // TODO Add your validation rules 
+            'branch_class_room_id' =>
+            [
+                'nullable',
+                $branch_id===null
+                ? Rule::exists('branch_class_rooms', 'id') 
+                : Rule::exists('branch_class_rooms', 'id')->where('branch_id',$branch_id)                  
+
+            ],
             'course_id' =>
             [
                 'required',
-                'integer'
+                $branch_id===null
+                ? Rule::exists('courses', 'id') 
+                : Rule::exists('courses', 'id')->where('branch_id',$branch_id)                  
+
             ],
             'name' =>
             [
@@ -31,7 +43,7 @@ final class CreateCourseSessionInputValidator extends Validator
                 "required",
                 'date',
                 'date_format:"Y-m-d"',
-                Rule::unique('course_sessions', 'start_date')
+                Rule::unique('course_sessions','branch_class_room_id', 'start_date','course_id','start_time','end_time')
                     ->where('deleted_at', null)
                     ->where('course_id', $this->arg('course_id'))
                     ->ignore($this->arg('id'), 'id')

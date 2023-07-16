@@ -55,7 +55,7 @@ final class CreateCourseSession
         $price=$args['price'] ?? 0;
         $special=$args['special'] ?? false;
         $courseSession=[];
-        $data=[];
+        
         while (strtotime($date) <= strtotime($to_date)) {
             $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
             if (in_array($this->getNameOfTheDate($date), $days)) {
@@ -72,17 +72,10 @@ final class CreateCourseSession
                 ];
 
                 $courseSession[]= CourseSession::firstOrCreate($data);
-                // Log::info("repeat record is:" . $is_repeat);
-                // if($is_repeat===null)
-                // {
-                //     $courseSession[] = CourseSession::create($data);
-                // }
-            
+               
             }
         }
-        // foreach($data as $oneRecord){
-        //     CourseSession::where()->fisrt();
-        // }
+       
 
         return $courseSession;
     }

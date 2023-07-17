@@ -61,7 +61,7 @@ class ConsultantDefinitionDetailPolicy
      * @param  \App\Models\ConsultantDefinitionDetail  $consultantDefinitionDetail
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail)
+    public function update(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail=null):bool
     {
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_definition_detail))

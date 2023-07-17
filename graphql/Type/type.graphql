@@ -410,7 +410,7 @@ input CreateConsultantDefinitionDetailInput @validator {
     week: Week
 }
 
-input UpdateConsultantDefinitionDetailInput @validator {
+input UpdateConsultantDefinitionDetailsInput @validator {
     id: [ID]
     consultant_id: Int!
     branch_class_room_id: Int
@@ -418,6 +418,10 @@ input UpdateConsultantDefinitionDetailInput @validator {
     end_hour: String!
     step: Int
     days: [DaysOfWeek]
+}
+input UpdateConsultantDefinitionDetailInput  {
+    id: ID!
+    student_id:Int!
 }
 
 input CreateConsultantFinancialInput @validator {

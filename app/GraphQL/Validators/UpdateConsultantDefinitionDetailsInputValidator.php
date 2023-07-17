@@ -4,7 +4,7 @@ namespace App\GraphQL\Validators;
 
 use Nuwave\Lighthouse\Validation\Validator;
 
-final class UpdateConsultantDefinitionDetailInputValidator extends Validator
+final class UpdateConsultantDefinitionDetailsInputValidator extends Validator
 {
     /**
      * Return the validation rules.

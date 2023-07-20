@@ -1079,3 +1079,9 @@ type CourseReportAtSpecialTimeOrderByDateWithToday  {
     today: String
     data: [CourseReportAtSpecialTimeOrderByDate]
 }
+
+type ConsultantsTimeShow {
+
+    consultant:User 
+    times:[ConsultantDefinitionDetail]
+}

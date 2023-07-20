@@ -26,3 +26,11 @@ getConsultantDefinitionDetails(
     @guard(with:["api"])
    
     @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetails@resolveConsultantDefinitionDetailFlatModel") 
+
+    getConsultantsTimeShow(
+        consultant_id:Int
+        target_date:String
+    ):[ConsultantsTimeShow]
+     @guard(with:["api"])
+    
+     @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantsTimeShow@resolveConsultantsTimeShow") 

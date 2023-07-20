@@ -34,6 +34,7 @@ class CheckAuth
         "ConsultantDefinitionDetail" => array("admin","manager"),
         "ConsultantFinancial" => array("admin"),
         "CourseReportAtSpecialTimeSortedByDate" =>array("admin","manager","acceptor"),
+        "GetConsultantsTimeShow" => array("admin","manager","acceptor"),
       
        
     );

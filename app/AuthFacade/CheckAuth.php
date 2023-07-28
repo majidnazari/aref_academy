@@ -32,7 +32,7 @@ class CheckAuth
         "CourseTotalReport" => array("admin","manager","financial"),
         "CourseReportAtSpecialTime" => array("admin","manager"),
         "ConsultantDefinitionDetail" => array("admin","manager"),
-        "ConsultantFinancial" => array("admin"),
+        "ConsultantFinancial" => array("admin","manager"),
         "CourseReportAtSpecialTimeSortedByDate" =>array("admin","manager","acceptor"),
         "GetConsultantsTimeShow" => array("admin","manager","acceptor"),
       

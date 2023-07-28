@@ -5,14 +5,12 @@ namespace App\Policies;
 use App\Models\ConsultantFinancial;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Log;
 
 class ConsultantFinancialPolicy
 {
-    use HandlesAuthorization;
-    
+    use HandlesAuthorization;  
     private $group_access_consultant_financial=array("admin","manager");
-
-
     /**
      * Determine whether the user can view any models.
      *
@@ -20,7 +18,7 @@ class ConsultantFinancialPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user)
-    {
+    {        
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
@@ -35,7 +33,7 @@ class ConsultantFinancialPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, ConsultantFinancial $consultantFinancial=null):bool
-    {
+    {       
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
@@ -48,9 +46,10 @@ class ConsultantFinancialPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
-    {
-        $user_role=auth()->guard('api')->user()->group->type;       
+    public function create(User $user):bool
+    {        
+        $user_role=auth()->guard('api')->user()->group->type;      
+
         if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
         return false;
@@ -79,7 +78,7 @@ class ConsultantFinancialPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, ConsultantFinancial $consultantFinancial=null):bool
-    {
+    {       
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_consultant_financial))
             return true;
@@ -94,7 +93,7 @@ class ConsultantFinancialPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function restore(User $user, ConsultantFinancial $consultantFinancial)
-    {
+    {  
         //
     }
 
@@ -107,6 +106,6 @@ class ConsultantFinancialPolicy
      */
     public function forceDelete(User $user, ConsultantFinancial $consultantFinancial)
     {
-        //
+          //
     }
 }

@@ -5,6 +5,7 @@ namespace App\GraphQL\Queries\CourseStudent;
 use App\Models\CourseStudent;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Log;
 
 final class GetCourseStudent
 {
@@ -18,11 +19,14 @@ final class GetCourseStudent
     }
     function resolveCourseStudentAttribute($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $branch_id = auth()->guard('api')->user()->branch_id;
+        //$user = auth()->guard('api')->user();
+        $user = auth()->user();
+        Log::info("the user is:". $user);
+        Log::info("the branch id  is:". $user->branch_id);
         $CourseStudent = CourseStudent::where('id', $args['id'])
-            ->whereHas('course', function ($query) use ($branch_id) {
-                if ($branch_id) {
-                    $query->where('branch_id', $branch_id);
+            ->whereHas('course', function ($query) use ($user) {
+                if ($user->branch_id) {
+                    $query->where('branch_id', $user->branch_id);
                 }
                 return true;
             })->with('course');

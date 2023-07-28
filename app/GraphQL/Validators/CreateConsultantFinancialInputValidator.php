@@ -5,6 +5,7 @@ namespace App\GraphQL\Validators;
 use Nuwave\Lighthouse\Validation\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Group;
+use Log;
 
 final class CreateConsultantFinancialInputValidator extends Validator
 {
@@ -15,7 +16,8 @@ final class CreateConsultantFinancialInputValidator extends Validator
      */
     public function rules(): array
     {
-        $consultant = Group::where('type', 'consultant')->pluck('id')->first();
+        $consultant = Group::where('type', 'consultant')->pluck('id')->first(); 
+        // Log::info("the  year_id  is:".  $year_id);
         return [
             // TODO Add your validation rules
             'consultant_id' => [
@@ -31,16 +33,24 @@ final class CreateConsultantFinancialInputValidator extends Validator
                 })
             ],
             'year_id' => [
-                "required",
+                "nullable",
                 Rule::exists('years', 'id')->where(function ($query) {
                     $query->where('id', $this->arg('year_id'))->where('active', true);
                 })
             ],
             'consultant_definition_detail_id' => [
-                "required",
+                "nullable",
                 Rule::exists('consultant_definition_details', 'id')->where(function ($query) {
                     $query->where('id', $this->arg('consultant_definition_detail_id'));
-                })
+                }),
+            //     Rule::unique('consultant_financials')->where(function ($query){
+            //         $query->where('consultant_id',$this->arg('consultant_id'))
+            //         ->where('year_id',$this->arg('year_id'))
+            //         ->where('branch_id',$this->arg('branch_id'))
+            //         ->where('consultant_definition_detail_id',$this->arg('consultant_definition_detail_id'))                   
+            //     ->where('deleted_at', null) ;              
+            //    // ->ignore($this->arg('id'), 'id');
+            //     }),
             ],
             'manager_status' => [
                 "nullable",

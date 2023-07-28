@@ -34,13 +34,13 @@ final class UpdateConsultantFinancialInputValidator extends Validator
 
             ],
             'year_id' => [
-                "required",
+                "nullable",
                 Rule::exists('years', 'id')->where(function ($query) {
                     $query->where('id', $this->arg('year_id'))->where('active', true);
                 })
             ],
             'consultant_definition_detail_id' => [
-                "required",
+                "nullable",
                 Rule::exists('consultant_definition_details', 'id')->where(function ($query) {
                     $query->where('id', $this->arg('consultant_definition_detail_id'));
                 })

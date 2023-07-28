@@ -428,8 +428,8 @@ input CreateConsultantFinancialInput @validator {
     consultant_id: Int!
     student_id: Int!
     branch_id: Int
-    year_id: Int!
-    consultant_definition_detail_id: Int!
+    year_id: Int
+    consultant_definition_detail_id: Int
     manager_status: ManagerStatus
     financial_status: FinancialStatus
     student_status: StudentStatusConsultantFinancial
@@ -442,7 +442,7 @@ input CreateConsultantFinancialInput @validator {
     # financial_status_updated_at:DateTime
 }
 input UpdateConsultantFinancialInput @validator {
-    id: ID!
+    id: ID
     consultant_id: Int!
     student_id: Int!
     branch_id: Int

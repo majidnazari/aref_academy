@@ -28,22 +28,13 @@ final class UpdateConsultantFinancial
         if(isset($args['branch_id']))
         {
             $ConsultantFinancial->where("branch_id",$args['branch_id']);
-        }
+        }       
         if(isset($args['year_id']))
         {
             $ConsultantFinancial->where("year_id",$args['year_id']);
-        }
+        }        
         $ConsultantFinancial=$ConsultantFinancial->orderBy('updated_at','desc')->orderBy('created_at','desc')->first();
        
-        //Log::info("the user is:" .json_encode($ConsultantFinancial ));
-        // $ConsultantFinancial->where("student_id",$args['student_id']);
-
-        // $ConsultantFinancial=ConsultantFinancial::where("consultant_id",$args['consultant_id'])
-        // ->where("student_id",$args['student_id'])
-        // ->where("branch_id",isset($args['branch_id']) ? $args['branch_id'] : null)
-        // ->where("year_id",isset($args['year_id']) ? $args['year_id'] : null)
-        // ->first();
-        
         if(!$ConsultantFinancial)
         {
             return Error::createLocatedError("CONSULTANTFINANCIAL-UPDATE-RECORD_NOT_FOUND");
@@ -56,11 +47,13 @@ final class UpdateConsultantFinancial
            // "consultant_definition_detail_id"=>$args['consultant_definition_detail_id'],
            
         ];
-        $exist_before=ConsultantFinancial::where($data)->exists();        
-        if($exist_before)
-        {
-            return Error::createLocatedError("CONSULTANTFINANCIAL-UPDATE-RECORD_EXIST_BEFORE");
-        }
+       // $exist_count=ConsultantFinancial::where($data)->count();  
+       // $exist_before=ConsultantFinancial::where($data)->exists();  
+       // Log::info("the user is:" .json_encode( $exist_before1 ));      
+        // if( $exist_count>1)
+        // {
+        //     return Error::createLocatedError("CONSULTANTFINANCIAL-UPDATE-RECORD_EXIST_BEFORE");
+        // }
         $ConsultantFinancial_filled= $ConsultantFinancial->fill($args);
         $ConsultantFinancial->save(); 
         return $ConsultantFinancial;

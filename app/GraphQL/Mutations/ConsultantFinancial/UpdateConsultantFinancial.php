@@ -28,11 +28,19 @@ final class UpdateConsultantFinancial
         if(isset($args['branch_id']))
         {
             $ConsultantFinancial->where("branch_id",$args['branch_id']);
-        }       
+        }  
+        else
+        {
+            $ConsultantFinancial->whereNull("branch_id");
+        }        
         if(isset($args['year_id']))
         {
             $ConsultantFinancial->where("year_id",$args['year_id']);
-        }        
+        } 
+        else
+        {
+            $ConsultantFinancial->whereNull("year_id");
+        }       
         $ConsultantFinancial=$ConsultantFinancial->orderBy('updated_at','desc')->orderBy('created_at','desc')->first();
        
         if(!$ConsultantFinancial)

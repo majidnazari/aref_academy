@@ -3,13 +3,14 @@
 namespace App\GraphQL\Queries\Course;
 
 use App\Models\Course;
+use App\Models\Year;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Models\Branch;
 use App\Models\CourseSession;
 use App\Models\CourseStudent;
 use AuthRole;
-
+use Log;
 
 
 final class GetCourses
@@ -28,10 +29,18 @@ final class GetCourses
         $all_branch_id = Branch::where('deleted_at', null)->pluck('id');
         $branch_id = Branch::where('deleted_at', null)->where('id', auth()->guard('api')->user()->branch_id)->pluck('id');
         $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id;
+       
+        $active_years_id=Year::where('active' , true)->pluck('id');
+        //Log::info("year id is:". json_encode($active_years_id));
+        //Log::info("args year id is:". $args['active_year']);
 
         if (AuthRole::CheckAccessibility("Course")) {
-            $course = Course::where('deleted_at', null) //->orderBy('id','desc');   
-                ->whereIn('branch_id', $branch_id)
+            $course = Course::where('deleted_at', null); //->orderBy('id','desc');
+            if($args['active_year'])   {
+                $course=$course->whereIn('year_id',  $active_years_id);
+            }
+                
+            $course->whereIn('branch_id', $branch_id)
                 ->whereHas('lesson', function ($query) use ($args) {
                     if (isset($args['lesson_name']))
                         $query->where('lessons.name', 'LIKE', '%' . $args['lesson_name'] . '%');

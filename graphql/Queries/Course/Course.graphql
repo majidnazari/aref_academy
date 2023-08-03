@@ -1,6 +1,7 @@
     getCourse(id:ID!):Course @guard(with:["api"]) @can(ability: "view")  @field(resolver: "App\\GraphQL\\Queries\\Course\\GetCourse@resolveCourseAttribute") 
     getCourses(
       name:String @like(template: "%{}%")
+      active_year: Boolean=false
       gender: String @eq
       lesson_id: Int @eq  
       teacher_id: Int @eq  

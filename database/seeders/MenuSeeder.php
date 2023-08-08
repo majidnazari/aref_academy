@@ -145,7 +145,6 @@ class MenuSeeder extends Seeder
         "created_at" => $now,
         "updated_at" =>$now
        ],
-
        [ 
         "slug" => "link",
         "name" => "حضوروغیاب",
@@ -155,9 +154,16 @@ class MenuSeeder extends Seeder
         "created_at" => $now,
         "updated_at" =>$now
        ],
-
-
-
+       [ 
+        "slug" => "link",
+        "name" => 'وقتهای مشاوران',
+        "icon" =>  'PsychologyAltIcon',
+        "href" => '/consultant',
+        "parent_id" => 0,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+      
        ]);
     }
 }

@@ -60,7 +60,15 @@ class GroupSeeder extends Seeder
             "type" =>"teacher",            
             "created_at" => $now,
             "updated_at" => $now
-           ]           
+           ] ,
+           [
+            "user_id_creator" => 0,
+            "name" =>"consultant",  
+            "persian_name" =>"مشاور",          
+            "type" =>"consultant",            
+            "created_at" => $now,
+            "updated_at" => $now
+           ]          
         ]);  
     }
 }

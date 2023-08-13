@@ -37,17 +37,51 @@ return new class extends Migration
     public function down()
     {
         Schema::table('courses', function (Blueprint $table) {
+        if (Schema::hasColumn('courses', 'total_session'))
+        {
             $table->dropColumn('total_session');
+        } 
+        if (Schema::hasColumn('courses', 'total_done_session'))
+        {
             $table->dropColumn('total_done_session');
+        }
+        if (Schema::hasColumn('courses', 'total_remain_session'))
+        {
             $table->dropColumn('total_remain_session');
+        }
+        if (Schema::hasColumn('courses', 'avg_absent_session'))
+        {
             $table->dropColumn('avg_absent_session');
+        }
+        if (Schema::hasColumn('courses', 'avg_present_session'))
+        {
             $table->dropColumn('avg_present_session');
+        }
+        if (Schema::hasColumn('courses', 'avg_dellay15_session'))
+        {
             $table->dropColumn('avg_dellay15_session');
+        }   
+        if (Schema::hasColumn('courses', 'avg_dellay30_session'))
+        {
             $table->dropColumn('avg_dellay30_session');
+        }     
+        if (Schema::hasColumn('courses', 'avg_dellay45_session'))
+        {
             $table->dropColumn('avg_dellay45_session');
+        }     
+        if (Schema::hasColumn('courses', 'avg_dellay60_session'))
+        {
             $table->dropColumn('avg_dellay60_session');
+        }      
+        if (Schema::hasColumn('courses', 'avg_noAction_session'))
+        {
             $table->dropColumn('avg_noAction_session');
+        }   
+        if (Schema::hasColumn('courses', 'avg_not_registered_session'))
+        {
             $table->dropColumn('avg_not_registered_session');
+        }       
+            
         });
     }
 };

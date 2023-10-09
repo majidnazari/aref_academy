@@ -33,11 +33,11 @@ final class GetConsultantFinancials
 
     function resolveConsultantFinancial($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-
-        $all_branch_id = Branch::where('deleted_at', null)->pluck('id');
-        $branch_id = Branch::where('deleted_at', null)->where('id', auth()->guard('api')->user()->branch_id)->pluck('id');
-        $userType = auth()->guard('api')->user()->group->type;
-        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id;
+        $branch_id = auth()->guard('api')->user()->branch_id;
+        // $all_branch_id = Branch::where('deleted_at', null)->pluck('id');
+        // $branch_id = Branch::where('deleted_at', null)->where('id', auth()->guard('api')->user()->branch_id)->pluck('id');
+        // $userType = auth()->guard('api')->user()->group->type;
+        // $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id;
 
         if (AuthRole::CheckAccessibility("ConsultantFinancial")) {
 
@@ -45,9 +45,14 @@ final class GetConsultantFinancials
 
             isset($args['consultant_id']) ? $ConsultantFinancial->where('consultant_id', $args['consultant_id']) : '';
             isset($args['student_id']) ? $ConsultantFinancial->where('student_id', $args['student_id']) : '';
-            isset($args['branch_id']) ? $ConsultantFinancial->where('branch_id', $args['branch_id']) : '';
+            if($branch_id){
+                //isset($args['branch_id']) ? $ConsultantFinancial->where('branch_id', $args['branch_id']) : $ConsultantFinancial->whereIn('branch_id', $branch_id);
+                $ConsultantFinancial->where('branch_id',$branch_id);
+            }
+            
+            //isset($args['branch_id']) ? $ConsultantFinancial->where('branch_id', $args['branch_id']) : '';
             isset($args['manager_status']) ? $ConsultantFinancial->where('manager_status', $args['manager_status']) : '';
-            isset($args['branch_id']) ? $ConsultantFinancial->where('branch_id', $args['branch_id']) : $ConsultantFinancial->whereIn('branch_id', $branch_id);
+            
             isset($args['financial_status']) ? $ConsultantFinancial->where('financial_status', '>=', $args['financial_status']) : '';
             isset($args['student_status']) ? $ConsultantFinancial->where('student_status', $args['student_status']) : '';
             isset($args['financial_refused_status']) ? $ConsultantFinancial->where('financial_refused_status', $args['financial_refused_status']) : '';

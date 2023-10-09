@@ -47,7 +47,8 @@ class ConsultantFinancialPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user):bool
-    {        
+    {  
+        //Log::info("ddfsfd");      
         $user_role=auth()->guard('api')->user()->group->type;      
 
         if(in_array($user_role,$this->group_access_consultant_financial))

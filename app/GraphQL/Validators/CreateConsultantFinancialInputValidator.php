@@ -17,7 +17,7 @@ final class CreateConsultantFinancialInputValidator extends Validator
     public function rules(): array
     {
         $consultant = Group::where('type', 'consultant')->pluck('id')->first(); 
-        // Log::info("the  year_id  is:".  $year_id);
+         //Log::info("the  year_id  is:");
         return [
             // TODO Add your validation rules
             'consultant_id' => [

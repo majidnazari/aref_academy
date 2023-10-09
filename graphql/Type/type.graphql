@@ -422,6 +422,8 @@ input UpdateConsultantDefinitionDetailsInput @validator {
 input UpdateConsultantDefinitionDetailInput  {
     id: ID!
     student_id:Int!
+    student_status:String
+    absent_present_description: String
 }
 
 input CreateConsultantFinancialInput @validator {
@@ -1083,5 +1085,5 @@ type CourseReportAtSpecialTimeOrderByDateWithToday  {
 type ConsultantsTimeShow {
 
     consultant:User 
-    times:[ConsultantDefinitionDetail]
+    details:[ConsultantDefinitionDetailFlatModel]
 }

@@ -44,7 +44,7 @@ final class GetConsultantsTimeShow
             $data[] = [
                 "consultant" => $ConsultantDefinitionDetail->consultant,               
                 //"consultant_name" => $ConsultantDefinitionDetail->consultant->first_name . " " .$ConsultantDefinitionDetail->consultant->last_name,               
-                "times" => $this->getDateData($ConsultantDefinitionDetails,$ConsultantDefinitionDetail->consultant_id)
+                "details" => $this->getDateData($ConsultantDefinitionDetails,$ConsultantDefinitionDetail->consultant_id)
             ];
            
             $index++;

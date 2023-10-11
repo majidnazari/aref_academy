@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         DB::statement("ALTER TABLE `absence_presences`  CHANGE `status` `status` ENUM('absent', 'present', 'dellay15','dellay30','dellay45','dellay60','noAction') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'absent'");
-       
+        
     }
 
     /**

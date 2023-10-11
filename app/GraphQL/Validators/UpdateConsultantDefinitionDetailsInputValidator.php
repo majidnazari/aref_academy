@@ -41,6 +41,10 @@ final class UpdateConsultantDefinitionDetailsInputValidator extends Validator
                 'min:0',
                 'max:60'
             ],
+            'student_status' => [
+                "nullable",
+                'in:no_action,absent,present,dellay'
+            ],
         ];
     }
 }

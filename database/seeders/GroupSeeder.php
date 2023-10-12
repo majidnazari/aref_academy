@@ -68,7 +68,15 @@ class GroupSeeder extends Seeder
             "type" =>"consultant",            
             "created_at" => $now,
             "updated_at" => $now
-           ]          
+           ],
+           [
+            "user_id_creator" => 0,
+            "name" =>"consultant_manager",  
+            "persian_name" =>"مدیر مشاوران",          
+            "type" =>"consultant_manager",            
+            "created_at" => $now,
+            "updated_at" => $now
+           ]             
         ]);  
     }
 }

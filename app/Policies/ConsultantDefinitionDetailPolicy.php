@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class ConsultantDefinitionDetailPolicy
 {
     use HandlesAuthorization;
-    private $group_access_consultant_definition_detail=array("admin","manager");
+    private $group_access_consultant_definition_detail=array("admin","manager","consultant_manager");
 
     /**
      * Determine whether the user can view any models.

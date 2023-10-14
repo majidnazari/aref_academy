@@ -10,7 +10,7 @@ use Log;
 class ConsultantFinancialPolicy
 {
     use HandlesAuthorization;  
-    private $group_access_consultant_financial=array("admin","manager","consultant_manager");
+    private $group_access_consultant_financial=array("admin","manager","consultant_manager","financial");
     /**
      * Determine whether the user can view any models.
      *

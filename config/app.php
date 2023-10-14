@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
 
     /*
@@ -243,7 +245,9 @@ return [
         'CourseStudentReportUpdator' => App\BasicFacade\UpdateCourseStudentReport::class,
 
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+
+        'ConsultantManagerStatus' => App\GraphQL\Enums\ManagerStatus\ManagerStatus::class,
         
     ],
 

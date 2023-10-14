@@ -250,6 +250,46 @@ class GroupMenusSeeder extends Seeder
             "created_at" => $now,
             "updated_at" =>$now
         ],
+        [ 
+            "user_id_creator" => 0,//add consultant main menue 
+            "group_id" =>7, 
+            "menu_id" => 19,
+            "user_id" => 7,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,//add consultant sub menue
+            "group_id" =>7, 
+            "menu_id" => 20,
+            "user_id" => 7,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0, //add consultant sub menue
+            "group_id" =>7, 
+            "menu_id" => 21,
+            "user_id" => 7,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,//add consultant sub menue
+            "group_id" =>7, 
+            "menu_id" => 22,
+            "user_id" => 7,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,//add consultant sub menue
+            "group_id" =>7, 
+            "menu_id" => 23,
+            "user_id" => 7,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
        
        ]);
     }

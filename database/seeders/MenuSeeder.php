@@ -156,14 +156,49 @@ class MenuSeeder extends Seeder
        ],
        [ 
         "slug" => "link",
-        "name" => 'وقتهای مشاوران',
+        "name" => "مشاوره",
         "icon" =>  'PsychologyAltIcon',
-        "href" => '/consultant',
+        "href" => '#',
         "parent_id" => 0,        
         "created_at" => $now,
         "updated_at" =>$now
        ],
-      
+       [ 
+        "slug" => "link",
+        "name" => "برنامه روزانه مشاوران",
+        "icon" =>  'PsychologyAltIcon',
+        "href" => '/consultant/show-all',
+        "parent_id" => 19,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+       [ 
+        "slug" => "link",
+        "name" => "مدیریت دانش آموزان",
+        "icon" =>  'DashboardIcon',
+        "href" => 'students/consultant_manager',
+        "parent_id" => 19,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+       [ 
+        "slug" => "link",
+        "name" => "زمانبندی مشاوران",
+        "icon" =>  'DashboardIcon',
+        "href" => '/consultant',
+        "parent_id" => 19,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
+       [ 
+        "slug" => "link",
+        "name" => "مالی مشاوران",
+        "icon" =>  'DashboardIcon',
+        "href" => '/consultant-financial',
+        "parent_id" => 19,        
+        "created_at" => $now,
+        "updated_at" =>$now
+       ],
        ]);
     }
 }

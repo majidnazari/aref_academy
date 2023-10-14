@@ -10,8 +10,8 @@ getConsultantFinancial(id:ID!):ConsultantFinancial @guard(with:["api"]) @can(abi
       student_status:StudentStatusConsultantFinancial
       financial_refused_status:FinancialRefusedStatus
       user_id_manager:Int
-      user_id_financial:StudentStatus
-      user_id_student_status:String
+      user_id_financial:Int
+      user_id_student_status:Int
       description:String      
       orderBy:[OrderByClause!] @orderBy
 

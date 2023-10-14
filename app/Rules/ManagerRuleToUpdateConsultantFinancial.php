@@ -3,10 +3,13 @@
 namespace App\Rules;
 
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
+use Log;
 
-class ManagerRuleToCreateUser implements Rule
+class ManagerRuleToUpdateConsultantFinancial implements Rule
 {
+    private $id;
     private $group_id;
     private $user_type;
     private $err;
@@ -17,7 +20,9 @@ class ManagerRuleToCreateUser implements Rule
      */
     public function __construct($user_type)
     {
+        //$this->id = $id;
         $this->user_type = $user_type;
+        //
     }
 
     /**
@@ -29,29 +34,26 @@ class ManagerRuleToCreateUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->CheckAccessibility($value, $this->user_type);
+        return $this->CheckAccessibility($attribute,$value, $this->user_type);
     }
-    public function CheckAccessibility($group_id, $user_type)
+    public function CheckAccessibility( $attribute,$value, $user_type)
     {
-
-        $group = Group::where('id', $group_id)->first();
-        if (!$group) {
+        $field_name=explode('.',$attribute);       
+        
+        if (!$user_type) {
             $this->err = "IS_NOT_VALID_GROUP";
             return false;
         }
-        if (in_array($group->type, ["admin", "financial"]) &&  $user_type == "manager") // manager add -> financial and admin user
-        {
-            $this->err = "USER-CREATE-MANAGER_ILLEGAL_ACCESS";
-            return false;
-        }
-        if (in_array($group->type, ["manager", "acceptor", "teacher"]) &&  $user_type == "manager") {
+        else if (in_array($user_type, ["admin", "consultant_manager"]) && ($field_name[1]==="manager_status") ) 
+        {            
             return true;
         }
-        if (in_array($group->type, ["admin", "financial", "manager", "acceptor", "teacher", "consultant", "consultant_manager"]) &&  $user_type == "admin") // admin  add -> All users 
-        {
+        else if (in_array($user_type, ["admin", "financial"]) && ($field_name[1]==="financial_status") ) 
+        {            
             return true;
         }
-        $this->err = "USER-CREATE-REQUEST_IS_NOT_ACCEPTABLE";
+       
+        $this->err = "USER-UPDATE-REQUEST_IS_NOT_ACCEPTABLE";
         return false;
     }
 

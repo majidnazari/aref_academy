@@ -2,11 +2,12 @@
 
 namespace App\GraphQL\Validators;
 
+use App\Enums\ManagerStatus;
+use App\GraphQL\Enums\ManagerStatus as EnumsManagerStatus;
 use Nuwave\Lighthouse\Validation\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Group;
-
-
+use App\Rules\ManagerRuleToUpdateConsultantFinancial;
 
 final class UpdateConsultantFinancialInputValidator extends Validator
 {
@@ -18,6 +19,8 @@ final class UpdateConsultantFinancialInputValidator extends Validator
     public function rules(): array
     {
         $consultant = Group::where('type', 'consultant')->pluck('id')->first();
+        $user_type = auth()->guard('api')->user()->group->type;
+
         return [
             // TODO Add your validation rules
             'consultant_id' => [
@@ -47,11 +50,14 @@ final class UpdateConsultantFinancialInputValidator extends Validator
             ],
             'manager_status' => [
                 "nullable",
-                'in:approved,pending'
+                // 'in:approved,pending',
+               // Rule::in(ConsultantManagerStatus::constants()),               
+                new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_status' => [
                 "nullable",
-                'in:approved,pending,semi_approved'
+                'in:approved,pending,semi_approved',
+                new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'student_status' => [
                 "nullable",

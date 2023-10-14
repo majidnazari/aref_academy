@@ -41,8 +41,8 @@ class UserSeeder extends Seeder
        [
         "group_id"=> 2, 
         "password" => Hash::make("123456"),
-        "first_name" => "hashem",
-        "last_name" => "beigi",
+        "first_name" => "مدیر",
+        "last_name" => "۱",
         "email" => "09372120891",
         "created_at" =>$now,
         "updated_at" =>$now
@@ -50,8 +50,8 @@ class UserSeeder extends Seeder
        [ 
         "group_id"=> 3,
         "password" => Hash::make("123456"),
-        "first_name" => "rasol",
-        "last_name" => "mokhtar",
+        "first_name" => " مدیر مالی",
+        "last_name" => "۱",
         "email" => "09372120892",
         "created_at" =>$now,
         "updated_at" =>$now
@@ -59,8 +59,8 @@ class UserSeeder extends Seeder
        [ 
         "group_id"=> 4,
         "password" => Hash::make("123456"),
-        "first_name" => "mahla",
-        "last_name" => "soroush",
+        "first_name" => "پذیرشگر",
+        "last_name" => "۱",
         "email" => "09372120893",
         "created_at" =>$now,
         "updated_at" =>$now
@@ -68,9 +68,27 @@ class UserSeeder extends Seeder
        [
         "group_id"=> 5,
         "password" => Hash::make("123456"),
-        "first_name" => "bagher",
-        "last_name" => "mirsamie",
+        "first_name" => "دبیر",
+        "last_name" => "۱",
         "email" => "09372120894",
+        "created_at" =>$now,
+        "updated_at" =>$now
+       ],
+       [
+        "group_id"=> 6,
+        "password" => Hash::make("123456"),
+        "first_name" => "مشاور",
+        "last_name" => " ۱ ",
+        "email" => "09372120895",
+        "created_at" =>$now,
+        "updated_at" =>$now
+       ],
+       [
+        "group_id"=> 7,
+        "password" => Hash::make("123456"),
+        "first_name" => "مدیر مشاور",
+        "last_name" => " ۱ ",
+        "email" => "09372120896",
         "created_at" =>$now,
         "updated_at" =>$now
        ],

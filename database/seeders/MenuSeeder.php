@@ -192,7 +192,7 @@ class MenuSeeder extends Seeder
        ],
        [ 
         "slug" => "link",
-        "name" => "مالی مشاوران",
+        "name" => "مالی مشاوره دانش آموزان",
         "icon" =>  'DashboardIcon',
         "href" => '/consultant-financial',
         "parent_id" => 19,        

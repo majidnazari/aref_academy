@@ -247,7 +247,7 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
-        'ConsultantManagerStatus' => App\GraphQL\Enums\ManagerStatus\ManagerStatus::class,
+        // 'ConsultantManagerStatus' => App\GraphQL\Enums\ManagerStatus\ManagerStatus::class,
         
     ],
 

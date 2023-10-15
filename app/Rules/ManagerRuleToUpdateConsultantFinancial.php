@@ -34,25 +34,25 @@ class ManagerRuleToUpdateConsultantFinancial implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->CheckAccessibility($attribute,$value, $this->user_type);
+        return $this->CheckAccessibility($attribute, $value, $this->user_type);
     }
-    public function CheckAccessibility( $attribute,$value, $user_type)
+    public function CheckAccessibility($attribute, $value, $user_type)
     {
-        $field_name=explode('.',$attribute);       
-        
-        if (!$user_type) {
+        $field_name = explode('.', $attribute);
+
+        if (!$user_type || !$field_name[1]) {
             $this->err = "IS_NOT_VALID_GROUP";
             return false;
         }
-        else if (in_array($user_type, ["admin", "consultant_manager"]) && ($field_name[1]==="manager_status") ) 
-        {            
+        if (
+            ($field_name[1] === "manager_status") &&  (in_array($user_type, ["admin", "consultant_manager"])) ||
+            ($field_name[1] === "financial_status") && (in_array($user_type, ["admin", "financial"]))  ||
+            ($field_name[1] === "student_status") && (in_array($user_type, ["admin", "manager"]))
+        ) {
             return true;
         }
-        else if (in_array($user_type, ["admin", "financial"]) && ($field_name[1]==="financial_status") ) 
-        {            
-            return true;
-        }
-       
+
+
         $this->err = "USER-UPDATE-REQUEST_IS_NOT_ACCEPTABLE";
         return false;
     }

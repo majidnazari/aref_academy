@@ -52,24 +52,28 @@ final class UpdateConsultantFinancial
             "student_id" => $ConsultantFinancial->student_id,
             "branch_id" => $ConsultantFinancial->branch_id,
             "year_id" => $ConsultantFinancial->year_id,
+            //"description" => $ConsultantFinancial->year_id,
             // "consultant_definition_detail_id"=>$args['consultant_definition_detail_id'],
         ];
 
-        if (isset($args['manager_status']) && ($user_type === "consultant_manager")) { // when user comsultant manager change the manager status field it's id saves
+        if (isset($args['manager_status']) /*&& ($user_type === "consultant_manager")*/ ) { // when user comsultant manager change the manager status field it's id saves
             $data["user_id_manager"] = $user_id;
-            $data["manager_status"] = isset($args['manager_status']) ?? "pending";
+            $data["manager_status"] = isset($args['manager_status']) ? $args['manager_status'] : "pending";
         }
 
-        if (isset($args['financial_status']) && ($user_type === "financial")) { // when user comsultant manager change the manager status field it's id saves
+        if (isset($args['financial_status']) /*&& ($user_type === "financial")*/ ) { // when user comsultant manager change the manager status field it's id saves
             $data["user_id_financial"] = $user_id;
-            $data["financial_status_updated_at"] = Carbon::now()->format("Y-m-d");
-            $data["financial_refused_status"] = isset($args['financial_refused_status']) ??  "noMoney";
-            $data["financial_status"] = isset($args['financial_status']) ?? "pending";
+            $data["financial_status_updated_at"] = Carbon::now();
+            $data["financial_refused_status"] = isset($args['financial_refused_status']) ? $args['financial_refused_status'] : "noMoney";
+            $data["financial_status"] = isset($args['financial_status']) ? $args['financial_status'] : "pending";
         }
-        if (isset($args['student_status'])) { // when user comsultant manager change the manager status field it's id saves
+        if (isset($args['student_status'])  /* && (in_array($user_type ,["manager" , "admin" ]) ) */ ) { // when user comsultant manager change the manager status field it's id saves
             $data["user_id_student_status"] = $user_id;
-            $data["financial_status_updated_at"] = Carbon::now()->format("Y-m-d");
+            $data["student_status"] = isset($args['student_status']) ? $args['student_status'] :  "OK";
         }
+        if (isset($args['description'])){
+            $data["description"] = $args['description'];
+        }        
 
         $ConsultantFinancial->fill($data);
         $ConsultantFinancial->save();

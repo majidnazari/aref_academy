@@ -3,14 +3,21 @@
 namespace App\GraphQL\Validators;
 
 use App\Enums\ManagerStatus;
-use App\GraphQL\Enums\ManagerStatus as EnumsManagerStatus;
+use App\GraphQL\Enums\FinancialStatusConsultantFinancial;
+use App\GraphQL\Enums\ManagerStatusConsultantFinancial as EnumsManagerStatus;
+use App\GraphQL\Enums\StudentStatusConsultantFinancial;
 use Nuwave\Lighthouse\Validation\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Group;
 use App\Rules\ManagerRuleToUpdateConsultantFinancial;
 
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+use Log;
+
 final class UpdateConsultantFinancialInputValidator extends Validator
-{
+{   
     /**
      * Return the validation rules.
      *
@@ -20,6 +27,8 @@ final class UpdateConsultantFinancialInputValidator extends Validator
     {
         $consultant = Group::where('type', 'consultant')->pluck('id')->first();
         $user_type = auth()->guard('api')->user()->group->type;
+
+        //Log::info(implode(',', FinancialStatusConsultantFinancial::getValues()));
 
         return [
             // TODO Add your validation rules
@@ -50,18 +59,22 @@ final class UpdateConsultantFinancialInputValidator extends Validator
             ],
             'manager_status' => [
                 "nullable",
-                // 'in:approved,pending',
-               // Rule::in(ConsultantManagerStatus::constants()),               
+                //  'in:approved,pending',
+                //Rule::in(implode(',', EnumsManagerStatus::getValues())),  
+               'rules' => [ 'string', 'in:'.implode(',', EnumsManagerStatus::getValues())],             
                 new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_status' => [
                 "nullable",
-                'in:approved,pending,semi_approved',
+                //'in:approved,pending,semi_approved',
+                'rules' => [ 'string', 'in:'.implode(',', FinancialStatusConsultantFinancial::getValues())],
                 new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'student_status' => [
+                'type' => Type::string(),
                 "nullable",
-                'in:ok,refused,fired,financial_pending'
+                'rules' => [ 'string', 'in:'.implode(',', StudentStatusConsultantFinancial::getValues())],
+                new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_refused_status' => [
                 "nullable",

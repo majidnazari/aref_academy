@@ -74,7 +74,7 @@ final class UpdateConsultantFinancialInputValidator extends Validator
                 'type' => Type::string(),
                 "nullable",
                 'rules' => [ 'string', 'in:'.implode(',', StudentStatusConsultantFinancial::getValues())],
-                new ManagerRuleToUpdateConsultantFinancial($user_type)
+                //new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_refused_status' => [
                 "nullable",

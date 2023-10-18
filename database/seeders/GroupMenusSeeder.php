@@ -290,6 +290,38 @@ class GroupMenusSeeder extends Seeder
             "created_at" => $now,
             "updated_at" =>$now
         ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 20,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 21,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 22,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
+        [ 
+            "user_id_creator" => 0,
+            "group_id" => 1, 
+            "menu_id" => 23,
+            "user_id" => 1,
+            "created_at" => $now,
+            "updated_at" =>$now
+        ],
        
        ]);
     }

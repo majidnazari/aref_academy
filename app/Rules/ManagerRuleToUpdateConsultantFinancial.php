@@ -47,7 +47,7 @@ class ManagerRuleToUpdateConsultantFinancial implements Rule
         if (
             ($field_name[1] === "manager_status") &&  (in_array($user_type, ["admin", "consultant_manager"])) ||
             ($field_name[1] === "financial_status") && (in_array($user_type, ["admin", "financial"]))  ||
-            ($field_name[1] === "student_status") && (in_array($user_type, ["admin", "manager"]))
+            ($field_name[1] === "student_status") && (in_array($user_type, ["admin", "consultant_manager","financial"]))
         ) {
             return true;
         }

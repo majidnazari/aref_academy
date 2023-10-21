@@ -427,6 +427,13 @@ input UpdateConsultantDefinitionDetailInput  {
     absent_present_description: String
 }
 
+input DeleteConsultantDefinitionDetailStudentIdInput  {
+    id: ID!
+    # student_id:Int!
+    # student_status:String
+    # absent_present_description: String
+}
+
 input CreateConsultantFinancialInput @validator {
     consultant_id: Int!
     student_id: Int!

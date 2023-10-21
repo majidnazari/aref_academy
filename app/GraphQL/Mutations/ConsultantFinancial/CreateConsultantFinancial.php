@@ -2,6 +2,7 @@
 namespace App\GraphQL\Mutations\ConsultantFinancial;
 
 use App\Models\ConsultantFinancial;
+use App\Models\User;
 use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Carbon\Carbon;
@@ -26,9 +27,11 @@ final class CreateConsultantFinancial
         
         $now=Carbon::now();
         $user_id=auth()->guard('api')->user()->id;
+        $branch_id_consultant=User::where('id',$args['consultant_id'])->first()->branch_id ;
+        //Log::info( $branch_id_consultant );
         $ConsultantFinancialResult=[
             "user_id_creator" => $user_id,
-            "branch_id" => isset($args['branch_id']) ? $args['branch_id'] : null,
+            "branch_id" => $branch_id_consultant,//isset($args['branch_id']) ? $args['branch_id'] : null,
             "consultant_id" => $args['consultant_id'],
             "year_id" => isset($args['year_id']) ? $args['year_id'] : null,
            // "consultant_definition_detail_id" => isset($args['consultant_definition_detail_id']) ? $args['consultant_definition_detail_id'] : null,
@@ -41,12 +44,8 @@ final class CreateConsultantFinancial
             "financial_status_updated_at" => isset($args['financial_status']) ?  $now : null,
 
         ];
-        $is_exist= ConsultantFinancial::where('consultant_id',$args['consultant_id'])
-        ->where('student_id',$args['student_id'])              
-        //->where('consultant_definition_detail_id',isset($args['consultant_definition_detail_id']) ? $args['consultant_definition_detail_id'] : null)              
-        ->where('year_id',isset($args['year_id']) ? $args['year_id'] : null)            
-        ->where('branch_id',isset($args['branch_id']) ? $args['branch_id'] : null)            
-        ->first();
+        $is_exist= ConsultantFinancial::where($ConsultantFinancialResult)->first();        
+
         if($is_exist)
          {
                  return Error::createLocatedError("CONSULTANTFINANCIAL-CREATE-RECORD_IS_EXIST");

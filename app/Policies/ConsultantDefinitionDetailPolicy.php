@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\ConsultantDefinitionDetail;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Log;
 
 class ConsultantDefinitionDetailPolicy
 {
@@ -34,7 +35,7 @@ class ConsultantDefinitionDetailPolicy
      */
     public function view(User $user, ConsultantDefinitionDetail $consultantDefinitionDetail=null):bool
     {
-        $user_role=auth()->guard('api')->user()->group->type;       
+        $user_role=auth()->guard('api')->user()->group->type;               
         if(in_array($user_role,$this->group_access_consultant_definition_detail))
             return true;
         return false;

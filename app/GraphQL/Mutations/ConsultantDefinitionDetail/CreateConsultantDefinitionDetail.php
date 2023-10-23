@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\GroupUser;
 use Carbon\Carbon;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use GraphQL\Error\Error;
+
 
 final class CreateConsultantDefinitionDetail
 {
@@ -56,18 +58,19 @@ final class CreateConsultantDefinitionDetail
 
                 ];
                  $is_exist = $all_of_consultant_data->where('consultant_id',$args['consultant_id'])
-                 ->where('branch_class_room_id',$args['branch_class_room_id'])
-                 ->where('user_id',$user_id)
+                // ->where('branch_class_room_id',$args['branch_class_room_id'])
+                // ->where('user_id',$user_id)
                  ->where('start_hour',$start_hour)
                  ->where('end_hour',$next_time)
-                 ->where('step',$args['step'])
+                 //->where('step',$args['step'])
                  ->where('session_date',$dayOfWeek)
                  ->first();
 
                 $start_hour = $next_time;
 
-                if ($is_exist) {                  
-                    continue;                   
+                if ($is_exist) {  
+                    continue;                
+                    //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_RECORD_ALREADY_EXIST");                   
                 }               
                 $data[]=$consultant_definition_detail_date ;
                

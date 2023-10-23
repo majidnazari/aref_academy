@@ -31,22 +31,22 @@ final class DeleteConsultantDefinitionDetailStudentId
         {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-STUDENT_STATUS_FILLED");
         }
-        if($consultantDefinition['student_status']!="no_action")
-        {
-            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-STUDENT_STATUS_FILLED");
-        }
-            $consultant_id=$consultantDefinition['consultant_id'];
-            $student_id=$consultantDefinition['student_id'];
+        // if($consultantDefinition['student_status']!="no_action")
+        // {
+        //     return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-STUDENT_STATUS_FILLED");
+        // }
+        //     $consultant_id=$consultantDefinition['consultant_id'];
+        //     $student_id=$consultantDefinition['student_id'];
             
-        $consultant_financial=ConsultantFinancial::where('consultant_definition_detail_id',$args['id'])
-        ->whereIn('financial_status',["approved","semi_approved"])->first(); 
+        // $consultant_financial=ConsultantFinancial::where('consultant_definition_detail_id',$args['id'])
+        // ->whereIn('financial_status',["approved","semi_approved"])->first(); 
 
-        if($consultant_financial){
-            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-STUDENT_HAS_ACTIVE_RECORD");
-        }
+        // if($consultant_financial){
+        //     return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-STUDENT_HAS_ACTIVE_RECORD");
+        // }
         
-        $consultantDefinition_filled= $consultantDefinition->fill($args);
-        $consultantDefinition_filled['student_id']=null;
+        //$consultantDefinition_filled= $consultantDefinition->fill($args);
+        $consultantDefinition['student_id']=null;
         //Log::info($consultantDefinition_filled);
         $consultantDefinition->save();       
        

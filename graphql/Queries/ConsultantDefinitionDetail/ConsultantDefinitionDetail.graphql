@@ -34,3 +34,9 @@ getConsultantDefinitionDetails(
      @guard(with:["api"])
     
      @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantsTimeShow@resolveConsultantsTimeShow") 
+
+
+    GetConsultantStudentsByDefinitionId(id:ID!):[Int] 
+    @guard(with:["api"])
+    #  @can(ability: "view") 
+    @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantStudentsByDefinitionId@resolveConsultantStudentsByDefinitionId") 

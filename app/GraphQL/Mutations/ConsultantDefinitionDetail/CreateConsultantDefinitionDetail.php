@@ -11,6 +11,7 @@ use Exception;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Log;
 
@@ -182,7 +183,7 @@ final class CreateConsultantDefinitionDetail
     public function validateSession($all_times_of_next_week_collection,  $target_session_time_want_to_check_next_week)
     {
 
-        $all_times_of_next_week_collection_copy=clone $all_times_of_next_week_collection;
+        $all_times_of_next_week_collection_copy = clone $all_times_of_next_week_collection;
         //Log::info("inner all are:" . json_encode($all_times_of_next_week_collection));
         // Log::info("inner target is:" . json_encode($target_session_time_want_to_check_next_week));
         $target_session_date = $target_session_time_want_to_check_next_week;
@@ -216,7 +217,7 @@ final class CreateConsultantDefinitionDetail
             })
             ->first();
 
-         //Log::info("validateSession is:" . json_encode($is_exist));
+        //Log::info("validateSession is:" . json_encode($is_exist));
         return  $is_exist;
     }
 
@@ -254,7 +255,7 @@ final class CreateConsultantDefinitionDetail
             ->where('session_date', '<=', Carbon::parse($endOfWeek)->addDays(7)->format("Y-m-d"));
         // ->get();
 
-       // Log::info("getAllOfConsultantTimeTableNextWeeksQueryBuilder is:" .  json_encode($getAllOfConsultantTimeTableNextWeeksQueryBuilder->get()));
+        // Log::info("getAllOfConsultantTimeTableNextWeeksQueryBuilder is:" .  json_encode($getAllOfConsultantTimeTableNextWeeksQueryBuilder->get()));
 
         //$getAllOfConsultantTimeTableNextWeeks = $getAllOfConsultantTimeTableNextWeeksQueryBuilder->get();
 
@@ -263,29 +264,29 @@ final class CreateConsultantDefinitionDetail
             $next_week_of_this_current_day = Carbon::parse($one_day)->addDays(7)->format("Y-m-d");
 
             $current_day_start_times = $getAllOfConsultantTimeTableCurrentWeeks->where('session_date', $one_day)
-            ->pluck('start_hour')            
-            ->toArray();
-            
+                ->pluck('start_hour')
+                ->toArray();
+
             //Log::info("current times are:" . json_encode($current_day_start_times));
 
             $current_day_end_times = $getAllOfConsultantTimeTableCurrentWeeks->where('session_date', $one_day)
-            ->pluck('end_hour')
-            ->toArray();
+                ->pluck('end_hour')
+                ->toArray();
 
 
             $current_day_class_id = $getAllOfConsultantTimeTableCurrentWeeks->where('session_date', $one_day)
-            ->pluck('branch_class_room_id')
-            ->toArray();
+                ->pluck('branch_class_room_id')
+                ->toArray();
             $steps = $getAllOfConsultantTimeTableCurrentWeeks->where('session_date', $one_day)
-            ->pluck('step')
-            ->toArray();
+                ->pluck('step')
+                ->toArray();
 
-            $combined_start_end_times = array_map(null,$current_day_start_times,  $current_day_end_times,$current_day_class_id, $steps);
+            $combined_start_end_times = array_map(null, $current_day_start_times,  $current_day_end_times, $current_day_class_id, $steps);
 
 
             //$combined_start_end_times = array_combine($current_day_start_times,  $current_day_end_times);
 
-            foreach ($combined_start_end_times as [$start , $end,$class_id, $steps]) {
+            foreach ($combined_start_end_times as [$start, $end, $class_id, $steps]) {
 
                 $session_to_check_in_next_week = [
                     "consultant_id" => $consultant_id,
@@ -304,7 +305,7 @@ final class CreateConsultantDefinitionDetail
 
                 $is_exist = $this->validateSession($getAllOfConsultantTimeTableNextWeeksQueryBuilder,  $session_to_check_in_next_week);
 
-                 //Log::info("is_exist  is:" . json_encode($is_exist));
+                //Log::info("is_exist  is:" . json_encode($is_exist));
 
                 if ($is_exist) {
                     $error[] = $session_to_check_in_next_week;
@@ -313,10 +314,16 @@ final class CreateConsultantDefinitionDetail
                 $data[] = $session_to_check_in_next_week;
             }
         }
-        if ($error) {           
-            return $error;
-        }        
-        $copy_definition_details_time_tables=ConsultantDefinitionDetail::insert($data);
+        if ($error) {
+            //return response()->json(['error' => 'Records found in the model.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return Error::createLocatedError("duplicate is:" .  json_encode($error));
+            
+        }
+        $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);
         return null;
+
+        // return (new ConsultantDefinitionDetail($copy_definition_details_time_tables))
+        //     ->response()
+        //     ->setStatusCode(201);
     }
 }

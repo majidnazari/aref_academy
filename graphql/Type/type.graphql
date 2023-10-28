@@ -411,6 +411,10 @@ input CreateConsultantDefinitionDetailInput @validator {
     week: Week
 }
 
+input CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput @validator {   
+    consultant_id: Int!
+}
+
 input UpdateConsultantDefinitionDetailsInput @validator {
     id: [ID]
     consultant_id: Int!
@@ -1095,3 +1099,4 @@ type ConsultantsTimeShow {
     consultant:User 
     details:[ConsultantDefinitionDetailFlatModel]
 }
+

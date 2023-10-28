@@ -1,5 +1,11 @@
 #region ConsultantDefinitionDetail
       createConsultantDefinitionDetail(input: CreateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail]  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@resolver")
+     
+     createConsultantDefinitionDetailCopyCurrentWeekPlan(input: CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput! @spread ): [ConsultantDefinitionDetail]  @can(ability: "create") @guard(with:["api"]) 
+     @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@copyWeekTimeTable")
+     
+     
+     
       # updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail]! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
       updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailInput! @spread): ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
       deleteConsultantDefinitionDetailStudentId(input: DeleteConsultantDefinitionDetailStudentIdInput! @spread):

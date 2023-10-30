@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Queries\ConsultantDefinitionDetail;
 
+use App\Models\BranchClassRoom;
 use App\Models\ConsultantDefinitionDetail;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -17,18 +18,29 @@ final class GetConsultantDefinitionDetails
         if (!AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) {
             return [];
         }
-        $startOfWeek = (isset($args['next_week']) && ($args['next_week']===true)) ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        $endOfWeek = (isset($args['next_week']) && ($args['next_week']===true)) ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+        $startOfWeek = (isset($args['next_week']) && ($args['next_week'] === true)) ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        $endOfWeek = (isset($args['next_week']) && ($args['next_week'] === true)) ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
 
         $tempDate = isset($args['session_date_from']) ?  Carbon::create($args['session_date_from']) : Carbon::parse($startOfWeek);
         $finishDate = isset($args['session_date_from']) ?  Carbon::create($args['session_date_to']) : Carbon::parse($endOfWeek);
 
 
         $branch_id = auth()->guard('api')->user()->branch_id;
+        $branch_class_ids = BranchClassRoom::where('deleted_at', null)
+            ->where(function ($query) use ($branch_id) {
+                if ($branch_id) {
+                    $query->where('branch_id', $branch_id);
+                }
+            })
+            ->pluck('id');
         $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('deleted_at', null)
-            ->where(function ($query) use ($args, $branch_id, $startOfWeek, $endOfWeek) {
+            ->where(function ($query) use ($args, $branch_id, $branch_class_ids, $startOfWeek, $endOfWeek) {
                 if (isset($args['consultant_id']))
                     $query->where('consultant_id', $args['consultant_id']);
+                if ($branch_class_ids) {
+                    $query->whereIn('branch_class_room_id', $branch_class_ids);
+                }
+
                 // if (isset($args['branch_class_room_id'])) {
                 //     $query->where('branch_class_room_id', $args['branch_class_room_id']);
                 // } 

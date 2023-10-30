@@ -12,7 +12,15 @@
       ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetUsers@resolveUser") 
 
  
-
+      getConsultants(
+                  first_name: String @like(template : "%{}%") 
+                  last_name: String @like(template : "%{}%")
+                  email: String @like(template : "%{}%")      
+                  group_id: Int  
+                  branch_id: Int  @eq
+                  # group_id: Group  @belongsToMany(relation: "groups" ) 
+                  orderBy: [OrderByClause!] @orderBy
+      ): [User]  @guard(with:["api"])  @paginate(builder: "App\\GraphQL\\Queries\\User\\GetConsultants@resolveConsultant") 
 
 # type Mutation {
 

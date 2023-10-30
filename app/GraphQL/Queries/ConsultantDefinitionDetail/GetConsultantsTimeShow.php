@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Queries\ConsultantDefinitionDetail;
 
+use App\Models\BranchClassRoom;
 use App\Models\ConsultantDefinitionDetail;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -16,43 +17,59 @@ final class GetConsultantsTimeShow
     {
         if (!AuthRole::CheckAccessibility("GetConsultantsTimeShow")) {
             return [];
-        }        
-        $target_date = isset($args['target_date'])  ? $args['target_date']  : Carbon::now()->format("Y-m-d");       
+        }
+        $target_date = isset($args['target_date'])  ? $args['target_date']  : Carbon::now()->format("Y-m-d");
 
         $branch_id = auth()->guard('api')->user()->branch_id;
+
+       //Log::info("branch_id are:" . json_encode($branch_id) );
+
+        $branch_class_ids=BranchClassRoom::where('deleted_at', null)
+        ->where(function($query) use($branch_id){
+            if($branch_id){
+                $query->where('branch_id',$branch_id);
+            }
+        })  
+       // ->where('branch_id',5)    
+        ->pluck('id');
+        //Log::info("classes are:" . json_encode($branch_class_ids) );
+
         $ConsultantDefinitionDetails = ConsultantDefinitionDetail::where('deleted_at', null)
-            ->where(function ($query) use ($args,  $target_date ,$branch_id) {
+            ->where(function ($query) use ($args,  $target_date, $branch_class_ids) {
                 if (isset($args['consultant_id']))
                     $query->where('consultant_id', $args['consultant_id']);
-                
-                $query->where('session_date', '=',  $target_date );
-                
-            })->with(['user', 'consultant', 'branchClassRoom'])                       
+
+                if ($branch_class_ids) {
+                    $query->whereIn('branch_class_room_id', $branch_class_ids);
+                }
+
+                $query->where('session_date', '=',  $target_date);
+            })->with(['user', 'consultant', 'branchClassRoom'])
             ->orderBy('consultant_id', 'asc')
             ->get();
-           // Log::info("the data is:" . json_encode($ConsultantDefinitionDetails));
+         //Log::info("the data is:" . json_encode($ConsultantDefinitionDetails));
 
         $data = [];
         $index = 0;
-        $consultant_id=0;
-        foreach($ConsultantDefinitionDetails as $ConsultantDefinitionDetail){
-            
-            if($ConsultantDefinitionDetail->consultant_id=== $consultant_id ){
+        $consultant_id = 0;
+        foreach ($ConsultantDefinitionDetails as $ConsultantDefinitionDetail) {
+
+            if ($ConsultantDefinitionDetail->consultant_id === $consultant_id) {
                 continue;
             }
-            $consultant_id=$ConsultantDefinitionDetail->consultant_id;
+            $consultant_id = $ConsultantDefinitionDetail->consultant_id;
             $data[] = [
-                "consultant" => $ConsultantDefinitionDetail->consultant,               
+                "consultant" => $ConsultantDefinitionDetail->consultant,
                 //"consultant_name" => $ConsultantDefinitionDetail->consultant->first_name . " " .$ConsultantDefinitionDetail->consultant->last_name,               
-                "details" => $this->getDateData($ConsultantDefinitionDetails,$ConsultantDefinitionDetail->consultant_id)
+                "details" => $this->getDateData($ConsultantDefinitionDetails, $ConsultantDefinitionDetail->consultant_id)
             ];
-           
+
             $index++;
         }
         return $data;
     }
 
-    function getDateData($consultantDefinitionDetails,$consultant_id)
+    function getDateData($consultantDefinitionDetails, $consultant_id)
     {
         //Log::info("session date is:" . $session_date_from->format("Y-m-d"));
         $result = $consultantDefinitionDetails

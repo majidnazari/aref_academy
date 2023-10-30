@@ -20,14 +20,18 @@ final class DeleteConsultantDefinitionDetail
         // TODO implement the resolver
     }
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
-    {  
-        $user_id=auth()->guard('api')->user()->id;  
-        $ConsultantDefinitionDetailResultIds=ConsultantDefinitionDetail::whereIn('id',$args['id'])->get();  
-        $ConsultantDefinitionDetail_deleted= ConsultantDefinitionDetail::whereIn('id',$args['id'])->delete();  
-        if(!$ConsultantDefinitionDetail_deleted)
-        {
-            return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-CANNOT-DELETE_RECORDS");
-        }        
-        return $ConsultantDefinitionDetailResultIds;        
+    {
+        $user_id = auth()->guard('api')->user()->id;
+        $ConsultantDefinitionDetailResultIds = ConsultantDefinitionDetail::where('id', $args['id'])->first();
+        if (!$ConsultantDefinitionDetailResultIds) {
+            return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-DELETE_NOT_FOUND");
+        }
+
+        if ((!empty($ConsultantDefinitionDetailResultIds['student_id']))  || ($ConsultantDefinitionDetailResultIds['student_status'] !== "no_action")) {
+            return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-THIS_TIME_HAS_STUDENT");
+        }
+        $ConsultantDefinitionDetail_deleted= ConsultantDefinitionDetail::where('id',$args['id'])->delete();  
+
+        return $ConsultantDefinitionDetailResultIds;
     }
 }

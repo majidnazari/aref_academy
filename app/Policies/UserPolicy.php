@@ -17,7 +17,7 @@ class UserPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user)
-    {
+    {       
         //return true;
         $user_role=auth()->guard('api')->user()->group->type;       
         if(in_array($user_role,$this->group_access_user))

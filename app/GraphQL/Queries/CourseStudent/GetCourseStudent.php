@@ -21,8 +21,8 @@ final class GetCourseStudent
     {
         //$user = auth()->guard('api')->user();
         $user = auth()->user();
-        Log::info("the user is:". $user);
-        Log::info("the branch id  is:". $user->branch_id);
+        //Log::info("the user is:". $user);
+        //Log::info("the branch id  is:". $user->branch_id);
         $CourseStudent = CourseStudent::where('id', $args['id'])
             ->whereHas('course', function ($query) use ($user) {
                 if ($user->branch_id) {

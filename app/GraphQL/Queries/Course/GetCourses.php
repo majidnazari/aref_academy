@@ -26,21 +26,22 @@ final class GetCourses
 
     public function resolveCourse($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $all_branch_id = Branch::where('deleted_at', null)->pluck('id');
-        $branch_id = Branch::where('deleted_at', null)->where('id', auth()->guard('api')->user()->branch_id)->pluck('id');
-        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id;
-       
-        $active_years_id=Year::where('active' , true)->pluck('id');
+        $branch_id = auth()->guard('api')->user()->branch_id;
+
+
+        $active_years_id = Year::where('active', true)->pluck('id');
         //Log::info("year id is:". json_encode($active_years_id));
-        //Log::info("args year id is:". $args['active_year']);
+        //Log::info("args year id is:" .  $active_years_id);
 
         if (AuthRole::CheckAccessibility("Course")) {
-            $course = Course::where('deleted_at', null); //->orderBy('id','desc');
-            if($args['active_year'])   {
-                $course=$course->whereIn('year_id',  $active_years_id);
-            }
-                
-            $course->whereIn('branch_id', $branch_id)
+            $course = Course::where('deleted_at', null) //->orderBy('id','desc');
+                ->where(function ($query) use ($branch_id) {
+                    if ($branch_id) {
+                        $query->where('branch_id', $branch_id);
+                    }
+                })
+                ->whereIn('year_id',  $active_years_id)
+                //$course->whereIn('branch_id', $branch_id)
                 ->whereHas('lesson', function ($query) use ($args) {
                     if (isset($args['lesson_name']))
                         $query->where('lessons.name', 'LIKE', '%' . $args['lesson_name'] . '%');
@@ -160,5 +161,5 @@ final class GetCourses
         }
         return Course::where('deleted_at', null)
             ->where('id', -1);
-    }    
+    }
 }

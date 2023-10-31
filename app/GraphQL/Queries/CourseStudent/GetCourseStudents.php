@@ -21,7 +21,7 @@ final class GetCourseStudents
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $branch_id = auth()->guard('api')->user()->branch_id;
-       // $active_years=Year::where('active' , true)->pluck('id');
+        $active_years=Year::where('active' , true)->pluck('id');
         if (AuthRole::CheckAccessibility("CourseStudent")) {
 
             $CourseStudent = CourseStudent::where('deleted_at', null)
@@ -31,12 +31,12 @@ final class GetCourseStudents
                     }
                     return true;
                 })->with('course')
-                // ->whereHas('course.year', function ($query) use ( $active_years) {
-                //     if ($active_years) {
-                //         $query->whereIn('active', $active_years);
-                //     }
-                //     return true;
-                // })->with('course.year')
+                ->whereHas('course.year', function ($query) use ( $active_years) {
+                    if ($active_years) {
+                        $query->whereIn('active', $active_years);
+                    }
+                    return true;
+                })->with('course.year')
                 ->where(function ($query) use ($args) {
                     if (isset($args['manager_financial_not_equal'])) {
                         $query->where('course_students.manager_status', '!=', $args['manager_financial_not_equal'])

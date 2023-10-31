@@ -7,6 +7,7 @@ use App\Models\Year;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use AuthRole;
+use Log;
 
 final class GetCourseStudents
 {
@@ -21,22 +22,30 @@ final class GetCourseStudents
     function resolveCourseStudent($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $branch_id = auth()->guard('api')->user()->branch_id;
-        $active_years=Year::where('active' , true)->pluck('id');
+        $active_years = Year::where('active', true)->pluck('id');
+
+        //Log::info(" active_years is run:" .  json_encode($active_years));
+
         if (AuthRole::CheckAccessibility("CourseStudent")) {
 
-            $CourseStudent = CourseStudent::where('deleted_at', null)
+            $CourseStudent = CourseStudent::where('deleted_at', null)                
                 ->whereHas('course', function ($query) use ($branch_id) {
                     if ($branch_id) {
                         $query->where('branch_id', $branch_id);
                     }
-                    return true;
-                })->with('course')
-                ->whereHas('course.year', function ($query) use ( $active_years) {
-                    if ($active_years) {
-                        $query->whereIn('active', $active_years);
-                    }
-                    return true;
-                })->with('course.year')
+                    $query->whereHas('year', function ($query) {
+                        $query->where('active', true);
+                    });
+                    //return true;
+                })
+                ->with('course')             
+                // ->whereHas('course.year', function ($query) use ($active_years) {
+                //     if ($active_years) {
+                //         $query->where('active', true);
+                //     }
+                //     //return true;
+                // })
+                // ->with('course.year') ;              
                 ->where(function ($query) use ($args) {
                     if (isset($args['manager_financial_not_equal'])) {
                         $query->where('course_students.manager_status', '!=', $args['manager_financial_not_equal'])

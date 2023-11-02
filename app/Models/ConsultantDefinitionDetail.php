@@ -26,6 +26,8 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         "session_date",
         "step",
         "student_status",
+        "consultant_status",
+        "session_status",
         "absent_present_description",
         "test_description"
     ];

@@ -17,7 +17,22 @@ enum StudentStatus {
     absent
     present
     no_action
-    dellay
+    dellay5
+    dellay10
+    dellay15
+    dellay15more
+}
+
+enum SessionStatus{
+    no_action
+    earlier_5min_finished
+    earlier_10min_finished
+    earlier_15min_finished
+    earlier_15min_more_finished
+    later_5min_started
+    later_10min_started
+    later_15min_started
+    later_15min_more_started
 }
 enum DaysOfWeek {
     Saturday
@@ -424,10 +439,12 @@ input UpdateConsultantDefinitionDetailsInput @validator {
     step: Int
     days: [DaysOfWeek]
 }
-input UpdateConsultantDefinitionDetailInput  {
+input UpdateConsultantDefinitionDetailHasStudentInput  @validator{
     id: ID!
     student_id:Int!
     student_status:String
+    session_status:String
+    consultant_status:String
     absent_present_description: String
 }
 
@@ -474,6 +491,11 @@ input UpdateConsultantFinancialInput @validator {
     # user_id_financial:Int
     # user_id_student_status:Int
     # financial_status_updated_at:DateTime
+}
+
+input CopyConsultantOneDayTimeTableInput  {
+    consultant_id: Int!
+    session_date:String!
 }
 
 type User {
@@ -1008,6 +1030,8 @@ type ConsultantDefinitionDetail @key(fields: "id") {
     end_hour: String
     session_date: Date
     student_status: StudentStatus
+    consultant_status: StudentStatus
+    session_status: SessionStatus
     absent_present_description: String
     test_description: String
     # student_id:Int

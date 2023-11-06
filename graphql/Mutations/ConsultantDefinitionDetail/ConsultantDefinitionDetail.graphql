@@ -7,7 +7,7 @@
      
      
       # updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail]! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
-      updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailInput! @spread): ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
+      updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailHasStudentInput! @spread): ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
      
       deleteConsultantDefinitionDetailStudentId(input: DeleteConsultantDefinitionDetailStudentIdInput! @spread):
        ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"]) 
@@ -18,4 +18,11 @@
       
       copyOneStudentToNextTimeTable(id:ID!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyStudentToNextTimeTable@CopyOneStudentToNextTimeTable")
+
+      """ 
+      documentaion for copyOneDayOfOneConsultantTimeTable
+      """
+      copyOneDayOfOneConsultantTimeTable(input:CopyConsultantOneDayTimeTableInput!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
+       @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyOneDayTimeTable@CopyOneConsulatntDayTimeTable")
+
 #end ConsultantDefinitionDetail

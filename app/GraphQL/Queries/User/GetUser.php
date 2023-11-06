@@ -9,10 +9,15 @@ final class GetUser
 {
     function resolveUserId($id): User
     {
-        $all_branch_id = Branch::where('deleted_at', null)->pluck('id');
-        $branch_id = Branch::where('deleted_at', null)->where('id', auth()->guard('api')->user()->branch_id)->pluck('id');
-        $branch_id = count($branch_id) == 0 ? $all_branch_id   : $branch_id;
-        $user = User::where('id', $id)->whereIn('branch_id', $branch_id);
+        $branch_id = auth()->guard('api')->user()->branch_id;
+
+        $user = User::where('id', $id)
+            ->where(function ($query) use ($branch_id) {
+                if ($branch_id) {
+                    $query->where('branch_id', $branch_id);
+                }
+            })
+            ->first();
         return $user;
     }
 

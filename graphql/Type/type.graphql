@@ -23,7 +23,7 @@ enum StudentStatus {
     dellay15more
 }
 
-enum SessionStatus{
+enum SessionStatus {
     no_action
     earlier_5min_finished
     earlier_10min_finished
@@ -426,7 +426,7 @@ input CreateConsultantDefinitionDetailInput @validator {
     week: Week
 }
 
-input CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput @validator {   
+input CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput @validator {
     consultant_id: Int!
 }
 
@@ -439,23 +439,23 @@ input UpdateConsultantDefinitionDetailsInput @validator {
     step: Int
     days: [DaysOfWeek]
 }
-input UpdateConsultantDefinitionDetailHasStudentInput  @validator{
+input UpdateConsultantDefinitionDetailHasStudentInput @validator {
     id: ID!
-    student_id:Int!
-    student_status:String
-    session_status:String
-    consultant_status:String
+    student_id: Int!
+    student_status: String
+    session_status: String
+    consultant_status: String
     absent_present_description: String
 }
 
-input DeleteConsultantDefinitionDetailStudentIdInput  {
+input DeleteConsultantDefinitionDetailStudentIdInput {
     id: ID!
     # student_id:Int!
     # student_status:String
     # absent_present_description: String
 }
-input DeleteConsultantDefinitionDetailInput  {
-        id: ID!  
+input DeleteConsultantDefinitionDetailInput {
+    id: ID!
 }
 
 input CreateConsultantFinancialInput @validator {
@@ -493,9 +493,18 @@ input UpdateConsultantFinancialInput @validator {
     # financial_status_updated_at:DateTime
 }
 
-input CopyConsultantOneDayTimeTableInput  {
+"""
+input of copy one day of one consulatnt
+"""
+input CopyConsultantOneDayTimeTableInput {
+    """
+    consultant of tima table should be copied
+    """
     consultant_id: Int!
-    session_date:String!
+    """
+    copy one day of current week to next week
+    """
+    session_date: String!
 }
 
 type User {
@@ -1096,34 +1105,31 @@ type ConsultantFinancial @key(fields: "id") {
     branch: Branch @belongsTo
 }
 type CourseSessionFlatMode @key(fields: "id") {
-    id: ID    
-    course_id:Int
-    start_date:String
-    start_time:String
-    end_time:String           
-    course_name:String     
-    lesson_name:String     
-    teacher_name:String 
-    class_rome_name:String    
-    gender:String    
-    education_level:String    
-    course_type:String    
-    branch_name:String  
-
+    id: ID
+    course_id: Int
+    start_date: String
+    start_time: String
+    end_time: String
+    course_name: String
+    lesson_name: String
+    teacher_name: String
+    class_rome_name: String
+    gender: String
+    education_level: String
+    course_type: String
+    branch_name: String
 }
 
-type CourseReportAtSpecialTimeOrderByDate  {
+type CourseReportAtSpecialTimeOrderByDate {
     date: Date
     details: [CourseSessionFlatMode]
 }
-type CourseReportAtSpecialTimeOrderByDateWithToday  {
+type CourseReportAtSpecialTimeOrderByDateWithToday {
     today: String
     data: [CourseReportAtSpecialTimeOrderByDate]
 }
 
 type ConsultantsTimeShow {
-
-    consultant:User 
-    details:[ConsultantDefinitionDetailFlatModel]
+    consultant: User
+    details: [ConsultantDefinitionDetailFlatModel]
 }
-

@@ -19,7 +19,9 @@
       copyOneStudentToNextTimeTable(id:ID!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyStudentToNextTimeTable@CopyOneStudentToNextTimeTable")
 
-
+      """ 
+      documentaion for copyOneDayOfOneConsultantTimeTable
+      """
       copyOneDayOfOneConsultantTimeTable(input:CopyConsultantOneDayTimeTableInput!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyOneDayTimeTable@CopyOneConsulatntDayTimeTable")
 

@@ -27,7 +27,7 @@ class Group extends Model
     ];
     public function users(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class)->withTrashed();
     }
 
     public function menus()

@@ -21,6 +21,6 @@ class Fault extends Model implements Auditable
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id_creator');
+        return $this->belongsTo(User::class, 'user_id_creator')->withTrashed();
     }
 }

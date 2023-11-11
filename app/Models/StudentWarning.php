@@ -25,11 +25,11 @@ class StudentWarning extends Model implements Auditable
 
     public function user_creator()
     {
-        return $this->belongsTo(User::class, 'user_id_creator');
+        return $this->belongsTo(User::class, 'user_id_creator')->withTrashed();
     }
     public function user_updater()
     {
-        return $this->belongsTo(User::class, 'user_id_updater');
+        return $this->belongsTo(User::class, 'user_id_updater')->withTrashed();
     }
     public function student()
     {

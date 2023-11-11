@@ -35,27 +35,27 @@ class ConsultantFinancial extends Model implements Auditable
 
     public function user()
     {
-        return $this->belongsTo(User::class,"user_id_creator");
+        return $this->belongsTo(User::class,"user_id_creator")->withTrashed();
     }
     public function consultant()
     {
-        return $this->belongsTo(User::class,"consultant_id");
+        return $this->belongsTo(User::class,"consultant_id")->withTrashed();
     }
     public function manager()
     {
-        return $this->belongsTo(User::class,"user_id_manager");
+        return $this->belongsTo(User::class,"user_id_manager")->withTrashed();
     }
     public function financial()
     {
-        return $this->belongsTo(User::class,"user_id_financial");
+        return $this->belongsTo(User::class,"user_id_financial")->withTrashed();
     }   
     public function branch()
     {
-        return $this->belongsTo(Branch::class,"branch_id");
+        return $this->belongsTo(Branch::class,"branch_id")->withTrashed();
     }   
     public function year()
     {
-        return $this->belongsTo(Year::class,"year_id");
+        return $this->belongsTo(Year::class,"year_id")->withTrashed();
     } 
     public function consultantDefinitionDetails()
     {

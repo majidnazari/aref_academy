@@ -39,19 +39,19 @@ class CourseStudent extends Model implements Auditable
     ];
     public function user_creator()
     {
-        return $this->belongsTo(User::class, "user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator")->withTrashed();
     }
     public function user_manager()
     {
-        return $this->belongsTo(User::class, "user_id_manager");
+        return $this->belongsTo(User::class, "user_id_manager")->withTrashed();
     }
     public function user_financial()
     {
-        return $this->belongsTo(User::class, "user_id_financial");
+        return $this->belongsTo(User::class, "user_id_financial")->withTrashed();
     }
     public function user_student_status()
     {
-        return $this->belongsTo(User::class, "user_id_student_status");
+        return $this->belongsTo(User::class, "user_id_student_status")->withTrashed();
     }
     public function course()
     {

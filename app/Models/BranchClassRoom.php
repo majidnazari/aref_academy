@@ -21,10 +21,10 @@ class BranchClassRoom extends Model implements Auditable
 
     public function user()
     {
-        return $this->belongsTo(User::class, "user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator")->withTrashed();
     }
     public function branch()
     {
-        return $this->belongsTo(Branch::class, "branch_id");
+        return $this->belongsTo(Branch::class, "branch_id")->withTrashed();
     }
 }

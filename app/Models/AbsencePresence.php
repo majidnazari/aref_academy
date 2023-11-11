@@ -26,7 +26,7 @@ class AbsencePresence extends Model  implements Auditable
 
     public function user()
     {
-        return $this->belongsTo(User::class, "user_id_creator");
+        return $this->belongsTo(User::class, "user_id_creator")->withTrashed();
     }
     public function courseSession()
     {
@@ -34,6 +34,6 @@ class AbsencePresence extends Model  implements Auditable
     }
     public function teacher()
     {
-        return $this->belongsTo(User::class, "teacher_id");
+        return $this->belongsTo(User::class, "teacher_id")->withTrashed();
     }
 }

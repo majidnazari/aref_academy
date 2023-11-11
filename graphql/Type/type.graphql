@@ -506,6 +506,10 @@ input CopyConsultantOneDayTimeTableInput {
     """
     session_date: String!
 }
+input DivideConsultantDefinitionDetailTimeInput {
+    definition_id: Int!
+    division_time: Int!
+}
 
 type User {
     id: ID

@@ -34,15 +34,15 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
     public function consultant()
     {
-        return $this->belongsTo(User::class, "consultant_id");
+        return $this->belongsTo(User::class, "consultant_id")->withTrashed();
     }
     public function user()
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->belongsTo(User::class, "user_id")->withTrashed();
     }
 
     public function branchClassRoom()
     {
-        return $this->belongsTo(BranchClassRoom::class, "branch_class_room_id");
+        return $this->belongsTo(BranchClassRoom::class, "branch_class_room_id")->withTrashed();
     }
 }

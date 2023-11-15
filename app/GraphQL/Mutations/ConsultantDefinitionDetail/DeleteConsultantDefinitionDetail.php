@@ -5,6 +5,7 @@ namespace App\GraphQL\Mutations\ConsultantDefinitionDetail;
 use App\Models\ConsultantDefinitionDetail;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\GroupUser;
+use Carbon\Carbon;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
 
@@ -23,6 +24,13 @@ final class DeleteConsultantDefinitionDetail
     {
         $user_id = auth()->guard('api')->user()->id;
         $ConsultantDefinitionDetailResultIds = ConsultantDefinitionDetail::where('id', $args['id'])->first();
+        $now=Carbon::now()->format("Y-m-d");
+         //Log::info("now is:"  . $now . " and session_date is:" .$consultantDefinition['session_date'] );        
+
+        if($ConsultantDefinitionDetailResultIds['session_date'] < $now) {
+            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");
+
+        }
         if (!$ConsultantDefinitionDetailResultIds) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-DELETE_NOT_FOUND");
             //return Error::createLocatedError("حذف برنامه زمانبندی: رکورد مورد نظر یافت نشد.");

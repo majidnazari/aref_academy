@@ -41,15 +41,7 @@ final class CreateConsultantDefinitionDetail
 
         $all_of_consultant_data_collection = ConsultantDefinitionDetail::where('consultant_id', $args['consultant_id'])
             ->whereIn('branch_class_room_id', $branch_class_room_ids);
-        $all_of_consultant_data = $all_of_consultant_data_collection->get();
-        // ->where('user_id', $user_id)
-        // ->with('branchClassRoom')
-        //->get();
-        // $records =  $all_of_consultant_data;
-        // $all_of_consultant_data = $all_of_consultant_data->get();
-        // if (!$this->validateSession($args['start_hour'], $args['end_hour'], $records)) {
-        //     throw new Exception("AAA");
-        // }
+        $all_of_consultant_data = $all_of_consultant_data_collection->get();       
 
         $startOfWeek = ($args['week'] === "Next") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
         // $endOfWeek = ($args['week'] === "Next") ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");

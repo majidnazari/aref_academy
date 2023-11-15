@@ -98,6 +98,7 @@
     "STUDENTWARNING-DELETE-RECORD_NOT_FOUND":"حذف اطلاع دانش آموز:رکورد مورد نظر یافت نشد.",
     "STUDENTWARNINGHISTORY-UPDATE-RECORD_NOT_FOUND":"بروز رسانی سابقه دانش آموز:رکورد مورد نظر یافت نشد.",   
 
-    "COUNSULTANT-DEFINITION-DETAIL-GET_INVALID_ID":"نمایش جلسات مشاور:شماره رکورد مورد نظر اشتباه است."
+    "COUNSULTANT-DEFINITION-DETAIL-GET_INVALID_ID":"نمایش جلسات مشاور:شماره رکورد مورد نظر اشتباه است.",
+    "CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED":"ویرایش جلسات در روزهای گذشته امکان پذیر نیست."
 
 }

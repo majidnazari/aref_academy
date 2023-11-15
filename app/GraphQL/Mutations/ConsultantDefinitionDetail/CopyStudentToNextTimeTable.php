@@ -34,6 +34,14 @@ final class CopyStudentToNextTimeTable
 
         $definition_this_week = ConsultantDefinitionDetail::where('id',  $definition_id)->first();
 
+        $now=Carbon::now()->format("Y-m-d");
+         //Log::info("now is:"  . $now . " and session_date is:" .$consultantDefinition['session_date'] );        
+
+        if($definition_this_week['session_date'] < $now) {
+            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");
+
+        }
+
         if (empty($definition_this_week['student_id'])) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-CREATE_STUDENT_NOT_FOUND");
             //return Error::createLocatedError("کپی دانش آموز:دانش آموز مورد نظر یافت نشد.");

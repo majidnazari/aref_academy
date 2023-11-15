@@ -24,6 +24,15 @@ final class DivideConsultantDefinitionDetailTime
         $args["user_id"] = $user_id;
 
         $consultantDefinition = ConsultantDefinitionDetail::find($args['definition_id']);
+
+        $now=Carbon::now()->format("Y-m-d");
+         //Log::info("now is:"  . $now . " and session_date is:" .$consultantDefinition['session_date'] );        
+
+        if($consultantDefinition['session_date'] < $now) {
+            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");
+
+        }
+
         $division_time = $args['division_time'];
         
         if (!$consultantDefinition) {

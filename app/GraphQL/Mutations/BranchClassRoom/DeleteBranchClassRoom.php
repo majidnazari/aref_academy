@@ -23,6 +23,10 @@ final class DeleteBranchClassRoom
         $user_id=auth()->guard('api')->user()->id;
         //$args["user_id_creator"]=$user_id;
         $BranchClassRoomResult=BranchClassRoom::find($args['id']);
+
+        // if ($BranchClassRoomResult->references()->exists()) {
+        //     return Error::createLocatedError('BRANCHCLASSROOM-DELETE-IT_IS_USED_IN_OTHER_MODELS.');
+        // }
         
         if(!$BranchClassRoomResult)
         {

@@ -71,6 +71,14 @@ final class CopyOneDayTimeTable
         $consultant_id = $args['input']['consultant_id'];
         $target_date = $args['input']['session_date'];
 
+        $now=Carbon::now()->format("Y-m-d");
+         //Log::info("now is:"  . $now . " and session_date is:" .$consultantDefinition['session_date'] );        
+
+        if($target_date < $now) {
+            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");
+
+        }
+
         $dateToCheck = Carbon::parse( $target_date); 
 
         $weekStartDate =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");

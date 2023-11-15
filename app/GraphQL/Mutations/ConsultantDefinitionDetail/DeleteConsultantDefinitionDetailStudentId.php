@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutations\ConsultantDefinitionDetail;
 
 use App\Models\ConsultantDefinitionDetail;
 use App\Models\ConsultantFinancial;
+use Carbon\Carbon;
 use GraphQL\Error\Error;
 use Log;
 
@@ -22,6 +23,14 @@ final class DeleteConsultantDefinitionDetailStudentId
         $user_id=auth()->guard('api')->user()->id;
         $args["user_id"]=$user_id;
         $consultantDefinition=ConsultantDefinitionDetail::find($args['id']);
+
+        $now=Carbon::now()->format("Y-m-d");
+         //Log::info("now is:"  . $now . " and session_date is:" .$consultantDefinition['session_date'] );        
+
+        if($consultantDefinition['session_date'] < $now) {
+            return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");
+
+        }
         
         if(!$consultantDefinition)
         {

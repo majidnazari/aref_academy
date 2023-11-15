@@ -26,6 +26,7 @@ final class DeleteStudentWarning
         if(!$StudentWarning)
         {
                 return Error::createLocatedError("STUDENTWARNING-DELETE-RECORD_NOT_FOUND");
+                //return Error::createLocatedError("حذف اطلاع دانش آموز:رکورد مورد نظر یافت نشد.");
         }
         $CourseStudent_result= $StudentWarning->delete();        
        

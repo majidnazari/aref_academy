@@ -26,6 +26,7 @@ final class ResetPassword
         $user=User::where('email',$args['email'])->first();
         if($user_id_loged_in!=$user->id){
             return Error::createLocatedError('USER-AUTHORIZATION-FORBIDDEN');
+            //return Error::createLocatedError('تغییر رمز:خطای دسترسی.');
         }
         //$user = $context->user();
         if( $user)

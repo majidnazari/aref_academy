@@ -39,6 +39,7 @@ final class GetConsultantStudentsByDefinitionId
 
          if(!$ConsultantDefinitionDetail) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-GET_INVALID_ID");
+            //return Error::createLocatedError("نمایش جلسات مشاور:شماره رکورد مورد نظر اشتباه است.");
          }  
         $studentdsId=ConsultantFinancial::where('consultant_id',$ConsultantDefinitionDetail->consultant_id)
         ->where('student_status','ok')

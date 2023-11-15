@@ -26,6 +26,7 @@ final class UpdateCourseSession
         if(!$CourseSession)
          {
                  return Error::createLocatedError("COURSESESSION-UPDATE-RECORD_NOT_FOUND");
+                 //return Error::createLocatedError("بروز رسانی جلسات:رکورد مورد نظر یافت نشد.");
          }
         $CourseSession_result= $CourseSession->fill($args);
         $CourseSession_result->save();       

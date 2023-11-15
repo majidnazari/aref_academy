@@ -25,6 +25,7 @@ final class DeleteAbsencePresence
         if(!$AbsencePresence)
         {
             return Error::createLocatedError('ABSENCEPRESENCE-DELETE-RECORD_NOT_FOUND');
+            //return Error::createLocatedError('حذف حضور غیاب:رکورد مورد نظر پیدا نشد.');
         }
         $AbsencePresence_result= $AbsencePresence->delete();           
        

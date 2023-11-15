@@ -28,6 +28,7 @@ final class CreateFault
             ->first();
         if ($is_exist) {
             return Error::createLocatedError("FAULT-CREATE-RECORD_IS_EXIST");
+            //return Error::createLocatedError("ایجاد خطا: رکورد مورد نظر تکراری است.");
         }
         $fault_result = Fault::create($fault_date);
         return $fault_result;

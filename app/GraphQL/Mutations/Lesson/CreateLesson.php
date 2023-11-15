@@ -29,7 +29,8 @@ final class CreateLesson
         $lesson= Lesson::where('name',$args['name'])->first();        
         if($lesson)
         {
-            return Error::createLocatedError('LESSON-CREATE-RECORD_IS_EXIST');
+            return Error::createLocatedError("LESSON-CREATE-RECORD_IS_EXIST");
+            //return Error::createLocatedError("ایجاد درس:رکورد مورد نظر وجود دارد.");
         }
         $lesson_resut= Lesson::create($lesson_date);      
         return $lesson_resut;

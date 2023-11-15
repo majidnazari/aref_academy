@@ -33,6 +33,7 @@ final class DeleteCourseSession
 
         if (!$CourseSession) {
             return Error::createLocatedError("COURSESESSION-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف جلسات:رکورد مورد نظر یافت نشد.");
         }       
 
         $empty_absence_presence = AbsencePresence::where('course_session_id', $CourseSession->id)
@@ -52,6 +53,7 @@ final class DeleteCourseSession
         if ($empty_absence_presence > 0) {
 
             return Error::createLocatedError("COURSESESSION-DELETE-IT_IS_USED_BEFORE");
+            //return Error::createLocatedError("حذف جلسات:قبلا ثبت شده است.");
         }
        
         $CourseSession_result= $CourseSession->delete();        

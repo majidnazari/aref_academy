@@ -25,6 +25,7 @@ final class UpdateYear
 
         if (!$year) {
             return Error::createLocatedError("YEAR-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی سال تحصیلی: رکورد مورد نظر یافت نشد.");
         }
         $year_filled = $year->fill($args);
         $year->save();

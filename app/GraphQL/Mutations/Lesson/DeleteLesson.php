@@ -25,7 +25,8 @@ final class DeleteLesson
         $Lesson=Lesson::find($args['id']);
         if(!$Lesson)
         {
-            return Error::createLocatedError('LESSON-DELETE-RECORD_NOT_FOUND');
+            return Error::createLocatedError("LESSON-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف درس: رکورد مورد نظر یافت نشد.");
         }         
        
         $Fault_filled= $Lesson->delete(); 

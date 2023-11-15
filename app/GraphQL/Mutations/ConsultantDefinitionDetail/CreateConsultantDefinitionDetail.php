@@ -63,6 +63,7 @@ final class CreateConsultantDefinitionDetail
                 $next_time = Carbon::parse($start_hour)->addMinutes($args['step'])->format("H:i");
                 if ($next_time > $end_hour) {
                     return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_STEP_IS_INVALID");
+                    //return Error::createLocatedError("ایجاد زمانبندی روزانه: گام برنامه اشتباه تعریف شده است.");
                 }
 
                 $consultant_definition_detail_date = [
@@ -105,7 +106,8 @@ final class CreateConsultantDefinitionDetail
         }
 
         if ($error) {
-            return Error::createLocatedError("duplicate is:" .  json_encode($error));
+            //return Error::createLocatedError("duplicate is:" .  json_encode($error));
+            return Error::createLocatedError("ایجاد زمانبندی روزانه : تایم های تکراری شامل:" .  json_encode($error));
         }
 
         // foreach ($args['days'] as $day) {
@@ -316,7 +318,8 @@ final class CreateConsultantDefinitionDetail
         }
         if ($error) {
             //return response()->json(['error' => 'Records found in the model.'], Response::HTTP_UNPROCESSABLE_ENTITY);
-            return Error::createLocatedError("duplicate is:" .  json_encode($error));
+            return Error::createLocatedError("ایجاد زمانبندی روزانه : برنامه هفتگی تکراری است:" .  json_encode($error));
+            //return Error::createLocatedError("duplicates are: " .  json_encode($error));
             
         }
         $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);

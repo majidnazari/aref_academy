@@ -34,7 +34,8 @@ final class UpdateAbsencePresence
         $old_status = $AbsencePresence->status;
 
         if (!$AbsencePresence) {
-            return Error::createLocatedError('ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND');
+             return Error::createLocatedError('ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND');
+            //return Error::createLocatedError('حضور غیاب- رکورد مورد نظر برای به روز رسانی پیدا نشد.');
         }       
         $AbsencePresence_result = $AbsencePresence->fill($args);
         $AbsencePresence->save();        
@@ -46,7 +47,8 @@ final class UpdateAbsencePresence
         try {
             event(new  UpdateCourseStudentStatistics($params));
         } catch (\Exception $e) {           
-            return Error::createLocatedError('COURSESTUDENTTOTALREPORT-UPDATE-RECORD_NOT_FOUND_NEWVALUE');
+             return Error::createLocatedError('COURSESTUDENTTOTALREPORT-UPDATE-RECORD_NOT_FOUND_NEWVALUE');
+            //return Error::createLocatedError('گزارش دوره های دانش آموز: مقدار جدید در بروز رسانی پیدا نشد.');
         }
 
         return $AbsencePresence_result;
@@ -63,6 +65,7 @@ final class UpdateAbsencePresence
 
         if (!$AbsencePresence) {
             return Error::createLocatedError('ABSENCEPRESENCE-UPDATE-RECORD_NOT_FOUND_WITH_STUDENT_AND_COURSESESSION');
+            //return Error::createLocatedError(' بروز رسانی حضور غیاب: رکورد مورد نظر دانش آموز'.$args['student_id'].' با دوره دانش آموز پیدا نشد.');
         }
         $old_status = $AbsencePresence->status;
 
@@ -74,6 +77,7 @@ final class UpdateAbsencePresence
             event(new  UpdateCourseStudentStatistics($params));
         } catch (\Exception $e) {           
             return Error::createLocatedError('COURSESTUDENTTOTALREPORT-UPDATE-RECORD_NOT_FOUND_OLDVALUE');
+            //return Error::createLocatedError('بروز رسانی حضور غیاب: بروز رسانی مقادیر رکوردهای قدیمی با خطا روبرو شد.');
         }
 
         $AbsencePresence_result = $AbsencePresence->fill($args);
@@ -95,6 +99,7 @@ final class UpdateAbsencePresence
             event(new  UpdateCourseStudentStatistics($params));
         } catch (\Exception $e) {            
             return Error::createLocatedError('COURSESTUDENTTOTALREPORT-UPDATE-RECORD_NOT_FOUND_NEWVALUE');
+            //return Error::createLocatedError('بروز رسانی حضور غیاب : بروز رسانی گزارش دوره های دانش آموز با مقادیر جدید با خطا روبرو شد.');
         }
 
         return $AbsencePresence_result;

@@ -25,6 +25,7 @@ final class DeleteFault
 
         if (!$Fault) {
             return Error::createLocatedError("FAULT-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف خطا: رکورد مورد نظر یافت نشد.");
         }
         $Fault_filled = $Fault->delete();
         return $Fault;

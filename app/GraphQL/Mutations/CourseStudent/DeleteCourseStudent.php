@@ -26,6 +26,7 @@ final class DeleteCourseStudent
         if(!$CourseStudent)
         {
                 return Error::createLocatedError("COURSESTUDENT-DELETE-RECORD_NOT_FOUND");
+                //return Error::createLocatedError("حذف جلسات دانش آموز:رکورد مورد نظر یافت نشد.");
         }
         $CourseStudent_result= $CourseStudent->delete();        
        

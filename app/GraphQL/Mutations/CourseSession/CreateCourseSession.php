@@ -41,6 +41,7 @@ final class CreateCourseSession
         if($is_exist)
          {
                  return Error::createLocatedError("COURSESESSION-CREATE-RECORD_IS_EXIST");
+                 //return Error::createLocatedError("ایجاد جلسات: رکورد مورد نظر تکراری است.");
          }
         $CourseSession_result = CourseSession::create($CourseSession_date);
         return $CourseSession_result;

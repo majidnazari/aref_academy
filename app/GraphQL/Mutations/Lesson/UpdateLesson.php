@@ -24,7 +24,8 @@ final class UpdateLesson
         $Lesson=Lesson::find($args['id']);  
         if(!$Lesson)
         {
-            return Error::createLocatedError('LESSON-UPDATE-RECORD_NOT_FOUND');
+            return Error::createLocatedError("LESSON-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی درس: مورد مورد نظر یافت نشد.");
         }   
         $lesson_date=[           
              'name' => $args['name'],  
@@ -32,7 +33,8 @@ final class UpdateLesson
          $lesson=Lesson::where("name","=",$args['name'])->first();
          if($lesson)
          {
-             return Error::createLocatedError('LESSON-UPDATE-RECORD_IS_EXIST');
+             return Error::createLocatedError("LESSON-UPDATE-RECORD_IS_EXIST");
+             //return Error::createLocatedError("بروز رسانی درس:رکورد مورد نظر یافت نشد.");
          } 
         
         $year_filled= $Lesson->fill($args);

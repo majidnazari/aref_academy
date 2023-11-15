@@ -15,39 +15,46 @@ final class CreateCourseInputValidator extends Validator
     {
         return [
             // TODO Add your validation rules
-            "branch_id"=>[ 
+            "branch_id" => [
                 "required"
-                
+
             ],
-            "year_id"=> [
+            "year_id" => [
                 "required",
                 //'unique:course_students,student_id,NULL,id,course_id,' . $this->arg('course_id'),
             ],
-            "teacher_id"=>[ 
+            "teacher_id" => [
                 "required"
-                
+
             ],
-            "name"=>[ 
+            "name" => [
                 "required"
-                
+
             ],
-            "gender"=>[ 
+            "gender" => [
                 "required"
-                
+
             ],
-            "lesson_id"=>[ 
+            "lesson_id" => [
                 "required"
-                
+
             ],
-            "education_level"=>[ 
+            "education_level" => [
                 "required"
-                
+
             ],
-            "type"=>[ 
+            "type" => [
                 "required"
-                
+
             ],
-              
+
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'branch_id.required' => "وارد کردن این فیلد الزامی است.",
         ];
     }
 }

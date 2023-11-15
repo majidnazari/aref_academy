@@ -28,6 +28,7 @@ final class UpdateBranchClassRoom
         if(!$BranchClassRoomResult)
         {
             return Error::createLocatedError("BRANCHCLASSROOM-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی مراکز شعبه:رکورد مورد نظر یافت نشد.");
         }
         $BranchClassRoomResult_filled= $BranchClassRoomResult->fill($args);
         $BranchClassRoomResult->save();       

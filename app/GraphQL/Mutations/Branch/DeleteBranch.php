@@ -24,7 +24,8 @@ final class DeleteBranch
         
         if(!$BranchResult)
         {
-            return Error::createLocatedError("BRANCH-CREATE-RECORD_IS_EXIST");
+            return Error::createLocatedError("BRANCH-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف شعبه : شعبه مورد نظر پیدا نشد.");
         }
         $BranchResult_filled= $BranchResult->delete();  
         return $BranchResult;

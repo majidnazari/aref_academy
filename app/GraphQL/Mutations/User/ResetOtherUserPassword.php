@@ -32,7 +32,8 @@ final class ResetOtherUserPassword
 
         $user = User::where('email', $args['email'])->first();
         if (!$user) {
-            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER_NOT_FOUND');
+            return Error::createLocatedError("USER-UPDATE-PASSWORD-OTHER_NOT_FOUND");
+            //return Error::createLocatedError("بازیابی رمز:رکورد مورد نظر یافت نشد.");
         }
 
         if ((auth()->guard('api')->user()->email === $args['email']) && (auth()->guard('api')->user()->group->type == "admin")) // change admin himself/herself password
@@ -42,7 +43,8 @@ final class ResetOtherUserPassword
 
         $user_tobe_changed_role = User::where('email', $args['email'])->first()->group->type;
         if ($user_tobe_changed_role == "") {
-            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER-ROLE_IS_NULL');
+            return Error::createLocatedError("USER-UPDATE-PASSWORD-OTHER-ROLE_IS_NULL");
+            //return Error::createLocatedError("بازیابی رمز:گروه کاربری تعریف نشده است.");
         }
 
         return $this->hasAccessToRegister($user_tobe_changed_role, $user_role_loged_in, $user, $args['password'], $args['email']);
@@ -50,7 +52,8 @@ final class ResetOtherUserPassword
     public function hasAccessToRegister(string $user_tobe_changed_role, string $user_role_loged_in, User $user, String $newPassword, String $email)
     {
         if (!in_array($user_tobe_changed_role, $this->group_role_access[$user_role_loged_in])) {
-            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHERSـAUTHORIZATIONـFORBIDDEN');
+            return Error::createLocatedError("USER-UPDATE-PASSWORD-OTHERSـAUTHORIZATIONـFORBIDDEN");
+            //return Error::createLocatedError("بازیابی رمز:خطای احراز هویت.");
         }
         $result = $this->registerNewPassword($user, $newPassword, $email);
         return $result;
@@ -59,7 +62,8 @@ final class ResetOtherUserPassword
     {
         $result_user = User::where('email', $email)->first();
         if (!$result_user) {
-            return Error::createLocatedError('USER-UPDATE-PASSWORD-OTHER_NOT_FOUND');
+            return Error::createLocatedError("USER-UPDATE-PASSWORD-OTHER_NOT_FOUND");
+            //return Error::createLocatedError("بازیابی رمز:رکورد مورد نظر یافت نشد.");
         }
         $result_user->password = Hash::make($newPassword);
         $result_user->first_name = $user->first_name;

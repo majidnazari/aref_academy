@@ -26,10 +26,12 @@ final class DeleteConsultantDefinitionDetailStudentId
         if(!$consultantDefinition)
         {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف زمانبندی دانش آموز:بروز رسانی رکورد مورد نظر به علت وجود نداشتن رکورد با خطا مواجه شد.");
         }
         if($consultantDefinition['student_status']!="no_action")
         {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE-STUDENT_STATUS_FILLED");
+            //return Error::createLocatedError("حذف زمانبندی دانش آموز: به علت وجود داشتن وضعیت دانش آموز امکان حذف وجود ندارد.");
         }
         // if($consultantDefinition['student_status']!="no_action")
         // {

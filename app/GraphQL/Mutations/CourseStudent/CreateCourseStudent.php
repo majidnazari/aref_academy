@@ -92,6 +92,7 @@ final class CreateCourseStudent
                         event(new  UpdateCourseStudentStatistics($params));
                     } catch (\Exception $e) {                       
                         return Error::createLocatedError('COURSESTUDENTNOTREGISTERED-CREATE-RECORD_HAS_ERROR');
+                        //return Error::createLocatedError('ایجادجلسات دانش آموز: خطا در هنگام ثبت.');
                     }
                 }
         }

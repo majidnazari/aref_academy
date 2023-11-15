@@ -46,6 +46,7 @@ final class UpdateConsultantFinancial
 
         if (!$ConsultantFinancial) {
             return Error::createLocatedError("CONSULTANTFINANCIAL-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروزرسانی مالی مشاور: رکورد مورد نظر یافت نشد.");
         }
 
         $data = [

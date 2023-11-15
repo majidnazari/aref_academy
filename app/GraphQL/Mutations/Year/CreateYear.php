@@ -29,6 +29,7 @@ final class CreateYear
         $exist_year = Year::where('name', $args['name'])->where('active', $args['active'])->first();
         if ($exist_year) {
             return Error::createLocatedError("YEAR-CREATE-RECORD_IS_EXIST");
+            //return Error::createLocatedError("ایجاد سال تحصیلی:رکورد مورد نظر تکراری است.");
         }
         $year_resut = Year::create($year_date);
         return $year_resut;

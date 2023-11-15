@@ -24,6 +24,7 @@ final class UpdateUser
         $exist_user = User::where('id', $args['id'])->first();
         if (!$exist_user) {
             return Error::createLocatedError("USER-UPDATE-RECORD_IS_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی کاربر:رکورد مورد نظر یافت نشد.");
         }
         return  $this->updateUser($exist_user, $args);
     }

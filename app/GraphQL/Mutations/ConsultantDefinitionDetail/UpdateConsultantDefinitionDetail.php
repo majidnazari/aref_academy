@@ -28,6 +28,7 @@ final class UpdateConsultantDefinitionDetail
         if(!$consultantDefinition)
         {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی زمانبندی جلسات: رکورد مورد نظر یافت نشد.");
         }
         $consultantDefinition_filled= $consultantDefinition->fill($args);
            

@@ -81,6 +81,7 @@ final class CopyOneDayTimeTable
 
         if(!$isInCurrentWeek){
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-COPY_DATE_IS_NOT_IN_THIS_WEEK");
+            //return Error::createLocatedError("کپی برنامه روزانه: روز مورد در نظر در هفته جاری نیست.");
 
         }
 
@@ -108,6 +109,7 @@ final class CopyOneDayTimeTable
 
         if (empty($timeTablesOfThisDay)) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-COPY_THIS_DAY_NOT_FOUND");
+            //return Error::createLocatedError("کپی برنامه روزانه : روز مورد نظر یافت نشد.");
         }
 
 
@@ -156,7 +158,8 @@ final class CopyOneDayTimeTable
 
         if ($error) {
             //return response()->json(['error' => 'Records found in the model.'], Response::HTTP_UNPROCESSABLE_ENTITY);
-            return Error::createLocatedError("duplicate is:" .  json_encode($error));
+           // return Error::createLocatedError("duplicate is:" .  json_encode($error));
+            return Error::createLocatedError("کپی برنامه روزانه: جلسات مورد نظر تکراری است:" .  json_encode($error));
         }
         $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);
         return null;

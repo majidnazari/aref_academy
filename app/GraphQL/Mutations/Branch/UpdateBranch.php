@@ -27,6 +27,7 @@ final class UpdateBranch
         if(!$BranchResult)
         {
             return Error::createLocatedError("BRANCH-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی شعبه: رکورد مورد نظر یافت نشد.");
         }
         $BranchResult_filled= $BranchResult->fill($args);
         $BranchResult->save();       

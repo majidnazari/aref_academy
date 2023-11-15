@@ -27,6 +27,7 @@ final class DeleteBranchClassRoom
         if(!$BranchClassRoomResult)
         {
             return Error::createLocatedError("BRANCHCLASSROOM-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف کلا سهای شعبه:رکورد مورد نظر یافت نشد. ");
         }
         $BranchClassRoomResult_filled= $BranchClassRoomResult->delete();              
        

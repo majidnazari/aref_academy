@@ -26,6 +26,7 @@ final class DeleteConsultantFinancial
         if(!$ConsultantFinancial)
         {
             return Error::createLocatedError("CONSULTANTFINANCIAL-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف مالی مشاوران:رکورد مورد نظر یافت نشد.");
         }
         $ConsultantFinancial_filled= $ConsultantFinancial->delete();
         $ConsultantFinancial->save();       

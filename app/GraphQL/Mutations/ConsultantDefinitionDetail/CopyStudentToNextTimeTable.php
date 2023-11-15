@@ -36,6 +36,7 @@ final class CopyStudentToNextTimeTable
 
         if (empty($definition_this_week['student_id'])) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-CREATE_STUDENT_NOT_FOUND");
+            //return Error::createLocatedError("کپی دانش آموز:دانش آموز مورد نظر یافت نشد.");
         }
 
         $student_id = $definition_this_week['student_id'];
@@ -52,10 +53,12 @@ final class CopyStudentToNextTimeTable
 
         if (empty($definition_next_week)) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-CREATE_NEXT_TIME_NOT_FOUND");
+            //return Error::createLocatedError("کپی دانش آموز: زمانبندی هفته بعد برای این دانش آموز وجود ندارد.");
         }
 
         if (!empty($definition_next_week["student_id"])) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-CREATE_NEXT_TIME_HAS_STUDENT");
+            //return Error::createLocatedError("کپی دانش آموز:تایم هفته آینده پر است.");
         }
 
         $definition_next_week["student_id"] = $student_id;

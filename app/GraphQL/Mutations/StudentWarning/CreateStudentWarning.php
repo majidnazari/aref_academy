@@ -35,7 +35,8 @@ final class CreateStudentWarning
         $is_exist_student_warning = StudentWarning::where("student_id", $args['student_id'])->first();
 
         if ($is_exist_student_warning) {
-            return Error::createLocatedError('STUDENT-WARNING-RECORD_IS_EXIST');
+            return Error::createLocatedError("STUDENT-WARNING-RECORD_IS_EXIST");
+            //return Error::createLocatedError("ایجاد اطلاع دانش آموز:رکورد مورد نظر یافت نشد.");
         }
         return $this->addStudentComment($student_warning_params);
     }

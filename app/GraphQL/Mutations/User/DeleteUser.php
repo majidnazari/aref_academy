@@ -25,9 +25,11 @@ final class DeleteUser
         $user = User::find($args['id']);
         if ($user_id == $args['id']) {
             return Error::createLocatedError("USER-DELETE-CANNOT_SUICIDE");
+            //return Error::createLocatedError("حذف کاربر: نمیتوانید خود را حذف کنید.");
         }
         if (!$user) {
             return Error::createLocatedError("USER-DELETE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("حذف دانش آموز: رکورد مورد نظر یافت نشد.");
         }
         $user_filled = $user->delete();
         return $user;

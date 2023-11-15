@@ -26,10 +26,12 @@ final class UpdateCourseStudent
 
         if (!$CourseStudente) {
             return Error::createLocatedError("COURSESTUDENT-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی جلسات دانش آموز:رکورد مورد نظر یافت نشد.");
         }
 
         if ((auth()->guard('api')->user()->group->type == "acceptor") && (in_array($args['student_status'], ["refused_pending", "fired_pending"]) == false)) {
             return Error::createLocatedError("COURSESTUDENT-UPDATE-ACTION_FORBIDEN");
+            //return Error::createLocatedError("بروز رسانی جلسات دانش آموز:خطای دسترسی.");
         }
         if (isset($args['financial_status'])) {
             $CourseStudente['financial_status_updated_at'] = Carbon::now();

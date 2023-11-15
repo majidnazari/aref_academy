@@ -25,10 +25,12 @@ final class DeleteConsultantDefinitionDetail
         $ConsultantDefinitionDetailResultIds = ConsultantDefinitionDetail::where('id', $args['id'])->first();
         if (!$ConsultantDefinitionDetailResultIds) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-DELETE_NOT_FOUND");
+            //return Error::createLocatedError("حذف برنامه زمانبندی: رکورد مورد نظر یافت نشد.");
         }
 
         if ((!empty($ConsultantDefinitionDetailResultIds['student_id']))  || ($ConsultantDefinitionDetailResultIds['student_status'] !== "no_action")) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-THIS_TIME_HAS_STUDENT");
+            //return Error::createLocatedError("حذف برنامه زمانبندی: این تایم دانش آموز ست شده است.");
         }
         $ConsultantDefinitionDetail_deleted= ConsultantDefinitionDetail::where('id',$args['id'])->delete();  
 

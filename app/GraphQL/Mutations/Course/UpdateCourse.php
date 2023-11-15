@@ -31,6 +31,7 @@ final class UpdateCourse
         if(!$course)
         {
             return Error::createLocatedError("COURSE-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروزرسانی دوره:رکورد مورد نظر یافت نشد.");
         }
         $course_filled= $course->fill($args);
         $course->save();       

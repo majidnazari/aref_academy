@@ -25,6 +25,7 @@ final class UpdateFault
         if(!$Fault)
         {
             return Error::createLocatedError("FAULT-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی خطا:رکورد مورد نظر یافت نشد.");
         }
         $fault_date=[
             //'user_id_creator' => $user_id,
@@ -36,6 +37,7 @@ final class UpdateFault
         if($is_exist)
         {
             return Error::createLocatedError("FAULT-UPDATE-RECORD_IS_EXIST");
+            //return Error::createLocatedError("بروز رسانی خطا:رکورد مورد نظر وجود دارد.");
         }
        
         $Fault_filled= $Fault->fill($args);

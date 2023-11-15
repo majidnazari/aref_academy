@@ -48,7 +48,8 @@ final class CreateConsultantFinancial
 
         if($is_exist)
          {
-                 return Error::createLocatedError("CONSULTANTFINANCIAL-CREATE-RECORD_IS_EXIST");
+                return Error::createLocatedError("CONSULTANTFINANCIAL-CREATE-RECORD_IS_EXIST");
+                 //return Error::createLocatedError("ایجاد مالی مشاوران:رکورد مورد نظر تکراری است.");
          }
         $ConsultantFinancial_result=ConsultantFinancial::create($ConsultantFinancialResult);
         return $ConsultantFinancial_result;       

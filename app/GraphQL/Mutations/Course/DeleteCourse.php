@@ -31,6 +31,7 @@ final class DeleteCourse
         if(!$course)
         {
             return Error::createLocatedError("COURSE-DELETE-RECORD_NOT_FOUND");
+           // return Error::createLocatedError("حذف دوره: رکورد مورد نظر یافت نشد.");
         }
         $course_filled= $course->delete();
         $course->save();       

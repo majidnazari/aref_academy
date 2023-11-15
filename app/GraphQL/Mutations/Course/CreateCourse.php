@@ -45,6 +45,7 @@ final class CreateCourse
         if($is_exist)
          {
                  return Error::createLocatedError("COURSE-CREATE-RECORD_IS_EXIST");
+                 //return Error::createLocatedError("ایجاد دوره:رکورد مورد نظر تکراری است.");
          }
         $course_result=Course::create($course_date);
         return $course_result;

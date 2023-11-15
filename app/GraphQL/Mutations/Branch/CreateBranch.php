@@ -34,6 +34,7 @@ final class CreateBranch
         if($is_exist)
          {
                  return Error::createLocatedError("BRANCH-CREATE-RECORD_IS_EXIST");
+                // return Error::createLocatedError("ایجاد شعبه : رکورد مورد نظر تکراری است.");
          }
         $BranchResult_result=Branch::create($BranchResult);
         return $BranchResult_result;

@@ -28,6 +28,7 @@ final class DivideConsultantDefinitionDetailTime
         
         if (!$consultantDefinition) {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_RECORD_NOT_FOUND");
+            //return Error::createLocatedError("تقسیم زمانبندی مشاور: رکورد مورد نظر یافت نشد.");
         }
         $start_hour = $consultantDefinition['start_hour'];
         $end_hour = $consultantDefinition['end_hour'];
@@ -36,12 +37,14 @@ final class DivideConsultantDefinitionDetailTime
         //Log::info("step is:" . $division_time);
         if($division_time < 0 ){
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-DIVISION_CANNOT_BE_UNDER_ZERO");
+            //return Error::createLocatedError("تقسیم زمانبندی مشاور: گام مربوطه نمیتواند منفی باشد!!.");
         }
         $twoTimes = Carbon::parse($end_hour_dived)->format("H:i") >=  Carbon::parse($end_hour)->format("H:i");
         $newStartWithOldEndCompair = Carbon::parse( $end_hour_dived)->format("H:i") >=  Carbon::parse($end_hour)->format("H:i");
 
         if ($twoTimes && ($newStartWithOldEndCompair) ) {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-DIVISION_IS_NOT_POSSIBLE");
+            //return Error::createLocatedError("تقسیم زمانبندی مشاور: به علت تداخل زمانبندی امکان تقسیم جلسه وجود ندارد.");
         }
         $consultantDefinition["start_hour"]=$end_hour_dived;
         $consultantDefinition->save();

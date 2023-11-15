@@ -28,6 +28,7 @@ final class UpdateStudentWarningHistory
 
         if (!$student_warning_history) {
             return Error::createLocatedError("STUDENTWARNINGHISTORY-UPDATE-RECORD_NOT_FOUND");
+            //return Error::createLocatedError("بروز رسانی سابقه دانش آموز:رکورد مورد نظر یافت نشد.");
         }
 
         $student_warning_history_filled = $student_warning_history->fill($args);

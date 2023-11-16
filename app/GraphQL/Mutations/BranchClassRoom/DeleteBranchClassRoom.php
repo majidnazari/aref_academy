@@ -6,6 +6,7 @@ use App\Models\BranchClassRoom;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Error\Error;
+use Log;
 
 final class DeleteBranchClassRoom
 {
@@ -33,7 +34,14 @@ final class DeleteBranchClassRoom
             return Error::createLocatedError("BRANCHCLASSROOM-DELETE-RECORD_NOT_FOUND");
             //return Error::createLocatedError("حذف کلا سهای شعبه:رکورد مورد نظر یافت نشد. ");
         }
-        $BranchClassRoomResult_filled= $BranchClassRoomResult->delete();              
+
+        // check if it is used
+        // Log::info("c: " . json_encode($BranchClassRoomResult->consultantDefinitionDetails));
+        if ($BranchClassRoomResult->consultantDefinitionDetails && count($BranchClassRoomResult->consultantDefinitionDetails)) {
+            return Error::createLocatedError("BRANCHCLASSROOM-DELETE-RECORD_USED_IN_CONSULTANT_DEFINITION_DETAIL");
+        }
+
+        $BranchClassRoomResult->delete();              
        
         return $BranchClassRoomResult;
 

@@ -27,4 +27,8 @@ class BranchClassRoom extends Model implements Auditable
     {
         return $this->belongsTo(Branch::class, "branch_id")->withTrashed();
     }
+    public function consultantDefinitionDetails()
+    {
+        return $this->hasMany(ConsultantDefinitionDetail::class, 'branch_class_room_id');
+    }
 }

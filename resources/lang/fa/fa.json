@@ -99,6 +99,7 @@
     "STUDENTWARNINGHISTORY-UPDATE-RECORD_NOT_FOUND":"بروز رسانی سابقه دانش آموز:رکورد مورد نظر یافت نشد.",   
 
     "COUNSULTANT-DEFINITION-DETAIL-GET_INVALID_ID":"نمایش جلسات مشاور:شماره رکورد مورد نظر اشتباه است.",
-    "CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED":"ویرایش جلسات در روزهای گذشته امکان پذیر نیست."
+    "CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED":"ویرایش جلسات در روزهای گذشته امکان پذیر نیست.",
+    "BRANCHCLASSROOM-DELETE-RECORD_USED_IN_CONSULTANT_DEFINITION_DETAIL":"حذف کلاس فیزیکی مراکز: این کلاس در تعاریف جلسات زمانبندی مشاور استفاده شده است."
 
 }

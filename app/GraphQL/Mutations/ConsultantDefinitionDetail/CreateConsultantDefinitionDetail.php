@@ -80,17 +80,31 @@ final class CreateConsultantDefinitionDetail
                 //     ->first();
                 //     Log::info(json_encode($all_of_consultant_data_collection));
                 //     Log::info("existance is:"  . $is_exist);
-                $is_exist = $this->validateSession($all_of_consultant_data_collection, $consultant_definition_detail_date);
+                $is_exist_consultant = $this->validateSessionConsultant($all_of_consultant_data_collection, $consultant_definition_detail_date);
                 // return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_RECORD_ALREADY_EXIST");                   
 
-                if ($is_exist) {
+                if ($is_exist_consultant) {
                     $error[] = [
                         "date" => $consultant_definition_detail_date['session_date'],
                         "start_hour" => $consultant_definition_detail_date['start_hour'],
                         "end_hour" => $consultant_definition_detail_date['end_hour'],
+                        "branch_class_room_id" => $consultant_definition_detail_date['branch_class_room_id'],
+                        "consultant_id" => $consultant_definition_detail_date['consultant_id'],
                     ];
                     continue;
                     //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_RECORD_ALREADY_EXIST");                   
+                }
+                $is_exist_class_room = $this->validateSessionClassRoom($all_of_consultant_data_collection, $consultant_definition_detail_date);
+               
+                if ($is_exist_class_room) {
+                    $error[] = [
+                        "date" => $consultant_definition_detail_date['session_date'],
+                        "start_hour" => $consultant_definition_detail_date['start_hour'],
+                        "end_hour" => $consultant_definition_detail_date['end_hour'],
+                        "branch_class_room_id" => $consultant_definition_detail_date['branch_class_room_id'],
+                        "consultant_id" => $consultant_definition_detail_date['consultant_id'],
+                    ];
+                    continue;
                 }
 
                 $data[] = $consultant_definition_detail_date;
@@ -174,7 +188,7 @@ final class CreateConsultantDefinitionDetail
         }
     }
 
-    public function validateSession($all_times_of_next_week_collection,  $target_session_time_want_to_check_next_week)
+    public function validateSessionConsultant($all_times_of_next_week_collection,  $target_session_time_want_to_check_next_week)
     {
 
         $all_times_of_next_week_collection_copy = clone $all_times_of_next_week_collection;
@@ -211,9 +225,10 @@ final class CreateConsultantDefinitionDetail
             })
             ->first();
 
-        //Log::info("validateSession is:" . json_encode($is_exist));
+        //Log::info("validateSessionConsultant is:" . json_encode($is_exist));
         return  $is_exist;
     }
+
 
     public function copyWeekTimeTable($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
@@ -297,7 +312,7 @@ final class CreateConsultantDefinitionDetail
 
                 //Log::info("all  are :" . json_encode($getAllOfConsultantTimeTableNextWeeksQueryBuilder->get()));
 
-                $is_exist = $this->validateSession($getAllOfConsultantTimeTableNextWeeksQueryBuilder,  $session_to_check_in_next_week);
+                $is_exist = $this->validateSessionConsultant($getAllOfConsultantTimeTableNextWeeksQueryBuilder,  $session_to_check_in_next_week);
 
                 //Log::info("is_exist  is:" . json_encode($is_exist));
 
@@ -322,4 +337,44 @@ final class CreateConsultantDefinitionDetail
         //     ->setStatusCode(201);
     }
    
+    public function validateSessionClassRoom($all_times_of_next_week_collection,  $target_session_time_want_to_check_next_week)
+    {
+
+        $all_times_of_next_week_collection_copy = clone $all_times_of_next_week_collection;
+        //Log::info("inner all are:" . json_encode($all_times_of_next_week_collection));
+        // Log::info("inner target is:" . json_encode($target_session_time_want_to_check_next_week));
+        $target_session_date = $target_session_time_want_to_check_next_week;
+        $is_exist = "";
+        $is_exist =  $all_times_of_next_week_collection_copy
+            //->where('branch_class_room_id', $consultant_definition_detail_date['branch_class_room_id'])         
+            ->where('branch_class_room_id', $target_session_date['branch_class_room_id'])
+            ->where('session_date', $target_session_date['session_date'])
+            ->where('start_hour', $target_session_date['start_hour'])
+            ->where('end_hour', $target_session_date['end_hour'])
+            ->orWhere(function ($query) use ($target_session_date) {
+
+                $query->where('start_hour', '<=', $target_session_date['start_hour'])
+                    ->where('end_hour', '>=', $target_session_date['end_hour'])
+                    ->where('branch_class_room_id', $target_session_date['branch_class_room_id'])
+                    ->where('session_date', $target_session_date['session_date']);
+            })
+            ->orWhere(function ($query) use ($target_session_date) {
+
+                $query->where('start_hour', '>=', $target_session_date['start_hour'])
+                    ->where('end_hour', '<=', $target_session_date['end_hour'])
+                    ->where('branch_class_room_id', $target_session_date['branch_class_room_id'])
+                    ->where('session_date', $target_session_date['session_date']);
+            })
+            ->orWhere(function ($query) use ($target_session_date) {
+
+                $query->where('end_hour', '>', $target_session_date['start_hour'])
+                    ->where('start_hour', '<', $target_session_date['end_hour'])
+                    ->where('branch_class_room_id', $target_session_date['branch_class_room_id'])
+                    ->where('session_date', $target_session_date['session_date']);
+            })
+            ->first();
+
+        //Log::info("validateSessionConsultant is:" . json_encode($is_exist));
+        return  $is_exist;
+    }
 }

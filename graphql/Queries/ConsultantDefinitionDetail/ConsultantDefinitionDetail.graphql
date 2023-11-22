@@ -40,3 +40,31 @@ getConsultantDefinitionDetails(
     @guard(with:["api"])
     #  @can(ability: "view") 
     @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantStudentsByDefinitionId@resolveConsultantStudentsByDefinitionId") 
+
+
+    getConsultantDefinitionDetailsGenerealReport(
+        #  status:String @like(template: "%{}%")
+         consultant_id:Int
+         consultant_test_id:Int
+         session_date_from:String
+        #  session_date_days:[DaysOfWeek]
+         session_date_to:String
+         branch_class_room_id:Int
+         branch_id:Int
+         user_id:Int
+         step:Int
+         start_hour_from:String
+         start_hour_to:String
+         end_hour_from:String
+         end_hour_to:String
+        #  session_date:Date
+         student_status:[StudentStatus]
+         student_id:Int @eq
+         absent_present_description:String
+         test_description:String        
+
+         orderBy:[OrderByClause!] @orderBy
+    ): [ConsultantDefinitionDetailGeneralReport]
+        @guard(with:["api"])
+   
+        @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetailsReport@resolveConsultantDefinitionDetailGeneralReport") 

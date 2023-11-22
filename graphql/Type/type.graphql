@@ -1054,6 +1054,30 @@ type ConsultantDefinitionDetail @key(fields: "id") {
     user: User @belongsTo
     branchClassRoom: BranchClassRoom @belongsTo
 }
+
+type ConsultantDefinitionDetailGeneralReport{
+    total_consultant_students: Int
+    total_consultant_definition:Int
+    # empirical_student_total => 6,
+    # humanities_student_total => 2,
+    # mathematics_student_total => 2,
+    total_student_present: Int
+    total_student_present_hours:Float
+    total_student_absence:Int
+    total_student_absence_hours: Float
+    total_student_delay:Int
+    total_student_delay_hours: Float
+    
+
+    total_consultant_obligation_hours: Float
+    total_consultant_present_hours: Float
+    total_consultant_absence_hours: Float
+    total_consultant_earlier_hours: Float
+ 
+
+   details:[ConsultantDefinitionDetail]
+}
+
 type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
     id: ID
     consultant_id: Int

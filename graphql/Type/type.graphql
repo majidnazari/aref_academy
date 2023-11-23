@@ -1123,6 +1123,7 @@ type ConsultantFinancial @key(fields: "id") {
     user_id_student_status: Int
     description: String
     financial_status_updated_at: DateTime
+    created_at: DateTime
 
     consultant: User @belongsTo
     user: User @belongsTo

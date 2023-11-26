@@ -35,17 +35,19 @@ final class GetConsultantDefinitionDetailsReport
                 if ($branch_id) {
                     $query->whereIn('branch_id', $branch_id);
                 }
-            })->pluck('id');
+            })->select("id","first_name","last_name")
+            ->get();
 
-        //Log::info("consultants are:" . json_encode($consultants));
+        // Log::info("consultants are:" . json_encode($consultants));
 
         foreach ($consultants as $consultant) {
 
             $ConsultantDefinitionDetail = "";
+            $consultant_id=$consultant['id'];
             $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('deleted_at', null)
-                ->where(function ($query) use ($args, $branch_id, $branch_class_ids, $consultant) {
-                    if (isset($consultant))
-                        $query->where('consultant_id', $consultant);
+                ->where(function ($query) use ($args, $branch_id, $branch_class_ids, $consultant_id ) {
+                    if (isset( $consultant_id))
+                        $query->where('consultant_id',  $consultant_id);
                     if ($branch_class_ids) {
                         $query->whereIn('branch_class_room_id', $branch_class_ids);
                     }
@@ -65,13 +67,15 @@ final class GetConsultantDefinitionDetailsReport
                     if (isset($args['step'])) $query->where('step', $args['step']);
                 })
                 //->with(['user', 'consultant', 'branchClassRoom'])            
-                ->select('consultant_id', 'student_id', 'student_status', 'step', 'session_status', 'consultant_status')
+                ->select('id','consultant_id', 'student_id', 'student_status', 'step', 'session_status', 'consultant_status')
                 ->orderBy('session_date', 'asc')
                 ->get();
 
+         //Log::info("ConsultantDefinitionDetail are:" . json_encode($ConsultantDefinitionDetail));
 
 
             $data[] = [
+                "consultant_fullname" => $consultant['first_name'] ."  " . $consultant['last_name'], 
                 "total_consultant_students" => $this->get_total_student_of_consultant($ConsultantDefinitionDetail),
                 "total_consultant_definition" => $this->get_consultant_definition($ConsultantDefinitionDetail),
                 // "empirical_student_total" => 6,
@@ -90,7 +94,7 @@ final class GetConsultantDefinitionDetailsReport
                 "total_consultant_earlier_hours" => $this->get_total_consultant_earlier_hours($ConsultantDefinitionDetail),
 
 
-                "details" => $ConsultantDefinitionDetail
+                "details" => clone $ConsultantDefinitionDetail
             ];
         }
 

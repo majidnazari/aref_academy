@@ -51,10 +51,14 @@ final class CopyStudentToNextTimeTable
         $next_session = Carbon::parse($definition_this_week['session_date'])->addDays(7)->format("Y-m-d");
         $start_hour = $definition_this_week["start_hour"];
         $end_hour = $definition_this_week["end_hour"];
+        $consultant_id = $definition_this_week["consultant_id"];
+        $branch_class_room_id = $definition_this_week["branch_class_room_id"];
 
         $definition_next_week = ConsultantDefinitionDetail::where("session_date", $next_session)
             ->where("start_hour", $start_hour)
             ->where("end_hour", $end_hour)
+            ->where("consultant_id", $consultant_id)
+            ->where("branch_class_room_id", $branch_class_room_id)
             ->first();
 
         //Log::info("next is:" .  json_encode($definition_next_week));

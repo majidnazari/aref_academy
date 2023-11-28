@@ -22,6 +22,9 @@ final class GetConsultantDefinitionDetailsReport
         if (isset($args['consultant_id']) && ($args['consultant_id']=== -1) ) {
             return [];
         }
+        // if (isset($args['session_date_from']) && (Carbon::parse($args['session_date_from'])) ) {
+        //     return [];
+        // }
 
         $branch_id = auth()->guard('api')->user()->branch_id;
         $branch_class_ids = BranchClassRoom::where('deleted_at', null)

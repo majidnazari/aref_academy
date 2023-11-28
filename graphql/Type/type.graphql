@@ -1055,7 +1055,11 @@ type ConsultantDefinitionDetail @key(fields: "id") {
     branchClassRoom: BranchClassRoom @belongsTo
 }
 
-type ConsultantDefinitionDetailGeneralReport{
+# input ConsultantDefinitionDetailGeneralReportInput {
+
+# }
+
+type ConsultantDefinitionDetailGeneralReport {
     consultant_fullname:String
     total_consultant_students: Int
     total_consultant_definition:Int

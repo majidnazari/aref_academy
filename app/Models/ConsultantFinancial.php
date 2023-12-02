@@ -48,7 +48,12 @@ class ConsultantFinancial extends Model implements Auditable
     public function financial()
     {
         return $this->belongsTo(User::class,"user_id_financial")->withTrashed();
-    }   
+    } 
+    public function userStudentStatus()
+    {
+        return $this->belongsTo(User::class,"user_id_student_status")->withTrashed();
+    } 
+      
     public function branch()
     {
         return $this->belongsTo(Branch::class,"branch_id")->withTrashed();

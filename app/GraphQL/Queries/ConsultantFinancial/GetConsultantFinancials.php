@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Models\Branch;
 use AuthRole;
+use Log;
 
 
 final class GetConsultantFinancials
@@ -60,10 +61,32 @@ final class GetConsultantFinancials
             isset($args['user_id_financial']) ? $ConsultantFinancial->where('user_id_financial', '>=', $args['user_id_financial']) : '';
             isset($args['user_id_student_status']) ? $ConsultantFinancial->where('user_id_student_status', $args['user_id_student_status']) : '';
             isset($args['description']) ? $ConsultantFinancial->where('description', $args['description']) : '';
+            isset($args['date_from']) ? $ConsultantFinancial->where('created_at','>=', $args['date_from']) : '';
+            isset($args['date_to']) ? $ConsultantFinancial->where('created_at','<=', $args['date_to']) : '';
+           if (isset($args['total_present']) )
+           {
+            $ConsultantFinancial
+            ->groupBy('student_id')
+            ->havingRaw("COUNT(student_id) = ".$args['total_present']  );
+            //    $consultantFinancial_copy = clone $ConsultantFinancial;
+            //    $result=$this->find_total_present_in_consultant_fifancial($ConsultantFinancial,$args['total_present']);
+
+           }
 
             return $ConsultantFinancial;
         }
         return ConsultantFinancial::where('deleted_at', null)
             ->where('id', -1);
+    }
+
+    public function find_total_present_in_consultant_fifancial($consultantFinancial_copy,$total_present){
+
+
+       $result= $consultantFinancial_copy
+       ->groupBy('student_id')
+       ->havingRaw("COUNT(student_id) =  $total_present" );
+       return $result;
+      
+       //Log::info("result are:" . json_encode($result));
     }
 }

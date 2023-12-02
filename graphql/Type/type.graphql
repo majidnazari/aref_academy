@@ -1132,6 +1132,8 @@ type ConsultantFinancial @key(fields: "id") {
 
     consultant: User @belongsTo
     user: User @belongsTo
+    userStudentStatus: User @belongsTo
+    
     manager: User @belongsTo
     financial: User @belongsTo
     year: Year @belongsTo

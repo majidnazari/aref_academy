@@ -12,7 +12,10 @@ getConsultantFinancial(id:ID!):ConsultantFinancial @guard(with:["api"]) @can(abi
       user_id_manager:Int
       user_id_financial:Int
       user_id_student_status:Int
-      description:String      
+      description:String     
+      date_from:String 
+      date_to:String 
+      total_present:Int
       orderBy:[OrderByClause!] @orderBy
 
 

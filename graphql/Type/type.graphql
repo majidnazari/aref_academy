@@ -441,11 +441,16 @@ input UpdateConsultantDefinitionDetailsInput @validator {
 }
 input UpdateConsultantDefinitionDetailHasStudentInput @validator {
     id: ID!
+    compensatory_of_definition_detail_id:Int
+    compensatory_for_definition_detail_id:Int
     student_id: Int!
     student_status: String
     session_status: String
     consultant_status: String
     absent_present_description: String
+    remote: Boolean
+    compensatory_meet:Boolean
+    single_meet:Boolean
 }
 
 input DeleteConsultantDefinitionDetailStudentIdInput {
@@ -1033,6 +1038,11 @@ type CourseReportAtSpecialTime @key(fields: "id") {
 
 type ConsultantDefinitionDetail @key(fields: "id") {
     id: ID
+    compensatory_for_definition_detail_id:Int
+    compensatory_of_definition_detail_id:Int
+
+    compensatoryOfDefinitionDetail: ConsultantDefinitionDetail @ belongsTo
+
     consultant_id: Int
     student_id: Int
     branch_class_room_id: Int
@@ -1043,16 +1053,22 @@ type ConsultantDefinitionDetail @key(fields: "id") {
     end_hour: String
     session_date: Date
     student_status: StudentStatus
+    user_id_student_status: Int
+    student_status_updated_at: String
     consultant_status: StudentStatus
     session_status: SessionStatus
     absent_present_description: String
     test_description: String
     # student_id:Int
     step: Int
+    remote: Boolean
+    compensatory_meet:Boolean
+    single_meet:Boolean
 
     consultant: User @belongsTo
     user: User @belongsTo
     branchClassRoom: BranchClassRoom @belongsTo
+    userStudentStatus: User @belongsTo
 }
 
 # input ConsultantDefinitionDetailGeneralReportInput {
@@ -1085,6 +1101,11 @@ type ConsultantDefinitionDetailGeneralReport {
 
 type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
     id: ID
+    compensatory_for_definition_detail_id: Int
+    compensatory_of_definition_detail_id: Int
+    compensatory_of_definition_detail_session_date: String
+    compensatory_of_definition_detail_start_hour: String
+    compensatory_of_definition_detail_end_hour: String
     consultant_id: Int
     consultant_first_name: String
     consultant_last_name: String
@@ -1100,11 +1121,17 @@ type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
     end_hour: String
     session_date: Date
     student_status: StudentStatus
+    user_id_student_status: Int
+    user_student_status_full_name: String
+    student_status_updated_at: String
     absent_present_description: String
     test_description: String
     step: Int
     branchClassRoom_id: Int
-    branchClassRoom_name: String
+    branchClassRoom_name: String  
+    remote: Boolean
+    compensatory_meet:Boolean
+    single_meet:Boolean
 }
 type ConsultantDefinitionDetailOrderByDate {
     date: Date

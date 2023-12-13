@@ -45,6 +45,7 @@ final class UpdateConsultantDefinitionDetailsInputValidator extends Validator
                 "nullable",
                 'in:no_action,absent,present,dellay'
             ],
+            
         ];
     }
 }

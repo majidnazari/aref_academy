@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Validators;
 
+use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Validation\Validator;
 
 final class UpdateConsultantDefinitionDetailHasStudentInputValidator extends Validator
@@ -31,6 +32,11 @@ final class UpdateConsultantDefinitionDetailHasStudentInputValidator extends Val
                 "nullable",
                 'in:no_action,absent,present,dellay5,dellay10,dellay15,dellay15more'
             ],
+            'compensatory_of_definition_detail_id' =>
+            [               
+                "required_if:compensatory_meet,true",
+                Rule::exists('consultant_definition_details', 'id')->whereNull('deleted_at')
+            ]
         ];
     }
 }

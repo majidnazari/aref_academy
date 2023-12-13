@@ -28,4 +28,7 @@
       copyOneDayOfOneConsultantTimeTable(input:CopyConsultantOneDayTimeTableInput!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyOneDayTimeTable@CopyOneConsulatntDayTimeTable")
 
+      removeCompensatoryMeet(definition_detail_id: ID!): ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"])
+      @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\removeCompensatoryMeet@resolver")
+
 #end ConsultantDefinitionDetail

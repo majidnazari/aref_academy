@@ -75,6 +75,7 @@ class User extends Authenticatable implements Auditable //implements JWTSubject 
     {
         return $this->belongsTo(Branch::class, "branch_id");
     }
+    
     public function courseSessions()
     {
         return $this->hasmany('CourseSession');

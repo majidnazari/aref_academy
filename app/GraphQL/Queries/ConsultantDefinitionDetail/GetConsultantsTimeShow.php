@@ -80,6 +80,11 @@ final class GetConsultantsTimeShow
                     "id" => $singlerecord->id,
                     "consultant_id" => $singlerecord->consultant_id,
                     "student_id" => $singlerecord->student_id,
+                    "compensatory_of_definition_detail_id" => isset($singlerecord->compensatoryOfDefinitionDetail) ? $singlerecord->compensatoryOfDefinitionDetail->id : 0,
+                    "compensatory_of_definition_detail_session_date" =>isset($singlerecord->compensatoryOfDefinitionDetail) ? $singlerecord->compensatoryOfDefinitionDetail->session_date : "",
+                    "compensatory_of_definition_detail_start_hour" => isset($singlerecord->compensatoryOfDefinitionDetail) ?  $singlerecord->compensatoryOfDefinitionDetail->start_hour : "",
+                    "compensatory_of_definition_detail_end_hour" =>isset($singlerecord->compensatoryOfDefinitionDetail) ? $singlerecord->compensatoryOfDefinitionDetail->end_hour : "",
+                    
 
                     "branch_class_room_id" => $singlerecord->branch_class_room_id,
                     "consultant_test_id" => $singlerecord->consultant_test_id,
@@ -87,7 +92,7 @@ final class GetConsultantsTimeShow
                     "user_first_name" => $singlerecord->user->first_name,
                     "user_last_name" => $singlerecord->user->last_name,
                     "user_email" => $singlerecord->user->email,
-                    "start_hour" => $singlerecord->start_hour,
+                    "start_hour" => $singlerecord->start_hour, 
                     "end_hour" => $singlerecord->end_hour,
                     "session_date" => $singlerecord->session_date,
                     "student_status" => $singlerecord->student_status,
@@ -100,6 +105,11 @@ final class GetConsultantsTimeShow
                     "consultant_email" => $singlerecord->consultant->email,
                     "branchClassRoom_id" => isset($singlerecord->branch_class_room_id) ? 0 : null,
                     "branchClassRoom_name" => isset($singlerecord->branchClassRoom->name) ? $singlerecord->branchClassRoom->name : null,
+                    "user_student_status_full_name" => isset($singlerecord->userStudentStatus) ? $singlerecord->userStudentStatus->first_name . " " .$singlerecord->userStudentStatus->last_name: null,
+                    "student_status_updated_at" => $singlerecord->student_status_updated_at,
+                    "compensatory_meet" => $singlerecord->compensatory_meet,
+                    "single_meet" => $singlerecord->single_meet,
+                    "remote" => $singlerecord->remote,
                 ];
             });
 

@@ -15,6 +15,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
     protected $fillable =
     [
+        "compensatory_of_definition_detail_id",
         "consultant_id",
         "student_id",
         "branch_class_room_id",
@@ -26,8 +27,15 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         "session_date",
         "step",
         "student_status",
+        "user_id_student_status",
+        "student_status_updated_at",
         "consultant_status",
+        "compensatory_for_definition_detail_id",
+
         "session_status",
+        "compensatory_meet",
+        "single_meet",
+        "remote",
         "absent_present_description",
         "test_description"
     ];
@@ -45,4 +53,13 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     {
         return $this->belongsTo(BranchClassRoom::class, "branch_class_room_id")->withTrashed();
     }
+    public function userStudentStatus()
+    {
+        return $this->belongsTo(User::class, "user_id_student_status")->withTrashed();;
+    }
+    public function compensatoryOfDefinitionDetail()
+    {
+        return $this->belongsTo(ConsultantDefinitionDetail::class, "compensatory_of_definition_detail_id");
+    }
+    
 }

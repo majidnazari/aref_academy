@@ -1,5 +1,5 @@
 getConsultantDefinitionDetail(id:ID!):ConsultantDefinitionDetail @guard(with:["api"]) @can(ability: "view") @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetail@resolveConsultantDefinitionDetailAttribute") 
-getGeneralConsultantDefinitionDetails(
+getAbsentStudentSessionsConsultantDefinitionDetails(
         #  status:String @like(template: "%{}%")
          consultant_id:Int
          compensatory_of_definition_detail_id: Int
@@ -28,7 +28,7 @@ getGeneralConsultantDefinitionDetails(
     ): [ConsultantDefinitionDetail]
     @guard(with:["api"])
    
-    @paginate(builder: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantDefinitionDetails@resolveConsultantDefinitionDetails") 
+    @paginate(builder: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetAbsentStudentSession@resolveGetAbsentStudentSession") 
 
 
 getConsultantDefinitionDetails(

@@ -27,6 +27,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         "session_date",
         "step",
         "student_status",
+        "copy_to_next_week",
         "user_id_student_status",
         "student_status_updated_at",
         "consultant_status",

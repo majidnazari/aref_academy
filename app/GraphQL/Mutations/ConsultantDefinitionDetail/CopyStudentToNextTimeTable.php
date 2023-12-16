@@ -75,7 +75,13 @@ final class CopyStudentToNextTimeTable
 
         $definition_next_week["student_id"] = $student_id;
 
-        $definition_next_week->update();
+        if($definition_next_week->update()){
+            $definition_this_week->copy_to_next_week=true;
+            // Log::info("this is:" . json_encode($definition_this_week) );
+            // Log::info("next is:" . json_encode($definition_next_week) );
+            $definition_this_week->update();
+            //$definition_this_week->save();
+        }
         return $definition_next_week;
     }
 }

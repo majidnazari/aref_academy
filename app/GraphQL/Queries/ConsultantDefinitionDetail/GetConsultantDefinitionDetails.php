@@ -193,6 +193,7 @@ final class GetConsultantDefinitionDetails
                     "end_hour" => $singlerecord->end_hour,
                     "session_date" => $singlerecord->session_date,
                     "student_status" => $singlerecord->student_status,
+                    "copy_to_next_week" => $singlerecord->copy_to_next_week,
                     "absent_present_description" => $singlerecord->absent_present_description,
                     "test_description" => $singlerecord->test_description,
                     "step" => $singlerecord->step,

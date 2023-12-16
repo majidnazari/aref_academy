@@ -1053,6 +1053,7 @@ type ConsultantDefinitionDetail @key(fields: "id") {
     end_hour: String
     session_date: Date
     student_status: StudentStatus
+    copy_to_next_week: Boolean
     user_id_student_status: Int
     student_status_updated_at: String
     consultant_status: StudentStatus
@@ -1121,6 +1122,7 @@ type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
     end_hour: String
     session_date: Date
     student_status: StudentStatus
+    copy_to_next_week: Boolean
     user_id_student_status: Int
     user_student_status_full_name: String
     student_status_updated_at: String

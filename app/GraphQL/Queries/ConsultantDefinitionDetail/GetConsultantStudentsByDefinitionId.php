@@ -24,13 +24,18 @@ final class GetConsultantStudentsByDefinitionId
     }
     function resolveConsultantStudentsByDefinitionId($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        $nextweek = false;
 
-        $weekStartDate =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        $weekEndDate = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(6)->format("Y-m-d");
+        $thisweekStartDate =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        $thisweekEndDate = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(6)->format("Y-m-d");
 
-        
 
-       // Log::info("start week is:" . $weekStartDate . " and end of wek is:" . $weekEndDate);
+        $nextWeekStartDate =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d");
+        $nextWeekEndDate = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(13)->format("Y-m-d");
+
+
+
+        // Log::info("start week is:" . $thisweekStartDate . " and end of wek is:" . $thisweekEndDate);
 
         // $branch_id = auth()->guard('api')->user()->branch_id;
         // $one_branch[] = $branch_id;
@@ -43,25 +48,46 @@ final class GetConsultantStudentsByDefinitionId
             //     return $query->whereIn('id', $branches_id);
             // })
             // ->with('branchClassRoom.branch')
-            ->first(); 
+            ->first();
 
-        if(!$ConsultantDefinitionDetail) {
+        if (!$ConsultantDefinitionDetail) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-GET_INVALID_ID");
             //return Error::createLocatedError("نمایش جلسات مشاور:شماره رکورد مورد نظر اشتباه است.");
-         }  
-         $StudentsExistInThisWeek = ConsultantDefinitionDetail::where('session_date',">=",$weekStartDate)
-         ->where('session_date',"<=", $weekEndDate)
-         ->where('consultant_id',$ConsultantDefinitionDetail->consultant_id)
-         ->where('student_status',"!=","absent")
-         ->whereNotNull('student_id')
-         ->pluck('student_id');
+        }
+        if (($ConsultantDefinitionDetail['session_date'] >= $thisweekStartDate)  && ($ConsultantDefinitionDetail['session_date'] <=  $thisweekEndDate)) {
+            $StudentsExistInThisWeek = ConsultantDefinitionDetail::where('session_date', ">=", $thisweekStartDate)
+                ->where('session_date', "<=", $thisweekEndDate)
+                ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+                ->where('student_status', "!=", "absent")
+                ->whereNotNull('student_id')
+                ->pluck('student_id');
+        }
+        else if ((($ConsultantDefinitionDetail['session_date'] >= $nextWeekStartDate)  && ($ConsultantDefinitionDetail['session_date'] <=  $nextWeekEndDate))) {
+            $nextweek = true;
 
-         //Log::info("studentds defined are:" . json_encode($StudentsExistInThisWeek ));
+            $StudentsExistInNextWeek = ConsultantDefinitionDetail::where('session_date', ">=", $nextWeekStartDate)
+                ->where('session_date', "<=", $nextWeekEndDate)
+                ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+                ->where('student_status', "!=", "absent")
+                ->whereNotNull('student_id')
+                ->pluck('student_id');
+        }
 
-        $studentdsId=ConsultantFinancial::where('consultant_id',$ConsultantDefinitionDetail->consultant_id)
-        ->where('student_status','ok')
-        ->whereNotIn('student_id',$StudentsExistInThisWeek)
-        ->pluck('student_id');
+        //Log::info("studentds defined are:" . json_encode($StudentsExistInThisWeek ));
+
+        if ($nextweek) {
+            $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+                ->where('student_status', 'ok')
+                ->whereNotIn('student_id', $StudentsExistInNextWeek)
+                ->pluck('student_id');
+        } else {
+            $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+                ->where('student_status', 'ok')
+                ->whereNotIn('student_id', $StudentsExistInThisWeek)
+                ->pluck('student_id');
+        }
+
+
 
         //Log::info($studentdsId);
         return  $studentdsId;

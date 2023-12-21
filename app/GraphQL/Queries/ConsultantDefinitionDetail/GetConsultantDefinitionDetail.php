@@ -6,6 +6,7 @@ use App\Models\ConsultantDefinitionDetail;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Models\Branch;
+use App\Models\BranchClassRoom;
 
 final class GetConsultantDefinitionDetail
 {
@@ -21,16 +22,23 @@ final class GetConsultantDefinitionDetail
     {
 
         $branch_id = auth()->guard('api')->user()->branch_id;
-        $one_branch[] = $branch_id;
-        $all_branches = Branch::pluck('id');
-        $all_branches[] = null;
-        $branches_id = ($branch_id === null) ? $all_branches :  $one_branch;
+        $branch_class_ids = BranchClassRoom::where('deleted_at', null)
+            ->where(function ($query) use ($branch_id) {
+                if ($branch_id) {
+                    $query->where('branch_id', $branch_id);
+                }
+            })
+            ->pluck('id');
 
         $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('id', $args['id'])
-            ->whereHas('branchClassRoom.branch', function ($query) use ($branches_id) {
-                return $query->whereIn('id', $branches_id);
+        // ->whereHas('branchClassRoom.branch', function ($query) use ($branches_id) {
+            ->where(function ($query) use ($branch_class_ids) {
+                if ($branch_class_ids) {
+                    $query->whereIn('branch_class_room_id', $branch_class_ids);
+                }
+                //return $query->whereIn('id', $branches_id);
             })
-            ->with('branchClassRoom.branch')
+            //->with('branchClassRoom.branch')
             ->first();
 
         return  $ConsultantDefinitionDetail;

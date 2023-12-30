@@ -139,6 +139,7 @@ type Mutation {
     #import Mutations/StudentWarningHistories/StudentWarningHistories.graphql
     #import Mutations/ConsultantDefinitionDetail/ConsultantDefinitionDetail.graphql
     #import Mutations/ConsultantFinancial/ConsultantFinancial.graphql
+    #import Mutations/StudentInfo/StudentInfo.graphql
    
    
 

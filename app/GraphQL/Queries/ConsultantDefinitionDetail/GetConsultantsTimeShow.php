@@ -44,7 +44,7 @@ final class GetConsultantsTimeShow
                 }
 
                 $query->where('session_date', '=',  $target_date);
-            })->with(['user', 'consultant', 'branchClassRoom'])
+            })->with(['user', 'consultant', 'branchClassRoom',"userStudentStatus","financial"])
             ->orderBy('consultant_id', 'asc')
             ->get();
          //Log::info("the data is:" . json_encode($ConsultantDefinitionDetails));
@@ -95,7 +95,7 @@ final class GetConsultantsTimeShow
                     "start_hour" => $singlerecord->start_hour, 
                     "end_hour" => $singlerecord->end_hour,
                     "session_date" => $singlerecord->session_date,
-                    "student_status" => $singlerecord->student_status,
+                    "student_status" => $singlerecord->student_status,                    
                     "copy_to_next_week" => $singlerecord->copy_to_next_week,
                     "absent_present_description" => $singlerecord->absent_present_description,
                     "test_description" => $singlerecord->test_description,
@@ -111,6 +111,8 @@ final class GetConsultantsTimeShow
                     "compensatory_meet" => $singlerecord->compensatory_meet,
                     "single_meet" => $singlerecord->single_meet,
                     "remote" => $singlerecord->remote,
+                    "consultant_financial" => $singlerecord->financial ,
+                    
                 ];
             });
 

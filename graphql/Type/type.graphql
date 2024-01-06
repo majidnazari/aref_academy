@@ -441,16 +441,16 @@ input UpdateConsultantDefinitionDetailsInput @validator {
 }
 input UpdateConsultantDefinitionDetailHasStudentInput @validator {
     id: ID!
-    compensatory_of_definition_detail_id:Int
-    compensatory_for_definition_detail_id:Int
+    compensatory_of_definition_detail_id: Int
+    compensatory_for_definition_detail_id: Int
     student_id: Int!
     student_status: String
     session_status: String
     consultant_status: String
     absent_present_description: String
     remote: Boolean
-    compensatory_meet:Boolean
-    single_meet:Boolean
+    compensatory_meet: Boolean
+    single_meet: Boolean
 }
 
 input DeleteConsultantDefinitionDetailStudentIdInput {
@@ -516,8 +516,7 @@ input DivideConsultantDefinitionDetailTimeInput {
     division_time: Int!
 }
 
-input CreateStudentInfoInput{   
-    
+input CreateStudentInfoInput {
     student_id: Int!
     school_name: String
     first_name: String
@@ -527,7 +526,6 @@ input CreateStudentInfoInput{
     major: StudentMajor
     education_level: String
     concours_year: String
-
 }
 
 type User {
@@ -1052,10 +1050,8 @@ type CourseReportAtSpecialTime @key(fields: "id") {
 
 type ConsultantDefinitionDetail @key(fields: "id") {
     id: ID
-    compensatory_for_definition_detail_id:Int
-    compensatory_of_definition_detail_id:Int
-
-    compensatoryOfDefinitionDetail: ConsultantDefinitionDetail @ belongsTo
+    compensatory_for_definition_detail_id: Int
+    compensatory_of_definition_detail_id: Int
 
     consultant_id: Int
     student_id: Int
@@ -1077,13 +1073,20 @@ type ConsultantDefinitionDetail @key(fields: "id") {
     # student_id:Int
     step: Int
     remote: Boolean
-    compensatory_meet:Boolean
-    single_meet:Boolean
+    compensatory_meet: Boolean
+    single_meet: Boolean
 
     consultant: User @belongsTo
     user: User @belongsTo
     branchClassRoom: BranchClassRoom @belongsTo
+
+    compensatoryOfDefinitionDetail: ConsultantDefinitionDetail @belongsTo
     userStudentStatus: User @belongsTo
+
+    financial: ConsultantFinancial
+        @field(
+            resolver: "App\\GraphQL\\Resolvers\\consultantFinancialResolver@getFinancialStudentStatus"
+        )
 }
 
 # input ConsultantDefinitionDetailGeneralReportInput {
@@ -1091,27 +1094,25 @@ type ConsultantDefinitionDetail @key(fields: "id") {
 # }
 
 type ConsultantDefinitionDetailGeneralReport {
-    consultant_fullname:String
+    consultant_fullname: String
     total_consultant_students: Int
-    total_consultant_definition:Int
+    total_consultant_definition: Int
     # empirical_student_total => 6,
     # humanities_student_total => 2,
     # mathematics_student_total => 2,
     total_student_present: Int
-    total_student_present_hours:Float
-    total_student_absence:Int
+    total_student_present_hours: Float
+    total_student_absence: Int
     total_student_absence_hours: Float
-    total_student_delay:Int
+    total_student_delay: Int
     total_student_delay_hours: Float
-    
 
     total_consultant_obligation_hours: Float
     total_consultant_present_hours: Float
     total_consultant_absence_hours: Float
     total_consultant_earlier_hours: Float
- 
 
-   details:[ConsultantDefinitionDetail]
+    details: [ConsultantDefinitionDetail]
 }
 
 type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
@@ -1144,11 +1145,21 @@ type ConsultantDefinitionDetailFlatModel @key(fields: "id") {
     test_description: String
     step: Int
     branchClassRoom_id: Int
-    branchClassRoom_name: String  
+    branchClassRoom_name: String
     remote: Boolean
-    compensatory_meet:Boolean
-    single_meet:Boolean
+    compensatory_meet: Boolean
+    single_meet: Boolean
+    consultant_financial: ConsultantFinancial
+        @field(
+            resolver: "App\\GraphQL\\Resolvers\\consultantFinancialResolver@getFinancialStudentStatus"
+        )
 }
+
+type ConsultantsTimeShow {
+    consultant: User
+    details: [ConsultantDefinitionDetailFlatModel]
+}
+
 type ConsultantDefinitionDetailOrderByDate {
     date: Date
     details: [ConsultantDefinitionDetailFlatModel]
@@ -1176,7 +1187,7 @@ type ConsultantFinancial @key(fields: "id") {
     consultant: User @belongsTo
     user: User @belongsTo
     userStudentStatus: User @belongsTo
-    
+
     manager: User @belongsTo
     financial: User @belongsTo
     year: Year @belongsTo
@@ -1208,12 +1219,7 @@ type CourseReportAtSpecialTimeOrderByDateWithToday {
     data: [CourseReportAtSpecialTimeOrderByDate]
 }
 
-type ConsultantsTimeShow {
-    consultant: User
-    details: [ConsultantDefinitionDetailFlatModel]
-}
- enum StudentMajor{
-
+enum StudentMajor {
     mathematics
     experimental
     humanities
@@ -1223,8 +1229,8 @@ type ConsultantsTimeShow {
 
 type StudentInfo {
     id: ID!
-    user_id_creator:Int
-    user_id_editor:Int
+    user_id_creator: Int
+    user_id_editor: Int
     school_name: String
     student_id: Int!
     first_name: String
@@ -1236,8 +1242,7 @@ type StudentInfo {
     concours_year: String
 
     created_at: DateTime
-    
+
     UserCreator: User @belongsTo
     UserEditor: User @belongsTo
 }
-

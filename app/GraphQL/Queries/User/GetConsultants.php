@@ -7,6 +7,7 @@ use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use AuthRole;
+use Log;
 
 final class GetConsultants
 {
@@ -23,13 +24,15 @@ final class GetConsultants
     {        
         $branch_id = auth()->guard('api')->user()->branch_id;        
         if (AuthRole::CheckAccessibility("Consultants")) {
+           
             $consultant = User::where('deleted_at', null);           
             if($branch_id)
             {
                 $consultant->where('branch_id', $branch_id);
             }
-            $consultant->where('group_id',env('CONSULTANT_GORUP_ID'))
+            $consultant->where('group_id',6)
             ->get();
+            Log::info("this is run". env('CONSULTANT_GORUP_ID'));
             return $consultant;
         }
         $consultant = User::where('deleted_at', null)

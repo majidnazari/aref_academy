@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
+use Log;
+
 class ConsultantDefinitionDetail extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes;    
 
     protected $fillable =
     [
@@ -62,5 +64,9 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     {
         return $this->belongsTo(ConsultantDefinitionDetail::class, "compensatory_of_definition_detail_id");
     }
-    
+    public function financial()
+    {
+        //Log::info("the this is : ". json_encode($this));
+        return $this->hasOne(ConsultantFinancial::class,'student_id', 'student_id');
+    }
 }

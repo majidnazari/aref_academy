@@ -54,11 +54,11 @@ final class GetConsultantFinancials
             //isset($args['branch_id']) ? $ConsultantFinancial->where('branch_id', $args['branch_id']) : '';
             isset($args['manager_status']) ? $ConsultantFinancial->where('manager_status', $args['manager_status']) : '';
             
-            isset($args['financial_status']) ? $ConsultantFinancial->where('financial_status', '>=', $args['financial_status']) : '';
+            isset($args['financial_status']) ? $ConsultantFinancial->where('financial_status', $args['financial_status']) : '';
             isset($args['student_status']) ? $ConsultantFinancial->where('student_status', $args['student_status']) : '';
             isset($args['financial_refused_status']) ? $ConsultantFinancial->where('financial_refused_status', $args['financial_refused_status']) : '';
             isset($args['user_id_manager']) ? $ConsultantFinancial->where('user_id_manager', $args['user_id_manager']) : '';
-            isset($args['user_id_financial']) ? $ConsultantFinancial->where('user_id_financial', '>=', $args['user_id_financial']) : '';
+            isset($args['user_id_financial']) ? $ConsultantFinancial->where('user_id_financial',  $args['user_id_financial']) : '';
             isset($args['user_id_student_status']) ? $ConsultantFinancial->where('user_id_student_status', $args['user_id_student_status']) : '';
             isset($args['description']) ? $ConsultantFinancial->where('description', $args['description']) : '';
             isset($args['date_from']) ? $ConsultantFinancial->where('created_at','>=', $args['date_from']) : '';

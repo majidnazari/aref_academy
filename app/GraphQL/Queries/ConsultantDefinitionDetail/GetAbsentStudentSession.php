@@ -20,6 +20,7 @@ final class GetAbsentStudentSession
         if (!AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) {
             return [];
         }
+
         $starSession =  Carbon::now()->subDays(14)->format("Y-m-d");
         $endSession =  Carbon::now()->format("Y-m-d");
 
@@ -43,6 +44,9 @@ final class GetAbsentStudentSession
                 }
             })
             ->pluck('id');
+
+        //Log::info("the code is here". json_encode($branch_class_ids ));
+
         $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('deleted_at', null)
             ->where('student_id', $args['student_id'])
             ->where(function ($query) use ($args, $branch_id, $branch_class_ids, $starSession, $endSession) {
@@ -63,6 +67,7 @@ final class GetAbsentStudentSession
                 if (isset($args['student_status'])) $query->whereIn('student_status', $args['student_status']);
                 if (isset($args['consultant_status'])) $query->where('consultant_status', $args['consultant_status']);
                 if (isset($args['student_id'])) $query->where('student_id', $args['student_id']);
+                // if (isset($args['consultant_id'])) $query->where('consultant_id', $args['consultant_id']);
                 if (isset($args['absent_present_description'])) $query->where('absent_present_description', $args['absent_present_description']);
                 if (isset($args['test_description'])) $query->where('test_description', $args['test_description']);
                 if (isset($args['step'])) $query->where('step', $args['step']);
@@ -70,7 +75,7 @@ final class GetAbsentStudentSession
                     $query->where('compensatory_for_definition_detail_id', null);
                 }
             })
-            ->with(['user', 'consultant', 'branchClassRoom'])
+            ->with(['user', 'consultant', 'branchClassRoom','userStudentStatus','financial'])
             ->orderBy('session_date', 'asc');
         // ->get();
 

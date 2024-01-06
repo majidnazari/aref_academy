@@ -13,7 +13,7 @@ class ConsultantFinancial extends Model implements Auditable
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable=[
+    protected $fillable = [
         "id",
         "user_id_creator",
         "consultant_id",
@@ -29,42 +29,46 @@ class ConsultantFinancial extends Model implements Auditable
         "user_id_financial",
         "user_id_student_status",
         "description",
-        "financial_status_updated_at"    
+        "financial_status_updated_at"
     ];
-    protected $table="consultant_financials"; 
+    protected $table = "consultant_financials";
 
     public function user()
     {
-        return $this->belongsTo(User::class,"user_id_creator")->withTrashed();
+        return $this->belongsTo(User::class, "user_id_creator")->withTrashed();
     }
     public function consultant()
     {
-        return $this->belongsTo(User::class,"consultant_id")->withTrashed();
+        return $this->belongsTo(User::class, "consultant_id")->withTrashed();
     }
     public function manager()
     {
-        return $this->belongsTo(User::class,"user_id_manager")->withTrashed();
+        return $this->belongsTo(User::class, "user_id_manager")->withTrashed();
     }
     public function financial()
     {
-        return $this->belongsTo(User::class,"user_id_financial")->withTrashed();
-    } 
+        return $this->belongsTo(User::class, "user_id_financial")->withTrashed();
+    }
     public function userStudentStatus()
     {
-        return $this->belongsTo(User::class,"user_id_student_status")->withTrashed();
-    } 
-      
+        return $this->belongsTo(User::class, "user_id_student_status")->withTrashed();
+    }
+
     public function branch()
     {
-        return $this->belongsTo(Branch::class,"branch_id")->withTrashed();
-    }   
+        return $this->belongsTo(Branch::class, "branch_id")->withTrashed();
+    }
     public function year()
     {
-        return $this->belongsTo(Year::class,"year_id")->withTrashed();
-    } 
+        return $this->belongsTo(Year::class, "year_id")->withTrashed();
+    }
     public function consultantDefinitionDetails()
     {
         return $this->belongsTo(ConsultantDefinitionDetail::class,"consultant_definition_detail_id");
     }   
 
+    public function definitionDetail()
+    {
+        return $this->belongsTo(ConsultantDefinitionDetail::class, 'student_id', 'student_id');
+    }
 }

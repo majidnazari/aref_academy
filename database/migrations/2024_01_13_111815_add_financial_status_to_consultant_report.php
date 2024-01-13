@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('consultant_reports', function (Blueprint $table) {
+            $table->integer("sum_all_single_meet")->after("sum_all_consultant_compensation_session")->nullable(); 
             $table->integer("sum_all_approved_financial_status")->after("sum_all_students")->nullable(); 
             $table->integer("sum_all_semi_approved_financial_status")->after("sum_all_approved_financial_status")->nullable(); 
             $table->integer("sum_all_pending_financial_status")->after("sum_all_semi_approved_financial_status")->nullable(); 
@@ -31,6 +32,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('consultant_reports', function (Blueprint $table) {
+            $table->dropColumn('sum_all_single_meet');
             $table->dropColumn('sum_all_approved_financial_status');
             $table->dropColumn('sum_all_semi_approved_financial_status');
             $table->dropColumn('sum_all_pending_financial_status');

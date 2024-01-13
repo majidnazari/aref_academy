@@ -116,15 +116,45 @@ class ConsultantFinancial extends Model implements Auditable
         });
 
         static::updated(function ($consultantFinancial) {
-            $today = Carbon::now()->format("Y-m-d");
-            $firstDayOfMonth = Carbon::parse($today)->startOfMonth(); // First day of the Shamsi month
-            $lastDayOfMonth = Carbon::parse($today)->endOfMonth(); // Last day of the Shamsi month
-            // Perform actions after the model is updated
-            // You can add your own code here
-            // For example:
-            $consultantReport = ConsultantReport::where('consultant_id', $consultantFinancial->consultant_id);
-            Log::info('Model updated: ' . json_encode($consultantFinancial));
-            Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
+            $today = Carbon::now()->format("Y-m-d");           
+
+            $consultant_exististance = ConsultantReport::where('statical_date', $today)
+                ->where('consultant_id', $consultantFinancial->consultant_id)
+                ->first();
+            if ($consultant_exististance) {
+               
+                $consultant_exististance["sum_all_approved_financial_status"] += $consultant_exististance->financial_status === "approved" ? 1 : 0;;
+                $consultant_exististance["sum_all_semi_approved_financial_status"] += $consultantFinancial->financial_status === "semi_approved" ? 1 : 0;
+                $consultant_exististance["sum_all_pending_financial_status"] += $consultantFinancial->financial_status === "pending" ? 1 : 0;
+
+                $consultant_exististance["sum_all_refused_student_status"] += $consultantFinancial->student_status === "refused" ? 1 : 0;
+                $consultant_exististance["sum_all_fired_student_status"] += $consultantFinancial->student_status === "fired" ? 1 : 0;
+
+                
+                $consultant_exististance->save();
+
+                //$consultant_exististance["sum_all_pending_financial_status"] += $consultantFinancial->financial_status === "pending" ? 1 : 0;
+            } else {  
+                //create at the first time in new day
+                // Create consultantReport here
+                $consultantReport = new ConsultantReport;
+                $consultantReport->consultant_id = $consultantFinancial->consultant_id;
+                $consultantReport->year_id = $consultantFinancial->year_id;
+               
+                $consultantReport->sum_all_approved_financial_status =  $consultantFinancial->financial_status === "approved" ? 1 : 0;
+                $consultantReport->sum_all_semi_approved_financial_status =  $consultantFinancial->financial_status === "semi_approved" ? 1 : 0;
+                $consultantReport->sum_all_pending_financial_status =  $consultantFinancial->financial_status === "pending" ? 1 : 0;
+
+                $consultantReport->sum_all_refused_student_status =  $consultantFinancial->student_status === "refused" ? 1 : 0;
+                $consultantReport->sum_all_fired_student_status =  $consultantFinancial->student_status === "fired" ? 1 : 0;
+
+                $consultantReport->statical_date =  $today;
+                // Set other fields as needed
+               // Log::info("the ConsultantReport is: " . json_encode($consultantReport));
+                //Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
+                $consultantReport->save();
+            }
+            
         });
 
         static::deleted(function ($consultantFinancial) {

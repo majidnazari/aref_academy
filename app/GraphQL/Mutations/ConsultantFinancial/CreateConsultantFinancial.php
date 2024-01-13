@@ -45,7 +45,9 @@ final class CreateConsultantFinancial
             "financial_status_updated_at" => isset($args['financial_status']) ?  $now : null,
 
         ];
-        $is_exist = ConsultantFinancial::where($ConsultantFinancialResult)->first();
+        $is_exist = ConsultantFinancial::where('student_id' ,$args['student_id'])
+        ->where('consultant_id',$args['consultant_id'])
+        ->first();
 
         if ($is_exist) {
             return Error::createLocatedError("CONSULTANTFINANCIAL-CREATE-RECORD_IS_EXIST");

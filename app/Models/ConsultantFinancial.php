@@ -88,7 +88,7 @@ class ConsultantFinancial extends Model implements Auditable
                 ->where('consultant_id', $consultantFinancial->consultant_id)
                 ->first();
             if ($consultant_exististance) {
-                Log::info("the ConsultantReport today shoudlb be updated is: " . json_encode($consultant_exististance));
+                //Log::info("the ConsultantReport today shoudlb be updated is: " . json_encode($consultant_exististance));
                 $consultant_exististance["sum_all_students"] += 1;
                 $consultant_exististance["sum_all_approved_financial_status"] += $consultantFinancial->financial_status === "approved" ? 1 : 0;
                 $consultant_exististance["sum_all_semi_approved_financial_status"] += $consultantFinancial->financial_status === "semi_approved" ? 1 : 0;
@@ -109,8 +109,8 @@ class ConsultantFinancial extends Model implements Auditable
                 $consultantReport->sum_all_pending_financial_status =  $consultantFinancial->financial_status === "pending" ? 1 : 0;
                 $consultantReport->statical_date =  $today;
                 // Set other fields as needed
-                Log::info("the ConsultantReport is: " . json_encode($consultantReport));
-                Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
+                //Log::info("the ConsultantReport is: " . json_encode($consultantReport));
+                //Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
                 $consultantReport->save();
             }
         });
@@ -161,7 +161,7 @@ class ConsultantFinancial extends Model implements Auditable
             // Perform actions after the model is deleted
             // You can add your own code here
             // For example:
-            Log::info('Model deleted: ' . json_encode($consultantFinancial));
+            //Log::info('Model deleted: ' . json_encode($consultantFinancial));
         });
     }
 }

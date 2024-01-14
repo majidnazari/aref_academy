@@ -32,7 +32,7 @@ final class CreateConsultantDefinitionDetailInputValidator extends Validator
             ],
             'week' => [
                 'required',
-                'in:Current,Next',
+                'in:Current,Next,Next2week,Next3week,Next4week',
                 new CheckDaysPassedOrNot($this->arg('days'), $this->arg('start_hour'))
 
             ],

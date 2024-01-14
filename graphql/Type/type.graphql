@@ -23,6 +23,14 @@ enum StudentStatus {
     dellay15more
 }
 
+enum Week {
+    Current
+    Next
+    Next2week
+    Next3week
+    Next4week
+}
+
 enum SessionStatus {
     no_action
     earlier_5min_finished
@@ -46,6 +54,9 @@ enum DaysOfWeek {
 enum Week {
     Current
     Next
+    Next2week
+    Next3week
+    Next4week
 }
 enum ManagerStatus {
     approved
@@ -428,6 +439,7 @@ input CreateConsultantDefinitionDetailInput @validator {
 
 input CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput @validator {
     consultant_id: Int!
+    week: String="Next"
 }
 
 input UpdateConsultantDefinitionDetailsInput @validator {

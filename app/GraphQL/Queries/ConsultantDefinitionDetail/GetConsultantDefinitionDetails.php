@@ -13,6 +13,11 @@ use Log;
 
 final class GetConsultantDefinitionDetails
 {
+    const Next2week = 14;
+    const Next3week = 21;
+    const Next4week = 28;
+    const Next = 7;
+
     // function resolveConsultantDefinitionDetails($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     // {
 
@@ -100,8 +105,10 @@ final class GetConsultantDefinitionDetails
         if (!AuthRole::CheckAccessibility("ConsultantDefinitionDetail")) {
             return [];
         }
-        $startOfWeek = (isset($args['next_week']) && ($args['next_week'] === true)) ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        $endOfWeek = (isset($args['next_week']) && ($args['next_week'] === true)) ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+        // $startOfWeek = (isset($args['next_week']) && ($args['next_week'] === true)) ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        // $endOfWeek = (isset($args['next_week']) && ($args['next_week'] === true)) ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+
+        [$startOfWeek, $endOfWeek] = $this->selectWeek(Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d"),Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d"), $args['week']);
 
         $tempDate = isset($args['session_date_from']) ?  Carbon::create($args['session_date_from']) : Carbon::parse($startOfWeek);
         $finishDate = isset($args['session_date_from']) ?  Carbon::create($args['session_date_to']) : Carbon::parse($endOfWeek);
@@ -212,5 +219,32 @@ final class GetConsultantDefinitionDetails
             });
 
         return  $result;
+    }
+
+    public function selectWeek($startOfWeek, $endOfWeek, $nextWeek = "Next")
+    {
+        switch ($nextWeek) {
+            case ('Next'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next)->format("Y-m-d");               
+                break;
+            case ('Next2week'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next2week)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next2week)->format("Y-m-d");
+                break;
+            case ('Next3week'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next3week)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next3week)->format("Y-m-d");
+                break;
+            case ('Next4week'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next4week)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next4week)->format("Y-m-d");
+                break;
+            default:
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->format("Y-m-d");
+        }
+
+        return ([$startWhichNextWeek, $endWhichNextWeek]);
     }
 }

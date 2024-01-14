@@ -22,7 +22,8 @@ getAbsentStudentSessionsConsultantDefinitionDetails(
          student_id:Int @eq
          absent_present_description:String
          test_description:String
-         next_week:Boolean=false
+        #  next_week:Boolean=false
+         week:Week=Current
 
          orderBy:[OrderByClause!] @orderBy
     ): [ConsultantDefinitionDetail]
@@ -52,7 +53,8 @@ getConsultantDefinitionDetails(
          student_id:Int @eq
          absent_present_description:String
          test_description:String
-         next_week:Boolean=false
+        #  next_week:Boolean=false
+         week:Week=Current
 
          orderBy:[OrderByClause!] @orderBy
     ): [ConsultantDefinitionDetailOrderByDate]

@@ -26,6 +26,11 @@ final class CreateConsultantDefinitionDetail
         // TODO implement the resolver
     }
 
+    const Next2week = 14;
+    const Next3week = 21;
+    const Next4week = 28;
+    const Next = 7;
+
     public function resolver($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $now = Carbon::now();
@@ -41,10 +46,18 @@ final class CreateConsultantDefinitionDetail
 
         $all_of_consultant_data_collection = ConsultantDefinitionDetail::where('consultant_id', $args['consultant_id'])
             ->whereIn('branch_class_room_id', $branch_class_room_ids);
-        $all_of_consultant_data = $all_of_consultant_data_collection->get();       
+        $all_of_consultant_data = $all_of_consultant_data_collection->get();
 
-        $startOfWeek = ($args['week'] === "Next") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        // $endOfWeek = ($args['week'] === "Next") ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+        // $startOfWeek = ($args['week'] === "Next") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        // $startOfWeek = ($args['week'] === "Next2week") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next2week)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        // $startOfWeek = ($args['week'] === "Next3week") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next3week)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        // $startOfWeek = ($args['week'] === "Next4week") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next4week)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        // // $endOfWeek = ($args['week'] === "Next") ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
+
+        [$startOfWeek, $startOfWeek] = $this->selectWeek(Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d"), Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d"), $args['week']);
+
+
+        //Log::info("the strat of create is:" . $startOfWeek);
 
         foreach ($args['days'] as $day) {
             // $dayOfWeek = Carbon::parse('next ' . $day)->toDateString();
@@ -95,7 +108,7 @@ final class CreateConsultantDefinitionDetail
                     //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_RECORD_ALREADY_EXIST");                   
                 }
                 $is_exist_class_room = $this->validateSessionClassRoom($all_of_consultant_data_collection, $consultant_definition_detail_date);
-               
+
                 if ($is_exist_class_room) {
                     $error[] = [
                         "date" => $consultant_definition_detail_date['session_date'],
@@ -232,6 +245,7 @@ final class CreateConsultantDefinitionDetail
 
     public function copyWeekTimeTable($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
+        //Log::info("the arg is: " . json_encode($args));
         $user_id = auth()->guard('api')->user()->id;
         $consultant_id = $args['consultant_id'];
         $error = [];
@@ -241,7 +255,9 @@ final class CreateConsultantDefinitionDetail
         $data = [];
 
         $startOfWeek =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        //$startOfWeek =  Carbon::now()->format("Y-m-d");
         $endOfWeek =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(6)->format("Y-m-d");
+
 
         $getAllOfConsultantTimeTableCurrentWeeks = ConsultantDefinitionDetail::where('consultant_id', $consultant_id)
             ->where('session_date', '>=',  $startOfWeek)
@@ -259,9 +275,36 @@ final class CreateConsultantDefinitionDetail
 
         //Log::info("getAllDaysOfCurrentWeekHasPlaned is:" .  $getAllDaysOfCurrentWeekHasPlaned);
 
+        // $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(7)->format("Y-m-d"); // 1 next week .... 3 next week by default it is next week 
+        // $endWhichNextWeek =  Carbon::parse($endOfWeek)->addDays(7)->format("Y-m-d");
+
+        [$startWhichNextWeek, $endWhichNextWeek] = $this->selectWeek($startOfWeek, $endOfWeek, $args['week']);
+
+        // switch ($args['week']) {
+        //     case ('Next2week'):
+        //         $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(14)->format("Y-m-d");
+        //         $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(14)->format("Y-m-d");
+        //         //Log::info("the Next2week in case  is: " . json_encode($args));
+        //         break;
+        //     case ('Next3week'):
+        //         $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(21)->format("Y-m-d");
+        //         $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(21)->format("Y-m-d");
+        //         //Log::info("the Next3week in case  is: " . json_encode($args));
+        //         break;
+        //     case ('Next4week'):
+        //         $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(28)->format("Y-m-d");
+        //         $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(28)->format("Y-m-d");
+        //         //Log::info("the Next4week in case  is: " . json_encode($args));
+        //         break;
+        // }
+
+
+        //Log::info("the start and end of which next is:" .  $startWhichNextWeek . " , " . $endWhichNextWeek);
+
+
         $getAllOfConsultantTimeTableNextWeeksQueryBuilder = ConsultantDefinitionDetail::where('consultant_id', $consultant_id)
-            ->where('session_date', '>=', Carbon::parse($startOfWeek)->addDays(7)->format("Y-m-d"))
-            ->where('session_date', '<=', Carbon::parse($endOfWeek)->addDays(7)->format("Y-m-d"));
+            ->where('session_date', '>=',  $startWhichNextWeek)
+            ->where('session_date', '<=',  $endWhichNextWeek);
         // ->get();
 
         // Log::info("getAllOfConsultantTimeTableNextWeeksQueryBuilder is:" .  json_encode($getAllOfConsultantTimeTableNextWeeksQueryBuilder->get()));
@@ -271,6 +314,21 @@ final class CreateConsultantDefinitionDetail
         foreach ($getAllDaysOfCurrentWeekHasPlaned as $one_day) {
 
             $next_week_of_this_current_day = Carbon::parse($one_day)->addDays(7)->format("Y-m-d");
+            [$next_week_of_this_current_day, $next_week_of_this_current_day] = $this->selectWeek($one_day, $one_day, $args['week']);
+
+
+            // switch ($args['week']) {
+            //     case ('Next2week'):
+            //         $next_week_of_this_current_day =  Carbon::parse($one_day)->addDays(14)->format("Y-m-d");
+            //         break;
+            //     case ('Next3week'):
+            //         $next_week_of_this_current_day =  Carbon::parse($one_day)->addDays(21)->format("Y-m-d");
+            //         break;
+            //     case ('Next4week'):
+            //         $next_week_of_this_current_day =  Carbon::parse($one_day)->addDays(28)->format("Y-m-d");
+
+            //         break;
+            // }
 
             $current_day_start_times = $getAllOfConsultantTimeTableCurrentWeeks->where('session_date', $one_day)
                 ->pluck('start_hour')
@@ -327,7 +385,7 @@ final class CreateConsultantDefinitionDetail
             //return response()->json(['error' => 'Records found in the model.'], Response::HTTP_UNPROCESSABLE_ENTITY);
             return Error::createLocatedError("ایجاد زمانبندی روزانه : برنامه هفتگی تکراری است:" .  json_encode($error));
             //return Error::createLocatedError("duplicates are: " .  json_encode($error));
-            
+
         }
         $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);
         return null;
@@ -336,7 +394,7 @@ final class CreateConsultantDefinitionDetail
         //     ->response()
         //     ->setStatusCode(201);
     }
-   
+
     public function validateSessionClassRoom($all_times_of_next_week_collection,  $target_session_time_want_to_check_next_week)
     {
 
@@ -376,5 +434,36 @@ final class CreateConsultantDefinitionDetail
 
         //Log::info("validateSessionConsultant is:" . json_encode($is_exist));
         return  $is_exist;
+    }
+
+    public function selectWeek($startOfWeek, $endOfWeek, $nextWeek = "Next")
+    {
+        switch ($nextWeek) {
+            case ('Next'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next)->format("Y-m-d");
+                //Log::info("the Next2week in case  is: " . json_encode($args));
+                break;
+            case ('Next2week'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next2week)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next2week)->format("Y-m-d");
+                //Log::info("the Next2week in case  is: " . json_encode($args));
+                break;
+            case ('Next3week'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next3week)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next3week)->format("Y-m-d");
+                //Log::info("the Next3week in case  is: " . json_encode($args));
+                break;
+            case ('Next4week'):
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->addDays(self::Next4week)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->addDays(self::Next4week)->format("Y-m-d");
+                //Log::info("the Next4week in case  is: " . json_encode($args));
+                break;
+            default:
+                $startWhichNextWeek =  Carbon::parse($startOfWeek)->format("Y-m-d");
+                $endWhichNextWeek =   Carbon::parse($endOfWeek)->format("Y-m-d");
+        }
+
+        return ([$startWhichNextWeek, $endWhichNextWeek]);
     }
 }

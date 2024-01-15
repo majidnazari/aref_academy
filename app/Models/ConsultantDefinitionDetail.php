@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -80,7 +81,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
             ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
             ->first();
-            $student_info=Student_info::where("student_id",$consultantDefinitionDetail->student_id)->first();
+            $student_info=StudentInfo::where("student_id",$consultantDefinitionDetail->student_id)->first();
             if($consultant_report_exististance ){
 
                 $consultant_report_exististance["sum_all_consultant_duty_session"] += $consultantDefinitionDetail->id ? 1 :0;
@@ -107,7 +108,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
             ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
             ->first();
-            $student_info=Student_info::where("student_id",$consultantDefinitionDetail->student_id)->first();
+            $student_info=StudentInfo::where("student_id",$consultantDefinitionDetail->student_id)->first();
             if($consultant_report_exististance ){
 
                 $consultant_report_exististance["sum_all_humanities_students"] += $student_info["major"]==="humanities" ? 1 :0;
@@ -165,8 +166,8 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
             }
             $consultantReport = ConsultantReport::where('consultant_id', $consultantDefinitionDetail->consultant_id);
-            Log::info('Model updated: ' . json_encode($consultantDefinitionDetail));
-            Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
+            //Log::info('Model updated: ' . json_encode($consultantDefinitionDetail));
+            //Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
         });
 
         static::deleted(function ($consultantDefinitionDetail) {
@@ -175,7 +176,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
             ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
             ->first();
-            $student_info=Student_info::where("student_id",$consultantDefinitionDetail->student_id)->first();
+            $student_info=StudentInfo::where("student_id",$consultantDefinitionDetail->student_id)->first();
             if($consultant_report_exististance ){
 
                 $consultant_report_exististance["sum_all_consultant_duty_session"] -= $consultantDefinitionDetail->id ? 1 :0;

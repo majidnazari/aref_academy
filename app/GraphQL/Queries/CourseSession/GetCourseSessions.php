@@ -54,6 +54,12 @@ final class GetCourseSessions
         $branch_id = auth()->guard('api')->user()->branch_id;
         $courseSession = CourseSession::where('start_date','>=',$args['session_date_from'])
         ->where('start_date','<=',$args['session_date_to'])
+        ->whereHas('course', function ($query) use ($branch_id) {
+            if ($branch_id) {
+                $query->where('branch_id', $branch_id);
+            }
+            return true;
+        })        
         ->with(['course',"course.lesson","course.teacher","classRoom","course.branch"])
         ->orderBy('start_date', 'asc')
         ->get();
@@ -96,10 +102,10 @@ final class GetCourseSessions
                     "course_type" => isset($singlerecord->course->type) ? $singlerecord->course->type : "",
                     "branch_name" => isset($singlerecord->course->branch->name) ? $singlerecord->course->branch->name : "",
                     "lesson_name" => isset($singlerecord->course->lesson->name) ? $singlerecord->course->lesson->name : "",             
-                    "teacher_name" => $singlerecord->course->teacher->first_name  . " " .  $singlerecord->course->teacher->last_name ,
+                    "teacher_name" => isset($singlerecord->course->teacher) ? $singlerecord->course->teacher->first_name  . " " .  $singlerecord->course->teacher->last_name : "",
                     "class_rome_name" =>  isset($singlerecord->classRoom->name) ? $singlerecord->classRoom->name : "",        
-                    "gender" => $singlerecord->course->gender,
-                    "education_level" =>$singlerecord->course->education_level,
+                    "gender" => isset($singlerecord->course->gender) ? $singlerecord->course->gender : "",
+                    "education_level" =>isset($singlerecord->course->education_level) ? $singlerecord->course->education_level : "",
                 ];
             });
     }

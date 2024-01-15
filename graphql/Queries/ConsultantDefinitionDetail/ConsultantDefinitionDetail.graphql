@@ -71,7 +71,10 @@ getConsultantDefinitionDetails(
      @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantsTimeShow@resolveConsultantsTimeShow") 
 
 
-    GetConsultantStudentsByDefinitionId(id:ID!):[Int] 
+    GetConsultantStudentsByDefinitionId(
+        id:ID!
+        #  week:Week=Current
+        ):[Int] 
     @guard(with:["api"])
     #  @can(ability: "view") 
     @field(resolver: "App\\GraphQL\\Queries\\ConsultantDefinitionDetail\\GetConsultantStudentsByDefinitionId@resolveConsultantStudentsByDefinitionId") 

@@ -32,7 +32,7 @@ class fillstudentinfo extends Command
     {
         $student_ids = DB::table('consultant_financials')->distinct()->pluck('student_id');
 
-        $students = DB::table('aref_crm.students as dt1')
+        $students = DB::table('aref_newcrm.students as dt1')
             ->select("school", "id", 'first_name', 'last_name', 'nationality_code', 'phone', 'major', 'egucation_level', 'concours_year')
             ->whereIn('dt1.id', $student_ids)
             ->get();

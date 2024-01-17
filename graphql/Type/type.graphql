@@ -72,6 +72,8 @@ enum StudentStatusConsultantFinancial {
     ok
     refused
     fired
+    refuse_pending
+    fire_pending
     financial_pending
 }
 

@@ -10,7 +10,7 @@ use Log;
 class ConsultantDefinitionDetailPolicy
 {
     use HandlesAuthorization;
-    private $group_access_consultant_definition_detail=array("admin","manager","consultant_manager","financial");
+    private $group_access_consultant_definition_detail=array("admin","manager","consultant_manager","financial","consultant_acceptor");
 
     /**
      * Determine whether the user can view any models.

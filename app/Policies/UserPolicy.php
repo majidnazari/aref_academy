@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class UserPolicy
 {
     use HandlesAuthorization;
-    private $group_access_user=array("admin","manager","consultant_manager");
+    private $group_access_user=array("admin","manager","consultant_manager","consultant_acceptor");
 
     /**
      * Determine whether the user can view any models.

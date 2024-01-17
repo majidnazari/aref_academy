@@ -15,15 +15,15 @@ class CheckAuth
         "AbsencePresence" => array( "admin","manager","acceptor"),
         "Lesson" =>array ( "admin","manager"),
         "Fault" => array("admin","manager"),
-        "Year" =>array ("admin","manager","financial","acceptor","teacher","consultant_manager"),
+        "Year" =>array ("admin","manager","financial","acceptor","teacher","consultant_manager","consultant_acceptor"),
         "CourseSession" =>array ("admin","manager","acceptor"),
         "Course" => array("admin","manager","financial","acceptor"),
         "CourseStudent" => array("admin","manager","financial","acceptor"),
-        "Users" => array("admin","manager","acceptor","consultant_manager"), 
-        "BranchClassRooms" => array("admin","manager","consultant_manager"), 
+        "Users" => array("admin","manager","acceptor","consultant_manager","consultant_acceptor"), 
+        "BranchClassRooms" => array("admin","manager","consultant_manager","consultant_acceptor"), 
         "GetCourseStudentsWithAbsencePresence" => array("admin","manager","acceptor"), 
         //"GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","acceptor"), 
-        "Branches" =>array("admin","manager","financial","consultant_manager"),         
+        "Branches" =>array("admin","manager","financial","consultant_manager","consultant_acceptor"),         
         "StudentContact" =>array("admin","manager"), 
         "StudentFault" =>array("admin","manager"), 
         "GetCourseStudentsWithIllegalStudent" =>array("admin","manager"),
@@ -31,12 +31,12 @@ class CheckAuth
         "GetCourseStudentsWithAbsencePresenceList" => array("admin","manager","financial"),
         "CourseTotalReport" => array("admin","manager","financial"),
         "CourseReportAtSpecialTime" => array("admin","manager"),
-        "ConsultantDefinitionDetail" => array("admin","manager","consultant_manager","financial"),
-        "ConsultantFinancial" => array("admin","financial","consultant_manager"),
-        "CourseReportAtSpecialTimeSortedByDate" =>array("admin","manager","acceptor","consultant_manager"),
-        "GetConsultantsTimeShow" => array("admin","manager","acceptor","consultant_manager"),
-        "Consultants" => array("admin","manager","consultant_manager","financial"),
-        "ConsultantDefinitionDetailReport" => array("admin","manager","consultant_manager")
+        "ConsultantDefinitionDetail" => array("admin","manager","consultant_manager","financial","consultant_acceptor"),
+        "ConsultantFinancial" => array("admin","financial","consultant_manager","consultant_acceptor"),
+        "CourseReportAtSpecialTimeSortedByDate" =>array("admin","manager","acceptor","consultant_manager","consultant_acceptor"),
+        "GetConsultantsTimeShow" => array("admin","manager","acceptor","consultant_manager","consultant_acceptor"),
+        "Consultants" => array("admin","manager","consultant_manager","financial","consultant_acceptor"),
+        "ConsultantDefinitionDetailReport" => array("admin","manager","consultant_manager","consultant_acceptor")
         
        
     );

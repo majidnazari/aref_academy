@@ -58,22 +58,43 @@ final class UpdateConsultantFinancial
             // "consultant_definition_detail_id"=>$args['consultant_definition_detail_id'],
         ];
 
-        if (isset($args['manager_status']) /*&& ($user_type === "consultant_manager")*/ ) { // when user comsultant manager change the manager status field it's id saves
-            $data["user_id_manager"] = $user_id;
-            $data["user_id_student_status"] = $user_id;
+        if ($user_type ==="consultant_acceptor" && (isset($args['student_status'])  ) ){ //*&& ($user_type === "consultant_manager")*/ ) { // when user comsultant manager change the manager status field it's id saves
+           
+            $data["user_id_student_status"] = $user_id;           
+            $data["student_status"] = $args['student_status'];
 
-            $data["manager_status"] = isset($args['manager_status']) ? $args['manager_status'] : "pending";
-            $data["student_status"] = isset($args['student_status']) ? $args['student_status'] :  "OK";
+            if(in_array($args['student_status'],["refuse_pending","fire_pending"]))
+            {
+                $data["manager_status"] ="pending" ;
+            }
         }
 
-        if (isset($args['financial_status']) /*&& ($user_type === "financial")*/ ) { // when user comsultant manager change the manager status field it's id saves
+        if ($user_type ==="consultant_manager" && (isset($args['manager_status']) ))
+         { 
+            //*&& ($user_type === "consultant_manager")*/ ) { // when user comsultant manager change the manager status field it's id saves
+            $data["user_id_manager"] = $user_id;
+           // $data["user_id_student_status"] = $user_id;
+
+            $data["manager_status"] = isset($args['manager_status']) ? $args['manager_status'] : "pending";
+            $data["student_status"] = isset($args['student_status']) ? $args['student_status'] :  "ok";
+
+            if(in_array($args['student_status'],["refused","fired"]))
+            {
+                $data["financial_status"] ="pending" ;
+                $data["manager_status"] ="pending";
+            }            
+
+        }
+       
+
+        if ($user_type ==="financial" && (isset($args['financial_status']) ) /*&& ($user_type === "financial")*/ ) { // when user comsultant manager change the manager status field it's id saves
             $data["user_id_financial"] = $user_id;
-            $data["user_id_student_status"] = $user_id;
+            //$data["user_id_student_status"] = $user_id;
 
             $data["financial_status_updated_at"] = Carbon::now();
             $data["financial_refused_status"] = isset($args['financial_refused_status']) ? $args['financial_refused_status'] : "noMoney";
             $data["financial_status"] = isset($args['financial_status']) ? $args['financial_status'] : "pending";
-            $data["student_status"] = isset($args['student_status']) ? $args['student_status'] :  "OK";
+            //$data["student_status"] = isset($args['student_status']) ? $args['student_status'] :  "ok";
         }
         // if (isset($args['student_status'])  /* && (in_array($user_type ,["manager" , "admin" ]) ) */ ) { // when user comsultant manager change the manager status field it's id saves
         //     $data["user_id_student_status"] = $user_id;

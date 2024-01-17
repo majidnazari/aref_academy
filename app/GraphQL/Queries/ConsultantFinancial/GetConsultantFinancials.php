@@ -81,7 +81,6 @@ final class GetConsultantFinancials
 
     public function find_total_present_in_consultant_fifancial($consultantFinancial_copy,$total_present){
 
-
        $result= $consultantFinancial_copy
        ->groupBy('student_id')
        ->havingRaw("COUNT(student_id) =  $total_present" );

@@ -117,7 +117,8 @@ class ConsultantDefinitionDetail extends Model implements Auditable
                 ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
                 ->first();
             $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
-            if ($consultant_report_exististance) {
+
+            if ($consultant_report_exististance &&  isset($student_info) ) {
 
                 $consultant_report_exististance["sum_all_humanities_students"] += $student_info["major"] === "humanities" ? 1 : 0;
                 $consultant_report_exististance["sum_all_experimental_students"] += $student_info["major"] === "experimental" ? 1 : 0;

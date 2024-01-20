@@ -26,7 +26,7 @@ final class UpdateConsultantDefinitionDetail
         $args["user_id"] = $user_id;
         $consultantDefinition = ConsultantDefinitionDetail::find($args['id']);
         $now = Carbon::now()->format("Y-m-d");
-        //Log::info("now is:"  . $now . " and session_date is:" .$consultantDefinition['session_date'] );        
+        //Log::info("the record is:" . json_encode( $consultantDefinition) );        
 
         if ($consultantDefinition['session_date'] < $now) {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");

@@ -90,23 +90,35 @@ final class GetConsultantStudentsByDefinitionId
        // Log::info("the whichWeek  is:" . $whichWeek);
 
         $week = $whichWeek;
-        $startOfCurrentWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        $endOfCurrentWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(6)->format("Y-m-d");
+        // $startOfCurrentWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
+        // $endOfCurrentWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(6)->format("Y-m-d");
 
-        [$startOfWeek, $endOfWeek] = $this->selectWeek($startOfCurrentWeek, $endOfCurrentWeek, $week);
+        // [$startOfWeek, $endOfWeek] = $this->selectWeek($startOfCurrentWeek, $endOfCurrentWeek, $week);
 
+        $today=Carbon::now()->format("Y-m-d");
 
         if (!$ConsultantDefinitionDetail) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-GET_INVALID_ID");
             //return Error::createLocatedError("نمایش جلسات مشاور:شماره رکورد مورد نظر اشتباه است.");
         }
 
-        $StudentsExistInThisWeek = ConsultantDefinitionDetail::where('session_date', ">=", $startOfWeek)
-            ->where('session_date', "<=", $endOfWeek)
-            ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-            ->where('student_status', "!=", "absent")
-            ->whereNotNull('student_id')
-            ->pluck('student_id');
+        // $StudentsExistInThisWeek = ConsultantDefinitionDetail::where('session_date', ">=", $startOfWeek)
+        //     ->where('session_date', "<=", $endOfWeek)
+        //     ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+        //     ->where('student_status', "!=", "absent")
+        //     ->whereNotNull('student_id')
+        //     ->pluck('student_id');
+
+        $StudentsExistInThisDay = ConsultantDefinitionDetail::where('session_date', $today)
+        // ->where('session_date', "<=", $endOfWeek)
+        ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+        ->where('student_status', "!=", "absent")
+        ->whereNotNull('student_id')
+        ->pluck('student_id');
+
+        //Log::info("the student todays are:" . json_encode($StudentsExistInThisDay));
+
+
         // if (($ConsultantDefinitionDetail['session_date'] >= $startOfWeek)  && ($ConsultantDefinitionDetail['session_date'] <=  $endOfWeek)) {
         //     $StudentsExistInThisWeek = ConsultantDefinitionDetail::where('session_date', ">=", $startOfWeek)
         //         ->where('session_date', "<=", $endOfWeek)
@@ -140,10 +152,16 @@ final class GetConsultantStudentsByDefinitionId
         //         ->pluck('student_id');
         // }
 
+        // $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+        //     ->where('student_status', 'ok')
+        //     ->whereNotIn('student_id', $StudentsExistInThisWeek)
+        //     ->pluck('student_id');
+
+
         $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-            ->where('student_status', 'ok')
-            ->whereNotIn('student_id', $StudentsExistInThisWeek)
-            ->pluck('student_id');
+        ->where('student_status', 'ok')
+        ->whereNotIn('student_id', $StudentsExistInThisDay)
+        ->pluck('student_id');
 
         //Log::info($studentdsId);
         return  $studentdsId;

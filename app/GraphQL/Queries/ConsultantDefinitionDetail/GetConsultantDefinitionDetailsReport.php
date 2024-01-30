@@ -44,7 +44,7 @@ final class GetConsultantDefinitionDetailsReport
             })->select("id", "first_name", "last_name")
             ->get();
 
-        // Log::info("consultants are:" . json_encode($consultants));
+        //Log::info("edication is are:" . json_encode($args['education_level']));
 
         foreach ($consultants as $consultant) {
 
@@ -72,6 +72,11 @@ final class GetConsultantDefinitionDetailsReport
                     if (isset($args['test_description'])) $query->where('test_description', $args['test_description']);
                     if (isset($args['step'])) $query->where('step', $args['step']);
                 })
+                ->whereHas('studentinfo', function ($query) use ($args) {                    
+                        $query->where('education_level', $args['education_level']);                 
+                })
+                ->with('studentinfo')
+                //->with('studentinfo')
                 //->with(['user', 'consultant', 'branchClassRoom'])            
                 ->select('id', 'consultant_id', 'student_id', 'student_status', 'step', 'session_status', 'consultant_status')
                 ->orderBy('session_date', 'asc')

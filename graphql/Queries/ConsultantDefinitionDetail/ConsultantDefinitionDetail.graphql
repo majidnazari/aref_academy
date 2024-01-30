@@ -99,7 +99,8 @@ getConsultantDefinitionDetails(
          student_status:[StudentStatus]
          student_id:Int @eq
          absent_present_description:String
-         test_description:String        
+         test_description:String  
+         education_level:Int      
 
          orderBy:[OrderByClause!] @orderBy
     ): [ConsultantDefinitionDetailGeneralReport]

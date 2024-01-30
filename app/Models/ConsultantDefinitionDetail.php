@@ -70,6 +70,10 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         //Log::info("the this is : ". json_encode($this));
         return $this->hasOne(ConsultantFinancial::class, 'student_id', 'student_id');
     }
+    public function studentinfo()
+    {
+        return $this->belongsTo(StudentInfo::class, "student_id","student_id");
+    }
 
     protected static function boot()
     {

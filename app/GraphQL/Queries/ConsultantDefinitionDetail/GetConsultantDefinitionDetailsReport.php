@@ -72,8 +72,12 @@ final class GetConsultantDefinitionDetailsReport
                     if (isset($args['test_description'])) $query->where('test_description', $args['test_description']);
                     if (isset($args['step'])) $query->where('step', $args['step']);
                 })
-                ->whereHas('studentinfo', function ($query) use ($args) {                    
+                ->whereHas('studentinfo', function ($query) use ($args) { 
+                    if(isset( $args['education_level']))
+                    {
                         $query->where('education_level', $args['education_level']);                 
+
+                    }
                 })
                 ->with('studentinfo')
                 //->with('studentinfo')

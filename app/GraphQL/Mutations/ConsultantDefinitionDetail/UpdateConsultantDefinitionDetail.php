@@ -23,12 +23,14 @@ final class UpdateConsultantDefinitionDetail
     {
         //Log::info("this update is run");
         $user_id = auth()->guard('api')->user()->id;
+        $user_type = auth()->guard('api')->user()->group->type;
+        //Log::info("this update is run" . $user_type . $user_id );
         $args["user_id"] = $user_id;
         $consultantDefinition = ConsultantDefinitionDetail::find($args['id']);
         $now = Carbon::now()->format("Y-m-d");
         //Log::info("the record is:" . json_encode( $consultantDefinition) );        
 
-        if ($consultantDefinition['session_date'] < $now) {
+        if ($consultantDefinition['session_date'] < $now && ($user_type != "admin")) {
             return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_DAY_HAS_PASSED");
         }
         // Log::info("def id is:"  . (($consultantDefinition['student_id'])));
@@ -40,7 +42,7 @@ final class UpdateConsultantDefinitionDetail
         // Log::info("and student status is: " . $args['student_status']);
         // Log::info(json_encode($consultantDefinition));
         if (isset($args['student_status']) && ($args['student_status'] != "no_action")) {
-           // Log::info("changed student status");
+            // Log::info("changed student status");
             $consultantDefinition["user_id_student_status"] = $user_id;
             $consultantDefinition["student_status_updated_at"] = Carbon::now()->format("Y-m-d H:i");
         }
@@ -58,7 +60,7 @@ final class UpdateConsultantDefinitionDetail
 
             $absentSession['compensatory_for_definition_detail_id'] = $consultantDefinition['id'];
             $absentSession->save();
-            
+
             // Log::info("the id updated " . $consultantDefinition['id']);
             // Log::info("the compensatory_of:" . $consultantDefinition['compensatory_of_definition_detail_id']);
             // Log::info("the compensatory_for:" . $consultantDefinition['compensatory_for_definition_detail_id']);

@@ -16,6 +16,7 @@ final class CreateStudentToListBeforeAbsencePresenceInputValidator extends Valid
      */
     public function rules(): array
     {
+        $user_type = auth()->guard('api')->user()->group->type;
         return [
             "course_id" => [
                 "required",
@@ -26,7 +27,7 @@ final class CreateStudentToListBeforeAbsencePresenceInputValidator extends Valid
                 Rule::exists('course_sessions', 'id')->where(function ($query) {
                     $query->where('course_id', $this->arg('course_id'));
                 }),
-                new CreateLimitationDateForAbsencePresence($this->arg('course_id'))
+                new CreateLimitationDateForAbsencePresence($this->arg('course_id'),$user_type)
 
             ]
 

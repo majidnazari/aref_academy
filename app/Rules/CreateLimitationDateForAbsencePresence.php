@@ -11,14 +11,16 @@ class CreateLimitationDateForAbsencePresence implements Rule
     protected $course_session_id;
     protected $course_id;
     private $err;
+    private $user_type;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($course_id_param)
+    public function __construct($course_id_param,$user_type=null)
     {
         $this->course_id = $course_id_param;
+        $this->user_type = $user_type;
     }
 
     /**
@@ -30,6 +32,7 @@ class CreateLimitationDateForAbsencePresence implements Rule
      */
     public function passes($attribute, $value)
     {
+         //Log::info("the type is:" . json_encode($this->user_type));
         return $this->CheckCourseSessionDateTime($this->course_id, $value);
     }
     public function CheckCourseSessionDateTime($course_id, $course_session_id)
@@ -42,7 +45,7 @@ class CreateLimitationDateForAbsencePresence implements Rule
         }
         $course_session_date = strtotime($get_course_session->start_date . ' ' . "23:59:59"); //.' '. $get_course_session->end_time);
         $now = strtotime(date("Y-m-d H:i:s"));
-        if ($now > $course_session_date) {
+        if ($now > $course_session_date && $this->user_type != "admin") {
             $this->err = "COURSE_SESSION_DATE_TIME_IS_PASSED";
             return false;
         }

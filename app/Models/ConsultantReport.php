@@ -18,6 +18,10 @@ class ConsultantReport extends Model implements Auditable
     protected $fillable = [
         "id",
 
+
+        "sum_student_status_absent",
+        "sum_student_status_present",
+
         "user_id_creator",
         "consultant_id",
         "student_id",

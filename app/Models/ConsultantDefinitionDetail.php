@@ -81,13 +81,13 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     {
         parent::boot();
 
-        $latestId = Year::orderBy('active', 'desc')
+        $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')
             ->value('id');
 
-        Log::info("the max active is:" .json_encode($latestId));
+       // Log::info("the max active is:" . json_encode($activeYearId));
 
-        static::created(function ($consultantDefinitionDetail) use ($latestId) {
+        static::created(function ($consultantDefinitionDetail) use ($activeYearId) {
 
             Log::info("created run");
 
@@ -107,7 +107,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
                 $consultant_report_exististance = new ConsultantReport;
                 $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
-                $consultant_report_exististance->year_id = $latestId;
+                $consultant_report_exististance->year_id = $activeYearId;
                 $consultant_report_exististance->sum_all_consultant_duty_session += 1;
                 $consultant_report_exististance->statical_date = $today;
 
@@ -116,22 +116,22 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         });
 
 
-        static::updated(function ($consultantDefinitionDetail) use ($latestId) {
+        static::updated(function ($consultantDefinitionDetail) use ($activeYearId) {
 
             Log::info("updated run");
 
             $dirtyAttributes = $consultantDefinitionDetail->getDirty();
-            // Log::info("the changes is:" . json_encode($dirtyAttributes));
+            Log::info("the changes is:" . json_encode($dirtyAttributes));
             if (!empty($dirtyAttributes)) {
                 // Log the changes to an audit table
                 foreach ($dirtyAttributes as $attribute => $newValue) {
                     $oldValue = $consultantDefinitionDetail->getOriginal($attribute); // Get the original value
-                    self::updateReport($consultantDefinitionDetail,$attribute,$newValue, $oldValue);
+                    self::updateReport($consultantDefinitionDetail, $attribute, ($newValue ? $newValue : 0) , ($oldValue ? $oldValue : 0) );
 
                     // switch($attribute){
                     //     case "student_status":
                     //         //Log::info("the attribute is:" . $attribute . " and  new value is:" . $newValue );
-                           
+
                     //         //here shoudl be -1 from oldvalue like[absent-present-dellay] 
                     //         //and also add +1 to new value like[absent-present-dellay] 
                     //         //Log::info("the attribute was:" . $attribute . " and old value is:" . $oldValue );
@@ -145,16 +145,15 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
                     // }                   
                 }
-           
             }
             $today = Carbon::now()->format("Y-m-d");
             $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
                 ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
                 ->first();
             $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
-           // Log::info("student idfo is:". json_encode($student_info));
+            // Log::info("student idfo is:". json_encode($student_info));
 
-            if(empty($student_info)){
+            if (empty($student_info)) {
                 //Log::info("student info is null");
                 throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
                 //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
@@ -205,7 +204,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             //     // Log::info("consultantDefinitionDetail if is:". json_encode($consultantDefinitionDetail));
             //     $consultant_report_exististance = new ConsultantReport;
             //     $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
-            //     $consultant_report_exististance->year_id = $latestId;
+            //     $consultant_report_exististance->year_id = $activeYearId;
 
             //     $consultant_report_exististance->sum_all_humanities_students += $student_info->major === "humanities" ? 1 : 0;
             //     $consultant_report_exististance->sum_all_experimental_students += $student_info->major === "experimental" ? 1 : 0;
@@ -256,7 +255,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             //Log::info("the today is: " . json_encode($today) . " and first is: " . $firstDayOfMonth . " and end is:" . $lastDayOfMonth);
         });
 
-        static::deleted(function ($consultantDefinitionDetail) use ($latestId) {
+        static::deleted(function ($consultantDefinitionDetail) use ($activeYearId) {
             Log::info("deleted run");
 
 
@@ -273,7 +272,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             } else {
                 $consultant_report_exististance = new ConsultantReport;
                 $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
-                $consultant_report_exististance->year_id = $latestId;
+                $consultant_report_exististance->year_id = $activeYearId;
                 $consultant_report_exististance->sum_all_consultant_duty_session -= 1;
 
                 $consultant_report_exististance->statical_date = $today;
@@ -284,51 +283,73 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         });
     }
 
-    protected static function updateReport($consultantDefinitionDetail,$column,$new_value,$old_value)
+    protected static function updateReport($consultantDefinitionDetail, $column, $new_value, $old_value)
     {
 
-        $accept_column=["student_status"];
-        $accept_value=["apsent","present"];
+        $accept_column = ["student_status", "session_status", "consultant_status", "compensatory_meet", "single_meet", "remote"];
+        //$accept_value=["apsent","present"];
         Log::info("updateReport is run");
 
-        $latestId = Year::orderBy('active', 'desc')
-        ->orderBy('name', 'desc')
-        ->value('id');
+        $activeYearId = Year::orderBy('active', 'desc')
+            ->orderBy('name', 'desc')
+            ->value('id');
 
         $today = Carbon::now()->format("Y-m-d");
         $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
             ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
             ->first();
-        $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();    
+        $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
 
-        if(empty($student_info)){           
+        if (empty($student_info)) {
             throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
         }
 
-        if ($consultant_report_exististance ) {
-            in_array($column,$accept_column) ? $consultant_report_exististance["sum_".$column."_".$new_value] += 1 : null;
-            in_array($column,$accept_column) ? $consultant_report_exististance["sum_".$column."_".$old_value] -=  1 : null;
+        if ($consultant_report_exististance) {
+            // Log::info("after convertOldValue is:" .$data["sum_" . $column . "_" . $old_value]);
+
+            switch($column){
+
+                case "single_meet":
+                    Log::info("new value is :" . $new_value);
+                    Log::info("old value is :" . $old_value);
+
+            }
+
+            in_array($column, $accept_column) ? $consultant_report_exististance["sum_" . $column . "_" . $new_value] += 1 : null;
+            in_array($column, $accept_column) ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
 
             //$consultant_report_exististance->save();
 
-        }
-        else{
+        } else {
             $consultant_report_exististance = new ConsultantReport;
             $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
-            $consultant_report_exististance->year_id = $latestId;
+            $consultant_report_exististance->year_id = $activeYearId;
 
-            $sum_tmp_new="sum_".$column."_".$new_value;
-            $sum_tmp_old="sum_".$column."_".$old_value;
+            $sum_tmp_new = "sum_" . $column . "_" . $new_value;
+            $sum_tmp_old = "sum_" . $column . "_" . $old_value;
 
-            in_array($column,$accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null ;
-            in_array($column,$accept_column) ? $consultant_report_exististance->$sum_tmp_old -= 1 : null ;
+            in_array($column, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null;
+            in_array($column, $accept_column) ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
 
             $consultant_report_exististance->statical_date = $today;
 
             //$consultant_report_exististance->save();
         }
         $consultant_report_exististance->save();
-
-
     }
+
+    // static function convertOldValue($old_value)
+    // {
+
+    //     Log::info("inside convertOldValue is:" . $old_value);
+
+    //     switch ($old_value) {
+    //         case 0:
+            
+    //             return "0";
+
+    //         default:
+    //             return $old_value;
+    //     }
+    // }
 }

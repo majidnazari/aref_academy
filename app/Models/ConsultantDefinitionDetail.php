@@ -89,32 +89,33 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
         static::created(function ($consultantDefinitionDetail) use ($activeYearId) {
 
-            Log::info("created run");
+            // Log::info("created run");
 
-            $today = Carbon::now()->format("Y-m-d");
-            $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
-                ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
-                ->first();
-            //$student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
-            if ($consultant_report_exististance) {
-                Log::info("if created this is runnin");
+            // $today = Carbon::now()->format("Y-m-d");
+            // $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
+            //     ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
+            //     ->first();
+            // //$student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
+            // if ($consultant_report_exististance) {
+            //     Log::info("if created this is runnin");
 
-                $consultant_report_exististance["sum_all_consultant_duty_session"] += $consultantDefinitionDetail->id ? 1 : 0;
+            //     $consultant_report_exististance["sum_all_consultant_duty_session"] += $consultantDefinitionDetail->id ? 1 : 0;
 
-                $consultant_report_exististance->save();
-            } else {
-                Log::info("else create this is runnin");
+            //     $consultant_report_exististance->save();
+            // } else {
+            //     Log::info("else create this is runnin");
 
-                $consultant_report_exististance = new ConsultantReport;
-                $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
-                $consultant_report_exististance->year_id = $activeYearId;
-                $consultant_report_exististance->sum_all_consultant_duty_session += 1;
-                $consultant_report_exististance->statical_date = $today;
+            //     $consultant_report_exististance = new ConsultantReport;
+            //     $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
+            //     $consultant_report_exististance->year_id = $activeYearId;
+            //     $consultant_report_exististance->sum_all_consultant_duty_session += 1;
+            //     $consultant_report_exististance->statical_date = $today;
 
-                $consultant_report_exististance->save();
-            }
+            //     $consultant_report_exististance->save();
+            // }
+
+
         });
-
 
         static::updated(function ($consultantDefinitionDetail) use ($activeYearId) {
 
@@ -146,18 +147,18 @@ class ConsultantDefinitionDetail extends Model implements Auditable
                     // }                   
                 }
             }
-            $today = Carbon::now()->format("Y-m-d");
-            $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
-                ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
-                ->first();
-            $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
-            // Log::info("student idfo is:". json_encode($student_info));
+            // $today = Carbon::now()->format("Y-m-d");
+            // $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
+            //     ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
+            //     ->first();
+            // $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
+            // // Log::info("student idfo is:". json_encode($student_info));
 
-            if (empty($student_info)) {
-                //Log::info("student info is null");
-                throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
-                //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
-            }
+            // if (empty($student_info)) {
+            //     //Log::info("student info is null");
+            //     throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
+            //     //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
+            // }
 
 
             // if ($consultant_report_exististance &&  isset($student_info)) {
@@ -286,9 +287,10 @@ class ConsultantDefinitionDetail extends Model implements Auditable
     protected static function updateReport($consultantDefinitionDetail, $column, $new_value, $old_value)
     {
 
-        $accept_column = ["student_status", "session_status", "consultant_status", "compensatory_meet", "single_meet", "remote"];
+        $accept_column_definition = ["student_status", "session_status", "consultant_status", "compensatory_meet", "single_meet", "remote"];
+        $accept_column_studentinfo = ["major", "education_level"];
         //$accept_value=["apsent","present"];
-        Log::info("updateReport is run");
+        Log::info("updateReport in definition detail is run");
 
         $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')
@@ -300,7 +302,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             ->first();
         $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
 
-        if (empty($student_info)) {
+        if (empty($student_info) && ($consultant_report_exististance->student_id !=null)) {
             throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
         }
 
@@ -308,15 +310,21 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             // Log::info("after convertOldValue is:" .$data["sum_" . $column . "_" . $old_value]);
 
             switch($column){
-
-                case "single_meet":
-                    Log::info("new value is :" . $new_value);
-                    Log::info("old value is :" . $old_value);
+                case  in_array($column, $accept_column_definition): 
+                       $consultant_report_exististance["sum_" . $column . "_" . $new_value] += 1 ;
+                       $consultant_report_exististance["sum_" . $column . "_" . $old_value]!=null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
+                       break;
+                case  in_array($column, $accept_column_studentinfo):  
+                       $consultant_report_exististance["sum_students_" . $column . "_" . $new_value] += 1 ;
+                       $consultant_report_exististance["sum_students_" . $column . "_" . $old_value]!=null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
+                       break; 
 
             }
+            $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 ;
+            $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 ;
 
-            in_array($column, $accept_column) ? $consultant_report_exististance["sum_" . $column . "_" . $new_value] += 1 : null;
-            in_array($column, $accept_column) ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
+            // in_array($column, $accept_column) ? $consultant_report_exististance["sum_" . $column . "_" . $new_value] += 1 : null;
+            // in_array($column, $accept_column) ? ($consultant_report_exististance["sum_" . $column . "_" . $old_value]!=null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null) : null;
 
             //$consultant_report_exististance->save();
 
@@ -324,12 +332,36 @@ class ConsultantDefinitionDetail extends Model implements Auditable
             $consultant_report_exististance = new ConsultantReport;
             $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
             $consultant_report_exististance->year_id = $activeYearId;
+           
+            $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
 
-            $sum_tmp_new = "sum_" . $column . "_" . $new_value;
-            $sum_tmp_old = "sum_" . $column . "_" . $old_value;
+            if (empty($student_info) && ($consultant_report_exististance->student_id !=null)) {
+                throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
+            }
 
-            in_array($column, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null;
-            in_array($column, $accept_column) ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
+            switch($column){
+                case  in_array($column, $accept_column_definition): 
+                        $sum_tmp_new = "sum_" . $column . "_" . $new_value;
+                        $sum_tmp_old = "sum_" . $column . "_" . $old_value;
+                        $consultant_report_exististance->$sum_tmp_new += 1 ;
+                        $consultant_report_exististance->$sum_tmp_old!=null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
+                       break;
+                case  in_array($column, $accept_column_studentinfo):  
+                    $sum_tmp_new = "sum_students_" . $column . "_" . $new_value;
+                    $sum_tmp_old = "sum_students_" . $column . "_" . $old_value;
+                    $consultant_report_exististance->$sum_tmp_new += 1 ;
+                    $consultant_report_exististance->$sum_tmp_old!=null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
+                   break;   
+
+
+            }
+
+            $sum_tmp_new = "sum_students_major_" . $student_info['major'];
+            $consultant_report_exististance->$sum_tmp_new += 1 ;
+            $sum_tmp_new = "sum_students_education_level_" . $student_info['education_level_'];
+            $consultant_report_exististance->$sum_tmp_new += 1 ;
+            // in_array($column, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null;
+            // in_array($column, $accept_column) ? ($consultant_report_exististance->$sum_tmp_old!=null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null):null;
 
             $consultant_report_exististance->statical_date = $today;
 
@@ -338,18 +370,5 @@ class ConsultantDefinitionDetail extends Model implements Auditable
         $consultant_report_exististance->save();
     }
 
-    // static function convertOldValue($old_value)
-    // {
-
-    //     Log::info("inside convertOldValue is:" . $old_value);
-
-    //     switch ($old_value) {
-    //         case 0:
-            
-    //             return "0";
-
-    //         default:
-    //             return $old_value;
-    //     }
-    // }
+    
 }

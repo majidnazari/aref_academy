@@ -69,20 +69,20 @@ return new class extends Migration
                 $table->smallInteger("sum_consultant_status_dellay15more")->nullable();
 
                 $table->smallInteger("sum_compensatory_meet_1")->nullable();
-                $table->smallInteger("sum_compensatory_meet_")->nullable();
+                $table->smallInteger("sum_compensatory_meet_0")->nullable();
                 $table->smallInteger("sum_single_meet_1")->nullable();
                 $table->smallInteger("sum_single_meet_0")->nullable();
                 $table->smallInteger("sum_remote_1")->nullable();
-                $table->smallInteger("sum_remote_")->nullable(); 
-               
+                $table->smallInteger("sum_remote_0")->nullable(); 
+                
             #end region
             # region consultant finanacial
-                $table->smallInteger("sum_manager_status_approved")->nullable();
-                $table->smallInteger("sum_manager_status_pending")->nullable();
+                $table->smallInteger("sum_financial_manager_status_approved")->nullable();
+                $table->smallInteger("sum_financial_manager_status_pending")->nullable();
 
-                $table->smallInteger("sum_financial_status_approved")->nullable();
-                $table->smallInteger("sum_financial_status_pending")->nullable();
-                $table->smallInteger("sum_financial_status_semi_approved")->nullable();
+                $table->smallInteger("sum_financial_financial_status_approved")->nullable();
+                $table->smallInteger("sum_financial_financial_status_pending")->nullable();
+                $table->smallInteger("sum_financial_financial_status_semi_approved")->nullable();
 
                 $table->smallInteger("sum_financial_student_status_ok")->nullable();
                 $table->smallInteger("sum_financial_student_status_refused")->nullable();
@@ -91,9 +91,9 @@ return new class extends Migration
                 $table->smallInteger("sum_financial_student_status_fire_pending")->nullable();
                 $table->smallInteger("sum_financial_student_status_refuse_pending")->nullable();
 
-                $table->smallInteger("sum_financial_refused_status_not_returned")->nullable();
-                $table->smallInteger("sum_financial_refused_status_returned")->nullable();
-                $table->smallInteger("sum_financial_refused_status_noMoney")->nullable();
+                $table->smallInteger("sum_financial_financial_refused_status_not_returned")->nullable();
+                $table->smallInteger("sum_financial_financial_refused_status_returned")->nullable();
+                $table->smallInteger("sum_financial_financial_refused_status_noMoney")->nullable();
 
             #end region            
             

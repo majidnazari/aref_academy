@@ -41,7 +41,9 @@ return new class extends Migration
             #region consultant definition detail
 
                 $table->smallInteger("sum_is_defined_consultant_session")->nullable();
+                $table->smallInteger("sum_is_defined_consultant_session_in_minutes")->nullable();
                 $table->smallInteger("sum_is_filled_consultant_session")->nullable();
+                $table->smallInteger("sum_is_filled_consultant_session_in_minutes")->nullable();
 
                 $table->smallInteger("sum_student_status_absent")->nullable();
                 $table->smallInteger("sum_student_status_present")->nullable();

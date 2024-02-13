@@ -10,14 +10,15 @@ use OwenIt\Auditing\Contracts\Auditable;
 use GraphQL\Error\Error;
 use Log;
 
-class ConsultantDefinitionDetail extends Model implements Auditable
+class ConsultantDefinitionDetail extends Model //implements Auditable
 {
-    use \OwenIt\Auditing\Auditable;
+    //use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable =
     [
+        "id",
         "compensatory_of_definition_detail_id",
         "consultant_id",
         "student_id",
@@ -81,29 +82,45 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
         $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')
-            ->value('id');
+            ->value('id');       
 
-        Log::info("definition boot  before is running:");
-        static::saved(function ($consultantDefinitionDetail) {
-            Log::info("created run and creayed is:" . json_encode($consultantDefinitionDetail));
+        static::created(function ($consultantDefinitionDetail) use ($activeYearId) {
+
+            Log::info("created run and creayed is:".json_encode($consultantDefinitionDetail));  
+            $dirtyAttributes = $consultantDefinitionDetail->getDirty();
+            //Log::info("the changes is:" . json_encode($dirtyAttributes));
+
+            Log::info("updateReport in definition detail is run");
+
+            $activeYearId = Year::orderBy('active', 'desc')
+                ->orderBy('name', 'desc')
+                ->value('id');
+    
+            $today = Carbon::now()->format("Y-m-d");
+            $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
+                ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
+                ->first();           
+
+                if ($consultant_report_exististance && (isset($consultantDefinitionDetail['step']))  ) {
+                    $consultant_report_exististance['sum_is_defined_consultant_session'] +=1;
+                    $consultant_report_exististance['sum_is_defined_consultant_session_in_minutes'] +=$consultantDefinitionDetail['step'];
+                  
+
+                }
+                else if(isset($consultantDefinitionDetail['step']) ){
+                    $consultant_report_exististance = new ConsultantReport;
+                    $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
+                    $consultant_report_exististance->year_id = $activeYearId;
+
+                    $consultant_report_exististance->sum_is_defined_consultant_session = 1;
+                    $consultant_report_exististance->sum_is_defined_consultant_session_in_minutes = $consultantDefinitionDetail['step'];
+                    $consultant_report_exististance->statical_date = $today; 
+                    
+                } 
+            $consultant_report_exististance->save();
+
+
         });
-        Log::info("definition boot  after is running:");
-
-        // static::created(function ($consultantDefinitionDetail) use ($activeYearId) {
-
-        //     Log::info("created run and creayed is:");  
-        //     // $dirtyAttributes = $consultantDefinitionDetail->getDirty();
-        //     // Log::info("the changes is:" . json_encode($dirtyAttributes));
-        //     // if (!empty($dirtyAttributes)) {
-        //     //     // Log the changes to an audit table
-        //     //     foreach ($dirtyAttributes as $attribute => $newValue) {
-        //     //         $oldValue = $consultantDefinitionDetail->getOriginal($attribute); // Get the original value
-
-        //     //         //self::updateReport($consultantDefinitionDetail, $attribute, ($newValue ? $newValue : 0), ($oldValue ? $oldValue : 0));
-        //     //     }
-        //     // }          
-
-        // });
 
         static::updated(function ($consultantDefinitionDetail) use ($activeYearId) {
 
@@ -132,42 +149,36 @@ class ConsultantDefinitionDetail extends Model implements Auditable
 
         static::deleted(function ($consultantDefinitionDetail) use ($activeYearId) {
 
-            Log::info("defionition delete is:" . json_encode($consultantDefinitionDetail));
-            //     Log::info("definition deleted run");
-            //     $today = Carbon::now()->format("Y-m-d");
-            //     $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
-            //         ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
-            //         ->first();
-            //     $student_info = StudentInfo::where("student_id", $consultantDefinitionDetail->student_id)->first();
+            Log::info("CDD delete is:" . json_encode($consultantDefinitionDetail));
 
-            //     if (empty($student_info) && ($consultantDefinitionDetail->student_id != null)) {
-            //         throw new \Exception("CONSULTANTDEFINITIONDETAIL-UPDATE_STUDENTINFO-NOT-FOUND");
-            //     }
+            // $activeYearId = Year::orderBy('active', 'desc')
+            // ->orderBy('name', 'desc')
+            // ->value('id');
 
-            //     if ($consultant_report_exististance) {
-            //         // Log::info("after convertOldValue is:" .$data["sum_" . $column . "_" . $old_value]); 
-            //         $consultant_report_exististance["sum_consultant_duty_session"] -= 1;
-            //         isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
-            //         isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
-            //     } else {
-            //         $consultant_report_exististance = new ConsultantReport;
-            //         $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
-            //         $consultant_report_exististance->year_id = $activeYearId;
-            //         $consultant_report_exististance->sum_consultant_duty_session -= 1;
+            $today = Carbon::now()->format("Y-m-d");
+            $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
+                ->where('consultant_id', $consultantDefinitionDetail->consultant_id)
+                ->first();           
 
-            //         if (isset($student_info['major'])) {
-            //             $sum_tmp_new = "sum_students_major_" . $student_info['major'];
-            //             $consultant_report_exististance->$sum_tmp_new -= 1;
-            //         }
-            //         if (isset($student_info['education_level'])) {
-            //             $sum_tmp_new = "sum_students_education_level_" . $student_info['education_level'];
-            //             $consultant_report_exististance->$sum_tmp_new -= 1;
-            //         }
+                if ($consultant_report_exististance && (isset($consultantDefinitionDetail['step']))  ) {
+                    $consultant_report_exististance['sum_is_defined_consultant_session'] -=1;
+                    $consultant_report_exististance['sum_is_defined_consultant_session_in_minutes'] -=$consultantDefinitionDetail['step'];
+                
 
-            //         $consultant_report_exististance->statical_date = $today;
-            //     }
-            //     $consultant_report_exististance->save();
-        });
+                }
+                else if(isset($consultantDefinitionDetail['step']) ){
+                    $consultant_report_exististance = new ConsultantReport;
+                    $consultant_report_exististance->consultant_id = $consultantDefinitionDetail->consultant_id;
+                    $consultant_report_exististance->year_id = $activeYearId;
+
+                    $consultant_report_exististance->sum_is_defined_consultant_session = -1;
+                    $consultant_report_exististance->sum_is_defined_consultant_session_in_minutes -= $consultantDefinitionDetail['step'];
+                    $consultant_report_exististance->statical_date = $today; 
+                    
+                } 
+            $consultant_report_exististance->save();
+                
+            });
     }
 
     protected static function updateReport($consultantDefinitionDetail, $column, $new_value, $old_value)
@@ -223,13 +234,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
                     $consultant_report_exististance["sum_students_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
                     break;
             }
-            // isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 : null;
-            // isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 :null ;
-
-            // in_array($column, $accept_column) ? $consultant_report_exististance["sum_" . $column . "_" . $new_value] += 1 : null;
-            // in_array($column, $accept_column) ? ($consultant_report_exististance["sum_" . $column . "_" . $old_value]!=null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null) : null;
-
-            //$consultant_report_exististance->save();
+            
 
         } else {
             $consultant_report_exististance = new ConsultantReport;
@@ -258,12 +263,7 @@ class ConsultantDefinitionDetail extends Model implements Auditable
                     }
 
                     break;
-                    // case  "student_id":
-                    //     (isset($new_value) && ($new_value != null))
-                    //         ? $consultant_report_exististance["sum_is_filled_consultant_session"] += 1
-                    //         : $consultant_report_exististance["sum_is_filled_consultant_session"] -= 1;
-
-                    //     break;
+                    
                 case  in_array($column, $accept_column_definition):
                     $sum_tmp_new = "sum_" . $column . "_" . $new_value;
                     $sum_tmp_old = "sum_" . $column . "_" . $old_value;

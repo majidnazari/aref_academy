@@ -35,7 +35,10 @@ class ConsultantReport extends Model implements Auditable
         "sum_students_education_level_12",
         "sum_students_education_level_13",
         "sum_students_education_level_14",
-        "sum_consultant_duty_session",
+
+        "sum_is_filled_consultant_session",
+        "sum_is_defined_consultant_session",
+
         "sum_student_status_absent",
         "sum_student_status_present",
         "sum_student_status_no_action",

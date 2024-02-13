@@ -65,14 +65,14 @@ class ConsultantFinancial extends Model implements Auditable
     {
         return $this->belongsTo(Year::class, "year_id")->withTrashed();
     }
-    public function consultantFinancials()
+    public function consultantDefinitionDetails()
     {
-        return $this->belongsTo(consultantFinancial::class, "consultant_definition_detail_id");
-    }
+        return $this->belongsTo(ConsultantDefinitionDetail::class,"consultant_definition_detail_id");
+    }   
 
     public function definitionDetail()
     {
-        return $this->belongsTo(consultantFinancial::class, 'student_id', 'student_id');
+        return $this->belongsTo(ConsultantDefinitionDetail::class, 'student_id', 'student_id');
     }
 
     protected static function boot()
@@ -116,7 +116,7 @@ class ConsultantFinancial extends Model implements Auditable
     protected static function updateReportForCreate($consultantFinancial, $column, $new_value, $old_value){
 
         $accept_column = ["student_status", "manager_status", "financial_status","financial_refused_status"];
-        // Log::info("updateReport in consultant financial is run");
+        Log::info("updateReportForCreate in consultant financial is run");
 
         $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')
@@ -157,7 +157,7 @@ class ConsultantFinancial extends Model implements Auditable
     {
 
         $accept_column = ["student_status", "manager_status", "financial_status", "financial_refused_status"];
-        // Log::info("updateReport in consultant financial is run");
+         Log::info("updateReportForUpdate in consultant financial is run");
 
         $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')

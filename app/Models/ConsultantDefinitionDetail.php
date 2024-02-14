@@ -215,12 +215,15 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
                     $student_info = $old_value ?  StudentInfo::where("student_id", $old_value)->first() : StudentInfo::where("student_id", $new_value)->first();
                     if (isset($new_value) && ($new_value != null)) {
                         $consultant_report_exististance["sum_is_filled_consultant_session"] += 1;
-                        isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 : null;
-                        isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 : null;
+                        $consultant_report_exististance["sum_is_filled_consultant_session_in_minutes"] += $consultantDefinitionDetail['step'];
+                        //isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 : null;
+                        //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 : null;
                     } else {
                         $consultant_report_exististance["sum_is_filled_consultant_session"] -= 1;
-                        isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
-                        isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
+                        $consultant_report_exististance["sum_is_filled_consultant_session_in_minutes"] -= $consultantDefinitionDetail['step'];
+
+                        //isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
+                        //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
                     }
 
                     break;
@@ -229,10 +232,10 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
                     $consultant_report_exististance["sum_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
                     break;
 
-                case  in_array($column, $accept_column_studentinfo):
-                    $consultant_report_exististance["sum_students_" . $column . "_" . $new_value] += 1;
-                    $consultant_report_exististance["sum_students_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
-                    break;
+                // case  in_array($column, $accept_column_studentinfo):
+                //     $consultant_report_exististance["sum_students_" . $column . "_" . $new_value] += 1;
+                //     $consultant_report_exististance["sum_students_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null;
+                //     break;
             }
             
 
@@ -254,12 +257,12 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
                     $student_info = $old_value ?  StudentInfo::where("student_id", $old_value)->first() : StudentInfo::where("student_id", $new_value)->first();
                     if (isset($new_value) && ($new_value != null)) {
                         $consultant_report_exististance["sum_is_filled_consultant_session"] += 1;
-                        isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 : null;
-                        isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 : null;
+                        //isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 : null;
+                        //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 : null;
                     } else {
                         $consultant_report_exististance["sum_is_filled_consultant_session"] -= 1;
-                        isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
-                        isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
+                        //isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
+                        //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
                     }
 
                     break;
@@ -271,12 +274,12 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
                     $consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
                     break;
 
-                case  in_array($column, $accept_column_studentinfo):
-                    $sum_tmp_new = "sum_students_" . $column . "_" . $new_value;
-                    $sum_tmp_old = "sum_students_" . $column . "_" . $old_value;
-                    $consultant_report_exististance->$sum_tmp_new += 1;
-                    $consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
-                    break;
+                // case  in_array($column, $accept_column_studentinfo):
+                //     $sum_tmp_new = "sum_students_" . $column . "_" . $new_value;
+                //     $sum_tmp_old = "sum_students_" . $column . "_" . $old_value;
+                //     $consultant_report_exististance->$sum_tmp_new += 1;
+                //     $consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null;
+                //     break;
             }
 
             $consultant_report_exististance->statical_date = $today;

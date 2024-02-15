@@ -147,6 +147,21 @@ class ConsultantFinancial extends Model implements Auditable
         });
 
         static::deleted(function ($consultantFinancial) {
+            Log::info("the  deleted and changes of financial are:" . json_encode($consultantFinancial));
+            self::updateReportForDelete($consultantFinancial);
+            // $dirtyAttributes = $consultantFinancial->getDirty();
+            // Log::info("the  updated and changes of financial are:" . json_encode($dirtyAttributes));
+            // if (!empty($dirtyAttributes)) {
+                // Log the changes to an audit table
+                //foreach ($consultantFinancial as $attribute => $newValue) {
+                   
+                    //$oldValue = $consultantFinancial->getOriginal($attribute); // Get the original value
+
+                    //Log::info("the column is:". $attribute . " and new value is:" .$newValue );
+                   
+                //}
+            //}
+
         });
     }
     // protected static function updateReportForCreate($consultantFinancial, $column, $new_value, $old_value)
@@ -236,6 +251,71 @@ class ConsultantFinancial extends Model implements Auditable
 
             in_array($column, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null;
             in_array($column, $accept_column) ? ($consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null) : null;
+
+            $consultant_report_exististance->statical_date = $today;
+
+            //$consultant_report_exististance->save();
+        }
+        $consultant_report_exististance->save();
+    }
+    protected static function updateReportForDelete($consultantFinancial)
+    {
+
+        $accept_column = ["student_status", "manager_status", "financial_status", "financial_refused_status"];
+        Log::info("updateReportForDelete in consultant financial is run");
+
+        $activeYearId = Year::orderBy('active', 'desc')
+            ->orderBy('name', 'desc')
+            ->value('id');
+
+        $today = Carbon::now()->format("Y-m-d");
+        $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
+            ->where('consultant_id', $consultantFinancial->consultant_id)
+            ->first();
+        $student_info = StudentInfo::where("student_id", $consultantFinancial->student_id)->first();
+
+        if (empty($student_info) && ($consultant_report_exististance->student_id != null)) {
+            throw new \Exception("CONSULTANTFINANCIAL-UPDATE_STUDENTINFO-NOT-FOUND");
+        }
+
+        $attributes = $consultantFinancial->getAttributes();
+
+        // Log the attribute names and values
+       
+        if ($consultant_report_exististance) { 
+            $consultant_report_exististance["sum_students_registered"] -= 1;
+            isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
+            isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
+               
+
+            foreach ($attributes as $attribute => $value) {
+                Log::info("Attribute: $attribute, Value: $value");           
+
+                in_array($attribute, $accept_column) ? $consultant_report_exististance["sum_financial_" . $attribute . "_" . $value] -= 1 : null;
+                 // in_array($column, $accept_column) ? ($consultant_report_exististance["sum_financial_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_financial_" . $column . "_" . $old_value] -= 1 : null) : null;
+            }
+       
+        } else {
+            $consultant_report_exististance = new ConsultantReport;
+            $consultant_report_exististance->consultant_id = $consultantFinancial->consultant_id;
+            $consultant_report_exististance->year_id = $activeYearId;
+
+            $consultant_report_exististance->sum_students_registered -= 1;
+            $sum_student_major = "sum_students_major_" .  $student_info['major'];
+            isset($student_info['major']) ?  $consultant_report_exististance->$sum_student_major -= 1 : null;
+            $sum_student_lavel = "sum_students_education_level_" .  $student_info['education_level'];
+            isset($student_info['education_level']) ?  $consultant_report_exististance->$sum_student_lavel -= 1 : null;
+
+            foreach ($attributes as $attribute => $value) {
+               // Log::info("Attribute: $attribute, Value: $value");
+               $sum_tmp_new = "sum_financial_" . $attribute . "_" . $value;
+                in_array($attribute, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new -= 1 : null;
+
+            }
+           
+            //$sum_tmp_old = "sum_financial_" . $column . "_" . $old_value;
+
+            //in_array($column, $accept_column) ? ($consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null) : null;
 
             $consultant_report_exististance->statical_date = $today;
 

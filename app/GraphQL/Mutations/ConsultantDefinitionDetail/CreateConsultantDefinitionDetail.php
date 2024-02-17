@@ -342,6 +342,12 @@ final class CreateConsultantDefinitionDetail
 
         }
         $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);
+
+        foreach ($data as $recordData) {// just fire the created event for create report record
+            $model = new ConsultantDefinitionDetail;
+            $model->fill($recordData);
+            Event::dispatch('eloquent.created: ' . get_class($model), $model);
+        }
         return null;
 
         // return (new ConsultantDefinitionDetail($copy_definition_details_time_tables))

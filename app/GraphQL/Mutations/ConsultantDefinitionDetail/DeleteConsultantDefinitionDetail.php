@@ -28,7 +28,7 @@ final class DeleteConsultantDefinitionDetail
         $user_id = auth()->guard('api')->user()->id;
         $consultantDefinitionDetail = ConsultantDefinitionDetail::where('id', $args['id'])->first();
         $now=Carbon::now()->format("Y-m-d");
-         Log::info("now is:".json_encode($consultantDefinitionDetail) );  
+        // Log::info("now is:".json_encode($consultantDefinitionDetail) );  
          
         if (!$consultantDefinitionDetail) {
             return Error::createLocatedError("COUNSULTANT-DEFINITION-DETAIL-DELETE_NOT_FOUND");

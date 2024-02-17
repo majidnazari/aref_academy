@@ -90,7 +90,7 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
             $dirtyAttributes = $consultantDefinitionDetail->getDirty();
             //Log::info("the changes is:" . json_encode($dirtyAttributes));
 
-            Log::info("updateReport in definition detail is run");
+            //Log::info("updateReport in definition detail is run");
 
             $activeYearId = Year::orderBy('active', 'desc')
                 ->orderBy('name', 'desc')
@@ -186,6 +186,7 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
 
         $accept_column_definition = ["student_id", "student_status", "session_status", "consultant_status", "compensatory_meet", "single_meet", "remote"];
         $accept_column_studentinfo = ["major", "education_level"];
+        $accept_column_splited_session = ["step"];
         //$accept_value=["apsent","present"];
         Log::info("updateReport in definition detail is run");
 
@@ -210,8 +211,8 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
 
             switch ($column) {
                 case  "student_id":
-                    Log::info("old value for deleted student" . $old_value);
-                    Log::info("new value for deleted student" . $new_value);
+                    //Log::info("old value for deleted student" . $old_value);
+                    //Log::info("new value for deleted student" . $new_value);
                     $student_info = $old_value ?  StudentInfo::where("student_id", $old_value)->first() : StudentInfo::where("student_id", $new_value)->first();
                     if (isset($new_value) && ($new_value != null)) {
                         $consultant_report_exististance["sum_is_filled_consultant_session"] += 1;
@@ -226,6 +227,22 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
                         //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
                     }
 
+                    break;
+                case   in_array($column, $accept_column_splited_session):
+
+                    // Log::info("old value for deleted student" . $old_value);
+                    // Log::info("new value for deleted student" . $new_value);
+                    // Log::info("and it is filled or not :" . isset($consultantDefinitionDetail->student_id) ? $consultantDefinitionDetail->student_id : null);
+
+                    if($consultantDefinitionDetail->student_id){
+                        $consultant_report_exististance["sum_is_defined_consultant_session_in_minutes"] -= ($old_value -$new_value);
+                        $consultant_report_exististance["sum_is_filled_consultant_session_in_minutes"] -= ($old_value -$new_value);                      
+
+                    }
+                    else{
+                        $consultant_report_exististance["sum_is_defined_consultant_session_in_minutes"] -= ($old_value -$new_value);
+                    }
+                   
                     break;
                 case  in_array($column, $accept_column_definition):
                     $consultant_report_exististance["sum_" . $column . "_" . $new_value] += 1;
@@ -252,21 +269,35 @@ class ConsultantDefinitionDetail extends Model //implements Auditable
 
             switch ($column) {
                 case  "student_id":
-                    Log::info("old value for deleted student" . $old_value);
-                    Log::info("new value for deleted student" . $new_value);
+                    //Log::info("old value for deleted student" . $old_value);
+                    //Log::info("new value for deleted student" . $new_value);
                     $student_info = $old_value ?  StudentInfo::where("student_id", $old_value)->first() : StudentInfo::where("student_id", $new_value)->first();
                     if (isset($new_value) && ($new_value != null)) {
-                        $consultant_report_exististance["sum_is_filled_consultant_session"] += 1;
+                        $consultant_report_exististance->sum_is_filled_consultant_session += 1;
+                        $consultant_report_exististance->sum_is_filled_consultant_session_in_minutes += $consultantDefinitionDetail->step;
+
                         //isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] += 1 : null;
                         //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] += 1 : null;
                     } else {
-                        $consultant_report_exististance["sum_is_filled_consultant_session"] -= 1;
+                        $consultant_report_exististance->sum_is_filled_consultant_session -= 1;
+                        $consultant_report_exististance->sum_is_filled_consultant_session_in_minutes -= $consultantDefinitionDetail->step;
                         //isset($student_info['major']) ?  $consultant_report_exististance["sum_students_major_" .  $student_info['major']] -= 1 : null;
                         //isset($student_info['education_level']) ?  $consultant_report_exististance["sum_students_education_level_" .  $student_info['education_level']] -= 1 : null;
                     }
 
                     break;
-                    
+                case   in_array($column, $accept_column_splited_session):
+
+                        if($consultantDefinitionDetail->student_id){
+                            $consultant_report_exististance->sum_is_defined_consultant_session_in_minutes -= ($old_value -$new_value);
+                            $consultant_report_exististance->sum_is_filled_consultant_session_in_minutes -= ($old_value -$new_value);                      
+    
+                        }
+                        else{
+                            $consultant_report_exististance->sum_is_defined_consultant_session_in_minutes -= ($old_value -$new_value);
+                        }
+                       
+                        break;   
                 case  in_array($column, $accept_column_definition):
                     $sum_tmp_new = "sum_" . $column . "_" . $new_value;
                     $sum_tmp_old = "sum_" . $column . "_" . $old_value;

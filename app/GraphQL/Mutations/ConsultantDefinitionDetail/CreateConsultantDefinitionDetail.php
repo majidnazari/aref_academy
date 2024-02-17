@@ -13,6 +13,7 @@ use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Log;
 
 final class CreateConsultantDefinitionDetail
@@ -48,14 +49,7 @@ final class CreateConsultantDefinitionDetail
             ->whereIn('branch_class_room_id', $branch_class_room_ids);
         $all_of_consultant_data = $all_of_consultant_data_collection->get();
 
-        // $startOfWeek = ($args['week'] === "Next") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        // $startOfWeek = ($args['week'] === "Next2week") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next2week)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        // $startOfWeek = ($args['week'] === "Next3week") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next3week)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        // $startOfWeek = ($args['week'] === "Next4week") ? Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(self::Next4week)->format("Y-m-d") : Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
-        // // $endOfWeek = ($args['week'] === "Next") ? Carbon::now()->endOfWeek(Carbon::FRIDAY)->addDays(7)->format("Y-m-d") : Carbon::now()->endOfWeek(Carbon::FRIDAY)->format("Y-m-d");
-
         [$startOfWeek, $startOfWeek] = $this->selectWeek(Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d"), Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d"), $args['week']);
-
 
         //Log::info("the strat of create is:" . $startOfWeek);
 
@@ -85,14 +79,6 @@ final class CreateConsultantDefinitionDetail
                 ];
                 $start_hour = $next_time;
 
-                // $is_exist =  $all_of_consultant_data_collection
-                //     //->where('consultant_id', $consultant_definition_detail_date['consultant_id'])                    
-                //     ->where('start_hour', $consultant_definition_detail_date['start_hour'])
-                //     ->where('end_hour', $consultant_definition_detail_date['end_hour'])                  
-                //     ->where('session_date', $consultant_definition_detail_date['session_date'])
-                //     ->first();
-                //     Log::info(json_encode($all_of_consultant_data_collection));
-                //     Log::info("existance is:"  . $is_exist);
                 $is_exist_consultant = $this->validateSessionConsultant($all_of_consultant_data_collection, $consultant_definition_detail_date);
                 // return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_RECORD_ALREADY_EXIST");                   
 
@@ -129,46 +115,14 @@ final class CreateConsultantDefinitionDetail
             return Error::createLocatedError("ایجاد زمانبندی روزانه : تایم های تکراری شامل:" .  json_encode($error));
         }
 
-        // foreach ($args['days'] as $day) {
-        //     // $dayOfWeek = Carbon::parse('next ' . $day)->toDateString();
-        //     $dayOfWeek = Carbon::parse($startOfWeek)->addDays($this->getEnum($day))->toDateString();
-        //     $start_hour = $args['start_hour'];
-        //     $end_hour = $args['end_hour'];
-        //     do {
-        //         $next_time = Carbon::parse($start_hour)->addMinutes($args['step'])->format("H:i");
-
-        //         $consultant_definition_detail_date = [
-        //             'consultant_id' => $args['consultant_id'],
-        //             'branch_class_room_id' => isset($args['branch_class_room_id']) ? $args['branch_class_room_id'] : null,
-        //             // 'branch_id' =>$all_of_consultant_data->branchClassRoom->branch_id,
-        //             'user_id' => $user_id,
-        //             'start_hour' => $start_hour,
-        //             'end_hour' => $next_time,
-        //             'step' => $args['step'],
-        //             'session_date' => $dayOfWeek,
-        //             'created_at' => $now,
-
-        //         ];
-        //         $is_exist = $all_of_consultant_data->where('consultant_id', $args['consultant_id'])
-        //             // ->where('branch_class_room_id',$args['branch_class_room_id'])
-        //             // ->where('user_id',$user_id)
-        //             ->where('start_hour', $start_hour)
-        //             ->where('end_hour', $next_time)
-        //             //->where('step',$args['step'])
-        //             ->where('session_date', $dayOfWeek)
-        //             ->first();
-
-        //         $start_hour = $next_time;
-
-        //         if ($is_exist) {
-        //             continue;
-        //             //return Error::createLocatedError("CONSULTANTDEFINITIONDETAIL-CREATE_RECORD_ALREADY_EXIST");                   
-        //         }
-        //         $data[] = $consultant_definition_detail_date;
-        //     } while (Carbon::parse($start_hour)->addMinutes($args['step']) <= Carbon::parse($end_hour));
-        // }
-
+        
         ConsultantDefinitionDetail::insert($data);
+        foreach ($data as $recordData) {// just fire the created event for create report record
+            $model = new ConsultantDefinitionDetail;
+            $model->fill($recordData);
+            Event::dispatch('eloquent.created: ' . get_class($model), $model);
+        }
+        
         $result = ConsultantDefinitionDetail::whereNotIn('id', $all_of_consultant_data->pluck('id'))->get();
         return $result;
     }
@@ -388,6 +342,12 @@ final class CreateConsultantDefinitionDetail
 
         }
         $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);
+
+        foreach ($data as $recordData) {// just fire the created event for create report record
+            $model = new ConsultantDefinitionDetail;
+            $model->fill($recordData);
+            Event::dispatch('eloquent.created: ' . get_class($model), $model);
+        }
         return null;
 
         // return (new ConsultantDefinitionDetail($copy_definition_details_time_tables))

@@ -32,7 +32,6 @@ final class GetConsultants
             }
             $consultant->where('group_id',6)
             ->get();
-            Log::info("this is run". env('CONSULTANT_GORUP_ID'));
             return $consultant;
         }
         $consultant = User::where('deleted_at', null)

@@ -13,6 +13,8 @@ use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+
 use Log;
 
 final class CopyOneDayTimeTable
@@ -214,7 +216,14 @@ final class CopyOneDayTimeTable
            // return Error::createLocatedError("duplicate is:" .  json_encode($error));
             return Error::createLocatedError("کپی برنامه روزانه: جلسات مورد نظر تکراری است:" .  json_encode($error));
         }
-        $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data);
+        $copy_definition_details_time_tables = ConsultantDefinitionDetail::insert($data); 
+
+        foreach ($data as $recordData) {// just fire the created event for create report record
+            $model = new ConsultantDefinitionDetail;
+            $model->fill($recordData);
+            Event::dispatch('eloquent.created: ' . get_class($model), $model);
+        }
+
         return null;
     }
 }

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Models\ConsultantReport;
+use Carbon\Carbon;
+use Log;
 
 
 class StudentInfo extends Model implements Auditable
@@ -37,4 +40,5 @@ class StudentInfo extends Model implements Auditable
     {
         return $this->belongsTo(User::class, 'user_id_editor')->withTrashed();
     }
+    
 }

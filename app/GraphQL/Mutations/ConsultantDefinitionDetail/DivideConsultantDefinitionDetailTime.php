@@ -56,6 +56,7 @@ final class DivideConsultantDefinitionDetailTime
             //return Error::createLocatedError("تقسیم زمانبندی مشاور: به علت تداخل زمانبندی امکان تقسیم جلسه وجود ندارد.");
         }
         $consultantDefinition["start_hour"]=$end_hour_dived;
+        $consultantDefinition["step"]=$consultantDefinition["step"] - (int)$division_time;
         $consultantDefinition->save();
 
         $dividedDefinition=[

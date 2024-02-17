@@ -76,6 +76,8 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
     #import Queries/StudentWarningHistories/StudentWarningHistories.graphql
     #import Queries/ConsultantDefinitionDetail/ConsultantDefinitionDetail.graphql
     #import Queries/ConsultantFinancial/ConsultantFinancial.graphql
+    #import Queries/ConsultantReport/ConsultantReport.graphql
+
     
     
     

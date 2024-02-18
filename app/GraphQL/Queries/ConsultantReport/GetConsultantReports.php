@@ -33,46 +33,13 @@ final class GetConsultantReport
 
             isset($args['consultant_id']) ? $ConsultantReport->where('consultant_id', $args['consultant_id']) : '';
             isset($args['static_date_from']) ? $ConsultantReport->where('statical_date','>=', $args['static_date_from']) : null;
-            isset($args['static_date_to']) ? $ConsultantReport->where('statical_date','<=', $args['static_date_to']) : null;
+            isset($args['static_date_to']) ? $ConsultantReport->where('statical_date','<=', $args['static_date_to']) : null;           
 
-            //isset($args['sum_students_major_humanities']) ? $ConsultantReport->where('sum_students_major_humanities','>', $args['static_date_to']) : null;
-
-            //isset($args['static_date_to']) ? $ConsultantReport->where('statical_date','<=', $args['static_date_to']) : null;
-
-            $ConsultantReports=$ConsultantReport->get();
-            //     if($branch_id){
-            //         //isset($args['branch_id']) ? $ConsultantReport->where('branch_id', $args['branch_id']) : $ConsultantReport->whereIn('branch_id', $branch_id);
-            //         $ConsultantReport->where('branch_id',$branch_id);
-            //     }
-                
-            //     //isset($args['branch_id']) ? $ConsultantReport->where('branch_id', $args['branch_id']) : '';
-            //     isset($args['manager_status']) ? $ConsultantReport->where('manager_status', $args['manager_status']) : '';
-                
-            //     isset($args['financial_status']) ? $ConsultantReport->where('financial_status', $args['financial_status']) : '';
-            //     isset($args['student_status']) ? $ConsultantReport->where('student_status', $args['student_status']) : '';
-            //     isset($args['financial_refused_status']) ? $ConsultantReport->where('financial_refused_status', $args['financial_refused_status']) : '';
-            //     isset($args['user_id_manager']) ? $ConsultantReport->where('user_id_manager', $args['user_id_manager']) : '';
-            //     isset($args['user_id_financial']) ? $ConsultantReport->where('user_id_financial',  $args['user_id_financial']) : '';
-            //     isset($args['user_id_student_status']) ? $ConsultantReport->where('user_id_student_status', $args['user_id_student_status']) : '';
-            //     isset($args['description']) ? $ConsultantReport->where('description', $args['description']) : '';
-            //     isset($args['date_from']) ? $ConsultantReport->where('created_at','>=', $args['date_from']) : '';
-            //     isset($args['date_to']) ? $ConsultantReport->where('created_at','<=', $args['date_to']) : '';
-            //    if (isset($args['total_present']) )
-            //    {
-            //     $ConsultantReport
-            //     ->groupBy('student_id')
-            //     ->havingRaw("COUNT(student_id) = ".$args['total_present']  );
-            //     //    $consultantFinancial_copy = clone $ConsultantReport;
-            //     //    $result=$this->find_total_present_in_consultant_fifancial($ConsultantReport,$args['total_present']);
-
-            //    }
+            $ConsultantReports=$ConsultantReport->get();        
 
             $consultant_report=new ConsultantReport;
-       
-
 
             foreach($ConsultantReports as $ConsultantReport){
-                $consultant_report->consultant_id =$ConsultantReport['consultant_id'];
                 $consultant_report->sum_students_registered +=$ConsultantReport['sum_students_registered'];
 
                 $consultant_report->sum_students_major_humanities +=$ConsultantReport['sum_students_major_humanities'];
@@ -82,15 +49,15 @@ final class GetConsultantReport
                 $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_major_other'];
 
 
-                $consultant_report->sum_students_education_level_6 +=$ConsultantReport['sum_students_education_level_6'];
-                $consultant_report->sum_students_education_level_7 +=$ConsultantReport['sum_students_education_level_7'];
-                $consultant_report->sum_students_education_level_8 +=$ConsultantReport['sum_students_education_level_8'];
-                $consultant_report->sum_students_education_level_9 +=$ConsultantReport['sum_students_education_level_9'];
-                $consultant_report->sum_students_education_level_10 +=$ConsultantReport['sum_students_education_level_10'];
-                $consultant_report->sum_students_education_level_11 +=$ConsultantReport['sum_students_education_level_11'];
-                $consultant_report->sum_students_education_level_12 +=$ConsultantReport['sum_students_education_level_12'];
-                $consultant_report->sum_students_education_level_13 +=$ConsultantReport['sum_students_education_level_13'];
-                $consultant_report->sum_students_education_level_14 +=$ConsultantReport['sum_students_education_level_14'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_6'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_7'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_8'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_9'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_10'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_11'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_12'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_13'];
+                $consultant_report->sum_students_major_other +=$ConsultantReport['sum_students_education_level_14'];
 
 
                 $consultant_report->sum_is_defined_consultant_session +=$ConsultantReport['sum_is_defined_consultant_session'];

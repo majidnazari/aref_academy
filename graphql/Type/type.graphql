@@ -1345,10 +1345,6 @@ type ConsultantReportSimple {
 type ConsultantReportAggregate {
 
     consultant_id: Int
-    year_id: Int
-
-    sum_students_registered: Int
-
-
+    consultant_statics: ConsultantReportSimple
 
 }

@@ -85,22 +85,9 @@
       orderBy:[OrderByClause!] @orderBy
 
 
-  ): ConsultantReportSimple
+  ): [ConsultantReportAggregate]
     @guard(with:["api"])
    
   @field(resolver: "App\\GraphQL\\Queries\\ConsultantReport\\GetConsultantReport@resolveConsultantReport") 
 
-  getConsultantReports(
-      
-      # user_id_creator:Int
-      consultant_id:Int
-
-      static_date_from:String
-      static_date_to:String
-
-      orderBy:[OrderByClause!] @orderBy
-
-  ): [ConsultantReportSimple]
-    @guard(with:["api"])
-   
-  @field(resolver: "App\\GraphQL\\Queries\\ConsultantReport\\GetConsultantReport@resolveConsultantReport") 
+  

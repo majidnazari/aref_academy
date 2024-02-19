@@ -25,36 +25,37 @@ final class GetConsultantReport
     function resolveConsultantReport($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $branch_id = auth()->guard('api')->user()->branch_id;
+         Log::info(" consultants id are :" . isset($args['consultant_id']));
 
+
+        // if(isset(($args['consultant_id']) && ($args['consultant_id']===-2)))
+        // {
+        //     return null;
+        // }
         if (AuthRole::CheckAccessibility("ConsultantReport")) {
 
-            $consultant_ids = User::where('group_id', 6)
+            $consultants = User::where('group_id', 6)
                 ->where(function ($query) use ($args) {
                     if (isset($args['consultant_id'])) {
                         $query->where('id', $args['consultant_id']);
                     }
                 })
-                ->pluck('id');
+                ->get();
 
-            // Log::info(" consultants id are :" . json_encode( $consultant_ids));
+            // Log::info(" consultants id are :" . json_encode( $consultants));
 
-            $today = Carbon::now()->format("Y-m-d");
-
-
-           
-            // $tmp[] = null;
-            // $data[] = null;
-
-            foreach ($consultant_ids as $consultant_id) {
+            $today = Carbon::now()->format("Y-m-d");           
+            $data=[];
+            foreach ($consultants as $consultant) {
                 $consultant_report = new ConsultantReport;
-                $ConsultantReport = ConsultantReport::where('deleted_at', null)->where('consultant_id', $consultant_id);
+                $ConsultantReport = ConsultantReport::where('deleted_at', null)->where('consultant_id', $consultant['id']);
                 isset($args['static_date_from']) ? $ConsultantReport->where('statical_date', '>=', $args['static_date_from']) : null;
                 isset($args['static_date_to']) ? $ConsultantReport->where('statical_date', '<=', $args['static_date_to']) : null;
 
                 $ConsultantReports = $ConsultantReport->get();
 
                 foreach ($ConsultantReports as $ConsultantReport) {
-                    $consultant_report->consultant_id = $consultant_id;
+                    $consultant_report->consultant_id = $consultant['id'];
                     $consultant_report->sum_students_registered += $ConsultantReport['sum_students_registered'];
 
                     $consultant_report->sum_students_major_humanities += $ConsultantReport['sum_students_major_humanities'];
@@ -131,13 +132,14 @@ final class GetConsultantReport
                     $consultant_report->sum_financial_financial_refused_status_returned += $ConsultantReport['sum_financial_financial_refused_status_returned'];
                     $consultant_report->sum_financial_financial_refused_status_noMoney += $ConsultantReport['sum_financial_financial_refused_status_noMoney'];
                 }
+                //Log::info(" consultant_fullname id are :" .$consultant['first_name']. ' ' . $consultant['last_name']);
 
                 $data[] = [
-                    "consultant_id" => $consultant_id,
+                    "consultant_id" => $consultant['id'],
+                    "consultant_fullname" => $consultant['first_name']. ' ' . $consultant['last_name'],
                     "consultant_statics" =>  $consultant_report
                 ];
             }
-            Log::info("data are:" . json_encode($data));
             return $data;
         }
         return ConsultantReport::where('deleted_at', null)

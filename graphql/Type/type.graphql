@@ -1345,6 +1345,7 @@ type ConsultantReportSimple {
 type ConsultantReportAggregate {
 
     consultant_id: Int
+    consultant_fullname: String
     consultant_statics: ConsultantReportSimple
 
 }

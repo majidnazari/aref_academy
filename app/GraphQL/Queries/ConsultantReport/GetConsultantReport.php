@@ -25,7 +25,7 @@ final class GetConsultantReport
     function resolveConsultantReport($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $branch_id = auth()->guard('api')->user()->branch_id;
-         Log::info(" consultants id are :" . isset($args['consultant_id']));
+        // Log::info(" consultants id are :" . isset($args['consultant_id']));
 
 
         // if(isset(($args['consultant_id']) && ($args['consultant_id']===-2)))

@@ -3,6 +3,7 @@
 namespace App\GraphQL\Validators;
 
 use App\Enums\ManagerStatus;
+use App\GraphQL\Enums\FinancialRefusedStatusConsultantFinancial;
 use App\GraphQL\Enums\FinancialStatusConsultantFinancial;
 use App\GraphQL\Enums\ManagerStatusConsultantFinancial as EnumsManagerStatus;
 use App\GraphQL\Enums\StudentStatusConsultantFinancial;
@@ -28,7 +29,8 @@ final class UpdateConsultantFinancialInputValidator extends Validator
         $consultant = Group::where('type', 'consultant')->pluck('id')->first();
         $user_type = auth()->guard('api')->user()->group->type;
 
-        //Log::info(implode(',', FinancialStatusConsultantFinancial::getValues()));
+        //Log::info(implode(',', StudentStatusConsultantFinancial::getValues()));
+        //Log::info(implode(',', FinancialRefusedStatusConsultantFinancial::getValues()));
 
         return [
             // TODO Add your validation rules
@@ -77,8 +79,11 @@ final class UpdateConsultantFinancialInputValidator extends Validator
                 //new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_refused_status' => [
+                'type' => Type::string(),
                 "nullable",
-                'in:not_returned,returned,noMoney'
+                'rules' => [ 'string', 'in:'.implode(',', FinancialRefusedStatusConsultantFinancial::getValues())],
+                new ManagerRuleToUpdateConsultantFinancial($user_type)
+               
             ],
         ];
     }

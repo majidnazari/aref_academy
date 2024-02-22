@@ -95,7 +95,7 @@ class ConsultantFinancial extends Model implements Auditable
                 throw new \Exception("CONSULTANTFINANCIAL-CREATE_STUDENTINFO-NOT-FOUND");
             }
 
-            Log::info("the create  financial student info is:" . json_encode($student_info));
+           // Log::info("the create  financial student info is:" . json_encode($student_info));
 
             $today = Carbon::now()->format("Y-m-d");
             $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
@@ -133,21 +133,22 @@ class ConsultantFinancial extends Model implements Auditable
         static::updated(function ($consultantFinancial) use ($activeYearId) {
 
             $dirtyAttributes = $consultantFinancial->getDirty();
-            Log::info("the  updated and changes of financial are:" . json_encode($dirtyAttributes));
+            // Log::info("the  updated and changes of financial  get dirty are:" . json_encode($dirtyAttributes));
+            // Log::info("the  updated and changes of financial model are:" . json_encode($consultantFinancial));
             if (!empty($dirtyAttributes)) {
                 // Log the changes to an audit table
                 foreach ($dirtyAttributes as $attribute => $newValue) {
                    
                     $oldValue = $consultantFinancial->getOriginal($attribute); // Get the original value
 
-                    Log::info("the column is:". $attribute . " and new value is:" .$newValue . " and old value is:" . $oldValue );
+                   // Log::info("the inside foreach column is:". $attribute . " and new value is:" .$newValue . " and old value is:" . $oldValue );
                     self::updateReportForUpdate($consultantFinancial, $attribute, ($newValue ? $newValue : 0), ($oldValue ? $oldValue : 0));
                 }
             }
         });
 
         static::deleted(function ($consultantFinancial) {
-            Log::info("the  deleted and changes of financial are:" . json_encode($consultantFinancial));
+           // Log::info("the  deleted and changes of financial are:" . json_encode($consultantFinancial));
             self::updateReportForDelete($consultantFinancial);
             // $dirtyAttributes = $consultantFinancial->getDirty();
             // Log::info("the  updated and changes of financial are:" . json_encode($dirtyAttributes));
@@ -208,7 +209,7 @@ class ConsultantFinancial extends Model implements Auditable
     {
 
         $accept_column = ["student_status", "manager_status", "financial_status", "financial_refused_status"];
-        Log::info("updateReportForUpdate in consultant financial is run");
+        //Log::info("updateReportForUpdate in consultant financial is run");
 
         $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')
@@ -225,7 +226,7 @@ class ConsultantFinancial extends Model implements Auditable
         }
 
         if ($consultant_report_exististance) {
-                       
+               //Log::info("the  if column is:" . $column . " new value is: " .$new_value . " and old is: " .$old_value) ;       
 
             // if (in_array($column,$accept_column)) {
 
@@ -249,6 +250,9 @@ class ConsultantFinancial extends Model implements Auditable
             $sum_tmp_new = "sum_financial_" . $column . "_" . $new_value;
             $sum_tmp_old = "sum_financial_" . $column . "_" . $old_value;
 
+            //Log::info("the  else new is:" . $sum_tmp_new . " and old is: " .$sum_tmp_old) ;       
+
+
             in_array($column, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null;
             in_array($column, $accept_column) ? ($consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null) : null;
 
@@ -262,7 +266,7 @@ class ConsultantFinancial extends Model implements Auditable
     {
 
         $accept_column = ["student_status", "manager_status", "financial_status", "financial_refused_status"];
-        Log::info("updateReportForDelete in consultant financial is run");
+        //Log::info("updateReportForDelete in consultant financial is run");
 
         $activeYearId = Year::orderBy('active', 'desc')
             ->orderBy('name', 'desc')
@@ -289,7 +293,7 @@ class ConsultantFinancial extends Model implements Auditable
                
 
             foreach ($attributes as $attribute => $value) {
-                Log::info("Attribute: $attribute, Value: $value");           
+               // Log::info("Attribute: $attribute, Value: $value");           
 
                 in_array($attribute, $accept_column) ? $consultant_report_exististance["sum_financial_" . $attribute . "_" . $value] -= 1 : null;
                  // in_array($column, $accept_column) ? ($consultant_report_exististance["sum_financial_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_financial_" . $column . "_" . $old_value] -= 1 : null) : null;

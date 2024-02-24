@@ -1,34 +1,34 @@
 #region ConsultantDefinitionDetail
-      createConsultantDefinitionDetail(input: CreateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail]  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@resolver")
+      createConsultantDefinitionDetail(input: CreateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail] @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@resolver")
      
-     createConsultantDefinitionDetailCopyCurrentWeekPlan(input: CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput! @spread ): [ConsultantDefinitionDetail]  @can(ability: "create") @guard(with:["api"]) 
+     createConsultantDefinitionDetailCopyCurrentWeekPlan(input: CreateConsultantDefinitionDetailCopyCurrentWeekPlanInput! @spread ): [ConsultantDefinitionDetail] @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"]) 
      @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CreateConsultantDefinitionDetail@copyWeekTimeTable")
      
      
      
       # updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailInput! @spread): [ConsultantDefinitionDetail]! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
-      updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailHasStudentInput! @spread): ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
+      updateConsultantDefinitionDetail(input: UpdateConsultantDefinitionDetailHasStudentInput! @spread): ConsultantDefinitionDetail @throttle(maxAttempts:60 decayMinutes:1.0) @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\UpdateConsultantDefinitionDetail@resolver")
      
       deleteConsultantDefinitionDetailStudentId(input: DeleteConsultantDefinitionDetailStudentIdInput! @spread):
-       ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"]) 
+       ConsultantDefinitionDetail @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "update") @guard(with:["api"]) 
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\DeleteConsultantDefinitionDetailStudentId@resolverRemoveStudent")
      
-      deleteConsultantDefinitionDetail(id:ID!): ConsultantDefinitionDetail  @can(ability: "delete") @guard(with:["api"])
+      deleteConsultantDefinitionDetail(id:ID!): ConsultantDefinitionDetail  @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "delete") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\DeleteConsultantDefinitionDetail@resolver")
       
-      copyOneStudentToNextTimeTable(id:ID!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
+      copyOneStudentToNextTimeTable(id:ID!): ConsultantDefinitionDetail @throttle(maxAttempts:20 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyStudentToNextTimeTable@CopyOneStudentToNextTimeTable")
 
-      DivideConsultantDefinitionDetailTime(input: DivideConsultantDefinitionDetailTimeInput! @spread): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
+      DivideConsultantDefinitionDetailTime(input: DivideConsultantDefinitionDetailTimeInput! @spread): ConsultantDefinitionDetail @throttle(maxAttempts:20 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\DivideConsultantDefinitionDetailTime@resolver")
 
       """ 
       documentaion for copyOneDayOfOneConsultantTimeTable
       """
-      copyOneDayOfOneConsultantTimeTable(input:CopyConsultantOneDayTimeTableInput!): ConsultantDefinitionDetail  @can(ability: "create") @guard(with:["api"])
+      copyOneDayOfOneConsultantTimeTable(input:CopyConsultantOneDayTimeTableInput!): ConsultantDefinitionDetail @throttle(maxAttempts:20 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"])
        @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\CopyOneDayTimeTable@CopyOneConsulatntDayTimeTable")
 
-      removeCompensatoryMeet(definition_detail_id: ID!): ConsultantDefinitionDetail @can(ability: "update") @guard(with:["api"])
+      removeCompensatoryMeet(definition_detail_id: ID!): ConsultantDefinitionDetail @can(ability: "update") @throttle(maxAttempts:30 decayMinutes:1.0) @guard(with:["api"])
       @field(resolver: "App\\GraphQL\\Mutations\\ConsultantDefinitionDetail\\removeCompensatoryMeet@resolver")
 
 #end ConsultantDefinitionDetail

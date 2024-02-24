@@ -30,7 +30,9 @@ final class UpdateUser
     }
     function updateUser($exist_user, $user_date)
     {
+        
         $user_id = auth()->guard('api')->user()->id;
+        $user_date['branch_id']=(isset($user_date['branch_id']) && ($user_date['branch_id'] !=-1 )) ? $user_date['branch_id'] : null;
         $result = $exist_user->fill($user_date);
         $exist_user->save();
         return $result; // User::create($user);

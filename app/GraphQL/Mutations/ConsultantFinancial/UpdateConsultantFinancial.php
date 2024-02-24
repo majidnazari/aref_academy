@@ -127,7 +127,7 @@ final class UpdateConsultantFinancial
             $data["description"] = $args['description'];
         }
 
-        Log::info("inside update controller and data to update  are:" . json_encode($data));
+       // Log::info("inside update controller and data to update  are:" . json_encode($data));
 
         $ConsultantFinancial->fill($data);
         $ConsultantFinancial->save();

@@ -1,8 +1,8 @@
 # region Course_Session
 
-    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession!  @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
-    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @spread): [CourseSession!]!  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
-    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession!  @can(ability: "update") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
-    deleteCourseSession(id:ID!):CourseSession  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
+    createCourseSession(input: CreateCourseSessionInput! @spread): CourseSession! @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolver")
+    createCourseSessionByDuringDate(input: CreateCourseSessionByDuringDateInput! @spread): [CourseSession!]! @throttle(maxAttempts:10 decayMinutes:1.0)  @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\CreateCourseSession@resolverByDuringDate")
+    updateCourseSession(input: UpdateCourseSessionInput! @spread): CourseSession! @throttle(maxAttempts:10 decayMinutes:1.0)  @can(ability: "update") @guard(with:["api"])  @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\UpdateCourseSession@resolver")
+    deleteCourseSession(id:ID!):CourseSession @throttle(maxAttempts:10 decayMinutes:1.0)  @can(ability: "delete") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\CourseSession\\DeleteCourseSession@resolver")
 
 #end Course_session

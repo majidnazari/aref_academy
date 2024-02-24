@@ -10,6 +10,7 @@ use App\GraphQL\Enums\StudentStatusConsultantFinancial;
 use Nuwave\Lighthouse\Validation\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Group;
+use App\Rules\CheckNotNullConsultantFinancialDescription;
 use App\Rules\ManagerRuleToUpdateConsultantFinancial;
 
 use GraphQL\Type\Definition\Type;
@@ -18,7 +19,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 use Log;
 
 final class UpdateConsultantFinancialInputValidator extends Validator
-{   
+{
     /**
      * Return the validation rules.
      *
@@ -28,6 +29,7 @@ final class UpdateConsultantFinancialInputValidator extends Validator
     {
         $consultant = Group::where('type', 'consultant')->pluck('id')->first();
         $user_type = auth()->guard('api')->user()->group->type;
+        $requirement_for_description=["refused","fired"];
 
         //Log::info(implode(',', StudentStatusConsultantFinancial::getValues()));
         //Log::info(implode(',', FinancialRefusedStatusConsultantFinancial::getValues()));
@@ -63,28 +65,32 @@ final class UpdateConsultantFinancialInputValidator extends Validator
                 "nullable",
                 //  'in:approved,pending',
                 //Rule::in(implode(',', EnumsManagerStatus::getValues())),  
-               'rules' => [ 'string', 'in:'.implode(',', EnumsManagerStatus::getValues())],             
+                'rules' => ['string', 'in:' . implode(',', EnumsManagerStatus::getValues())],
                 new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_status' => [
                 "nullable",
                 //'in:approved,pending,semi_approved',
-                'rules' => [ 'string', 'in:'.implode(',', FinancialStatusConsultantFinancial::getValues())],
+                'rules' => ['string', 'in:' . implode(',', FinancialStatusConsultantFinancial::getValues())],
                 new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'student_status' => [
                 'type' => Type::string(),
                 "nullable",
-                'rules' => [ 'string', 'in:'.implode(',', StudentStatusConsultantFinancial::getValues())],
+                'rules' => ['string', 'in:' . implode(',', StudentStatusConsultantFinancial::getValues())],
                 //new ManagerRuleToUpdateConsultantFinancial($user_type)
             ],
             'financial_refused_status' => [
                 'type' => Type::string(),
                 "nullable",
-                'rules' => [ 'string', 'in:'.implode(',', FinancialRefusedStatusConsultantFinancial::getValues())],
-                new ManagerRuleToUpdateConsultantFinancial($user_type)
-               
+                'rules' => ['string', 'in:' . implode(',', FinancialRefusedStatusConsultantFinancial::getValues())],
+                new ManagerRuleToUpdateConsultantFinancial($user_type), 
+
             ],
+            "description" => [
+                "nullable",
+                Rule::requiredIf(in_array($this->arg('student_status') ,$requirement_for_description)),
+            ]
         ];
     }
 }

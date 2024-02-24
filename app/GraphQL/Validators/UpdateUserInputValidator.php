@@ -26,7 +26,13 @@ final class UpdateUserInputValidator extends Validator
             "email" => [
                 "nullable",
                 "unique:users,email," . $this->arg('id')
+            ],
+            "password" => [
+                "nullable",
+                "string",
+                "min:8"
             ]
+
         ];
     }
 }

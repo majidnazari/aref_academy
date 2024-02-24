@@ -1,4 +1,4 @@
    # createUser(input: CreateUserInput! @spread): User! @create  
-    createUser(input: CreateUserInput! @spread): User! @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
-    updateUser(input: UpdateUserInput! @spread): User! @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
-    deleteUser(id:ID!): User @guard(with:["api"]) @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\User\\DeleteUser@resolve")
+    createUser(input: CreateUserInput! @spread): User! @throttle(maxAttempts:3 decayMinutes:1.0) @can(ability: "create") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\CreateUser@resolve")
+    updateUser(input: UpdateUserInput! @spread): User! @throttle(maxAttempts:3 decayMinutes:1.0) @can(ability: "update") @guard(with:["api"]) @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUser@resolve")
+    deleteUser(id:ID!): User @guard(with:["api"]) @throttle(maxAttempts:3 decayMinutes:1440) @can(ability: "delete") @field(resolver: "App\\GraphQL\\Mutations\\User\\DeleteUser@resolve")

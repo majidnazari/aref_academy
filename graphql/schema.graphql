@@ -98,10 +98,10 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 
 
-type Mutation {
+type Mutation  {
     #test2:String!
-    login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
-    refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
+    login(input: LoginInput @spread): AuthPayload! @throttle(maxAttempts:10 decayMinutes:1.0)  @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+    refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @throttle(maxAttempts:10 decayMinutes:1.0) @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
     # logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
     # forgotPassword(input: ForgotPasswordInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
     # updateForgottenPassword(input: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
@@ -109,8 +109,8 @@ type Mutation {
     # socialLogin(input: SocialLoginInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
     # verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     #updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
-    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
-    updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): User  @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
+    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse  @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPassword@resolve") 
+    updateOtherUserPassword(input: UpdateOtherUserPassword! @spread): User  @throttle(maxAttempts:10 decayMinutes:1.0) @can(ability: "update") @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetOtherUserPassword@resolve") 
   
 
   # region teacher

@@ -110,7 +110,7 @@ input UpdateUserInput @validator {
     # type: String
     # mobile: String
     email: String
-    # password: String!
+    password: String @hash @rules(apply: ["min:8"])
     first_name: String
     last_name: String
     group_id: Int

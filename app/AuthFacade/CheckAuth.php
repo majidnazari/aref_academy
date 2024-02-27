@@ -38,7 +38,7 @@ class CheckAuth
         "Consultants" => array("admin","manager","consultant_manager","financial","consultant_acceptor"),
         "ConsultantDefinitionDetailReport" => array("admin","manager","consultant_manager","consultant_acceptor"),
         "ConsultantReport"=> array("admin","manager","consultant_manager","consultant_acceptor"),
-        
+        "ConsultantFinancialAndStudentInfos"=> array("admin","manager","consultant_manager"), 
        
     );
     

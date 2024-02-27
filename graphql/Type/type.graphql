@@ -68,6 +68,15 @@ enum FinancialStatus {
     pending
     semi_approved
 }
+
+enum StudentMajor {
+    experimental
+    mathematics
+    humanities
+    art
+    other
+}
+
 enum StudentStatusConsultantFinancial {
     ok
     refused
@@ -1343,9 +1352,39 @@ type ConsultantReportSimple {
 }
 
 type ConsultantReportAggregate {
-
     consultant_id: Int
     consultant_fullname: String
     consultant_statics: ConsultantReportSimple
+}
 
+type ConsultantFinancialAndStudentInfos @key(fields: "id") {
+
+    id: ID
+    user_id_creator: Int
+    consultant_id: Int
+    student_id: Int
+    branch_id: Int
+    year_id: Int
+    consultant_definition_detail_id: Int
+    manager_status: ManagerStatus
+    financial_status: FinancialStatus
+    student_status: StudentStatusConsultantFinancial
+    financial_refused_status: FinancialRefusedStatus
+    user_id_manager: Int
+    user_id_financial: Int
+    user_id_student_status: Int
+    description: String
+    financial_status_updated_at: DateTime
+    created_at: DateTime
+
+    consultant: User @belongsTo
+    studentInfos: StudentInfo @belongsTo
+    user: User @belongsTo
+    userStudentStatus: User @belongsTo
+
+    manager: User @belongsTo
+    financial: User @belongsTo
+    year: Year @belongsTo
+    consultantDefinitionDetails: ConsultantDefinitionDetail @belongsTo
+    branch: Branch @belongsTo
 }

@@ -76,6 +76,26 @@ final class GetConsultantFinancialsAndStudentInfos
             })        
             ->with(["studentInfos"]);
           }
+          if(isset($args['session_consultant_status'])){
+            $ConsultantFinancial->whereHas('definitionDetail', function ($query) use ($args) {   
+              $query->where('consultant_id', $args['consultant_id']) ;
+              switch($args['session_consultant_status'])
+              {
+                case "remote":
+                  $query->where('remote',1);
+                  break;
+                case "single_meet": 
+                  $query->where('single_meet',1);
+                  break;
+                case "compensatory_meet":
+                  $query->where('compensatory_meet',1);
+                  break;    
+              }           
+                             
+            })        
+            ->with(["definitionDetail"]);
+          }
+          
 
 
             return $ConsultantFinancial;

@@ -49,6 +49,7 @@ getConsultantFinancial(id:ID!):ConsultantFinancial @guard(with:["api"]) @can(abi
       major:StudentMajor
       education_level:String
       concours_year:String     
+      session_consultant_status:String
 
       orderBy:[OrderByClause!] @orderBy
 

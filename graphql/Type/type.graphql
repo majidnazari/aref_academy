@@ -1366,6 +1366,7 @@ type ConsultantFinancialAndStudentInfos @key(fields: "id") {
     branch_id: Int
     year_id: Int
     consultant_definition_detail_id: Int
+
     manager_status: ManagerStatus
     financial_status: FinancialStatus
     student_status: StudentStatusConsultantFinancial
@@ -1381,6 +1382,7 @@ type ConsultantFinancialAndStudentInfos @key(fields: "id") {
     studentInfos: StudentInfo @belongsTo
     user: User @belongsTo
     userStudentStatus: User @belongsTo
+    definitionDetail: ConsultantDefinitionDetail @belongsTo
 
     manager: User @belongsTo
     financial: User @belongsTo

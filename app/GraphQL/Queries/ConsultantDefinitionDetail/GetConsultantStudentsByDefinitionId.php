@@ -91,14 +91,14 @@ final class GetConsultantStudentsByDefinitionId
         ->whereNotNull('student_id')
         ->pluck('student_id');
 
-        Log::info("the student todays are:" . json_encode($StudentsExistInThisDay));        
+       // Log::info("the student todays are:" . json_encode($StudentsExistInThisDay));        
 
         $allStudentsIdNotSelectedThisDay = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
         ->where('student_status', 'ok')
         ->whereNotIn('student_id', $StudentsExistInThisDay)
         ->pluck('student_id');
 
-        Log::info("all students not seletec this day" . json_encode($allStudentsIdNotSelectedThisDay));
+       // Log::info("all students not seletec this day" . json_encode($allStudentsIdNotSelectedThisDay));
         return  $allStudentsIdNotSelectedThisDay;
     }
 

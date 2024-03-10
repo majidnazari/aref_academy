@@ -30,16 +30,7 @@ final class GetConsultantStudentsByDefinitionId
         // $startOfWeek =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
         // $endOfWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(6)->format("Y-m-d");
 
-        // // Log::info("the start is:" .$startOfWeek , " and the end is:" . $endOfWeek );
-        // // Log::info("the start is:" .$startOfWeek , " and the end is:" . $endOfWeek );
-        // $nextWeekStartDate =  Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(7)->format("Y-m-d");
-        // $nextWeekEndDate = Carbon::now()->startOfWeek(Carbon::SATURDAY)->addDays(13)->format("Y-m-d");
-        // Log::info("start week is:" . $startOfWeek . " and end of wek is:" . $endOfWeek);
-        // $branch_id = auth()->guard('api')->user()->branch_id;
-        // $one_branch[] = $branch_id;
-        // $all_branches = Branch::pluck('id');
-        // $all_branches[] = null;
-        // $branches_id = ($branch_id === null) ? $all_branches :  $one_branch;
+       
         $ConsultantDefinitionDetail = ConsultantDefinitionDetail::where('id', $args['id'])
             // ->whereHas('branchClassRoom.branch', function ($query) use ($branches_id) {
             //     return $query->whereIn('id', $branches_id);
@@ -50,11 +41,6 @@ final class GetConsultantStudentsByDefinitionId
         $currentWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->week;
         $targetWeek = Carbon::parse($ConsultantDefinitionDetail['session_date'])
             ->startOfWeek(Carbon::SATURDAY)->weekOfYear;
-
-        // Log::info("the date is:" .$ConsultantDefinitionDetail['session_date']);
-        // Log::info("the date is:" . $ConsultantDefinitionDetail['session_date']);
-        // Log::info("the currentWeek  is:" . $currentWeek);
-        // Log::info("the targetWeek  is:" . $targetWeek);
 
         $whichWeek = "Current";
 
@@ -74,20 +60,7 @@ final class GetConsultantStudentsByDefinitionId
             case ($currentWeek + 4):
                 $whichWeek = "Next4week";
                 break;
-        }
-
-        // if ($targetWeek == $currentWeek) {
-        //     $tmp = 'Current Week';
-        // } elseif ($targetWeek == $currentWeek + 1) {
-        //     $tmp = 'Next';
-        // } elseif ($targetWeek == $currentWeek + 2) {
-        //     $tmp = 'Next 2 Week';
-        // } elseif ($targetWeek == $currentWeek + 3) {
-        //     $tmp = 'Next 3 Week';
-        // } elseif ($targetWeek == $currentWeek + 4) {
-        //     $tmp = 'Next 4 Week';
-        // }
-       // Log::info("the whichWeek  is:" . $whichWeek);
+        }        
 
         $week = $whichWeek;
         // $startOfCurrentWeek = Carbon::now()->startOfWeek(Carbon::SATURDAY)->format("Y-m-d");
@@ -109,62 +82,24 @@ final class GetConsultantStudentsByDefinitionId
         //     ->whereNotNull('student_id')
         //     ->pluck('student_id');
 
-        $StudentsExistInThisDay = ConsultantDefinitionDetail::where('session_date', $today)
+        $targetDay = $ConsultantDefinitionDetail['session_date'];
+
+        $StudentsExistInThisDay = ConsultantDefinitionDetail::where('session_date', $targetDay)
         // ->where('session_date', "<=", $endOfWeek)
         ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
         ->where('student_status', "!=", "absent")
         ->whereNotNull('student_id')
         ->pluck('student_id');
 
-        //Log::info("the student todays are:" . json_encode($StudentsExistInThisDay));
+        Log::info("the student todays are:" . json_encode($StudentsExistInThisDay));        
 
-
-        // if (($ConsultantDefinitionDetail['session_date'] >= $startOfWeek)  && ($ConsultantDefinitionDetail['session_date'] <=  $endOfWeek)) {
-        //     $StudentsExistInThisWeek = ConsultantDefinitionDetail::where('session_date', ">=", $startOfWeek)
-        //         ->where('session_date', "<=", $endOfWeek)
-        //         ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-        //         ->where('student_status', "!=", "absent")
-        //         ->whereNotNull('student_id')
-        //         ->pluck('student_id');
-        // }
-        // else if ((($ConsultantDefinitionDetail['session_date'] >= $nextWeekStartDate)  && ($ConsultantDefinitionDetail['session_date'] <=  $nextWeekEndDate))) {
-        //     $nextweek = true;
-
-        //     $StudentsExistInNextWeek = ConsultantDefinitionDetail::where('session_date', ">=", $nextWeekStartDate)
-        //         ->where('session_date', "<=", $nextWeekEndDate)
-        //         ->where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-        //         ->where('student_status', "!=", "absent")
-        //         ->whereNotNull('student_id')
-        //         ->pluck('student_id');
-        // }
-
-        //Log::info("studentds defined are:" . json_encode($StudentsExistInThisWeek ));
-
-        // if ($nextweek) {
-        //     $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-        //         ->where('student_status', 'ok')
-        //         ->whereNotIn('student_id', $StudentsExistInNextWeek)
-        //         ->pluck('student_id');
-        // } else {
-        //     $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-        //         ->where('student_status', 'ok')
-        //         ->whereNotIn('student_id', $StudentsExistInThisWeek)
-        //         ->pluck('student_id');
-        // }
-
-        // $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
-        //     ->where('student_status', 'ok')
-        //     ->whereNotIn('student_id', $StudentsExistInThisWeek)
-        //     ->pluck('student_id');
-
-
-        $studentdsId = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
+        $allStudentsIdNotSelectedThisDay = ConsultantFinancial::where('consultant_id', $ConsultantDefinitionDetail->consultant_id)
         ->where('student_status', 'ok')
         ->whereNotIn('student_id', $StudentsExistInThisDay)
         ->pluck('student_id');
 
-        //Log::info($studentdsId);
-        return  $studentdsId;
+        Log::info("all students not seletec this day" . json_encode($allStudentsIdNotSelectedThisDay));
+        return  $allStudentsIdNotSelectedThisDay;
     }
 
     public function selectWeek($startOfWeek, $endOfWeek, $nextWeek = "Next")

@@ -132,10 +132,13 @@ final class GetConsultantReport
             foreach ($consultants as $consultant) {
                 $consultant_report = new ConsultantReport;
                 $ConsultantReport = ConsultantReport::where('deleted_at', null)->where('consultant_id', $consultant['id']);
+                Log::info("the date are:" . $args['static_date_from'] . " and to is:" .$args['static_date_to']);
                 isset($args['static_date_from']) ? $ConsultantReport->where('statical_date', '>=', $args['static_date_from']) : null;
                 isset($args['static_date_to']) ? $ConsultantReport->where('statical_date', '<=', $args['static_date_to']) : null;
 
                 $ConsultantReports = $ConsultantReport->get();
+                Log::info("the records are:" . json_encode( $ConsultantReports));
+
 
                 foreach ($ConsultantReports as $ConsultantReport) {
                     $consultant_report->consultant_id = $consultant['id'];

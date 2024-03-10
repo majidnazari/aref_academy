@@ -23,3 +23,36 @@ getConsultantFinancial(id:ID!):ConsultantFinancial @guard(with:["api"]) @can(abi
     @guard(with:["api"])
    
     @paginate(builder: "App\\GraphQL\\Queries\\ConsultantFinancial\\GetConsultantFinancials@resolveConsultantFinancial") 
+
+    getConsultantFinancialsAndStudentInfosReport(
+      
+      user_id_creator:Int
+      branch_id:Int
+      consultant_id:Int
+      student_id:Int
+      year_id:Int
+      manager_status:ManagerStatus
+      financial_status:FinancialStatus
+      student_status:StudentStatusConsultantFinancial
+      financial_refused_status:FinancialRefusedStatus
+      user_id_manager:Int
+      user_id_financial:Int
+      user_id_student_status:Int
+      description:String     
+      registered_date_from:String 
+      registered_date_to:String 
+      school_name:String
+      first_name:String
+      last_name:String
+      nationality_code:String
+      phone:String
+      major:StudentMajor
+      education_level:String
+      concours_year:String     
+
+      orderBy:[OrderByClause!] @orderBy
+
+    ): [ConsultantFinancialAndStudentInfos] 
+    @guard(with:["api"])
+   
+    @paginate(builder: "App\\GraphQL\\Queries\\ConsultantFinancial\\GetConsultantFinancialsAndStudentInfos@resolveConsultantFinancialAndStudentInfos") 

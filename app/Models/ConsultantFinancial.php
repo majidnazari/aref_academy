@@ -75,6 +75,10 @@ class ConsultantFinancial extends Model implements Auditable
     {
         return $this->belongsTo(ConsultantDefinitionDetail::class, 'student_id', 'student_id');
     }
+    public function studentInfos()
+    {
+        return $this->belongsTo(StudentInfo::class, 'student_id', 'student_id');
+    }
 
     protected static function boot()
     {
@@ -165,47 +169,7 @@ class ConsultantFinancial extends Model implements Auditable
 
         });
     }
-    // protected static function updateReportForCreate($consultantFinancial, $column, $new_value, $old_value)
-    // {
-
-    //     $accept_column = ["student_status", "manager_status", "financial_status", "financial_refused_status"];
-    //     Log::info("updateReportForCreate in consultant financial is run");
-
-    //     $activeYearId = Year::orderBy('active', 'desc')
-    //         ->orderBy('name', 'desc')
-    //         ->value('id');
-
-    //     $today = Carbon::now()->format("Y-m-d");
-    //     $consultant_report_exististance = ConsultantReport::where('statical_date', $today)
-    //         ->where('consultant_id', $consultantFinancial->consultant_id)
-    //         ->first();
-    //     $student_info = StudentInfo::where("student_id", $consultantFinancial->student_id)->first();
-
-    //     if (empty($student_info) && ($consultant_report_exististance->student_id != null)) {
-    //         throw new \Exception("consultantFinancial-UPDATE_STUDENTINFO-NOT-FOUND");
-    //     }
-
-    //     if ($consultant_report_exististance) {
-
-    //         in_array($column, $accept_column) ? $consultant_report_exististance["sum_financial_" . $column . "_" . $new_value] += 1 : null;
-    //         in_array($column, $accept_column) ? ($consultant_report_exististance["sum_financial_" . $column . "_" . $old_value] != null ? $consultant_report_exististance["sum_" . $column . "_" . $old_value] -=  1 : null) : null;
-    //     } else {
-    //         $consultant_report_exististance = new ConsultantReport;
-    //         $consultant_report_exististance->consultant_id = $consultantFinancial->consultant_id;
-    //         $consultant_report_exististance->year_id = $activeYearId;
-
-    //         $sum_tmp_new = "sum_financial_" . $column . "_" . $new_value;
-    //         $sum_tmp_old = "sum_financial_" . $column . "_" . $old_value;
-
-    //         in_array($column, $accept_column)  ? $consultant_report_exististance->$sum_tmp_new += 1 : null;
-    //         in_array($column, $accept_column) ? ($consultant_report_exististance->$sum_tmp_old != null ? $consultant_report_exististance->$sum_tmp_old -= 1 : null) : null;
-
-    //         $consultant_report_exististance->statical_date = $today;
-    //     }
-    //     $consultant_report_exististance->save();
-    // }
-
-    protected static function updateReportForUpdate($consultantFinancial, $column, $new_value, $old_value)
+       protected static function updateReportForUpdate($consultantFinancial, $column, $new_value, $old_value)
     {
 
         $accept_column = ["student_status", "manager_status", "financial_status", "financial_refused_status"];
